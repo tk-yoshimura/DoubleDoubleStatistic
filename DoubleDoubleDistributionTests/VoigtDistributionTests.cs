@@ -6,6 +6,8 @@ namespace DoubleDoubleDistribution.Tests {
     public class VoigtDistributionTests {
         readonly VoigtDistribution dist1 = new();
         readonly VoigtDistribution dist2 = new(2, 3);
+        readonly VoigtDistribution dist3 = new(gamma:0, sigma: 1);
+        readonly VoigtDistribution dist4 = new(gamma:1, sigma: 0);
 
         [TestMethod()]
         public void InfoTest() {
@@ -44,20 +46,34 @@ namespace DoubleDoubleDistribution.Tests {
             for (ddouble x = -4; x <= 4; x += 0.125) {
                 Console.WriteLine($"pdf({x})={dist2.PDF(x)}");
             }
+            Console.WriteLine(dist3);
+            for (ddouble x = -4; x <= 4; x += 0.125) {
+                Console.WriteLine($"pdf({x})={dist3.PDF(x)}");
+            }
+            Console.WriteLine(dist4);
+            for (ddouble x = -4; x <= 4; x += 0.125) {
+                Console.WriteLine($"pdf({x})={dist4.PDF(x)}");
+            }
         }
 
         [TestMethod()]
         public void CDFTest() {
-            Assert.Inconclusive();
-
-            //Console.WriteLine(dist1);
-            //for (ddouble x = -4; x <= 4; x += 0.125) {
-            //    Console.WriteLine($"cdf({x})={dist1.CDF(x)}");
-            //}
-            //Console.WriteLine(dist2);
-            //for (ddouble x = -4; x <= 4; x += 0.125) {
-            //    Console.WriteLine($"cdf({x})={dist2.CDF(x)}");
-            //}
+            Console.WriteLine(dist1);
+            for (ddouble x = -4; x <= 4; x += 0.125) {
+                Console.WriteLine($"cdf({x})={dist1.CDF(x)}");
+            }
+            Console.WriteLine(dist2);
+            for (ddouble x = -4; x <= 4; x += 0.125) {
+                Console.WriteLine($"cdf({x})={dist2.CDF(x)}");
+            }
+            Console.WriteLine(dist3);
+            for (ddouble x = -4; x <= 4; x += 0.125) {
+                Console.WriteLine($"pdf({x})={dist3.CDF(x)}");
+            }
+            Console.WriteLine(dist4);
+            for (ddouble x = -4; x <= 4; x += 0.125) {
+                Console.WriteLine($"pdf({x})={dist4.CDF(x)}");
+            }
         }
 
         [TestMethod()]
