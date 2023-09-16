@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleDoubleDistribution", "DoubleDoubleDistribution\DoubleDoubleDistribution.csproj", "{8135883D-8ED2-4099-86C2-BE77FED9079A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleDoubleDistributionTests", "DoubleDoubleDistributionTests\DoubleDoubleDistributionTests.csproj", "{A1B12FBA-43DD-424B-9303-2530B87EDD23}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8135883D-8ED2-4099-86C2-BE77FED9079A} = {8135883D-8ED2-4099-86C2-BE77FED9079A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
