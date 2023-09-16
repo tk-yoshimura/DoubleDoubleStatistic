@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class NormalDistribution : Distribution {
+    public class NormalDistribution : Distribution, 
+        IAdditionOperators<NormalDistribution, NormalDistribution, NormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -54,6 +56,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis => 0;
 
         public override ddouble Entropy => Log(Sigma * Sqrt(2 * PI * E));
+
+        public static NormalDistribution operator +(NormalDistribution dist1, NormalDistribution dist2) {
+            return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
+        }
 
         public override string ToString() {
             return $"{typeof(NormalDistribution).Name}[mu={Mu},sigma={Sigma}]";

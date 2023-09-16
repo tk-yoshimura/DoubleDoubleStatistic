@@ -3,7 +3,8 @@ using DoubleDoubleComplex;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class VoigtDistribution : Distribution {
+    public class VoigtDistribution : Distribution, 
+        System.Numerics.IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
@@ -36,6 +37,10 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Median => 0;
         public override ddouble Mode => 0;
+
+        public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {
+            return new(dist1.Gamma + dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
+        }
 
         public override string ToString() {
             return $"{typeof(VoigtDistribution).Name}[gamma={Gamma},sigma={Sigma}]";
