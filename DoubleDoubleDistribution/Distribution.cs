@@ -8,7 +8,7 @@ namespace DoubleDoubleDistribution {
 
         public virtual bool AdditiveClosed => false;
 
-        public virtual (ddouble min, ddouble max) Domain => 
+        public virtual (ddouble min, ddouble max) Domain =>
             (ddouble.NegativeInfinity, ddouble.PositiveInfinity);
 
         public virtual ddouble Mean => ddouble.NaN;
