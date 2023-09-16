@@ -20,19 +20,19 @@ namespace DoubleDoubleDistribution {
 
         public virtual ddouble Entropy => ddouble.NaN;
 
-        public static void ValidateProb(ddouble p) {
+        protected static void ValidateProb(ddouble p) {
             if (!(p >= 0d && p <= 1d)) {
                 throw new ArgumentOutOfRangeException(nameof(p), "Invalid probably.");
             }
         }
 
-        public static void ValidateScale(ddouble scale) {
-            if (!(scale > 0d && ddouble.IsFinite(scale))) {
+        protected static void ValidateScale(ddouble scale) {
+            if (!(ddouble.IsPositiveInfinity(scale) && ddouble.IsFinite(scale))) {
                 throw new ArgumentOutOfRangeException(nameof(scale), "Invalid scale parameter.");
             }
         }
 
-        public static void ValidateLocation(ddouble location) {
+        protected static void ValidateLocation(ddouble location) {
             if (!ddouble.IsFinite(location)) {
                 throw new ArgumentOutOfRangeException(nameof(location), "Invalid location parameter.");
             }
