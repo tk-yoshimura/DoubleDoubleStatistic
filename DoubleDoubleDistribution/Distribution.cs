@@ -7,8 +7,9 @@ namespace DoubleDoubleDistribution {
         public virtual ddouble Quantile(ddouble p) => throw new NotImplementedException();
 
         public virtual bool AdditiveClosed => false;
+        public virtual bool SubtractiveClosed => false;
 
-        public virtual (ddouble min, ddouble max) Domain =>
+        public virtual (ddouble min, ddouble max) Support =>
             (ddouble.NegativeInfinity, ddouble.PositiveInfinity);
 
         public virtual ddouble Mean => ddouble.NaN;
@@ -27,7 +28,7 @@ namespace DoubleDoubleDistribution {
         }
 
         protected static void ValidateScale(ddouble scale) {
-            if (!(ddouble.IsPositiveInfinity(scale) && ddouble.IsFinite(scale))) {
+            if (!(ddouble.IsPositive(scale) && ddouble.IsFinite(scale))) {
                 throw new ArgumentOutOfRangeException(nameof(scale), "Invalid scale parameter.");
             }
         }

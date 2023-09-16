@@ -3,7 +3,7 @@ using DoubleDoubleComplex;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class VoigtDistribution : Distribution, 
+    public class VoigtDistribution : Distribution,
         System.Numerics.IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution> {
 
         public ddouble Gamma { get; }

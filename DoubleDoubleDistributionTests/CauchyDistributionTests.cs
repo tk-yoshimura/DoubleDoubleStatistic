@@ -3,16 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleDistribution.Tests {
     [TestClass()]
-    public class NormalDistributionTests {
-        readonly NormalDistribution dist1 = new();
-        readonly NormalDistribution dist2 = new(1, 3);
+    public class CauchyDistributionTests {
+        readonly CauchyDistribution dist1 = new();
+        readonly CauchyDistribution dist2 = new(1, 3);
 
         [TestMethod()]
         public void InfoTest() {
             Console.WriteLine(dist1);
             Console.WriteLine($"Support={dist1.Support}");
             Console.WriteLine($"Mu={dist1.Mu}");
-            Console.WriteLine($"Sigma={dist1.Sigma}");
+            Console.WriteLine($"Gamma={dist1.Gamma}");
             Console.WriteLine($"Mean={dist1.Mean}");
             Console.WriteLine($"Median={dist1.Median}");
             Console.WriteLine($"Mode={dist1.Mode}");
@@ -24,7 +24,7 @@ namespace DoubleDoubleDistribution.Tests {
             Console.WriteLine(dist2);
             Console.WriteLine($"Support={dist2.Support}");
             Console.WriteLine($"Mu={dist2.Mu}");
-            Console.WriteLine($"Sigma={dist2.Sigma}");
+            Console.WriteLine($"Gamma={dist2.Gamma}");
             Console.WriteLine($"Mean={dist2.Mean}");
             Console.WriteLine($"Median={dist2.Median}");
             Console.WriteLine($"Mode={dist2.Mode}");

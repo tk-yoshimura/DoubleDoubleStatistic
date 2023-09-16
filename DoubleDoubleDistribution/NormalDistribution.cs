@@ -3,8 +3,9 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class NormalDistribution : Distribution, 
-        IAdditionOperators<NormalDistribution, NormalDistribution, NormalDistribution> {
+    public class NormalDistribution : Distribution,
+        IAdditionOperators<NormalDistribution, NormalDistribution, NormalDistribution>,
+        ISubtractionOperators<NormalDistribution, NormalDistribution, NormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -47,6 +48,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public override bool AdditiveClosed => true;
+        public override bool SubtractiveClosed => true;
 
         public override ddouble Mean => Mu;
         public override ddouble Median => Mu;
@@ -59,6 +61,10 @@ namespace DoubleDoubleDistribution {
 
         public static NormalDistribution operator +(NormalDistribution dist1, NormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
+        }
+
+        public static NormalDistribution operator -(NormalDistribution dist1, NormalDistribution dist2) {
+            return new(dist1.Mu - dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
         }
 
         public override string ToString() {
