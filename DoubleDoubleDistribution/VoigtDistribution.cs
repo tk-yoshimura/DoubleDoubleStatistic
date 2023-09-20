@@ -10,8 +10,10 @@ namespace DoubleDoubleDistribution {
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble norm, inv_scale, i, peak;
+        private readonly ddouble norm, inv_scale, i, cdf_limit;
         private readonly Distribution? limit_distribution = null;
+
+        public bool EnableCDFErrorException { get; set; } = false;
 
         public VoigtDistribution() : this(1, 1) { }
 
@@ -25,15 +27,14 @@ namespace DoubleDoubleDistribution {
             this.norm = 1d / (sigma * Sqrt(2 * PI));
             this.inv_scale = -1d / (Sqrt2 * sigma);
             this.i = -gamma * inv_scale;
+            this.cdf_limit = gamma * RcpPI;
 
             if (Gamma == 0d) {
                 limit_distribution = new NormalDistribution(mu: 0, sigma: sigma);
             }
-            else if (Sigma == 0d) { 
+            else if (Sigma == 0d) {
                 limit_distribution = new CauchyDistribution(mu: 0, gamma: gamma);
             }
-
-            this.peak = PDF(0);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -60,34 +61,48 @@ namespace DoubleDoubleDistribution {
 
             const double eps = 1e-27;
 
-            if ((double)p > (double)peak * 0.125) {
-                if (x < 0d) {
-                    (ddouble value, ddouble error) = GaussKronrodIntegral.AdaptiveIntegrate(PDF, x, 0d, eps, depth: 10);
-                    ddouble cdf = 0.5d - value;
+            ddouble u = 1d / (Abs(x) + 1d);
 
-                    return cdf;
-                }
-                else {
-                    (ddouble value, ddouble error) = GaussKronrodIntegral.AdaptiveIntegrate(PDF, 0d, x, eps, depth: 10);
-                    ddouble cdf = 0.5d + value;
+            ddouble error, cdf;
 
-                    return cdf;
-                }
+            if (u < 0.5d) {
+                ddouble f(ddouble t) {
+                    if (IsZero(t)) {
+                        return cdf_limit;
+                    }
+
+                    ddouble t_inv = 1d / t;
+                    ddouble x = (1d - t) * t_inv;
+                    ddouble y = PDF(x) * t_inv * t_inv;
+
+                    return y;
+                };
+
+                (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
+                value = Max(0d, value);
+
+                cdf = x < 0d ? value : 1d - value;
             }
-            else { 
-                if (x < 0d) {
-                    (ddouble value, ddouble error) = GaussKronrodIntegral.AdaptiveIntegrate(PDF, NegativeInfinity, x, eps, depth: 10);
-                    ddouble cdf = value;
+            else {
+                ddouble f(ddouble t) {
+                    ddouble t_inv = 1d / t;
+                    ddouble x = (1d - t) * t_inv;
+                    ddouble y = PDF(x) * t_inv * t_inv;
 
-                    return cdf;
-                }
-                else {
-                    (ddouble value, ddouble error) = GaussKronrodIntegral.AdaptiveIntegrate(PDF, x, PositiveInfinity, eps, depth: 10);
-                    ddouble cdf = 1d - value;
+                    return y;
+                };
 
-                    return cdf;
-                }
+                (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, u, One, eps, depth: 12);
+                value = Max(0d, value);
+
+                cdf = x < 0d ? 0.5d - value : 0.5d + value;
             }
+
+            if (EnableCDFErrorException && !(error < eps)) {
+                throw new ArithmeticException("CDF integrate not convergence.");
+            }
+
+            return cdf;
         }
 
         public override bool AdditiveClosed => true;
