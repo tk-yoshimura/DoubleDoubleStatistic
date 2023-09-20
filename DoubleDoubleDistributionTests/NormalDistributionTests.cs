@@ -5,7 +5,7 @@ namespace DoubleDoubleDistribution.Tests {
     [TestClass()]
     public class NormalDistributionTests {
         readonly NormalDistribution dist1 = new();
-        readonly NormalDistribution dist2 = new(1, 3);
+        readonly NormalDistribution dist2 = new(mu: 1, sigma: 3);
 
         [TestMethod()]
         public void InfoTest() {

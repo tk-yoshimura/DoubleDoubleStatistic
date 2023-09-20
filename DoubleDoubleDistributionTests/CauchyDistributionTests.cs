@@ -5,7 +5,7 @@ namespace DoubleDoubleDistribution.Tests {
     [TestClass()]
     public class CauchyDistributionTests {
         readonly CauchyDistribution dist1 = new();
-        readonly CauchyDistribution dist2 = new(1, 3);
+        readonly CauchyDistribution dist2 = new(mu: 1, gamma: 3);
 
         [TestMethod()]
         public void InfoTest() {

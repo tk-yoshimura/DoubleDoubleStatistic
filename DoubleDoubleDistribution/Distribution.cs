@@ -38,5 +38,11 @@ namespace DoubleDoubleDistribution {
                 throw new ArgumentOutOfRangeException(nameof(location), "Invalid location parameter.");
             }
         }
+
+        protected static void ValidateShape(ddouble shape) {
+            if (!(shape > 0d)) {
+                throw new ArgumentOutOfRangeException(nameof(shape), "Invalid shape parameter.");
+            }
+        }
     }
 }

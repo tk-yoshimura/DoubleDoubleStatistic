@@ -5,7 +5,7 @@ namespace DoubleDoubleDistribution.Tests {
     [TestClass()]
     public class VoigtDistributionTests {
         readonly VoigtDistribution dist1 = new() { EnableCDFErrorException = true };
-        readonly VoigtDistribution dist2 = new(2, 3) { EnableCDFErrorException = true };
+        readonly VoigtDistribution dist2 = new(gamma: 2, sigma: 3) { EnableCDFErrorException = true };
         readonly VoigtDistribution dist3 = new(gamma: 0, sigma: 1);
         readonly VoigtDistribution dist4 = new(gamma: 1, sigma: 0);
 
