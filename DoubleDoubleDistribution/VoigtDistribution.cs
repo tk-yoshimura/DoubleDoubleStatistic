@@ -15,7 +15,7 @@ namespace DoubleDoubleDistribution {
 
         public bool EnableCDFErrorException { get; set; } = false;
 
-        public VoigtDistribution() : this(1, 1) { }
+        public VoigtDistribution() : this(gamma: 1, sigma: 1) { }
 
         public VoigtDistribution(ddouble gamma, ddouble sigma) {
             ValidateScale(gamma);
@@ -29,10 +29,10 @@ namespace DoubleDoubleDistribution {
             this.i = -gamma * inv_scale;
             this.cdf_limit = gamma * RcpPI;
 
-            if (Gamma == 0d) {
+            if (Gamma < Sigma * 1e-31) {
                 limit_distribution = new NormalDistribution(mu: 0, sigma: sigma);
             }
-            else if (Sigma == 0d) {
+            else if (Sigma < Gamma * 1e-31) {
                 limit_distribution = new CauchyDistribution(mu: 0, gamma: gamma);
             }
         }

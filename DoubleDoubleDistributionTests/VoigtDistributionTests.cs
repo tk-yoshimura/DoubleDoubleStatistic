@@ -1,6 +1,5 @@
 ﻿using DoubleDouble;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace DoubleDoubleDistribution.Tests {
     [TestClass()]

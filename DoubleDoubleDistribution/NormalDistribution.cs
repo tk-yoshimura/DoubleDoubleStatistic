@@ -12,7 +12,7 @@ namespace DoubleDoubleDistribution {
 
         private readonly ddouble sigma_sq, norm, exp_scale, erf_scale;
 
-        public NormalDistribution() : this(0, 1) { }
+        public NormalDistribution() : this(mu: 0, sigma: 1) { }
 
         public NormalDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
