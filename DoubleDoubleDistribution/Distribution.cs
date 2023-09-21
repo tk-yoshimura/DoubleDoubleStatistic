@@ -28,7 +28,7 @@ namespace DoubleDoubleDistribution {
         }
 
         protected static void ValidateScale(ddouble scale) {
-            if (!(ddouble.IsPositive(scale) && ddouble.IsFinite(scale))) {
+            if (!(scale > 0d && ddouble.IsFinite(scale))) {
                 throw new ArgumentOutOfRangeException(nameof(scale), "Invalid scale parameter.");
             }
         }

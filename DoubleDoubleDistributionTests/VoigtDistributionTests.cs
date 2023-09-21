@@ -6,8 +6,6 @@ namespace DoubleDoubleDistribution.Tests {
     public class VoigtDistributionTests {
         readonly VoigtDistribution dist1 = new() { EnableCDFErrorException = true };
         readonly VoigtDistribution dist2 = new(gamma: 2, sigma: 3) { EnableCDFErrorException = true };
-        readonly VoigtDistribution dist3 = new(gamma: 0, sigma: 1);
-        readonly VoigtDistribution dist4 = new(gamma: 1, sigma: 0);
 
         [TestMethod()]
         public void InfoTest() {
@@ -46,14 +44,6 @@ namespace DoubleDoubleDistribution.Tests {
             for (ddouble x = -4; x <= 4; x += 0.125) {
                 Console.WriteLine($"pdf({x})={dist2.PDF(x)}");
             }
-            Console.WriteLine(dist3);
-            for (ddouble x = -4; x <= 4; x += 0.125) {
-                Console.WriteLine($"pdf({x})={dist3.PDF(x)}");
-            }
-            Console.WriteLine(dist4);
-            for (ddouble x = -4; x <= 4; x += 0.125) {
-                Console.WriteLine($"pdf({x})={dist4.PDF(x)}");
-            }
         }
 
         [TestMethod()]
@@ -65,14 +55,6 @@ namespace DoubleDoubleDistribution.Tests {
             Console.WriteLine(dist2);
             for (ddouble x = -4; x <= 4; x += 0.125) {
                 Console.WriteLine($"cdf({x})={dist2.CDF(x)}");
-            }
-            Console.WriteLine(dist3);
-            for (ddouble x = -4; x <= 4; x += 0.125) {
-                Console.WriteLine($"pdf({x})={dist3.CDF(x)}");
-            }
-            Console.WriteLine(dist4);
-            for (ddouble x = -4; x <= 4; x += 0.125) {
-                Console.WriteLine($"pdf({x})={dist4.CDF(x)}");
             }
         }
 

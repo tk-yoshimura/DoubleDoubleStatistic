@@ -13,7 +13,6 @@ namespace DoubleDoubleDistribution {
         private readonly int log2_scale;
 
         private readonly ddouble norm, inv_scale, i, cdf_limit;
-        private readonly Distribution? limit_distribution = null;
 
         public bool EnableCDFErrorException { get; set; } = false;
 
@@ -33,20 +32,9 @@ namespace DoubleDoubleDistribution {
             this.inv_scale = -1d / (Sqrt2 * sigma);
             this.i = -gamma_scaled * Ldexp(inv_scale, -log2_scale);
             this.cdf_limit = gamma_scaled * RcpPI * norm;
-
-            if (gamma_scaled < 1e-31) {
-                limit_distribution = new NormalDistribution(mu: 0, sigma: sigma);
-            }
-            else if (sigma_scaled < 1e-31) {
-                limit_distribution = new CauchyDistribution(mu: 0, gamma: gamma);
-            }
         }
 
         public override ddouble PDF(ddouble x) {
-            if (limit_distribution is not null) {
-                return limit_distribution.PDF(x);
-            }
-
             Complex z = (i, x * inv_scale);
 
             ddouble pdf = Complex.Erfcx(z).R * norm;
@@ -56,10 +44,6 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x) {
-            if (limit_distribution is not null) {
-                return limit_distribution.CDF(x);
-            }
-
             ddouble p = PDF(x);
             if (IsZero(p)) {
                 return x < 0d ? 0d : 1d;
