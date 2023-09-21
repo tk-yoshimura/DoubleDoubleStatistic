@@ -10,6 +10,8 @@ namespace DoubleDoubleDistribution {
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
 
+        private readonly int log2_scale;
+
         private readonly ddouble norm, inv_scale, i, cdf_limit;
         private readonly Distribution? limit_distribution = null;
 
@@ -24,15 +26,18 @@ namespace DoubleDoubleDistribution {
             this.Gamma = gamma;
             this.Sigma = sigma;
 
-            this.norm = 1d / (sigma * Sqrt(2 * PI));
-            this.inv_scale = -1d / (Sqrt2 * sigma);
-            this.i = -gamma * inv_scale;
-            this.cdf_limit = gamma * RcpPI;
+            (this.log2_scale, (ddouble gamma_scaled, ddouble sigma_scaled))
+                = AdjustScale(0, (gamma, sigma));
 
-            if (Gamma < Sigma * 1e-31) {
+            this.norm = 1d / (sigma_scaled * Sqrt(2 * PI));
+            this.inv_scale = -1d / (Sqrt2 * sigma);
+            this.i = -gamma_scaled * Ldexp(inv_scale, -log2_scale);
+            this.cdf_limit = gamma_scaled * RcpPI * norm;
+
+            if (gamma_scaled < 1e-31) {
                 limit_distribution = new NormalDistribution(mu: 0, sigma: sigma);
             }
-            else if (Sigma < Gamma * 1e-31) {
+            else if (sigma_scaled < 1e-31) {
                 limit_distribution = new CauchyDistribution(mu: 0, gamma: gamma);
             }
         }
@@ -45,8 +50,9 @@ namespace DoubleDoubleDistribution {
             Complex z = (i, x * inv_scale);
 
             ddouble pdf = Complex.Erfcx(z).R * norm;
+            pdf = IsNaN(pdf) ? 0d : Ldexp(pdf, log2_scale);
 
-            return IsNaN(pdf) ? 0d : pdf;
+            return pdf;
         }
 
         public override ddouble CDF(ddouble x) {
@@ -59,7 +65,7 @@ namespace DoubleDoubleDistribution {
                 return x < 0d ? 0d : 1d;
             }
 
-            const double eps = 1e-27;
+            ddouble eps = 1e-27 * norm;
 
             ddouble u = 1d / (Abs(x) + 1d);
 
@@ -73,13 +79,17 @@ namespace DoubleDoubleDistribution {
 
                     ddouble t_inv = 1d / t;
                     ddouble x = (1d - t) * t_inv;
-                    ddouble y = PDF(x) * t_inv * t_inv;
+
+                    Complex z = (i, x * inv_scale);
+                    ddouble pdf = Complex.Erfcx(z).R;
+
+                    ddouble y = pdf * t_inv * t_inv;
 
                     return y;
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
-                value = Max(0d, value);
+                value = Ldexp(Max(0d, value) * norm, log2_scale);
 
                 cdf = x < 0d ? value : 1d - value;
             }
@@ -87,17 +97,22 @@ namespace DoubleDoubleDistribution {
                 ddouble f(ddouble t) {
                     ddouble t_inv = 1d / t;
                     ddouble x = (1d - t) * t_inv;
-                    ddouble y = PDF(x) * t_inv * t_inv;
+
+                    Complex z = (i, x * inv_scale);
+                    ddouble pdf = Complex.Erfcx(z).R;
+
+                    ddouble y = pdf * t_inv * t_inv;
 
                     return y;
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, u, One, eps, depth: 12);
-                value = Max(0d, value);
+                value = Ldexp(Max(0d, value) * norm, log2_scale);
 
                 cdf = x < 0d ? 0.5d - value : 0.5d + value;
             }
 
+            error = Ldexp(error, log2_scale);
             if (EnableCDFErrorException && !(error < eps)) {
                 throw new ArithmeticException("CDF integrate not convergence.");
             }
