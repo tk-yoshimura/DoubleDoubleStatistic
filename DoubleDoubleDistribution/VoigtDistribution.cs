@@ -10,8 +10,6 @@ namespace DoubleDoubleDistribution {
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
 
-        private readonly int log2_scale;
-
         private readonly ddouble norm, inv_scale, i, cdf_limit;
 
         public bool EnableCDFErrorException { get; set; } = false;
@@ -25,20 +23,17 @@ namespace DoubleDoubleDistribution {
             this.Gamma = gamma;
             this.Sigma = sigma;
 
-            (this.log2_scale, (ddouble gamma_scaled, ddouble sigma_scaled))
-                = AdjustScale(0, (gamma, sigma));
-
-            this.norm = 1d / (sigma_scaled * Sqrt(2 * PI));
+            this.norm = 1d / (sigma * Sqrt(2 * PI));
             this.inv_scale = -1d / (Sqrt2 * sigma);
-            this.i = -gamma_scaled * Ldexp(inv_scale, -log2_scale);
-            this.cdf_limit = gamma_scaled * RcpPI * norm;
+            this.i = -gamma * inv_scale;
+            this.cdf_limit = gamma * sigma * Sqrt(2 * RcpPI);
         }
 
         public override ddouble PDF(ddouble x) {
             Complex z = (i, x * inv_scale);
 
             ddouble pdf = Complex.Erfcx(z).R * norm;
-            pdf = IsNaN(pdf) ? 0d : Ldexp(pdf, log2_scale);
+            pdf = IsNaN(pdf) ? 0d : pdf;
 
             return pdf;
         }
@@ -73,7 +68,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
-                value = Ldexp(Max(0d, value) * norm, log2_scale);
+                value = Max(0d, value) * norm;
 
                 cdf = x < 0d ? value : 1d - value;
             }
@@ -91,17 +86,32 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, u, One, eps, depth: 12);
-                value = Ldexp(Max(0d, value) * norm, log2_scale);
+                value = Max(0d, value) * norm;
 
                 cdf = x < 0d ? 0.5d - value : 0.5d + value;
             }
 
-            error = Ldexp(error, log2_scale);
             if (EnableCDFErrorException && !(error < eps)) {
                 throw new ArithmeticException("CDF integrate not convergence.");
             }
 
             return cdf;
+        }
+
+        public ddouble Integrand(ddouble t) { 
+            if (IsZero(t)) {
+                return cdf_limit;
+            }
+
+            ddouble t_inv = 1d / t;
+            ddouble x = (1d - t) * t_inv;
+
+            Complex z = (i, x * inv_scale);
+            ddouble pdf = Complex.Erfcx(z).R;
+
+            ddouble y = pdf * t_inv * t_inv;
+
+            return y;
         }
 
         public override bool AdditiveClosed => true;

@@ -6,6 +6,8 @@ namespace DoubleDoubleDistribution.Tests {
     public class VoigtDistributionTests {
         readonly VoigtDistribution dist1 = new() { EnableCDFErrorException = true };
         readonly VoigtDistribution dist2 = new(gamma: 2, sigma: 3) { EnableCDFErrorException = true };
+        readonly VoigtDistribution dist3 = new(gamma: 3, sigma: 4) { EnableCDFErrorException = true };
+        readonly VoigtDistribution dist4 = new(gamma: 1d / 16, sigma: 3d / 8) { EnableCDFErrorException = true };
 
         [TestMethod()]
         public void InfoTest() {
@@ -21,6 +23,11 @@ namespace DoubleDoubleDistribution.Tests {
             Console.WriteLine($"Kurtosis={dist1.Kurtosis}");
             Console.WriteLine($"Entropy={dist1.Entropy}");
 
+            for (ddouble t = 0; t <= 1d / 64; t += 1d / 256) {
+                ddouble y = dist1.Integrand(t);
+                Console.WriteLine($"{t},{y}");
+            }
+
             Console.WriteLine(dist2);
             Console.WriteLine($"Support={dist2.Support}");
             Console.WriteLine($"Gamma={dist2.Gamma}");
@@ -32,6 +39,45 @@ namespace DoubleDoubleDistribution.Tests {
             Console.WriteLine($"Skewness={dist2.Skewness}");
             Console.WriteLine($"Kurtosis={dist2.Kurtosis}");
             Console.WriteLine($"Entropy={dist2.Entropy}");
+
+            for (ddouble t = 0; t <= 1d / 64; t += 1d / 256) {
+                ddouble y = dist2.Integrand(t);
+                Console.WriteLine($"{t},{y}");
+            }
+
+            Console.WriteLine(dist3);
+            Console.WriteLine($"Support={dist3.Support}");
+            Console.WriteLine($"Gamma={dist3.Gamma}");
+            Console.WriteLine($"Sigma={dist3.Sigma}");
+            Console.WriteLine($"Mean={dist3.Mean}");
+            Console.WriteLine($"Median={dist3.Median}");
+            Console.WriteLine($"Mode={dist3.Mode}");
+            Console.WriteLine($"Variance={dist3.Variance}");
+            Console.WriteLine($"Skewness={dist3.Skewness}");
+            Console.WriteLine($"Kurtosis={dist3.Kurtosis}");
+            Console.WriteLine($"Entropy={dist3.Entropy}");
+
+            for (ddouble t = 0; t <= 1d / 64; t += 1d / 256) {
+                ddouble y = dist3.Integrand(t);
+                Console.WriteLine($"{t},{y}");
+            }
+
+            Console.WriteLine(dist4);
+            Console.WriteLine($"Support={dist4.Support}");
+            Console.WriteLine($"Gamma={dist4.Gamma}");
+            Console.WriteLine($"Sigma={dist4.Sigma}");
+            Console.WriteLine($"Mean={dist4.Mean}");
+            Console.WriteLine($"Median={dist4.Median}");
+            Console.WriteLine($"Mode={dist4.Mode}");
+            Console.WriteLine($"Variance={dist4.Variance}");
+            Console.WriteLine($"Skewness={dist4.Skewness}");
+            Console.WriteLine($"Kurtosis={dist4.Kurtosis}");
+            Console.WriteLine($"Entropy={dist4.Entropy}");
+
+            for (ddouble t = 0; t <= 1d / 64; t += 1d / 256) {
+                ddouble y = dist4.Integrand(t);
+                Console.WriteLine($"{t},{y}");
+            }
         }
 
         [TestMethod()]
