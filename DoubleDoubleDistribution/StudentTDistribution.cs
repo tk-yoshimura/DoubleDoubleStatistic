@@ -7,7 +7,7 @@ namespace DoubleDoubleDistribution {
 
         public ddouble Nu { get; }
 
-        private readonly ddouble norm, nu_inv, nu_half, power;
+        private readonly ddouble norm, nu_inv, nu_half, power, cdf_norm;
         private readonly bool is_integer_nu;
         private readonly int n;
         private readonly double zero_thr;
@@ -27,6 +27,7 @@ namespace DoubleDoubleDistribution {
             this.nu_inv = 1d / nu;
             this.nu_half = nu / 2;
             this.power = -(nu + 1) / 2;
+            this.cdf_norm = 1d / Beta(nu_half, nu_half);
             this.is_integer_nu = nu <= 1024 && IsInteger(nu);
             this.n = is_integer_nu ? (int)nu : 0;
 
@@ -63,7 +64,7 @@ namespace DoubleDoubleDistribution {
 
             if (nu_half <= 64) {
                 ddouble u = Sqrt(x * x + Nu), v = (x + u) / Ldexp(u, 1);
-                ddouble cdf = IncompleteBeta(v, nu_half, nu_half) / Beta(nu_half, nu_half);
+                ddouble cdf = IncompleteBeta(v, nu_half, nu_half) * cdf_norm;
 
                 return cdf;
             }
