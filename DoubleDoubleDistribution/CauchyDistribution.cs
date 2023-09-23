@@ -5,7 +5,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class CauchyDistribution : Distribution,
         IAdditionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
-        ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution> {
+        ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
+        IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Gamma { get; }
@@ -47,6 +48,7 @@ namespace DoubleDoubleDistribution {
 
         public override bool AdditiveClosed => true;
         public override bool SubtractiveClosed => true;
+        public override bool Scalable => true;
 
         public override ddouble Median => Mu;
         public override ddouble Mode => Mu;
@@ -59,6 +61,10 @@ namespace DoubleDoubleDistribution {
 
         public static CauchyDistribution operator -(CauchyDistribution dist1, CauchyDistribution dist2) {
             return new(dist1.Mu - dist2.Mu, dist1.Gamma + dist2.Gamma);
+        }
+
+        public static CauchyDistribution operator *(CauchyDistribution dist, ddouble k) {
+            return new(k * dist.Mu, k * dist.Gamma);
         }
 
         public override string ToString() {

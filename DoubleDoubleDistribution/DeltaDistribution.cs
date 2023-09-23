@@ -1,8 +1,11 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class DeltaDistribution : Distribution {
+    public class DeltaDistribution : Distribution,
+        IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
+        ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution> {
 
         public ddouble Mu { get; }
 
@@ -37,6 +40,7 @@ namespace DoubleDoubleDistribution {
 
         public override bool AdditiveClosed => true;
         public override bool SubtractiveClosed => true;
+        public override bool Scalable => true;
 
         public override ddouble Mean => Mu;
         public override ddouble Median => Mu;
@@ -44,6 +48,18 @@ namespace DoubleDoubleDistribution {
         public override ddouble Variance => 0;
 
         public override ddouble Entropy => NegativeInfinity;
+
+        public static DeltaDistribution operator +(DeltaDistribution dist1, DeltaDistribution dist2) {
+            return new(dist1.Mu + dist2.Mu);
+        }
+
+        public static DeltaDistribution operator -(DeltaDistribution dist1, DeltaDistribution dist2) {
+            return new(dist1.Mu - dist2.Mu);
+        }
+
+        public static DeltaDistribution operator *(ddouble k, DeltaDistribution dist) {
+            return new(k * dist.Mu);
+        }
 
         public override string ToString() {
             return $"{typeof(DeltaDistribution).Name}[mu={Mu}]";

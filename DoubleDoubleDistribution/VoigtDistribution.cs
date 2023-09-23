@@ -5,7 +5,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
     public class VoigtDistribution : Distribution,
-        System.Numerics.IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution> {
+        System.Numerics.IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
+        System.Numerics.IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
@@ -116,11 +117,17 @@ namespace DoubleDoubleDistribution {
 
         public override bool AdditiveClosed => true;
 
+        public override bool Scalable => true;
+
         public override ddouble Median => 0;
         public override ddouble Mode => 0;
 
         public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {
             return new(dist1.Gamma + dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
+        }
+
+        public static VoigtDistribution operator *(VoigtDistribution dist, ddouble k) {
+            return new(k * dist.Gamma, k * dist.Sigma);
         }
 
         public override string ToString() {
