@@ -116,8 +116,8 @@ namespace DoubleDoubleDistribution {
         }
 
         public override bool AdditiveClosed => true;
-
         public override bool Scalable => true;
+        public override bool Symmetric => true;
 
         public override ddouble Median => 0;
         public override ddouble Mode => 0;

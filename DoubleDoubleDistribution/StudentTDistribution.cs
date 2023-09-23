@@ -128,6 +128,8 @@ namespace DoubleDoubleDistribution {
             return cdf;
         }
 
+        public override bool Symmetric => true;
+
         public override ddouble Mean => (Nu > 1) ? 0 : NaN;
         public override ddouble Median => 0;
         public override ddouble Mode => 0;
