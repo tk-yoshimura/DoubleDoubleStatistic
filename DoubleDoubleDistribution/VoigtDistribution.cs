@@ -98,7 +98,7 @@ namespace DoubleDoubleDistribution {
             return cdf;
         }
 
-        public ddouble Integrand(ddouble t) {
+        internal ddouble Integrand(ddouble t) {
             if (IsZero(t)) {
                 return cdf_limit;
             }
