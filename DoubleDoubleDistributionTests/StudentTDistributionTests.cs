@@ -14,6 +14,13 @@ namespace DoubleDoubleDistribution.Tests {
         readonly StudentTDistribution dist_nu4 = new(nu: 4);
         readonly StudentTDistribution dist_nu4p5 = new(nu: 4.5);
         readonly StudentTDistribution dist_nu5 = new(nu: 5);
+        readonly StudentTDistribution dist_nu8 = new(nu: 8);
+        readonly StudentTDistribution dist_nu16 = new(nu: 16);
+        readonly StudentTDistribution dist_nu32 = new(nu: 32);
+        readonly StudentTDistribution dist_nu64 = new(nu: 64);
+        readonly StudentTDistribution dist_nu128 = new(nu: 128);
+        readonly StudentTDistribution dist_nu129 = new(nu: 129);
+
 
         StudentTDistribution[] Dists => new[]{
             dist_nu0p5,
@@ -26,6 +33,12 @@ namespace DoubleDoubleDistribution.Tests {
             dist_nu4,
             dist_nu4p5,
             dist_nu5,
+            dist_nu8,
+            dist_nu16,
+            dist_nu32,
+            dist_nu64,
+            dist_nu128,
+            dist_nu129
         };
 
         [TestMethod()]
@@ -56,8 +69,6 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFTest() {
-            Assert.Inconclusive();
-
             foreach (StudentTDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = -4; x <= 4; x += 0.125) {

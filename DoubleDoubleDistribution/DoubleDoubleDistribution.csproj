@@ -2,17 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
-    <Version>1.0.0</Version>
-    <Title>DoubleDouble.Distribution</Title>
-    <Authors>T.Yoshimura</Authors>
-    <Company>T.Yoshimura</Company>
-    <Description>Double-Double Continuous Distribution Implements</Description>
-    <Copyright>Copyright © T.Yoshimura 2023</Copyright>
-    <Product>DoubleDouble.Distribution</Product>
-    <AssemblyVersion>$(Version).*</AssemblyVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
