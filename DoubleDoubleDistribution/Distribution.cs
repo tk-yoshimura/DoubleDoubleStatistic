@@ -23,10 +23,8 @@ namespace DoubleDoubleDistribution {
 
         public virtual ddouble Entropy => ddouble.NaN;
 
-        protected static void ValidateProb(ddouble p) {
-            if (!(p >= 0d && p <= 1d)) {
-                throw new ArgumentOutOfRangeException(nameof(p), "Invalid probably.");
-            }
+        protected static bool InRangeUnit(ddouble v) {
+            return v >= 0d && v <= 1d;
         }
 
         protected static void ValidateScale(ddouble scale) {

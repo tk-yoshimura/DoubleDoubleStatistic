@@ -41,8 +41,6 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble Quantile(ddouble p) {
-            ValidateProb(p);
-
             ddouble quantile = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
 
             return quantile;

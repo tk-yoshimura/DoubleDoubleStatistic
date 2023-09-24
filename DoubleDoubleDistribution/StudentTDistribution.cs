@@ -41,6 +41,9 @@ namespace DoubleDoubleDistribution {
             if (Abs(x) >= zero_thr) {
                 return Zero;
             }
+            if (IsNaN(x)) {
+                return NaN;
+            }
 
             ddouble u = 1 + x * x * nu_inv;
             ddouble v = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
@@ -60,6 +63,9 @@ namespace DoubleDoubleDistribution {
             }
             if (x >= zero_thr) {
                 return One;
+            }
+            if (IsNaN(x)) {
+                return NaN;
             }
 
             if (nu_half <= 64) {

@@ -39,8 +39,6 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble Quantile(ddouble p) {
-            ValidateProb(p);
-
             ddouble quantile = Mu + Gamma * TanPI(p - Point5);
 
             return quantile;

@@ -36,7 +36,7 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override ddouble Quantile(ddouble p) => Mu;
+        public override ddouble Quantile(ddouble p) => InRangeUnit(p) ? Mu : NaN;
 
         public override bool AdditiveClosed => true;
         public override bool SubtractiveClosed => true;

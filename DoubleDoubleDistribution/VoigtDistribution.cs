@@ -34,12 +34,16 @@ namespace DoubleDoubleDistribution {
             Complex z = (i, x * inv_scale);
 
             ddouble pdf = Complex.Erfcx(z).R * norm;
-            pdf = IsNaN(pdf) ? 0d : pdf;
+            pdf = IsFinite(pdf) ? pdf : Zero;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             ddouble p = PDF(x);
             if (IsZero(p)) {
                 return x < 0d ? 0d : 1d;
