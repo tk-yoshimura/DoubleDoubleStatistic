@@ -11,7 +11,7 @@ namespace DoubleDoubleDistribution {
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble sigma_sq, norm, exp_scale, erf_scale;
+        private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
 
         public NormalDistribution() : this(mu: 0, sigma: 1) { }
 
@@ -23,13 +23,13 @@ namespace DoubleDoubleDistribution {
             this.Sigma = sigma;
 
             this.sigma_sq = sigma * sigma;
-            this.norm = 1d / (sigma * Sqrt(2 * PI));
+            this.pdf_norm = 1d / (sigma * Sqrt(2 * PI));
             this.exp_scale = -1d / (2 * sigma_sq);
             this.erf_scale = 1d / (Sqrt2 * sigma);
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble pdf = norm * Exp(Square(x - Mu) * exp_scale);
+            ddouble pdf = pdf_norm * Exp(Square(x - Mu) * exp_scale);
 
             return pdf;
         }

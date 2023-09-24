@@ -11,7 +11,7 @@ namespace DoubleDoubleDistribution {
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble norm, inv_scale, i, cdf_limit;
+        private readonly ddouble pdf_norm, z_scale, zr, cdf_limit;
 
         public bool EnableCDFErrorException { get; set; } = false;
 
@@ -24,16 +24,16 @@ namespace DoubleDoubleDistribution {
             this.Gamma = gamma;
             this.Sigma = sigma;
 
-            this.norm = 1d / (sigma * Sqrt(2 * PI));
-            this.inv_scale = -1d / (Sqrt2 * sigma);
-            this.i = -gamma * inv_scale;
+            this.pdf_norm = 1d / (sigma * Sqrt(2 * PI));
+            this.z_scale = -1d / (Sqrt2 * sigma);
+            this.zr = -gamma * z_scale;
             this.cdf_limit = gamma * sigma * Sqrt(2 * RcpPI);
         }
 
         public override ddouble PDF(ddouble x) {
-            Complex z = (i, x * inv_scale);
+            Complex z = (zr, x * z_scale);
 
-            ddouble pdf = Complex.Erfcx(z).R * norm;
+            ddouble pdf = Complex.Erfcx(z).R * pdf_norm;
             pdf = IsFinite(pdf) ? pdf : Zero;
 
             return pdf;
@@ -49,7 +49,7 @@ namespace DoubleDoubleDistribution {
                 return x < 0d ? 0d : 1d;
             }
 
-            ddouble eps = 1e-27 * norm;
+            ddouble eps = 1e-27 * pdf_norm;
 
             ddouble u = 1d / (Abs(x) + 1d);
 
@@ -64,7 +64,7 @@ namespace DoubleDoubleDistribution {
                     ddouble t_inv = 1d / t;
                     ddouble x = (1d - t) * t_inv;
 
-                    Complex z = (i, x * inv_scale);
+                    Complex z = (zr, x * z_scale);
                     ddouble pdf = Complex.Erfcx(z).R;
 
                     ddouble y = pdf * t_inv * t_inv;
@@ -73,7 +73,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
-                value = Max(0d, value) * norm;
+                value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? value : 1d - value;
             }
@@ -82,7 +82,7 @@ namespace DoubleDoubleDistribution {
                     ddouble t_inv = 1d / t;
                     ddouble x = (1d - t) * t_inv;
 
-                    Complex z = (i, x * inv_scale);
+                    Complex z = (zr, x * z_scale);
                     ddouble pdf = Complex.Erfcx(z).R;
 
                     ddouble y = pdf * t_inv * t_inv;
@@ -91,7 +91,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, u, One, eps, depth: 12);
-                value = Max(0d, value) * norm;
+                value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? 0.5d - value : 0.5d + value;
             }
@@ -111,7 +111,7 @@ namespace DoubleDoubleDistribution {
             ddouble t_inv = 1d / t;
             ddouble x = (1d - t) * t_inv;
 
-            Complex z = (i, x * inv_scale);
+            Complex z = (zr, x * z_scale);
             ddouble pdf = Complex.Erfcx(z).R;
 
             ddouble y = pdf * t_inv * t_inv;

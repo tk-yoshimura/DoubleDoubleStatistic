@@ -46,7 +46,7 @@ namespace DoubleDoubleDistribution.Tests {
             foreach (StudentTDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Mu={dist.Nu}");
+                Console.WriteLine($"Nu={dist.Nu}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");

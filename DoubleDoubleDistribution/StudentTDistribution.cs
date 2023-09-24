@@ -7,7 +7,7 @@ namespace DoubleDoubleDistribution {
 
         public ddouble Nu { get; }
 
-        private readonly ddouble norm, nu_inv, nu_half, power, cdf_norm;
+        private readonly ddouble pdf_norm, cdf_norm, nu_inv, nu_half, power;
         private readonly bool is_integer_nu;
         private readonly int n;
         private readonly double zero_thr;
@@ -15,13 +15,13 @@ namespace DoubleDoubleDistribution {
         public bool EnableCDFErrorException { get; set; } = false;
 
         public StudentTDistribution(ddouble nu) {
-            ValidateShape(nu);
+            ValidateShape(nu, nu => nu > 0d);
 
             this.Nu = nu;
 
             ddouble c = Sqrt(nu * PI);
 
-            this.norm = nu < 70d
+            this.pdf_norm = nu < 70d
                 ? Gamma((nu + 1) / 2) / (Gamma(nu / 2) * c)
                 : Exp(LogGamma((nu + 1) / 2) - LogGamma(nu / 2)) / c;
             this.nu_inv = 1d / nu;
@@ -47,7 +47,7 @@ namespace DoubleDoubleDistribution {
 
             ddouble u = 1 + x * x * nu_inv;
             ddouble v = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
-            ddouble pdf = norm * v;
+            ddouble pdf = pdf_norm * v;
 
             pdf = IsFinite(pdf) ? pdf : Zero;
 
@@ -80,7 +80,7 @@ namespace DoubleDoubleDistribution {
         }
 
         private ddouble CDFIntegrate(ddouble x) {
-            ddouble eps = 1e-27 * norm;
+            ddouble eps = 1e-27 * pdf_norm;
 
             ddouble u = 1d / (Abs(x) + 1d);
 
@@ -104,7 +104,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
-                value = Max(0d, value) * norm;
+                value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? value : 1d - value;
             }
@@ -122,7 +122,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, u, One, eps, depth: 12);
-                value = Max(0d, value) * norm;
+                value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? 0.5d - value : 0.5d + value;
             }

@@ -11,7 +11,7 @@ namespace DoubleDoubleDistribution {
         public ddouble Mu { get; }
         public ddouble Gamma { get; }
 
-        private readonly ddouble gamma_inv, gamma_sq;
+        private readonly ddouble pdf_norm, gamma_inv, gamma_sq;
 
         public CauchyDistribution() : this(mu: 0, gamma: 1) { }
 
@@ -22,12 +22,13 @@ namespace DoubleDoubleDistribution {
             this.Mu = mu;
             this.Gamma = gamma;
 
+            this.pdf_norm = RcpPI * Gamma;
             this.gamma_inv = 1d / gamma;
             this.gamma_sq = gamma * gamma;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble pdf = RcpPI * Gamma / (Square(x - Mu) + gamma_sq);
+            ddouble pdf = pdf_norm / (Square(x - Mu) + gamma_sq);
 
             return pdf;
         }

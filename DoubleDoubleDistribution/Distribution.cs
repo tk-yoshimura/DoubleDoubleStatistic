@@ -39,8 +39,14 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        protected static void ValidateShape(ddouble shape) {
-            if (!(shape > 0d)) {
+        protected static void ValidateShape(ddouble shape, Func<ddouble, bool> condition) {
+            if (!condition(shape)) {
+                throw new ArgumentOutOfRangeException(nameof(shape), "Invalid shape parameter.");
+            }
+        }
+
+        protected static void ValidateShape(int shape, Func<int, bool> condition) {
+            if (!condition(shape)) {
                 throw new ArgumentOutOfRangeException(nameof(shape), "Invalid shape parameter.");
             }
         }
