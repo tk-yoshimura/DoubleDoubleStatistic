@@ -39,7 +39,7 @@ namespace DoubleDoubleDistribution {
             return pdf;
         }
 
-        public override ddouble CDF(ddouble x) {
+        public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (IsNaN(x)) {
                 return NaN;
             }

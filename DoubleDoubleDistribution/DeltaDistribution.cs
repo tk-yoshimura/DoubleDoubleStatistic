@@ -23,7 +23,7 @@ namespace DoubleDoubleDistribution {
             return pdf;
         }
 
-        public override ddouble CDF(ddouble x) {
+        public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (IsZero(Mu)) {
                 ddouble cdf = IsNegative(x) ? 0 : 1;
 
@@ -36,7 +36,7 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override ddouble Quantile(ddouble p) => InRangeUnit(p) ? Mu : NaN;
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) => InRangeUnit(p) ? Mu : NaN;
 
         public override bool AdditiveClosed => true;
         public override bool SubtractiveClosed => true;

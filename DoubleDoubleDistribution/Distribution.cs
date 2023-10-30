@@ -3,8 +3,8 @@
 namespace DoubleDoubleDistribution {
     public abstract class Distribution {
         public abstract ddouble PDF(ddouble x);
-        public virtual ddouble CDF(ddouble x) => throw new NotImplementedException();
-        public virtual ddouble Quantile(ddouble p) => throw new NotImplementedException();
+        public virtual ddouble CDF(ddouble x, Interval interval = Interval.Lower) => throw new NotImplementedException();
+        public virtual ddouble Quantile(ddouble p, Interval interval = Interval.Lower) => throw new NotImplementedException();
 
         public virtual bool AdditiveClosed => false;
         public virtual bool SubtractiveClosed => false;

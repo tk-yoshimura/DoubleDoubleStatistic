@@ -3,19 +3,19 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class NormalDistribution : Distribution,
-        IAdditionOperators<NormalDistribution, NormalDistribution, NormalDistribution>,
-        ISubtractionOperators<NormalDistribution, NormalDistribution, NormalDistribution>,
-        IMultiplyOperators<NormalDistribution, ddouble, NormalDistribution> {
+    public class LogNormalDistribution : Distribution,
+        IAdditionOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution>,
+        ISubtractionOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution>,
+        IMultiplyOperators<LogNormalDistribution, ddouble, LogNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
         private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
 
-        public NormalDistribution() : this(mu: 0, sigma: 1) { }
+        public LogNormalDistribution() : this(mu: 0, sigma: 1) { }
 
-        public NormalDistribution(ddouble mu, ddouble sigma) {
+        public LogNormalDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
             ValidateScale(sigma);
 
@@ -60,20 +60,20 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Entropy => Log(Sigma * Sqrt(2 * PI * E));
 
-        public static NormalDistribution operator +(NormalDistribution dist1, NormalDistribution dist2) {
+        public static LogNormalDistribution operator +(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
         }
 
-        public static NormalDistribution operator -(NormalDistribution dist1, NormalDistribution dist2) {
+        public static LogNormalDistribution operator -(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu - dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
         }
 
-        public static NormalDistribution operator *(NormalDistribution dist, ddouble k) {
+        public static LogNormalDistribution operator *(LogNormalDistribution dist, ddouble k) {
             return new(k * dist.Mu, k * dist.Sigma);
         }
 
         public override string ToString() {
-            return $"{typeof(NormalDistribution).Name}[mu={Mu},sigma={Sigma}]";
+            return $"{typeof(LogNormalDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
     }
 }

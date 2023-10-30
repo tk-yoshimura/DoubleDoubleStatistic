@@ -28,23 +28,36 @@ namespace DoubleDoubleDistribution {
             return pdf;
         }
 
-        public override ddouble CDF(ddouble x) {
-            ddouble cdf = LowerIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
+        public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (interval == Interval.Lower) {
+                ddouble cdf = LowerIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
 
-            return cdf;
+                return cdf;
+            }
+            else {
+                ddouble cdf = UpperIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
+
+                return cdf;
+            }
+        }
+
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (interval == Interval.Lower) {
+                ddouble x = InverseLowerIncompleteGamma(K * 0.5d, p);
+
+                return x;
+            }
+            else {
+                ddouble x = InverseUpperIncompleteGamma(K * 0.5d, p);
+
+                return x;
+            }
         }
 
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
         public override ddouble Mean => K;
-        public override ddouble Median {
-            get {
-                ddouble x0 = K * Cube(1d - (ddouble)2 / ((ddouble)9 * K));
-                ddouble x = NewtonRaphsonFinder.RootFind(x => (CDF(x) - Point5, PDF(x)), x0, iters: 256);
-
-                return x;
-            }
-        }
+        public override ddouble Median => Quantile(0.5);
         public override ddouble Mode => Max(K - 2, 0);
         public override ddouble Variance => Ldexp(K, 1);
         public override ddouble Skewness => Sqrt((ddouble)8 / K);

@@ -33,13 +33,13 @@ namespace DoubleDoubleDistribution {
             return pdf;
         }
 
-        public override ddouble CDF(ddouble x) {
+        public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble cdf = Atan((x - Mu) * gamma_inv) * RcpPI + Point5;
 
             return cdf;
         }
 
-        public override ddouble Quantile(ddouble p) {
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
             ddouble quantile = Mu + Gamma * TanPI(p - Point5);
 
             return quantile;
