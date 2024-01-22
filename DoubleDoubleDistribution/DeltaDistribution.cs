@@ -24,6 +24,10 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (interval == Interval.Upper) {
+                return CDF(-x, Interval.Lower);
+            }
+
             if (IsZero(Mu)) {
                 ddouble cdf = IsNegative(x) ? 0 : 1;
 

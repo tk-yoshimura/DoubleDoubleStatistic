@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DoubleDoubleDistribution")]
-[assembly: AssemblyCopyright("Copyright © T.Yoshimura 2023")]
+[assembly: AssemblyCopyright("Copyright © T.Yoshimura 2023-2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

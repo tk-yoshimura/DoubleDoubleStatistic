@@ -4,9 +4,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
     public class LogNormalDistribution : Distribution,
-        IAdditionOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution>,
-        ISubtractionOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution>,
-        IMultiplyOperators<LogNormalDistribution, ddouble, LogNormalDistribution> {
+        IMultiplyOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -25,51 +23,83 @@ namespace DoubleDoubleDistribution {
             this.sigma_sq = sigma * sigma;
             this.pdf_norm = 1d / (sigma * Sqrt(2 * PI));
             this.exp_scale = -1d / (2 * sigma_sq);
-            this.erf_scale = 1d / (Sqrt2 * sigma);
+            this.erf_scale = -1d / (Sqrt2 * sigma);
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble pdf = pdf_norm * Exp(Square(x - Mu) * exp_scale);
+            if (x <= 0d) {
+                return 0d;
+            }
 
-            return pdf;
+            ddouble s = Square(Log(x) - Mu) * exp_scale;
+            ddouble exp = Exp(s);
+
+            if (IsFinite(exp)) {
+                ddouble pdf = this.pdf_norm * exp / x;
+
+                if (IsFinite(pdf)) {
+                    return pdf;
+                }
+            }
+
+            ddouble pdf_interlog = Exp(s + Log(this.pdf_norm / x));
+
+            if (IsFinite(pdf_interlog)) {
+                return pdf_interlog;
+            }
+
+            return 0d;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble cdf = Ldexp(1d + Erf((x - Mu) * erf_scale), -1);
+            if (interval == Interval.Lower) {
+                if (x <= 0d) {
+                    return 0d;
+                }
 
-            return cdf;
+                ddouble cdf = Ldexp(Erfc((Log(x) - Mu) * erf_scale), -1);
+
+                return cdf;
+            }
+            else {
+                if (x <= 0d) {
+                    return 1d;
+                }
+
+                ddouble cdf = Ldexp(Erfc((Mu - Log(x)) * erf_scale), -1);
+
+                return cdf;
+            }
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
-            ddouble quantile = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+            if (interval == Interval.Lower) {
+                ddouble quantile = Exp(Mu - Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1)));
 
-            return quantile;
+                return quantile;
+            }
+            else {
+                ddouble quantile = Exp(Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1)));
+
+                return quantile;
+            }
         }
 
-        public override bool AdditiveClosed => true;
-        public override bool SubtractiveClosed => true;
-        public override bool Scalable => true;
-        public override bool Symmetric => true;
+        public override bool MultiplyClosed => true;
 
-        public override ddouble Mean => Mu;
-        public override ddouble Median => Mu;
-        public override ddouble Mode => Mu;
-        public override ddouble Variance => sigma_sq;
-        public override ddouble Skewness => 0;
-        public override ddouble Kurtosis => 0;
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Entropy => Log(Sigma * Sqrt(2 * PI * E));
+        public override ddouble Mean => Exp(Mu + Ldexp(sigma_sq, -1));
+        public override ddouble Median => Exp(Mu);
+        public override ddouble Mode => Exp(Mu - sigma_sq);
+        public override ddouble Variance => Exp(2 * Mu + sigma_sq) * (Exp(sigma_sq) - 1);
+        public override ddouble Skewness => Sqrt(Exp(sigma_sq) - 1) * (Exp(sigma_sq) + 2);
+        public override ddouble Kurtosis => Exp(4 * sigma_sq) + 2 * Exp(3 * sigma_sq) + 3 * Exp(2 * sigma_sq) - 6;
 
-        public static LogNormalDistribution operator +(LogNormalDistribution dist1, LogNormalDistribution dist2) {
+        public override ddouble Entropy => (1d + Log(2 * PI * sigma_sq)) / 2 + Mu;
+
+        public static LogNormalDistribution operator *(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
-        }
-
-        public static LogNormalDistribution operator -(LogNormalDistribution dist1, LogNormalDistribution dist2) {
-            return new(dist1.Mu - dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
-        }
-
-        public static LogNormalDistribution operator *(LogNormalDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.Sigma);
         }
 
         public override string ToString() {

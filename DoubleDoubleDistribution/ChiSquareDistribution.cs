@@ -1,15 +1,14 @@
 ﻿using DoubleDouble;
-using DoubleDoubleRootFinding;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ChiSquaredDistribution : Distribution {
+    public class ChiSquareDistribution : Distribution {
 
         public int K { get; }
 
         private readonly ddouble c, pdf_norm;
 
-        public ChiSquaredDistribution(int k) {
+        public ChiSquareDistribution(int k) {
             ValidateShape(k, k => k > 0);
 
             this.K = k;
@@ -19,8 +18,11 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNegative(x)) {
+                return 0d;
+            }
             if (IsZero(x)) {
-                return K <= 1 ? PositiveInfinity : (K <= 2 ? Point5 : Zero);
+                return K <= 1 ? PositiveInfinity : (K <= 2 ? 0.5d : 0d);
             }
 
             ddouble pdf = Pow2(c * Log2(x) - Ldexp(x, -1) * LbE - pdf_norm);
@@ -30,11 +32,19 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (interval == Interval.Lower) {
+                if (x <= 0d) {
+                    return 0d;
+                }
+
                 ddouble cdf = LowerIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
 
                 return cdf;
             }
             else {
+                if (x <= 0d) {
+                    return 1d;
+                }
+
                 ddouble cdf = UpperIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
 
                 return cdf;
@@ -72,7 +82,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public override string ToString() {
-            return $"{typeof(ChiSquaredDistribution).Name}[k={K}]";
+            return $"{typeof(ChiSquareDistribution).Name}[k={K}]";
         }
     }
 }

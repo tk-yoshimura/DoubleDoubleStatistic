@@ -44,6 +44,10 @@ namespace DoubleDoubleDistribution {
                 return NaN;
             }
 
+            if (interval == Interval.Upper) {
+                return CDF(-x, Interval.Lower);
+            }
+
             ddouble p = PDF(x);
             if (IsZero(p)) {
                 return x < 0d ? 0d : 1d;

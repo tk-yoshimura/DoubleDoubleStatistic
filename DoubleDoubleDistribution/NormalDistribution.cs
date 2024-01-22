@@ -25,7 +25,7 @@ namespace DoubleDoubleDistribution {
             this.sigma_sq = sigma * sigma;
             this.pdf_norm = 1d / (sigma * Sqrt(2 * PI));
             this.exp_scale = -1d / (2 * sigma_sq);
-            this.erf_scale = 1d / (Sqrt2 * sigma);
+            this.erf_scale = -1d / (Sqrt2 * sigma);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -35,15 +35,29 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble cdf = Ldexp(1d + Erf((x - Mu) * erf_scale), -1);
+            if (interval == Interval.Lower) {
+                ddouble cdf = Ldexp(Erfc((x - Mu) * erf_scale), -1);
 
-            return cdf;
+                return cdf;
+            }
+            else {
+                ddouble cdf = Ldexp(Erfc((Mu - x) * erf_scale), -1);
+
+                return cdf;
+            }
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
-            ddouble quantile = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+            if (interval == Interval.Lower) {
+                ddouble quantile = Mu - Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
 
-            return quantile;
+                return quantile;
+            }
+            else {
+                ddouble quantile = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+
+                return quantile;
+            }
         }
 
         public override bool AdditiveClosed => true;

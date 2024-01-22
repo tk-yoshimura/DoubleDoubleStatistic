@@ -54,6 +54,10 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (interval == Interval.Upper) {
+                return CDF(-x, Interval.Lower);
+            }
+
             if (Abs(x) < 1e-32) {
                 return Point5;
             }
