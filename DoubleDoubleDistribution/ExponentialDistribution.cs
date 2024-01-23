@@ -36,6 +36,10 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
                 ddouble quantile = -Log1p(-p) / Lambda;
 

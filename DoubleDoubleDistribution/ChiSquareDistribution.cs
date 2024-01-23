@@ -52,6 +52,10 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
                 ddouble x = InverseLowerIncompleteGamma(K * 0.5d, p) * 2;
 
