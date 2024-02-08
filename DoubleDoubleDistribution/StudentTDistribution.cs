@@ -71,7 +71,7 @@ namespace DoubleDoubleDistribution {
                 return NaN;
             }
 
-            if (Abs(p - 0.5d) < 1e-30d) {
+            if (Abs(p - 0.5d) < 1e-31d) {
                 return 0d;
             }
 
