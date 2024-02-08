@@ -98,8 +98,6 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            Assert.Inconclusive();
-
             foreach (StudentTDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
@@ -118,8 +116,6 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            Assert.Inconclusive();
-
             foreach (StudentTDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {

@@ -58,83 +58,51 @@ namespace DoubleDoubleDistribution {
                 return CDF(-x, Interval.Lower);
             }
 
-            if (Abs(x) < 1e-32) {
-                return Point5;
-            }
-            if (x <= -zero_thr) {
-                return Zero;
-            }
-            if (x >= zero_thr) {
-                return One;
-            }
-            if (IsNaN(x)) {
+            ddouble v = Sqrt(x * x + Nu);
+            ddouble t = (x + v) / (2 * v);
+
+            ddouble cdf = IncompleteBetaRegularized(t, nu_half, nu_half);
+                       
+            return cdf;
+        }
+
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
                 return NaN;
             }
 
-            if (nu_half <= 64) {
-                ddouble u = Sqrt(x * x + Nu), v = (x + u) / Ldexp(u, 1);
-                ddouble cdf = IncompleteBetaRegularized(v, nu_half, nu_half);
+            if (Abs(p - 0.5d) < 1e-30d) {
+                return 0d;
+            }
 
-                return cdf;
+            ddouble quantile;
+
+            if (p == 0) {
+                quantile = NegativeInfinity;
+            }
+            else if (p == 1) {
+                quantile = PositiveInfinity;
+            }
+            else if (Nu == 1) {
+                quantile = Tan(PI * (p - 0.5d));
+            }
+            else if (Nu == 2) {
+                quantile = 2 * (p - 0.5d) * Sqrt(1d / (2 * p * (1d - p)));
+            }
+            else if (Nu == 4) {
+                ddouble a = 4 * p * (1d - p);
+                ddouble q = Cos(Acos(Sqrt(a)) / 3d) / Sqrt(a);
+
+                quantile = Sign(p - 0.5d) * 2 * Sqrt(q - 1d);
             }
             else {
-                return CDFIntegrate(x);
-            }
-        }
+                ddouble t = InverseIncompleteBeta(p, nu_half, nu_half);
+                ddouble u = Sqrt(Nu / (t * (1 - t)));
 
-        private ddouble CDFIntegrate(ddouble x) {
-            ddouble eps = 1e-27 * pdf_norm;
-
-            ddouble u = 1d / (Abs(x) + 1d);
-
-            ddouble error, cdf;
-
-            if (u < 0.5d) {
-                ddouble f(ddouble t) {
-                    if (IsZero(t)) {
-                        return Zero;
-                    }
-
-                    ddouble t_inv = 1d / t;
-                    ddouble x = (1d - t) * t_inv;
-
-                    ddouble u = 1 + x * x * nu_inv;
-                    ddouble pdf = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
-
-                    ddouble y = pdf * t_inv * t_inv;
-
-                    return y;
-                };
-
-                (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
-                value = Max(0d, value) * pdf_norm;
-
-                cdf = x < 0d ? value : 1d - value;
-            }
-            else {
-                ddouble f(ddouble t) {
-                    ddouble t_inv = 1d / t;
-                    ddouble x = (1d - t) * t_inv;
-
-                    ddouble u = 1 + x * x * nu_inv;
-                    ddouble pdf = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
-
-                    ddouble y = pdf * t_inv * t_inv;
-
-                    return y;
-                };
-
-                (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, u, One, eps, depth: 12);
-                value = Max(0d, value) * pdf_norm;
-
-                cdf = x < 0d ? 0.5d - value : 0.5d + value;
+                quantile = u * (2 * t - 1) / 2;
             }
 
-            if (EnableCDFErrorException && !(error < eps)) {
-                throw new ArithmeticException("CDF integrate not convergence.");
-            }
-
-            return cdf;
+            return (interval == Interval.Lower) ? quantile : -quantile;
         }
 
         public override bool Symmetric => true;
