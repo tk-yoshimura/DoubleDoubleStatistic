@@ -13,7 +13,7 @@ namespace DoubleDoubleDistribution {
         public UniformDistribution(ddouble min, ddouble max) {
             ValidateLocation(min);
             ValidateLocation(max);
-            
+
             if (!(min < max)) {
                 throw new ArgumentException($"Invalid location parameter. {min} < {max}");
             }
@@ -85,7 +85,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mean => Ldexp(Min + Max, -1);
         public override ddouble Median => Ldexp(Min + Max, -1);
-        
+
         public override ddouble Variance => Square(Range) / 12;
         public override ddouble Skewness => 0d;
         public override ddouble Kurtosis => -(ddouble)6 / 5;

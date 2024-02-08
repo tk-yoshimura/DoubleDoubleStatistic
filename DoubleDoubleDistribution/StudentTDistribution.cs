@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleIntegrate;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
@@ -62,7 +61,7 @@ namespace DoubleDoubleDistribution {
             ddouble t = (x + v) / (2 * v);
 
             ddouble cdf = IncompleteBetaRegularized(t, nu_half, nu_half);
-                       
+
             return cdf;
         }
 

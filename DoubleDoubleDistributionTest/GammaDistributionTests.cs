@@ -126,7 +126,7 @@ namespace DoubleDoubleDistribution.Tests {
             foreach ((GammaDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_k1theta1, expected_dist_k1theta1), (dist_k2theta1, expected_dist_k2theta1),
                 (dist_k1theta2, expected_dist_k1theta2), (dist_k2theta2, expected_dist_k2theta2),
-                (dist_k3theta4, expected_dist_k3theta4), 
+                (dist_k3theta4, expected_dist_k3theta4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];
@@ -157,7 +157,7 @@ namespace DoubleDoubleDistribution.Tests {
             foreach ((GammaDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_k1theta1, expected_dist_k1theta1), (dist_k2theta1, expected_dist_k2theta1),
                 (dist_k1theta2, expected_dist_k1theta2), (dist_k2theta2, expected_dist_k2theta2),
-                (dist_k3theta4, expected_dist_k3theta4), 
+                (dist_k3theta4, expected_dist_k3theta4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];

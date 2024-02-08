@@ -126,7 +126,7 @@ namespace DoubleDoubleDistribution.Tests {
             foreach ((BetaDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
                 (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
-                (dist_a3b4, expected_dist_a3b4), 
+                (dist_a3b4, expected_dist_a3b4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];
@@ -157,7 +157,7 @@ namespace DoubleDoubleDistribution.Tests {
             foreach ((BetaDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
                 (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
-                (dist_a3b4, expected_dist_a3b4), 
+                (dist_a3b4, expected_dist_a3b4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];

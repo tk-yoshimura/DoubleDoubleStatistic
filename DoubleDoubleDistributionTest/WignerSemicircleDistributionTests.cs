@@ -229,7 +229,7 @@ namespace DoubleDoubleDistribution.Tests {
 
             foreach ((WignerSemicircleDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_r1, expected_dist_r1), (dist_r2, expected_dist_r2),
-                (dist_r3, expected_dist_r3), 
+                (dist_r3, expected_dist_r3),
             }) {
                 for ((ddouble x, int i) = (-2, 0); i < expecteds.Length; x += 1 / 8d, i++) {
                     ddouble expected = expecteds[i];
@@ -358,7 +358,7 @@ namespace DoubleDoubleDistribution.Tests {
 
             foreach ((WignerSemicircleDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_r1, expected_dist_r1), (dist_r2, expected_dist_r2),
-                (dist_r3, expected_dist_r3), 
+                (dist_r3, expected_dist_r3),
             }) {
                 for ((ddouble x, int i) = (-2, 0); i < expecteds.Length; x += 1 / 8d, i++) {
                     ddouble expected = expecteds[i];
