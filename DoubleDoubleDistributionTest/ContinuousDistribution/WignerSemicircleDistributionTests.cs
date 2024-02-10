@@ -1,7 +1,8 @@
 ﻿using DoubleDouble;
+using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistribution.Tests {
+namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class WignerSemicircleDistributionTests {
         readonly WignerSemicircleDistribution dist_r1 = new(radius: 1);

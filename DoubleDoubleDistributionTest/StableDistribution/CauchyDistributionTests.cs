@@ -1,7 +1,8 @@
 ﻿using DoubleDouble;
+using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistribution.Tests {
+namespace DoubleDoubleDistributionTest.StableDistribution {
     [TestClass()]
     public class CauchyDistributionTests {
         readonly CauchyDistribution dist1 = new();

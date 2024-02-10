@@ -2,7 +2,7 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class BetaDistribution : Distribution {
+    public class BetaDistribution : ContinuousDistribution {
 
         public ddouble Alpha { get; }
         public ddouble Beta { get; }
@@ -13,10 +13,10 @@ namespace DoubleDoubleDistribution {
             ValidateShape(alpha, alpha => alpha > 0);
             ValidateShape(beta, beta => beta > 0);
 
-            this.Alpha = alpha;
-            this.Beta = beta;
+            Alpha = alpha;
+            Beta = beta;
 
-            this.pdf_norm = 1d / Beta(alpha, beta);
+            pdf_norm = 1d / Beta(alpha, beta);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -24,7 +24,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = this.pdf_norm * Pow(x, Alpha - 1d) * Beta(1d - x, Beta - 1d);
+            ddouble pdf = pdf_norm * Pow(x, Alpha - 1d) * Beta(1d - x, Beta - 1d);
 
             return pdf;
         }
@@ -64,9 +64,9 @@ namespace DoubleDoubleDistribution {
         public override ddouble Mean => Alpha / (Alpha + Beta);
         public override ddouble Median => InverseIncompleteBeta(0.5, Alpha, Beta);
         public override ddouble Mode =>
-            (Alpha > 1d && Beta > 1d) ? (Alpha - 1d) / (Alpha + Beta - 2d) :
-            (Alpha <= 1d && Beta >= 1d && Alpha != Beta) ? 0d :
-            (Alpha >= 1d && Beta <= 1d && Alpha != Beta) ? 1d :
+            Alpha > 1d && Beta > 1d ? (Alpha - 1d) / (Alpha + Beta - 2d) :
+            Alpha <= 1d && Beta >= 1d && Alpha != Beta ? 0d :
+            Alpha >= 1d && Beta <= 1d && Alpha != Beta ? 1d :
             NaN;
 
         public override ddouble Variance => Alpha * Beta / (Square(Alpha + Beta) * (Alpha + Beta + 1d));

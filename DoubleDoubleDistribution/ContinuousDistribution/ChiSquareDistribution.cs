@@ -2,7 +2,7 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ChiSquareDistribution : Distribution {
+    public class ChiSquareDistribution : ContinuousDistribution {
 
         public int K { get; }
 
@@ -11,10 +11,10 @@ namespace DoubleDoubleDistribution {
         public ChiSquareDistribution(int k) {
             ValidateShape(k, k => k > 0);
 
-            this.K = k;
+            K = k;
 
-            this.c = K * 0.5d - 1d;
-            this.pdf_norm = k * 0.5d + LogGamma(k * 0.5d) * LbE;
+            c = K * 0.5d - 1d;
+            pdf_norm = k * 0.5d + LogGamma(k * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -22,7 +22,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
             if (IsZero(x)) {
-                return K <= 1 ? PositiveInfinity : (K <= 2 ? 0.5d : 0d);
+                return K <= 1 ? PositiveInfinity : K <= 2 ? 0.5d : 0d;
             }
 
             ddouble pdf = Pow2(c * Log2(x) - Ldexp(x, -1) * LbE - pdf_norm);

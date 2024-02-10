@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class DeltaDistribution : Distribution,
+    public class DeltaDistribution : ContinuousDistribution,
         IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution> {
 
@@ -14,7 +14,7 @@ namespace DoubleDoubleDistribution {
         public DeltaDistribution(ddouble mu) {
             ValidateLocation(mu);
 
-            this.Mu = mu;
+            Mu = mu;
         }
 
         public override ddouble PDF(ddouble x) {

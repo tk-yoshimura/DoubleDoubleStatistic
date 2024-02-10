@@ -1,7 +1,8 @@
 ﻿using DoubleDouble;
+using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistribution.Tests {
+namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class ChiSquareDistributionTests {
         readonly ChiSquareDistribution dist_nu1 = new(k: 1);

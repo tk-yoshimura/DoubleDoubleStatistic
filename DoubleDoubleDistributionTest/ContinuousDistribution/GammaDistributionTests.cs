@@ -1,30 +1,31 @@
 ﻿using DoubleDouble;
+using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistribution.Tests {
+namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
-    public class BetaDistributionTests {
-        readonly BetaDistribution dist_a1b1 = new(alpha: 1, beta: 1);
-        readonly BetaDistribution dist_a2b1 = new(alpha: 2, beta: 1);
-        readonly BetaDistribution dist_a1b2 = new(alpha: 1, beta: 2);
-        readonly BetaDistribution dist_a2b2 = new(alpha: 2, beta: 2);
-        readonly BetaDistribution dist_a3b4 = new(alpha: 3, beta: 4);
+    public class GammaDistributionTests {
+        readonly GammaDistribution dist_k1theta1 = new(k: 1, theta: 1);
+        readonly GammaDistribution dist_k2theta1 = new(k: 2, theta: 1);
+        readonly GammaDistribution dist_k1theta2 = new(k: 1, theta: 2);
+        readonly GammaDistribution dist_k2theta2 = new(k: 2, theta: 2);
+        readonly GammaDistribution dist_k3theta4 = new(k: 3, theta: 4);
 
-        BetaDistribution[] Dists => new[]{
-            dist_a1b1,
-            dist_a2b1,
-            dist_a1b2,
-            dist_a2b2,
-            dist_a3b4,
+        GammaDistribution[] Dists => new[]{
+            dist_k1theta1,
+            dist_k2theta1,
+            dist_k1theta2,
+            dist_k2theta2,
+            dist_k3theta4,
         };
 
         [TestMethod()]
         public void InfoTest() {
-            foreach (BetaDistribution dist in Dists) {
+            foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Alpha={dist.Alpha}");
-                Console.WriteLine($"Beta={dist.Beta}");
+                Console.WriteLine($"K={dist.K}");
+                Console.WriteLine($"Theta={dist.Theta}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
@@ -37,7 +38,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void PDFTest() {
-            foreach (BetaDistribution dist in Dists) {
+            foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = 0; x <= 1; x += 0.125) {
                     ddouble pdf = dist.PDF(x);
@@ -49,7 +50,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFLowerTest() {
-            foreach (BetaDistribution dist in Dists) {
+            foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = 0; x <= 1; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
@@ -61,7 +62,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFUpperTest() {
-            foreach (BetaDistribution dist in Dists) {
+            foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = 0; x <= 1; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
@@ -76,7 +77,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            foreach (BetaDistribution dist in Dists) {
+            foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
                     ddouble p = (ddouble)i / 10;
@@ -94,7 +95,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            foreach (BetaDistribution dist in Dists) {
+            foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
                     ddouble p = (ddouble)i / 10;
@@ -112,21 +113,21 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_a1b1 = [
+            ddouble[] expected_dist_k1theta1 = [
             ];
-            ddouble[] expected_dist_a2b1 = [
+            ddouble[] expected_dist_k2theta1 = [
             ];
-            ddouble[] expected_dist_a1b2 = [
+            ddouble[] expected_dist_k1theta2 = [
             ];
-            ddouble[] expected_dist_a2b2 = [
+            ddouble[] expected_dist_k2theta2 = [
             ];
-            ddouble[] expected_dist_a3b4 = [
+            ddouble[] expected_dist_k3theta4 = [
             ];
 
-            foreach ((BetaDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
-                (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
-                (dist_a3b4, expected_dist_a3b4),
+            foreach ((GammaDistribution dist, ddouble[] expecteds) in new[]{
+                (dist_k1theta1, expected_dist_k1theta1), (dist_k2theta1, expected_dist_k2theta1),
+                (dist_k1theta2, expected_dist_k1theta2), (dist_k2theta2, expected_dist_k2theta2),
+                (dist_k3theta4, expected_dist_k3theta4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];
@@ -143,21 +144,21 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_a1b1 = [
+            ddouble[] expected_dist_k1theta1 = [
             ];
-            ddouble[] expected_dist_a2b1 = [
+            ddouble[] expected_dist_k2theta1 = [
             ];
-            ddouble[] expected_dist_a1b2 = [
+            ddouble[] expected_dist_k1theta2 = [
             ];
-            ddouble[] expected_dist_a2b2 = [
+            ddouble[] expected_dist_k2theta2 = [
             ];
-            ddouble[] expected_dist_a3b4 = [
+            ddouble[] expected_dist_k3theta4 = [
             ];
 
-            foreach ((BetaDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
-                (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
-                (dist_a3b4, expected_dist_a3b4),
+            foreach ((GammaDistribution dist, ddouble[] expecteds) in new[]{
+                (dist_k1theta1, expected_dist_k1theta1), (dist_k2theta1, expected_dist_k2theta1),
+                (dist_k1theta2, expected_dist_k1theta2), (dist_k2theta2, expected_dist_k2theta2),
+                (dist_k3theta4, expected_dist_k3theta4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];

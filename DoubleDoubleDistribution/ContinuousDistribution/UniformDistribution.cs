@@ -2,7 +2,7 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class UniformDistribution : Distribution {
+    public class UniformDistribution : ContinuousDistribution {
 
         public ddouble Min { get; }
         public ddouble Max { get; }
@@ -18,11 +18,11 @@ namespace DoubleDoubleDistribution {
                 throw new ArgumentException($"Invalid location parameter. {min} < {max}");
             }
 
-            this.Min = min;
-            this.Max = max;
-            this.Range = max - min;
+            Min = min;
+            Max = max;
+            Range = max - min;
 
-            this.pdf_norm = 1d / this.Range;
+            pdf_norm = 1d / Range;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -30,7 +30,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = this.pdf_norm;
+            ddouble pdf = pdf_norm;
 
             return pdf;
         }
@@ -45,7 +45,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = (x - Min) * this.pdf_norm;
+                ddouble cdf = (x - Min) * pdf_norm;
 
                 return cdf;
             }
@@ -58,7 +58,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = (Max - x) * this.pdf_norm;
+                ddouble cdf = (Max - x) * pdf_norm;
 
                 return cdf;
             }
@@ -70,12 +70,12 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = Min + p * this.Range;
+                ddouble quantile = Min + p * Range;
 
                 return quantile;
             }
             else {
-                ddouble quantile = Max - p * this.Range;
+                ddouble quantile = Max - p * Range;
 
                 return quantile;
             }

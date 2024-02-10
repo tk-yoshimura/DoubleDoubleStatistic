@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class LogNormalDistribution : Distribution,
+    public class LogNormalDistribution : ContinuousDistribution,
         IMultiplyOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution> {
 
         public ddouble Mu { get; }
@@ -17,13 +17,13 @@ namespace DoubleDoubleDistribution {
             ValidateLocation(mu);
             ValidateScale(sigma);
 
-            this.Mu = mu;
-            this.Sigma = sigma;
+            Mu = mu;
+            Sigma = sigma;
 
-            this.sigma_sq = sigma * sigma;
-            this.pdf_norm = 1d / (sigma * Sqrt(2 * PI));
-            this.exp_scale = -1d / (2 * sigma_sq);
-            this.erf_scale = -1d / (Sqrt2 * sigma);
+            sigma_sq = sigma * sigma;
+            pdf_norm = 1d / (sigma * Sqrt(2 * PI));
+            exp_scale = -1d / (2 * sigma_sq);
+            erf_scale = -1d / (Sqrt2 * sigma);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -35,14 +35,14 @@ namespace DoubleDoubleDistribution {
             ddouble exp = Exp(s);
 
             if (IsFinite(exp)) {
-                ddouble pdf = this.pdf_norm * exp / x;
+                ddouble pdf = pdf_norm * exp / x;
 
                 if (IsFinite(pdf)) {
                     return pdf;
                 }
             }
 
-            ddouble pdf_interlog = Exp(s + Log(this.pdf_norm / x));
+            ddouble pdf_interlog = Exp(s + Log(pdf_norm / x));
 
             if (IsFinite(pdf_interlog)) {
                 return pdf_interlog;

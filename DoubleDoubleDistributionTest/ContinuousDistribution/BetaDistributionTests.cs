@@ -1,26 +1,31 @@
 ﻿using DoubleDouble;
+using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistribution.Tests {
+namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
-    public class UniformDistributionTests {
-        readonly UniformDistribution dist_a0b1 = new(min: 0, max: 1);
-        readonly UniformDistribution dist_a1b2 = new(min: 1, max: 2);
-        readonly UniformDistribution dist_a2b4 = new(min: 2, max: 4);
+    public class BetaDistributionTests {
+        readonly BetaDistribution dist_a1b1 = new(alpha: 1, beta: 1);
+        readonly BetaDistribution dist_a2b1 = new(alpha: 2, beta: 1);
+        readonly BetaDistribution dist_a1b2 = new(alpha: 1, beta: 2);
+        readonly BetaDistribution dist_a2b2 = new(alpha: 2, beta: 2);
+        readonly BetaDistribution dist_a3b4 = new(alpha: 3, beta: 4);
 
-        UniformDistribution[] Dists => new[]{
-            dist_a0b1,
+        BetaDistribution[] Dists => new[]{
+            dist_a1b1,
+            dist_a2b1,
             dist_a1b2,
-            dist_a2b4,
+            dist_a2b2,
+            dist_a3b4,
         };
 
         [TestMethod()]
         public void InfoTest() {
-            foreach (UniformDistribution dist in Dists) {
+            foreach (BetaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Min={dist.Min}");
-                Console.WriteLine($"Max={dist.Max}");
+                Console.WriteLine($"Alpha={dist.Alpha}");
+                Console.WriteLine($"Beta={dist.Beta}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
@@ -33,9 +38,9 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void PDFTest() {
-            foreach (UniformDistribution dist in Dists) {
+            foreach (BetaDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (ddouble x = -1; x <= 5; x += 0.125) {
+                for (ddouble x = 0; x <= 1; x += 0.125) {
                     ddouble pdf = dist.PDF(x);
 
                     Console.WriteLine($"pdf({x})={pdf}");
@@ -45,9 +50,9 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFLowerTest() {
-            foreach (UniformDistribution dist in Dists) {
+            foreach (BetaDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (ddouble x = -1; x <= 5; x += 0.125) {
+                for (ddouble x = 0; x <= 1; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
 
                     Console.WriteLine($"cdf({x})={cdf}");
@@ -57,9 +62,9 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFUpperTest() {
-            foreach (UniformDistribution dist in Dists) {
+            foreach (BetaDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (ddouble x = -1; x <= 5; x += 0.125) {
+                for (ddouble x = 0; x <= 1; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
                     ddouble ccdf = dist.CDF(x, Interval.Upper);
 
@@ -72,7 +77,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            foreach (UniformDistribution dist in Dists) {
+            foreach (BetaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
                     ddouble p = (ddouble)i / 10;
@@ -90,7 +95,7 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            foreach (UniformDistribution dist in Dists) {
+            foreach (BetaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
                     ddouble p = (ddouble)i / 10;
@@ -108,17 +113,21 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_a0b1 = [
+            ddouble[] expected_dist_a1b1 = [
+            ];
+            ddouble[] expected_dist_a2b1 = [
             ];
             ddouble[] expected_dist_a1b2 = [
             ];
-            ddouble[] expected_dist_a2b4 = [
+            ddouble[] expected_dist_a2b2 = [
+            ];
+            ddouble[] expected_dist_a3b4 = [
             ];
 
-            foreach ((UniformDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_a0b1, expected_dist_a0b1),
-                (dist_a1b2, expected_dist_a1b2),
-                (dist_a2b4, expected_dist_a2b4),
+            foreach ((BetaDistribution dist, ddouble[] expecteds) in new[]{
+                (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
+                (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
+                (dist_a3b4, expected_dist_a3b4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];
@@ -135,17 +144,21 @@ namespace DoubleDoubleDistribution.Tests {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_a0b1 = [
+            ddouble[] expected_dist_a1b1 = [
+            ];
+            ddouble[] expected_dist_a2b1 = [
             ];
             ddouble[] expected_dist_a1b2 = [
             ];
-            ddouble[] expected_dist_a2b4 = [
+            ddouble[] expected_dist_a2b2 = [
+            ];
+            ddouble[] expected_dist_a3b4 = [
             ];
 
-            foreach ((UniformDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_a0b1, expected_dist_a0b1),
-                (dist_a1b2, expected_dist_a1b2),
-                (dist_a2b4, expected_dist_a2b4),
+            foreach ((BetaDistribution dist, ddouble[] expecteds) in new[]{
+                (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
+                (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
+                (dist_a3b4, expected_dist_a3b4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];

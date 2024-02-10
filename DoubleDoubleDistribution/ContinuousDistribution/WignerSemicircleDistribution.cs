@@ -4,7 +4,7 @@ using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class WignerSemicircleDistribution : Distribution {
+    public class WignerSemicircleDistribution : ContinuousDistribution {
 
         public ddouble Radius { get; }
 
@@ -13,10 +13,10 @@ namespace DoubleDoubleDistribution {
         public WignerSemicircleDistribution(ddouble radius) {
             ValidateScale(radius);
 
-            this.Radius = radius;
+            Radius = radius;
 
-            this.radius_sq = radius * radius;
-            this.pdf_norm = 1d / (PI * radius_sq);
+            radius_sq = radius * radius;
+            pdf_norm = 1d / (PI * radius_sq);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -24,22 +24,22 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = 2 * this.pdf_norm * Sqrt(radius_sq - x * x);
+            ddouble pdf = 2 * pdf_norm * Sqrt(radius_sq - x * x);
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (x <= -Radius) {
-                return (interval == Interval.Lower) ? 0d : 1d;
+                return interval == Interval.Lower ? 0d : 1d;
             }
             if (x >= Radius) {
-                return (interval == Interval.Lower) ? 1d : 0d;
+                return interval == Interval.Lower ? 1d : 0d;
             }
 
-            ddouble v = x * this.pdf_norm * Sqrt(radius_sq - x * x) + Asin(x / Radius) * RcpPI;
+            ddouble v = x * pdf_norm * Sqrt(radius_sq - x * x) + Asin(x / Radius) * RcpPI;
 
-            ddouble cdf = (interval == Interval.Lower) ? 0.5d + v : 0.5d - v;
+            ddouble cdf = interval == Interval.Lower ? 0.5d + v : 0.5d - v;
 
             return cdf;
         }
@@ -60,7 +60,7 @@ namespace DoubleDoubleDistribution {
             ddouble u = Sqrt(2 * p);
 
             ddouble quantile = QuantilePade.Value(u);
-            quantile = (interval != Interval.Lower) ? quantile : -quantile;
+            quantile = interval != Interval.Lower ? quantile : -quantile;
             quantile *= Radius;
 
             return quantile;

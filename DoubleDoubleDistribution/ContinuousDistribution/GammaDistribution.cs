@@ -2,7 +2,7 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class GammaDistribution : Distribution {
+    public class GammaDistribution : ContinuousDistribution {
 
         public ddouble K { get; }
         public ddouble Theta { get; }
@@ -13,10 +13,10 @@ namespace DoubleDoubleDistribution {
             ValidateShape(k, k => k > 0);
             ValidateScale(theta);
 
-            this.K = k;
-            this.Theta = theta;
+            K = k;
+            Theta = theta;
 
-            this.pdf_lognorm = -LogGamma(K) + K * Log(Theta);
+            pdf_lognorm = -LogGamma(K) + K * Log(Theta);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -63,7 +63,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mean => K * Theta;
         public override ddouble Median => InverseLowerIncompleteGamma(K, 0.5) * Theta;
-        public override ddouble Mode => (K >= 1d) ? (K - 1d) * Theta : 0d;
+        public override ddouble Mode => K >= 1d ? (K - 1d) * Theta : 0d;
 
         public override ddouble Variance => K * Theta * Theta;
         public override ddouble Skewness => 2 / Sqrt(K);

@@ -2,14 +2,14 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ExponentialDistribution : Distribution {
+    public class ExponentialDistribution : ContinuousDistribution {
 
         public ddouble Lambda { get; }
 
         public ExponentialDistribution(ddouble lambda) {
             ValidateScale(lambda);
 
-            this.Lambda = lambda;
+            Lambda = lambda;
         }
 
         public override ddouble PDF(ddouble x) {

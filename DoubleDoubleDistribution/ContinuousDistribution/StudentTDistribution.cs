@@ -2,7 +2,7 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class StudentTDistribution : Distribution {
+    public class StudentTDistribution : ContinuousDistribution {
 
         public ddouble Nu { get; }
 
@@ -16,21 +16,21 @@ namespace DoubleDoubleDistribution {
         public StudentTDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu > 0d);
 
-            this.Nu = nu;
+            Nu = nu;
 
             ddouble c = Sqrt(nu * PI);
 
-            this.pdf_norm = nu < 70d
+            pdf_norm = nu < 70d
                 ? Gamma((nu + 1) / 2) / (Gamma(nu / 2) * c)
                 : Exp(LogGamma((nu + 1) / 2) - LogGamma(nu / 2)) / c;
-            this.nu_inv = 1d / nu;
-            this.nu_half = nu / 2;
-            this.power = -(nu + 1) / 2;
-            this.is_integer_nu = nu <= 1024 && IsInteger(nu);
-            this.n = is_integer_nu ? (int)nu : 0;
+            nu_inv = 1d / nu;
+            nu_half = nu / 2;
+            power = -(nu + 1) / 2;
+            is_integer_nu = nu <= 1024 && IsInteger(nu);
+            n = is_integer_nu ? (int)nu : 0;
 
             const int zero_thr_log = 710;
-            this.zero_thr = nu < 0.5
+            zero_thr = nu < 0.5
                 ? double.PositiveInfinity
                 : double.Exp((double)(((nu + 1) * Log(nu) + 2 * zero_thr_log) / (2 * nu + 2)));
         }
@@ -101,17 +101,17 @@ namespace DoubleDoubleDistribution {
                 quantile = u * (2 * t - 1) / 2;
             }
 
-            return (interval == Interval.Lower) ? quantile : -quantile;
+            return interval == Interval.Lower ? quantile : -quantile;
         }
 
         public override bool Symmetric => true;
 
-        public override ddouble Mean => (Nu > 1) ? 0 : NaN;
+        public override ddouble Mean => Nu > 1 ? 0 : NaN;
         public override ddouble Median => 0;
         public override ddouble Mode => 0;
-        public override ddouble Variance => (Nu > 2) ? (Nu / (Nu - 2)) : ((Nu > 1) ? PositiveInfinity : NaN);
-        public override ddouble Skewness => (Nu > 3) ? 0 : NaN;
-        public override ddouble Kurtosis => (Nu > 4) ? (6 / (Nu - 4)) : NaN;
+        public override ddouble Variance => Nu > 2 ? Nu / (Nu - 2) : Nu > 1 ? PositiveInfinity : NaN;
+        public override ddouble Skewness => Nu > 3 ? 0 : NaN;
+        public override ddouble Kurtosis => Nu > 4 ? 6 / (Nu - 4) : NaN;
 
         public override ddouble Entropy =>
             (Nu + 1) / 2 * (Digamma((Nu + 1) / 2) - Digamma(Nu / 2)) + Log(Sqrt(Nu) * Beta(Nu / 2, Point5));

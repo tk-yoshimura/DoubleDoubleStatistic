@@ -3,12 +3,12 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class CauchyDistribution : Distribution,
+    public class CauchyDistribution : StableDistribution,
         IAdditionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution> {
 
-        public ddouble Mu { get; }
+        public override ddouble Mu { get; }
         public ddouble Gamma { get; }
 
         private readonly ddouble pdf_norm, gamma_inv, gamma_sq;
@@ -19,12 +19,12 @@ namespace DoubleDoubleDistribution {
             ValidateLocation(mu);
             ValidateScale(gamma);
 
-            this.Mu = mu;
-            this.Gamma = gamma;
+            Mu = mu;
+            Gamma = gamma;
 
-            this.pdf_norm = RcpPI * Gamma;
-            this.gamma_inv = 1d / gamma;
-            this.gamma_sq = gamma * gamma;
+            pdf_norm = RcpPI * Gamma;
+            gamma_inv = 1d / gamma;
+            gamma_sq = gamma * gamma;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -72,6 +72,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Mode => Mu;
 
         public override ddouble Entropy => Log(4 * PI * Gamma);
+
+        public override ddouble Alpha => 1d;
+        public override ddouble Beta => 0d;
+        public override ddouble C => Gamma;
 
         public static CauchyDistribution operator +(CauchyDistribution dist1, CauchyDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, dist1.Gamma + dist2.Gamma);

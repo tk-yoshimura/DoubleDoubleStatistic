@@ -4,7 +4,7 @@ using DoubleDoubleIntegrate;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class VoigtDistribution : Distribution,
+    public class VoigtDistribution : ContinuousDistribution,
         System.Numerics.IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
         System.Numerics.IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution> {
 
@@ -21,13 +21,13 @@ namespace DoubleDoubleDistribution {
             ValidateScale(gamma);
             ValidateScale(sigma);
 
-            this.Gamma = gamma;
-            this.Sigma = sigma;
+            Gamma = gamma;
+            Sigma = sigma;
 
-            this.pdf_norm = 1d / (sigma * Sqrt(2 * PI));
-            this.z_scale = -1d / (Sqrt2 * sigma);
-            this.zr = -gamma * z_scale;
-            this.cdf_limit = gamma * sigma * Sqrt(2 * RcpPI);
+            pdf_norm = 1d / (sigma * Sqrt(2 * PI));
+            z_scale = -1d / (Sqrt2 * sigma);
+            zr = -gamma * z_scale;
+            cdf_limit = gamma * sigma * Sqrt(2 * RcpPI);
         }
 
         public override ddouble PDF(ddouble x) {
