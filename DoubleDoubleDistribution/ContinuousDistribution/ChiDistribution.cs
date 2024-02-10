@@ -31,9 +31,14 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            ddouble x2 = x * x;
+
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
                     return 0d;
+                }
+                if (IsPositiveInfinity(x2)) {
+                    return 1d;
                 }
 
                 ddouble cdf = LowerIncompleteGammaRegularized(K * 0.5d, Ldexp(x * x, -1));
@@ -43,6 +48,9 @@ namespace DoubleDoubleDistribution {
             else {
                 if (x <= 0d) {
                     return 1d;
+                }
+                if (IsPositiveInfinity(x2)) {
+                    return 0d;
                 }
 
                 ddouble cdf = UpperIncompleteGammaRegularized(K * 0.5d, Ldexp(x * x, -1));

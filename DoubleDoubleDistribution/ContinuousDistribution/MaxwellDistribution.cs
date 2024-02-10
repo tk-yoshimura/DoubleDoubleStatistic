@@ -2,19 +2,21 @@
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class RayleighDistribution : ContinuousDistribution {
+    public class MaxwellDistribution : ContinuousDistribution {
 
         public ddouble Sigma { get; }
 
-        private readonly ddouble sigma_sq;
+        private readonly ddouble sigma_sq, sigma_cb, pdf_norm;
 
-        public RayleighDistribution() : this(sigma: 1d) { }
+        public MaxwellDistribution() : this(sigma: 1d) { }
 
-        public RayleighDistribution(ddouble sigma) {
+        public MaxwellDistribution(ddouble sigma) {
             ValidateScale(sigma);
 
             Sigma = sigma;
             sigma_sq = sigma * sigma;
+            sigma_cb = sigma * sigma * sigma;
+            pdf_norm = Sqrt(2 * RcpPI) / sigma_cb;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -22,7 +24,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = x / sigma_sq * Exp(-x * x / (2 * sigma_sq));
+            ddouble pdf = pdf_norm * x * x * Exp(-x * x / (2 * sigma_sq));
 
             if (IsNaN(x)) {
                 return 0d;
@@ -33,7 +35,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble x2 = x * x;
-
+            
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
                     return 0d;
@@ -42,7 +44,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = 1d - Exp(-x2 / (2 * sigma_sq));
+                ddouble cdf = LowerIncompleteGammaRegularized(1.5d, Ldexp(x2 / sigma_sq, -1));
 
                 if (IsNaN(cdf)) { 
                     return 1d;
@@ -58,7 +60,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = Exp(-x2 / (2 * sigma_sq));
+                ddouble cdf = UpperIncompleteGammaRegularized(1.5d, Ldexp(x2 / sigma_sq, -1));
 
                 if (IsNaN(cdf)) { 
                     return 0d;
@@ -74,12 +76,12 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Sigma * Sqrt(-2 * Log1p(-p));
+                ddouble x = Sqrt(InverseLowerIncompleteGamma(1.5d, p) * 2) * Sigma;
 
                 return x;
             }
             else {
-                ddouble x = Sigma * Sqrt(-2 * Log(p));
+                ddouble x = Sqrt(InverseUpperIncompleteGamma(1.5d, p) * 2) * Sigma;
 
                 return x;
             }
@@ -87,17 +89,18 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
-        public override ddouble Mean => Sigma * Sqrt(PI / 2);
-        public override ddouble Median => Sigma * Sqrt(2 * Ln2);
-        public override ddouble Mode => Sigma;
-        public override ddouble Variance => (4d - PI) / 2 * sigma_sq;
-        public override ddouble Skewness => 2 * Sqrt(PI) * (PI - 3d) / Cube(Sqrt(4d - PI));
-        public override ddouble Kurtosis => (-16d + PI * (24d + PI * -6d)) / Square(4d - PI);
+        public override ddouble Mean => 2 * Sigma * Sqrt(2 * RcpPI);
+        public override ddouble Median => Quantile(0.5);
+        public override ddouble Mode => Sqrt2 * Sigma;
+        public override ddouble Variance => sigma_sq * (3d - 8d * RcpPI);
+        public override ddouble Skewness => 2 * Sqrt2 * (16d - PI * 5) / Cube(Sqrt(3d * PI - 8d));
 
-        public override ddouble Entropy => 1d + Log(Sigma / Sqrt2) + EulerGamma / 2;
+        public override ddouble Kurtosis => (-392d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
+
+        public override ddouble Entropy => -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;
 
         public override string ToString() {
-            return $"{typeof(RayleighDistribution).Name}[sigma={Sigma}]";
+            return $"{typeof(MaxwellDistribution).Name}[sigma={Sigma}]";
         }
     }
 }
