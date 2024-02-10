@@ -85,7 +85,7 @@ namespace DoubleDoubleDistribution {
         public override bool Scalable => true;
 
         public override ddouble Mean => PositiveInfinity;
-        public override ddouble Median => Mu + C / (2 * Square(Erfc(0.5)));
+        public override ddouble Median => Mu + C / (2 * Square(Erfc(0.5d)));
         public override ddouble Mode => Mu + C / 3d;
         public override ddouble Variance => PositiveInfinity;
 
