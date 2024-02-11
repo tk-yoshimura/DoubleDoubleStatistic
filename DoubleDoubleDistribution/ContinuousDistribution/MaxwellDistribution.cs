@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class MaxwellDistribution : ContinuousDistribution {
+    public class MaxwellDistribution : ContinuousDistribution,
+        IMultiplyOperators<MaxwellDistribution, ddouble, MaxwellDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -87,6 +89,8 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Scalable => true;
+
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
         public override ddouble Mean => 2 * Sigma * Sqrt(2 * RcpPI);
@@ -98,6 +102,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis => (-392d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
 
         public override ddouble Entropy => -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;
+
+        public static MaxwellDistribution operator *(MaxwellDistribution dist, ddouble k) {
+            return new(k * dist.Sigma);
+        }
 
         public override string ToString() {
             return $"{typeof(MaxwellDistribution).Name}[sigma={Sigma}]";

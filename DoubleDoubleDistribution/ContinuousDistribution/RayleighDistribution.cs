@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class RayleighDistribution : ContinuousDistribution {
+    public class RayleighDistribution : ContinuousDistribution,
+        IMultiplyOperators<RayleighDistribution, ddouble, RayleighDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -85,6 +87,8 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Scalable => true;
+
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
         public override ddouble Mean => Sigma * Sqrt(PI / 2);
@@ -95,6 +99,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis => (-16d + PI * (24d + PI * -6d)) / Square(4d - PI);
 
         public override ddouble Entropy => 1d + Log(Sigma / Sqrt2) + EulerGamma / 2;
+
+        public static RayleighDistribution operator *(RayleighDistribution dist, ddouble k) {
+            return new(k * dist.Sigma);
+        }
 
         public override string ToString() {
             return $"{typeof(RayleighDistribution).Name}[sigma={Sigma}]";

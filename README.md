@@ -39,6 +39,7 @@ T: TODO Test
 |            | laplace           | N   | N   | N        | N     | N          | N      |
 |            | log normal        | C   | C   | C        | T     | N          | N      |
 |            | logistic          | N   | N   | N        | N     | N          | N      |
+|            | lomax             | N   | N   | N        | N     | N          | N      |
 |            | maxwell           | T   | T   | T        | T     | N          | N      |
 |            | nakagami          | N   | N   | N        | N     | N          | N      |
 |            | pareto            | N   | N   | N        | N     | N          | N      |
