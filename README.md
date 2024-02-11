@@ -48,7 +48,7 @@ T: TODO Test
 |            | rayleigh          | T     | T     | T        | T     | N          | N      |
 |            | reciprocal        | N     | N     | N        | N     | N          | N      |
 |            | rice              | N     | N     | N        | N     | N          | N      |
-|            | snedecor f        | N     | N     | N        | N     | N          | N      |
+|            | snedecor f        | T     | T     | T        | T     | N          | N      |
 |            | student t         | C     | C     | C        | T     | N          | N      |
 |            | triangular        | N     | N     | N        | N     | N          | N      |
 |            | uniform           | T     | T     | T        | T     | N          | N      |
@@ -56,11 +56,11 @@ T: TODO Test
 |            | voigt             | C     | C     | C        | N     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***      | 18/48 | 18/48 | 18/48    | 17/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 19/48 | 19/48 | 19/48    | 18/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
 |            | levy              | T     | T     | T        | T     | N          | N      |
 |            | normal            | C     | C     | C        | T     | N          | N      |
 |            | sas point5        | N     | N     | N        | N     | N          | N      |
-|            | ***coverage***      | 3/6   | 3/6   | 3/6      | 3/6   | 0/6        | 0/6    |
+|            | ***coverage***    | 3/6   | 3/6   | 3/6      | 3/6   | 0/6        | 0/6    |
