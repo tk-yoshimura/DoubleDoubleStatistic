@@ -28,7 +28,7 @@ namespace DoubleDoubleDistribution {
 
             ddouble pdf = pdf_norm * x * x * Exp(-x * x / (2 * sigma_sq));
 
-            if (IsNaN(x)) {
+            if (IsNaN(pdf)) {
                 return 0d;
             }
 

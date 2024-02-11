@@ -8,7 +8,7 @@ T: TODO Test
 
 | category   | distribution      | pdf | cdf | quantile | stats | random gen | define |
 | ---------- | ----------------- | --- | --- | -------- | ----- | ---------- | ------ |
-| continuous | alpha             | N   | N   | N        | N     | N          | N      |
+| continuous | alpha             | T   | T   | T        | T     | N          | N      |
 |            | arcsine           | N   | N   | N        | N     | N          | N      |
 |            | argus             | N   | N   | N        | N     | N          | N      |
 |            | bradford          | N   | N   | N        | N     | N          | N      |
