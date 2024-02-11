@@ -2,7 +2,7 @@
  Double-Double Continuous Distribution Implements
 
 ## Dev Stage
-N: NotImplemented  
+N: Not Implemented  
 C: Test Checked  
 T: TODO Test  
 
