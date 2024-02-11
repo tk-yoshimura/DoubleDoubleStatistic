@@ -10,6 +10,7 @@ T: TODO Test
 | ---------- | ----------------- | --- | --- | -------- | ----- | ---------- | ------ |
 | continuous | alpha             | N   | N   | N        | N     | N          | N      |
 |            | arcsine           | N   | N   | N        | N     | N          | N      |
+|            | argus             | N   | N   | N        | N     | N          | N      |
 |            | bradford          | N   | N   | N        | N     | N          | N      |
 |            | beta              | T   | T   | T        | T     | N          | N      |
 |            | beta prime        | N   | N   | N        | N     | N          | N      |
@@ -21,8 +22,10 @@ T: TODO Test
 |            | exponential       | T   | T   | T        | T     | N          | N      |
 |            | gamma             | T   | T   | T        | T     | N          | N      |
 |            | gumbel            | N   | N   | N        | N     | N          | N      |
+|            | gibrat            | N   | N   | N        | N     | N          | N      |
 |            | gompertz          | N   | N   | N        | N     | N          | N      |
 |            | fisher z          | N   | N   | N        | N     | N          | N      |
+|            | fisk              | N   | N   | N        | N     | N          | N      |
 |            | frechet           | N   | N   | N        | N     | N          | N      |
 |            | half normal       | T   | T   | T        | T     | N          | N      |
 |            | hyperbolic secant | N   | N   | N        | N     | N          | N      |
