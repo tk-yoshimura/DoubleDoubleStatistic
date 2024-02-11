@@ -34,8 +34,8 @@ T: TODO Test
 |            | inverse chi       | N     | N     | N        | N     | N          | N      |
 |            | inverse chi sq    | N     | N     | N        | N     | N          | N      |
 |            | irwin hall        | N     | N     | N        | N     | N          | N      |
-|            | joshson sb        | N     | N     | N        | N     | N          | N      |
-|            | joshson su        | N     | N     | N        | N     | N          | N      |
+|            | johnson sb        | N     | N     | N        | N     | N          | N      |
+|            | johnson su        | N     | N     | N        | N     | N          | N      |
 |            | kumaraswamy       | N     | N     | N        | N     | N          | N      |
 |            | laplace           | N     | N     | N        | N     | N          | N      |
 |            | log normal        | C     | C     | C        | T     | N          | N      |
