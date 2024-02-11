@@ -9,10 +9,10 @@ T: TODO Test
 | category   | distribution      | pdf | cdf | quantile | stats | random gen | define |
 | ---------- | ----------------- | --- | --- | -------- | ----- | ---------- | ------ |
 | continuous | alpha             | N   | N   | N        | N     | N          | N      |
-|            | alpha prime       | N   | N   | N        | N     | N          | N      |
 |            | arcsine           | N   | N   | N        | N     | N          | N      |
 |            | bradford          | N   | N   | N        | N     | N          | N      |
 |            | beta              | T   | T   | T        | T     | N          | N      |
+|            | beta prime        | N   | N   | N        | N     | N          | N      |
 |            | burr              | N   | N   | N        | N     | N          | N      |
 |            | chi               | T   | T   | T        | T     | N          | N      |
 |            | chi square        | C   | C   | C        | T     | N          | N      |
