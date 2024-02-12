@@ -6,7 +6,7 @@ namespace DoubleDoubleDistribution {
 
         public int K { get; }
 
-        private readonly ddouble c, pdf_norm;
+        private readonly ddouble c, pdf_lognorm;
 
         public ChiDistribution(int k) {
             ValidateShape(k, k => k > 0);
@@ -14,7 +14,7 @@ namespace DoubleDoubleDistribution {
             K = k;
 
             c = K * 0.5d - 1d;
-            pdf_norm = k * c + LogGamma(k * 0.5d) * LbE;
+            pdf_lognorm = k * c + LogGamma(k * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -25,7 +25,7 @@ namespace DoubleDoubleDistribution {
                 return K <= 1 ? Sqrt(2 * RcpPI) : 0d;
             }
 
-            ddouble pdf = Pow2((K - 1) * Log2(x) - Ldexp(x * x, -1) * LbE - pdf_norm);
+            ddouble pdf = Pow2((K - 1) * Log2(x) - Ldexp(x * x, -1) * LbE - pdf_lognorm);
 
             return pdf;
         }

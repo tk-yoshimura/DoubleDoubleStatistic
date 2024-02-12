@@ -29,7 +29,7 @@ namespace DoubleDoubleDistribution {
             ddouble d1x = D1 * x;
 
             ddouble u = Exp(D1 * Log(d1x) + logd2xd2 - (D1 + D2) * Log(d1x + D2));
-            ddouble pdf = this.pdf_norm * Sqrt(u) / x;
+            ddouble pdf = pdf_norm * Sqrt(u) / x;
 
             return pdf;
         }

@@ -37,7 +37,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble PDF(ddouble x) {
             if (Abs(x) >= zero_thr) {
-                return Zero;
+                return 0d;
             }
             if (IsNaN(x)) {
                 return NaN;
@@ -47,7 +47,7 @@ namespace DoubleDoubleDistribution {
             ddouble v = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
             ddouble pdf = pdf_norm * v;
 
-            pdf = IsFinite(pdf) ? pdf : Zero;
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }

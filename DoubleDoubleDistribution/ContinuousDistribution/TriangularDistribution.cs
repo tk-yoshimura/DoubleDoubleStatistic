@@ -37,8 +37,8 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = (x <= C) 
-                ? 2 * (x - A) / abxac 
+            ddouble pdf = (x <= C)
+                ? 2 * (x - A) / abxac
                 : 2 * (B - x) / abxcb;
 
             return pdf;

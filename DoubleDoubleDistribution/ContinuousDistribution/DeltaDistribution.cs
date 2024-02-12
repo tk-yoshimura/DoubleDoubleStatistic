@@ -19,7 +19,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble pdf = x == Mu ? PositiveInfinity : Zero;
+            ddouble pdf = x == Mu ? PositiveInfinity : 0d;
 
             return pdf;
         }

@@ -24,6 +24,9 @@ namespace DoubleDoubleDistribution {
             if (IsNegative(x)) {
                 return 0d;
             }
+            if (IsNaN(x)) {
+                return NaN;
+            }
 
             ddouble u = Alpha - 1 / x;
 

@@ -25,12 +25,12 @@ namespace DoubleDoubleDistribution {
             if (IsNegative(x)) {
                 return 0d;
             }
+            if (IsNaN(x)) {
+                return NaN;
+            }
 
             ddouble pdf = pdf_norm * x * x * Exp(-x * x / (2 * sigma_sq));
-
-            if (IsNaN(pdf)) {
-                return 0d;
-            }
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }

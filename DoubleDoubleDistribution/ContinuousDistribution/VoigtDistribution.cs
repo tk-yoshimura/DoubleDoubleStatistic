@@ -31,10 +31,17 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsInfinity(x)) {
+                return 0d;
+            }
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             Complex z = (zr, x * z_scale);
 
             ddouble pdf = Complex.Erfcx(z).R * pdf_norm;
-            pdf = IsFinite(pdf) ? pdf : Zero;
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }
@@ -76,7 +83,7 @@ namespace DoubleDoubleDistribution {
                     return y;
                 };
 
-                (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, Zero, u, eps, depth: 12);
+                (ddouble value, error) = GaussKronrodIntegral.AdaptiveIntegrate(f, 0d, u, eps, depth: 12);
                 value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? value : 1d - value;

@@ -30,25 +30,16 @@ namespace DoubleDoubleDistribution {
             if (x <= 0d) {
                 return 0d;
             }
+            if (IsNaN(x)) {
+                return NaN;
+            }
 
             ddouble s = Square(Log(x) - Mu) * exp_scale;
-            ddouble exp = Exp(s);
 
-            if (IsFinite(exp)) {
-                ddouble pdf = pdf_norm * exp / x;
+            ddouble pdf = Exp(s + Log(pdf_norm / x));
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
-                if (IsFinite(pdf)) {
-                    return pdf;
-                }
-            }
-
-            ddouble pdf_interlog = Exp(s + Log(pdf_norm / x));
-
-            if (IsFinite(pdf_interlog)) {
-                return pdf_interlog;
-            }
-
-            return 0d;
+            return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {

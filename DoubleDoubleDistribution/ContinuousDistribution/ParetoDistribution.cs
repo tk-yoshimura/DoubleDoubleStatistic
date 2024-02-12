@@ -22,12 +22,12 @@ namespace DoubleDoubleDistribution {
             if (x < Xm) {
                 return 0d;
             }
+            if (IsNaN(x)) {
+                return NaN;
+            }
 
             ddouble pdf = pdf_norm / Pow(x, Alpha + 1d);
-
-            if (IsNaN(pdf)) {
-                return 0d;
-            }
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }
