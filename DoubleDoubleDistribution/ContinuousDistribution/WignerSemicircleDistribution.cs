@@ -8,21 +8,21 @@ namespace DoubleDoubleDistribution {
     public class WignerSemicircleDistribution : ContinuousDistribution,
         IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution> {
 
-        public ddouble Radius { get; }
+        public ddouble R { get; }
 
         private readonly ddouble pdf_norm, radius_sq;
 
-        public WignerSemicircleDistribution(ddouble radius) {
-            ValidateScale(radius);
+        public WignerSemicircleDistribution(ddouble r) {
+            ValidateScale(r);
 
-            Radius = radius;
+            R = r;
 
-            radius_sq = radius * radius;
+            radius_sq = r * r;
             pdf_norm = 1d / (PI * radius_sq);
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x < -Radius || x > Radius) {
+            if (x < -R || x > R) {
                 return 0d;
             }
 
@@ -32,14 +32,14 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (x <= -Radius) {
+            if (x <= -R) {
                 return interval == Interval.Lower ? 0d : 1d;
             }
-            if (x >= Radius) {
+            if (x >= R) {
                 return interval == Interval.Lower ? 1d : 0d;
             }
 
-            ddouble v = x * pdf_norm * Sqrt(radius_sq - x * x) + Asin(x / Radius) * RcpPI;
+            ddouble v = x * pdf_norm * Sqrt(radius_sq - x * x) + Asin(x / R) * RcpPI;
 
             ddouble cdf = interval == Interval.Lower ? 0.5d + v : 0.5d - v;
 
@@ -63,7 +63,7 @@ namespace DoubleDoubleDistribution {
 
             ddouble quantile = QuantilePade.Value(u);
             quantile = interval != Interval.Lower ? quantile : -quantile;
-            quantile *= Radius;
+            quantile *= R;
 
             return quantile;
         }
@@ -71,7 +71,7 @@ namespace DoubleDoubleDistribution {
         public override bool Scalable => true;
         public override bool Symmetric => true;
 
-        public override (ddouble min, ddouble max) Support => (-Radius, Radius);
+        public override (ddouble min, ddouble max) Support => (-R, R);
 
         public override ddouble Mean => 0d;
         public override ddouble Median => 0d;
@@ -80,14 +80,14 @@ namespace DoubleDoubleDistribution {
         public override ddouble Skewness => 0d;
         public override ddouble Kurtosis => -1;
 
-        public override ddouble Entropy => Log(PI * Radius) - 0.5d;
+        public override ddouble Entropy => Log(PI * R) - 0.5d;
 
         public static WignerSemicircleDistribution operator *(WignerSemicircleDistribution dist, ddouble k) {
-            return new(k * dist.Radius);
+            return new(k * dist.R);
         }
 
         public override string ToString() {
-            return $"{typeof(WignerSemicircleDistribution).Name}[radius={Radius}]";
+            return $"{typeof(WignerSemicircleDistribution).Name}[r={R}]";
         }
 
         private static class QuantilePade {

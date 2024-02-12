@@ -5,9 +5,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class UShapeDistributionTests {
-        readonly UShapeDistribution dist_a0b1 = new(min: 0, max: 1);
-        readonly UShapeDistribution dist_a1b2 = new(min: 1, max: 2);
-        readonly UShapeDistribution dist_a2b4 = new(min: 2, max: 4);
+        readonly UShapeDistribution dist_a0b1 = new(a: 0, b: 1);
+        readonly UShapeDistribution dist_a1b2 = new(a: 1, b: 2);
+        readonly UShapeDistribution dist_a2b4 = new(a: 2, b: 4);
 
         UShapeDistribution[] Dists => new[]{
             dist_a0b1,
@@ -20,8 +20,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             foreach (UShapeDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Min={dist.Min}");
-                Console.WriteLine($"Max={dist.Max}");
+                Console.WriteLine($"Min={dist.A}");
+                Console.WriteLine($"Max={dist.B}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");

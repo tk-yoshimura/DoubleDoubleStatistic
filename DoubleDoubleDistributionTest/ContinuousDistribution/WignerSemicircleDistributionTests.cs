@@ -5,9 +5,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class WignerSemicircleDistributionTests {
-        readonly WignerSemicircleDistribution dist_r1 = new(radius: 1);
-        readonly WignerSemicircleDistribution dist_r2 = new(radius: 2);
-        readonly WignerSemicircleDistribution dist_r3 = new(radius: 3);
+        readonly WignerSemicircleDistribution dist_r1 = new(r: 1);
+        readonly WignerSemicircleDistribution dist_r2 = new(r: 2);
+        readonly WignerSemicircleDistribution dist_r3 = new(r: 3);
 
         WignerSemicircleDistribution[] Dists => new[]{
             dist_r1,
@@ -20,7 +20,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             foreach (WignerSemicircleDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Radius={dist.Radius}");
+                Console.WriteLine($"R={dist.R}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");

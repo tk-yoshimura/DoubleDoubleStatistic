@@ -4,31 +4,30 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class UShapeDistribution : ContinuousDistribution {
 
-        public ddouble Min { get; }
-        public ddouble Max { get; }
-        public ddouble Range { get; }
+        public ddouble A { get; }
+        public ddouble B { get; }
 
-        private readonly ddouble alpha, beta, c;
+        private readonly ddouble alpha, beta, c, range;
 
-        public UShapeDistribution(ddouble min, ddouble max) {
-            ValidateLocation(min);
-            ValidateLocation(max);
+        public UShapeDistribution(ddouble a, ddouble b) {
+            ValidateLocation(a);
+            ValidateLocation(b);
 
-            if (!(min < max)) {
-                throw new ArgumentException($"Invalid location parameter. {min} < {max}");
+            if (!(a < b) || !IsFinite(b - a)) {
+                throw new ArgumentException($"Invalid location parameter. {nameof(a)} < {nameof(b)}");
             }
 
-            Min = min;
-            Max = max;
-            Range = max - min;
+            A = a;
+            B = b;
+            range = b - a;
 
-            alpha = 12d / Cube(Range);
-            beta = Ldexp(Min + Max, -1);
-            c = Cube(beta - Min);
+            alpha = 12d / Cube(range);
+            beta = Ldexp(A + B, -1);
+            c = Cube(beta - A);
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x < Min || x > Max) {
+            if (x < A || x > B) {
                 return 0d;
             }
 
@@ -39,11 +38,11 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (interval == Interval.Lower) {
-                if (x < Min) {
+                if (x < A) {
                     return 0d;
                 }
 
-                if (x > Max) {
+                if (x > B) {
                     return 1d;
                 }
 
@@ -52,11 +51,11 @@ namespace DoubleDoubleDistribution {
                 return cdf;
             }
             else {
-                if (x < Min) {
+                if (x < A) {
                     return 1d;
                 }
 
-                if (x > Max) {
+                if (x > B) {
                     return 0d;
                 }
 
@@ -74,14 +73,14 @@ namespace DoubleDoubleDistribution {
             if (interval == Interval.Lower) {
                 ddouble quantile = beta + Cbrt(3d * p - alpha * c) / Cbrt(alpha);
 
-                quantile = Clamp(quantile, Min, Max);
+                quantile = Clamp(quantile, A, B);
 
                 return quantile;
             }
             else {
                 ddouble quantile = beta - Cbrt(3d * p - alpha * c) / Cbrt(alpha);
 
-                quantile = Clamp(quantile, Min, Max);
+                quantile = Clamp(quantile, A, B);
 
                 return quantile;
             }
@@ -89,26 +88,26 @@ namespace DoubleDoubleDistribution {
 
         public override bool Symmetric => true;
 
-        public override (ddouble min, ddouble max) Support => (Min, Max);
+        public override (ddouble min, ddouble max) Support => (A, B);
 
-        public override ddouble Mean => Ldexp(Min + Max, -1);
-        public override ddouble Median => Ldexp(Min + Max, -1);
+        public override ddouble Mean => Ldexp(A + B, -1);
+        public override ddouble Median => Ldexp(A + B, -1);
         public override ddouble Mode => NaN;
 
-        public override ddouble Variance => Square(Range) * 3d / 20d;
+        public override ddouble Variance => Square(range) * 3d / 20d;
         public override ddouble Skewness => 0d;
-        public override ddouble Kurtosis => Square(Square(Range)) * 3d / 112d;
+        public override ddouble Kurtosis => Square(Square(range)) * 3d / 112d;
 
         public override ddouble Entropy {
             get {
-                ddouble r = 3 * Log(3 / Range);
+                ddouble r = 3 * Log(3 / range);
 
-                return -(Cube(Sqrt(Range)) * Exp(r / 2) * (r - 2)) / (3 * Cube(Sqrt(3)));
+                return -(Cube(Sqrt(range)) * Exp(r / 2) * (r - 2)) / (3 * Cube(Sqrt(3)));
             }
         }
 
         public override string ToString() {
-            return $"{typeof(UShapeDistribution).Name}[min={Min},max={Max}]";
+            return $"{typeof(UShapeDistribution).Name}[a={A},b={B}]";
         }
     }
 }

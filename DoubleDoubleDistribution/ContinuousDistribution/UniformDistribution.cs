@@ -4,29 +4,28 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class UniformDistribution : ContinuousDistribution {
 
-        public ddouble Min { get; }
-        public ddouble Max { get; }
-        public ddouble Range { get; }
+        public ddouble A { get; }
+        public ddouble B { get; }
 
-        private readonly ddouble pdf_norm;
+        private readonly ddouble pdf_norm, range;
 
-        public UniformDistribution(ddouble min, ddouble max) {
-            ValidateLocation(min);
-            ValidateLocation(max);
+        public UniformDistribution(ddouble a, ddouble b) {
+            ValidateLocation(a);
+            ValidateLocation(b);
 
-            if (!(min < max)) {
-                throw new ArgumentException($"Invalid location parameter. {min} < {max}");
+            if (!(a < b) || !IsFinite(b - a)) {
+                throw new ArgumentException($"Invalid location parameter. {nameof(a)} < {nameof(b)}");
             }
 
-            Min = min;
-            Max = max;
-            Range = max - min;
+            A = a;
+            B = b;
 
-            pdf_norm = 1d / Range;
+            range = b - a;
+            pdf_norm = 1d / range;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x < Min || x > Max) {
+            if (x < A || x > B) {
                 return 0d;
             }
 
@@ -37,28 +36,28 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (interval == Interval.Lower) {
-                if (x < Min) {
+                if (x < A) {
                     return 0d;
                 }
 
-                if (x > Max) {
+                if (x > B) {
                     return 1d;
                 }
 
-                ddouble cdf = (x - Min) * pdf_norm;
+                ddouble cdf = (x - A) * pdf_norm;
 
                 return cdf;
             }
             else {
-                if (x < Min) {
+                if (x < A) {
                     return 1d;
                 }
 
-                if (x > Max) {
+                if (x > B) {
                     return 0d;
                 }
 
-                ddouble cdf = (Max - x) * pdf_norm;
+                ddouble cdf = (B - x) * pdf_norm;
 
                 return cdf;
             }
@@ -70,12 +69,12 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = Min + p * Range;
+                ddouble quantile = A + p * range;
 
                 return quantile;
             }
             else {
-                ddouble quantile = Max - p * Range;
+                ddouble quantile = B - p * range;
 
                 return quantile;
             }
@@ -83,19 +82,19 @@ namespace DoubleDoubleDistribution {
 
         public override bool Symmetric => true;
 
-        public override (ddouble min, ddouble max) Support => (Min, Max);
+        public override (ddouble min, ddouble max) Support => (A, B);
 
-        public override ddouble Mean => Ldexp(Min + Max, -1);
-        public override ddouble Median => Ldexp(Min + Max, -1);
+        public override ddouble Mean => Ldexp(A + B, -1);
+        public override ddouble Median => Ldexp(A + B, -1);
 
-        public override ddouble Variance => Square(Range) / 12;
+        public override ddouble Variance => Square(range) / 12;
         public override ddouble Skewness => 0d;
         public override ddouble Kurtosis => -(ddouble)6 / 5;
 
-        public override ddouble Entropy => Log(Range);
+        public override ddouble Entropy => Log(range);
 
         public override string ToString() {
-            return $"{typeof(UniformDistribution).Name}[min={Min},max={Max}]";
+            return $"{typeof(UniformDistribution).Name}[a={A},b={B}]";
         }
     }
 }

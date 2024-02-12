@@ -90,7 +90,7 @@ namespace DoubleDoubleDistribution {
                 return (-2d * (A * A * A - B * B * B) +
                         mu * (9d * (A * A - B * B) +
                         mu * (-18d * (A - B) +
-                        mu * (-6d * logba)))) / 
+                        mu * (-6d * logba)))) /
                         (6d * logba * Cube(Sqrt(Variance)));
             }
         }
@@ -99,11 +99,11 @@ namespace DoubleDoubleDistribution {
             get {
                 ddouble mu = Mean;
                 ddouble logba = Log(B / A);
-                return (-3d * (A * A * A * A - B * B * B * B) + 
+                return (-3d * (A * A * A * A - B * B * B * B) +
                         mu * (16d * (A * A * A - B * B * B) +
-                        mu * (-36d * (A * A - B * B) + 
-                        mu * (48d * (A - B) + 
-                        mu * (12d * logba))))) / 
+                        mu * (-36d * (A * A - B * B) +
+                        mu * (48d * (A - B) +
+                        mu * (12d * logba))))) /
                         (12d * logba * Square(Variance)) - 3d;
             }
         }
