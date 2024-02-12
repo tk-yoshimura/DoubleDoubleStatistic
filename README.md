@@ -43,7 +43,7 @@ T: TODO Test
 |            | lomax             | N     | N     | N        | N     | N          | N      |
 |            | maxwell           | T     | T     | T        | T     | N          | N      |
 |            | nakagami          | N     | N     | N        | N     | N          | N      |
-|            | pareto            | N     | N     | N        | N     | N          | N      |
+|            | pareto            | T     | T     | T        | T     | N          | N      |
 |            | power             | N     | N     | N        | N     | N          | N      |
 |            | rayleigh          | T     | T     | T        | T     | N          | N      |
 |            | reciprocal        | T     | T     | T        | C     | N          | N      |
@@ -56,7 +56,7 @@ T: TODO Test
 |            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***    | 23/48 | 23/48 | 23/48    | 22/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 24/48 | 24/48 | 23/48    | 24/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
