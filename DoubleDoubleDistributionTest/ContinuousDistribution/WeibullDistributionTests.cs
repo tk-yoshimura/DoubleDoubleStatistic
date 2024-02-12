@@ -5,18 +5,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class WeibullDistributionTests {
-        readonly WeibullDistribution dist_k1lambda1 = new(k: 1, lambda: 1);
-        readonly WeibullDistribution dist_k2lambda1 = new(k: 2, lambda: 1);
-        readonly WeibullDistribution dist_k1lambda2 = new(k: 1, lambda: 2);
-        readonly WeibullDistribution dist_k2lambda2 = new(k: 2, lambda: 2);
-        readonly WeibullDistribution dist_k3lambda4 = new(k: 3, lambda: 4);
+        readonly WeibullDistribution dist_k1theta1 = new(k: 1, theta: 1);
+        readonly WeibullDistribution dist_k2theta1 = new(k: 2, theta: 1);
+        readonly WeibullDistribution dist_k1theta2 = new(k: 1, theta: 2);
+        readonly WeibullDistribution dist_k2theta2 = new(k: 2, theta: 2);
+        readonly WeibullDistribution dist_k3theta4 = new(k: 3, theta: 4);
 
         WeibullDistribution[] Dists => new[]{
-            dist_k1lambda1,
-            dist_k2lambda1,
-            dist_k1lambda2,
-            dist_k2lambda2,
-            dist_k3lambda4,
+            dist_k1theta1,
+            dist_k2theta1,
+            dist_k1theta2,
+            dist_k2theta2,
+            dist_k3theta4,
         };
 
         [TestMethod()]
@@ -25,7 +25,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
                 Console.WriteLine($"K={dist.K}");
-                Console.WriteLine($"lambda={dist.Lambda}");
+                Console.WriteLine($"Theta={dist.Theta}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
@@ -113,21 +113,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_k1lambda1 = [
+            ddouble[] expected_dist_k1theta1 = [
             ];
-            ddouble[] expected_dist_k2lambda1 = [
+            ddouble[] expected_dist_k2theta1 = [
             ];
-            ddouble[] expected_dist_k1lambda2 = [
+            ddouble[] expected_dist_k1theta2 = [
             ];
-            ddouble[] expected_dist_k2lambda2 = [
+            ddouble[] expected_dist_k2theta2 = [
             ];
-            ddouble[] expected_dist_k3lambda4 = [
+            ddouble[] expected_dist_k3theta4 = [
             ];
 
             foreach ((WeibullDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_k1lambda1, expected_dist_k1lambda1), (dist_k2lambda1, expected_dist_k2lambda1),
-                (dist_k1lambda2, expected_dist_k1lambda2), (dist_k2lambda2, expected_dist_k2lambda2),
-                (dist_k3lambda4, expected_dist_k3lambda4),
+                (dist_k1theta1, expected_dist_k1theta1), (dist_k2theta1, expected_dist_k2theta1),
+                (dist_k1theta2, expected_dist_k1theta2), (dist_k2theta2, expected_dist_k2theta2),
+                (dist_k3theta4, expected_dist_k3theta4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];
@@ -144,21 +144,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_k1lambda1 = [
+            ddouble[] expected_dist_k1theta1 = [
             ];
-            ddouble[] expected_dist_k2lambda1 = [
+            ddouble[] expected_dist_k2theta1 = [
             ];
-            ddouble[] expected_dist_k1lambda2 = [
+            ddouble[] expected_dist_k1theta2 = [
             ];
-            ddouble[] expected_dist_k2lambda2 = [
+            ddouble[] expected_dist_k2theta2 = [
             ];
-            ddouble[] expected_dist_k3lambda4 = [
+            ddouble[] expected_dist_k3theta4 = [
             ];
 
             foreach ((WeibullDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_k1lambda1, expected_dist_k1lambda1), (dist_k2lambda1, expected_dist_k2lambda1),
-                (dist_k1lambda2, expected_dist_k1lambda2), (dist_k2lambda2, expected_dist_k2lambda2),
-                (dist_k3lambda4, expected_dist_k3lambda4),
+                (dist_k1theta1, expected_dist_k1theta1), (dist_k2theta1, expected_dist_k2theta1),
+                (dist_k1theta2, expected_dist_k1theta2), (dist_k2theta2, expected_dist_k2theta2),
+                (dist_k3theta4, expected_dist_k3theta4),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];

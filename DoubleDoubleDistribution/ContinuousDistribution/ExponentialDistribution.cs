@@ -6,12 +6,16 @@ namespace DoubleDoubleDistribution {
     public class ExponentialDistribution : ContinuousDistribution, 
         IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution> {
 
-        public ddouble Lambda { get; }
+        public ddouble Theta { get; }
 
-        public ExponentialDistribution(ddouble lambda) {
-            ValidateScale(lambda);
+        private readonly ddouble theta_inv;
 
-            Lambda = lambda;
+        public ExponentialDistribution(ddouble theta) {
+            ValidateScale(theta);
+
+            Theta = theta;
+
+            theta_inv = 1d / theta;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -19,7 +23,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = Lambda * Exp(-Lambda * x);
+            ddouble pdf = Exp(-theta_inv * x) * theta_inv;
 
             return pdf;
         }
@@ -30,7 +34,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = -Expm1(-Lambda * x);
+                ddouble cdf = -Expm1(-theta_inv * x);
 
                 return cdf;
             }
@@ -39,7 +43,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = Exp(-Lambda * x);
+                ddouble cdf = Exp(-theta_inv * x);
 
                 return cdf;
             }
@@ -51,12 +55,12 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = -Log1p(-p) / Lambda;
+                ddouble quantile = -Log1p(-p) * Theta;
 
                 return quantile;
             }
             else {
-                ddouble quantile = -Log(p) / Lambda;
+                ddouble quantile = -Log(p) * Theta;
 
                 if (IsNegative(quantile)) {
                     return 0d;
@@ -70,22 +74,22 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => 1d / Lambda;
-        public override ddouble Median => Ln2 / Lambda;
+        public override ddouble Mean => Theta;
+        public override ddouble Median => Ln2 * Theta;
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => 1d / (Lambda * Lambda);
-        public override ddouble Skewness => 2;
-        public override ddouble Kurtosis => 6;
+        public override ddouble Variance => Square(Theta);
+        public override ddouble Skewness => 2d;
+        public override ddouble Kurtosis => 6d;
 
-        public override ddouble Entropy => 1 - Log(Lambda);
+        public override ddouble Entropy => 1d - Log(theta_inv);
 
         public static ExponentialDistribution operator *(ExponentialDistribution dist, ddouble k) {
-            return new(dist.Lambda / k);
+            return new(k * dist.Theta);
         }
 
         public override string ToString() {
-            return $"{typeof(ExponentialDistribution).Name}[lambda={Lambda}]";
+            return $"{typeof(ExponentialDistribution).Name}[theta={Theta}]";
         }
     }
 }

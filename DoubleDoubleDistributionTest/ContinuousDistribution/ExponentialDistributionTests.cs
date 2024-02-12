@@ -5,8 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class ExponentialDistributionTests {
-        readonly ExponentialDistribution dist1 = new(lambda: 1);
-        readonly ExponentialDistribution dist2 = new(lambda: 2);
+        readonly ExponentialDistribution dist1 = new(theta: 1);
+        readonly ExponentialDistribution dist2 = new(theta: 2);
 
         ExponentialDistribution[] Dists => new[]{
             dist1,
@@ -18,7 +18,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             foreach (ExponentialDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Lambda={dist.Lambda}");
+                Console.WriteLine($"Theta={dist.Theta}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
