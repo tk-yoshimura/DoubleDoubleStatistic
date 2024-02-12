@@ -67,7 +67,7 @@ namespace DoubleDoubleDistribution {
 
             return quantile;
         }
-        
+
         public override bool Scalable => true;
         public override bool Symmetric => true;
 

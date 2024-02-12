@@ -46,7 +46,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble cdf = 1d - Exp(-x2 / (2 * sigma_sq));
 
-                if (IsNaN(cdf)) { 
+                if (IsNaN(cdf)) {
                     return 1d;
                 }
 
@@ -62,7 +62,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble cdf = Exp(-x2 / (2 * sigma_sq));
 
-                if (IsNaN(cdf)) { 
+                if (IsNaN(cdf)) {
                     return 0d;
                 }
 

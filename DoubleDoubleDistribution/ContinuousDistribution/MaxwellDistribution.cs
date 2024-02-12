@@ -37,7 +37,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble x2 = x * x;
-            
+
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
                     return 0d;
@@ -48,7 +48,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble cdf = LowerIncompleteGammaRegularized(1.5d, Ldexp(x2 / sigma_sq, -1));
 
-                if (IsNaN(cdf)) { 
+                if (IsNaN(cdf)) {
                     return 1d;
                 }
 
@@ -64,7 +64,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble cdf = UpperIncompleteGammaRegularized(1.5d, Ldexp(x2 / sigma_sq, -1));
 
-                if (IsNaN(cdf)) { 
+                if (IsNaN(cdf)) {
                     return 0d;
                 }
 

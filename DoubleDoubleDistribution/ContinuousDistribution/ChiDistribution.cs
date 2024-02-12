@@ -93,7 +93,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis {
             get {
                 ddouble variance = Variance;
-                
+
                 return 2d / variance - Mean * Skewness / Sqrt(variance) - 1d;
             }
         }
