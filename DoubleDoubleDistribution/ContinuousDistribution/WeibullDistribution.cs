@@ -1,0 +1,129 @@
+﻿using DoubleDouble;
+using System.Numerics;
+using static DoubleDouble.ddouble;
+
+namespace DoubleDoubleDistribution {
+    public class WeibullDistribution : ContinuousDistribution, 
+        IMultiplyOperators<WeibullDistribution, ddouble, WeibullDistribution> {
+
+        public ddouble K { get; }
+        public ddouble Lambda { get; }
+
+        private readonly ddouble k_inv;
+
+        public WeibullDistribution(ddouble k, ddouble lambda) {
+            ValidateShape(k, k => k > 0d);
+            ValidateScale(lambda);
+
+            Lambda = lambda;
+            K = k;
+
+            k_inv = 1d / K;
+        }
+
+        public override ddouble PDF(ddouble x) {
+            if (IsNegative(x)) {
+                return 0d;
+            }
+            if (x == 0d) {
+                return (K < 1d) ? PositiveInfinity : (K == 1d) ? 1d / Lambda : 0d;
+            }
+
+            ddouble u = x / Lambda;
+            ddouble pdf = Exp(Log(u) * (K - 1d) - Pow(u, K)) * K / Lambda;
+
+            return pdf;
+        }
+
+        public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            ddouble u = x / Lambda;
+
+            if (interval == Interval.Lower) {
+                if (x <= 0d) {
+                    return 0d;
+                }
+
+                ddouble cdf = -Expm1(-Pow(u, K));
+
+                return cdf;
+            }
+            else {
+                if (x <= 0d) {
+                    return 1d;
+                }
+
+                ddouble cdf = Exp(-Pow(u, K));
+
+                return cdf;
+            }
+        }
+
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
+                return NaN;
+            }
+
+            if (interval == Interval.Lower) {
+                if (p == 1d) {
+                    return PositiveInfinity;
+                }
+                
+                ddouble quantile = Pow(-Log1p(-p), k_inv) * Lambda;
+
+                return quantile;
+            }
+            else {
+                if (p == 0d) {
+                    return PositiveInfinity;
+                }
+
+                ddouble quantile = Pow(-Log(p), k_inv) * Lambda;
+
+                if (IsNegative(quantile)) {
+                    return 0d;
+                }
+
+                return quantile;
+            }
+        }
+
+        public override bool Scalable => true;
+
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
+
+        public override ddouble Mean => Lambda * Gamma(1d + k_inv);
+        public override ddouble Median => Lambda * Pow(Ln2, k_inv);
+        public override ddouble Mode => (K <= 1d) ? 0d : Lambda * Pow((K - 1d) / K, k_inv);
+
+        public override ddouble Variance => Lambda * Lambda * (Gamma(1d + 2d * k_inv) - Square(Gamma(1d + k_inv)));
+        public override ddouble Skewness {
+            get {
+                ddouble mu = Mean, var = Variance;
+
+                return (Gamma(1d + 3d * k_inv) * Cube(Lambda) - 3d * mu * var - Cube(mu)) / Cube(Sqrt(var));
+            }
+        }
+
+        public override ddouble Kurtosis {
+            get {
+                ddouble mu = Mean, var = Variance;
+
+                return (Gamma(1d + 4d * k_inv) * Square(Square(Lambda))
+                    - 4d * mu * (Gamma(1d + 3d * k_inv) * Cube(Lambda) - 3d * mu * var - Cube(mu))
+                    - 6d * Square(mu) * var
+                    - Square(Square(mu))) /
+                    Square(var) - 3d;
+            }
+        }
+
+        public override ddouble Entropy => 1d + EulerGamma * (1d - k_inv) + Log(Lambda * k_inv);
+
+        public static WeibullDistribution operator *(WeibullDistribution dist, ddouble k) {
+            return new(dist.K, k * dist.Lambda);
+        }
+
+        public override string ToString() {
+            return $"{typeof(WeibullDistribution).Name}[k={K},lambda={Lambda}]";
+        }
+    }
+}

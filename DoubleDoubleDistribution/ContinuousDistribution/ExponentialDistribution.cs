@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ExponentialDistribution : ContinuousDistribution {
+    public class ExponentialDistribution : ContinuousDistribution, 
+        IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution> {
 
         public ddouble Lambda { get; }
 
@@ -24,11 +26,19 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (interval == Interval.Lower) {
+                if (IsNegative(x)) {
+                    return 0d;
+                }
+
                 ddouble cdf = -Expm1(-Lambda * x);
 
                 return cdf;
             }
             else {
+                if (IsNegative(x)) {
+                    return 1d;
+                }
+
                 ddouble cdf = Exp(-Lambda * x);
 
                 return cdf;
@@ -56,6 +66,8 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Scalable => true;
+
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => 1d / Lambda;
@@ -67,6 +79,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis => 6;
 
         public override ddouble Entropy => 1 - Log(Lambda);
+
+        public static ExponentialDistribution operator *(ExponentialDistribution dist, ddouble k) {
+            return new(dist.Lambda / k);
+        }
 
         public override string ToString() {
             return $"{typeof(ExponentialDistribution).Name}[lambda={Lambda}]";
