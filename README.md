@@ -52,11 +52,11 @@ T: TODO Test
 |            | student t         | C     | C     | C        | T     | N          | N      |
 |            | triangular        | N     | N     | N        | N     | N          | N      |
 |            | uniform           | T     | T     | T        | T     | N          | N      |
-|            | u shape           | N     | N     | N        | N     | N          | N      |
+|            | u shape           | T     | T     | T        | T     | N          | N      |
 |            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***    | 24/48 | 24/48 | 23/48    | 24/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 25/48 | 25/48 | 24/48    | 25/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
