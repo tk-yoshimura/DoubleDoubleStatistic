@@ -59,6 +59,8 @@ namespace DoubleDoubleDistribution {
             return quantile;
         }
 
+        public override bool Symmetric => true;
+
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean => 0.5d;

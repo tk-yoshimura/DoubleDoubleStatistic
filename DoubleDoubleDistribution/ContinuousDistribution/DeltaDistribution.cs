@@ -5,7 +5,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class DeltaDistribution : ContinuousDistribution,
         IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
-        ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution> {
+        ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
+        IMultiplyOperators<DeltaDistribution, ddouble, DeltaDistribution> {
 
         public ddouble Mu { get; }
 
@@ -62,7 +63,7 @@ namespace DoubleDoubleDistribution {
             return new(dist1.Mu - dist2.Mu);
         }
 
-        public static DeltaDistribution operator *(ddouble k, DeltaDistribution dist) {
+        public static DeltaDistribution operator *(DeltaDistribution dist, ddouble k) {
             return new(k * dist.Mu);
         }
 

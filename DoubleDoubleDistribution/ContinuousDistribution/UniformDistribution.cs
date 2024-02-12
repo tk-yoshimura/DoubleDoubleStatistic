@@ -81,6 +81,8 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Symmetric => true;
+
         public override (ddouble min, ddouble max) Support => (Min, Max);
 
         public override ddouble Mean => Ldexp(Min + Max, -1);

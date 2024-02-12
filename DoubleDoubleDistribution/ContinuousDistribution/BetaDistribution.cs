@@ -59,6 +59,8 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Symmetric => Alpha == Beta;
+
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean => Alpha / (Alpha + Beta);

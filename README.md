@@ -53,7 +53,7 @@ T: TODO Test
 |            | triangular        | N     | N     | N        | N     | N          | N      |
 |            | uniform           | T     | T     | T        | T     | N          | N      |
 |            | u shape           | N     | N     | N        | N     | N          | N      |
-|            | voigt             | C     | C     | C        | N     | N          | N      |
+|            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
 |            | ***coverage***    | 19/48 | 19/48 | 19/48    | 18/48 | 0/48       | 0/48   |

@@ -1,10 +1,12 @@
 ﻿using DoubleDouble;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class WignerSemicircleDistribution : ContinuousDistribution {
+    public class WignerSemicircleDistribution : ContinuousDistribution,
+        IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution> {
 
         public ddouble Radius { get; }
 
@@ -65,6 +67,9 @@ namespace DoubleDoubleDistribution {
 
             return quantile;
         }
+        
+        public override bool Scalable => true;
+        public override bool Symmetric => true;
 
         public override (ddouble min, ddouble max) Support => (-Radius, Radius);
 
@@ -76,6 +81,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis => -1;
 
         public override ddouble Entropy => Log(PI * Radius) - 0.5d;
+
+        public static WignerSemicircleDistribution operator *(WignerSemicircleDistribution dist, ddouble k) {
+            return new(k * dist.Radius);
+        }
 
         public override string ToString() {
             return $"{typeof(WignerSemicircleDistribution).Name}[radius={Radius}]";

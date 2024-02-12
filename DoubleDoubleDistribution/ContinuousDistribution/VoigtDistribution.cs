@@ -127,8 +127,8 @@ namespace DoubleDoubleDistribution {
         public override bool Scalable => true;
         public override bool Symmetric => true;
 
-        public override ddouble Median => 0;
-        public override ddouble Mode => 0;
+        public override ddouble Median => 0d;
+        public override ddouble Mode => 0d;
 
         public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {
             return new(dist1.Gamma + dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
