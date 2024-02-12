@@ -17,7 +17,7 @@ T: TODO Test
 |            | burr              | N     | N     | N        | N     | N          | N      |
 |            | chi               | T     | T     | T        | T     | N          | N      |
 |            | chi square        | C     | C     | C        | T     | N          | N      |
-|            | cosine            | N     | N     | N        | N     | N          | N      |
+|            | cosine            | T     | T     | T        | T     | N          | N      |
 |            | delta             | C     | C     | C        | T     | -          | N      |
 |            | exponential       | T     | T     | T        | T     | N          | N      |
 |            | gamma             | T     | T     | T        | T     | N          | N      |
@@ -56,7 +56,7 @@ T: TODO Test
 |            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***    | 22/48 | 22/48 | 22/48    | 21/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 23/48 | 23/48 | 23/48    | 22/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
