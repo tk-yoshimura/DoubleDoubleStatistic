@@ -46,7 +46,7 @@ T: TODO Test
 |            | pareto            | N     | N     | N        | N     | N          | N      |
 |            | power             | N     | N     | N        | N     | N          | N      |
 |            | rayleigh          | T     | T     | T        | T     | N          | N      |
-|            | reciprocal        | N     | N     | N        | N     | N          | N      |
+|            | reciprocal        | T     | T     | T        | C     | N          | N      |
 |            | rice              | N     | N     | N        | N     | N          | N      |
 |            | snedecor f        | T     | T     | T        | T     | N          | N      |
 |            | student t         | C     | C     | C        | T     | N          | N      |
@@ -56,7 +56,7 @@ T: TODO Test
 |            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***    | 20/48 | 20/48 | 20/48    | 19/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 21/48 | 21/48 | 21/48    | 20/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
