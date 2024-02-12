@@ -115,19 +115,19 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             Assert.IsTrue(ddouble.Abs("8.26735803278373131703054177678467810759e-2" - dist_a1b2.Variance) < 1e-26);
             Assert.IsTrue(ddouble.Abs("2.393417858997472994932677036954518839165e-1" - dist_a1b2.Skewness) < 1e-26);
             Assert.IsTrue(ddouble.Abs("-1.137246458476132118678312005465854454344" - dist_a1b2.Kurtosis) < 1e-26);
-            Assert.IsTrue(ddouble.Abs("1.993933030169167230382309750358118541653e-2" - dist_a1b2.Entropy) < 1e-26);
+            Assert.IsTrue(ddouble.Abs("-1.993933030169167230382309750358118541653e-2" - dist_a1b2.Entropy) < 1e-26);
 
             Assert.IsTrue(ddouble.Abs("2.885390081777926814719849362003784274853" - dist_a2b4.Mean) < 1e-26);
             Assert.IsTrue(ddouble.Abs("3.306943213113492526812216710713871243047e-1" - dist_a2b4.Variance) < 1e-26);
             Assert.IsTrue(ddouble.Abs("2.393417858997472994932677036954518839265e-1" - dist_a2b4.Skewness) < 1e-26);
             Assert.IsTrue(ddouble.Abs("-1.137246458476132118678312005465854454344" - dist_a2b4.Kurtosis) < 1e-26);
-            Assert.IsTrue(ddouble.Abs("-6.73207850258253637113409023954595382659e-1" - dist_a2b4.Entropy) < 1e-26);
+            Assert.IsTrue(ddouble.Abs("6.73207850258253637113409023954595382659e-1" - dist_a2b4.Entropy) < 1e-26);
 
             Assert.IsTrue(ddouble.Abs("3.476059496782206910376499401645766368748" - dist_a3b4.Mean) < 1e-26);
             Assert.IsTrue(ddouble.Abs("8.321861356795465240379689446126489475011e-2" - dist_a3b4.Variance) < 1e-26);
             Assert.IsTrue(ddouble.Abs("9.960043892185942044437912059971983108507e-2" - dist_a3b4.Skewness) < 1e-26);
             Assert.IsTrue(ddouble.Abs("-1.189134564437105737117615891768726318608" - dist_a3b4.Kurtosis) < 1e-26);
-            Assert.IsTrue(ddouble.Abs("3.445998813238043265926062980199643557012e-3" - dist_a3b4.Entropy) < 1e-26);
+            Assert.IsTrue(ddouble.Abs("-3.445998813238043265926062980199643557012e-3" - dist_a3b4.Entropy) < 1e-26);
         }
 
         [TestMethod()]

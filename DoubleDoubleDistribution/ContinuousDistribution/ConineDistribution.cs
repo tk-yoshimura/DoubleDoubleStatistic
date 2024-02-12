@@ -98,7 +98,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Skewness => 0;
         public override ddouble Kurtosis => 6d * (90d - Square(Square(PI))) / (5d * Square(PI * PI - 6d));
 
-        public override ddouble Entropy => 0.5d - 2 * Ln2 - Log(Sigma);
+        public override ddouble Entropy => -0.5d + 2 * Ln2 + Log(Sigma);
 
         public static CosineDistribution operator *(CosineDistribution dist, ddouble k) {
             return new(k * dist.Mu, k * dist.Sigma);

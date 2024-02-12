@@ -112,7 +112,7 @@ namespace DoubleDoubleDistribution {
             get {
                 ddouble logba = Log(B / A);
 
-                return (Square(Log(A * logba)) - Square(Log(B * logba))) / (2 * logba);
+                return -(Square(Log(A * logba)) - Square(Log(B * logba))) / (2 * logba);
             }
         }
 
