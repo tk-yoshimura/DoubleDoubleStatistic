@@ -39,7 +39,7 @@ T: TODO Test
 |            | kumaraswamy       | N     | N     | N        | N     | N          | N      |
 |            | laplace           | T     | T     | T        | T     | N          | N      |
 |            | log normal        | C     | C     | C        | T     | N          | N      |
-|            | logistic          | N     | N     | N        | N     | N          | N      |
+|            | logistic          | T     | T     | T        | T     | N          | N      |
 |            | lomax             | N     | N     | N        | N     | N          | N      |
 |            | maxwell           | T     | T     | T        | T     | N          | N      |
 |            | nakagami          | N     | N     | N        | N     | N          | N      |
@@ -56,7 +56,7 @@ T: TODO Test
 |            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***    | 21/48 | 21/48 | 21/48    | 20/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 22/48 | 22/48 | 22/48    | 21/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
