@@ -50,13 +50,13 @@ T: TODO Test
 |            | rice              | N     | N     | N        | N     | N          | N      |
 |            | snedecor f        | T     | T     | T        | T     | N          | N      |
 |            | student t         | C     | C     | C        | T     | N          | N      |
-|            | triangular        | N     | N     | N        | N     | N          | N      |
+|            | triangular        | T     | T     | T        | T     | N          | N      |
 |            | uniform           | T     | T     | T        | T     | N          | N      |
 |            | u shape           | T     | T     | T        | T     | N          | N      |
 |            | voigt             | C     | C     | N        | T     | N          | N      |
 |            | weibull           | N     | N     | N        | N     | N          | N      |
 |            | wigner semicircle | C     | C     | C        | T     | N          | N      |
-|            | ***coverage***    | 25/48 | 25/48 | 24/48    | 25/48 | 0/48       | 0/48   |
+|            | ***coverage***    | 26/48 | 26/48 | 25/48    | 26/48 | 0/48       | 0/48   |
 | stable     | cauchy            | C     | C     | C        | T     | N          | N      |
 |            | holtsmark         | N     | N     | N        | N     | N          | N      |
 |            | landau            | N     | N     | N        | N     | N          | N      |
