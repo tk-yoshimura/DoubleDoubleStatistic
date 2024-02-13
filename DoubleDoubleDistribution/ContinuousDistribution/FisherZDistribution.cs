@@ -7,7 +7,7 @@ namespace DoubleDoubleDistribution {
         public int D1 { get; }
         public int D2 { get; }
 
-        private readonly ddouble pdf_norm, logd2xd2;
+        private readonly ddouble pdf_norm;
 
         public FisherZDistribution(int d1, int d2) {
             ValidateShape(d1, d1 => d1 > 0);
@@ -18,7 +18,6 @@ namespace DoubleDoubleDistribution {
             D2 = d2;
 
             pdf_norm = 2 * Exp((Log(D1) * D1 + Log(D2) * D2) * 0.5d - LogBeta(d1 * 0.5d, d2 * 0.5d));
-            logd2xd2 = D2 * Log(D2);
         }
 
         public override ddouble PDF(ddouble x) {
