@@ -4,14 +4,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
-    public class ExtremeValueDistributionTests {
-        readonly ExtremeValueDistribution dist_a1b1 = new(mu: 1, sigma: 1);
-        readonly ExtremeValueDistribution dist_a2b1 = new(mu: 2, sigma: 1);
-        readonly ExtremeValueDistribution dist_a1b2 = new(mu: 1, sigma: 2);
-        readonly ExtremeValueDistribution dist_a2b2 = new(mu: 2, sigma: 2);
-        readonly ExtremeValueDistribution dist_a3b4 = new(mu: 3, sigma: 4);
+    public class GumbelDistributionTests {
+        readonly GumbelDistribution dist_a1b1 = new(mu: 1, sigma: 1);
+        readonly GumbelDistribution dist_a2b1 = new(mu: 2, sigma: 1);
+        readonly GumbelDistribution dist_a1b2 = new(mu: 1, sigma: 2);
+        readonly GumbelDistribution dist_a2b2 = new(mu: 2, sigma: 2);
+        readonly GumbelDistribution dist_a3b4 = new(mu: 3, sigma: 4);
 
-        ExtremeValueDistribution[] Dists => new[]{
+        GumbelDistribution[] Dists => new[]{
             dist_a1b1,
             dist_a2b1,
             dist_a1b2,
@@ -21,7 +21,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void InfoTest() {
-            foreach (ExtremeValueDistribution dist in Dists) {
+            foreach (GumbelDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
                 Console.WriteLine($"Mu={dist.Mu}");
@@ -38,7 +38,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void PDFTest() {
-            foreach (ExtremeValueDistribution dist in Dists) {
+            foreach (GumbelDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = 0; x <= 4; x += 0.125) {
                     ddouble pdf = dist.PDF(x);
@@ -50,7 +50,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void CDFLowerTest() {
-            foreach (ExtremeValueDistribution dist in Dists) {
+            foreach (GumbelDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = 0; x <= 4; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
@@ -62,7 +62,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void CDFUpperTest() {
-            foreach (ExtremeValueDistribution dist in Dists) {
+            foreach (GumbelDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = 0; x <= 4; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
@@ -77,7 +77,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            foreach (ExtremeValueDistribution dist in Dists) {
+            foreach (GumbelDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
                     ddouble p = (ddouble)i / 10;
@@ -95,7 +95,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            foreach (ExtremeValueDistribution dist in Dists) {
+            foreach (GumbelDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
                     ddouble p = (ddouble)i / 10;
@@ -124,7 +124,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ddouble[] expected_dist_a3b4 = [
             ];
 
-            foreach ((ExtremeValueDistribution dist, ddouble[] expecteds) in new[]{
+            foreach ((GumbelDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
                 (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
                 (dist_a3b4, expected_dist_a3b4),
@@ -155,7 +155,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ddouble[] expected_dist_a3b4 = [
             ];
 
-            foreach ((ExtremeValueDistribution dist, ddouble[] expecteds) in new[]{
+            foreach ((GumbelDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
                 (dist_a1b2, expected_dist_a1b2), (dist_a2b2, expected_dist_a2b2),
                 (dist_a3b4, expected_dist_a3b4),

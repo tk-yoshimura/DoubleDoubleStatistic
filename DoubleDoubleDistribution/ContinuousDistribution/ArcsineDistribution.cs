@@ -54,9 +54,9 @@ namespace DoubleDoubleDistribution {
                 return Quantile(1d - p);
             }
 
-            ddouble quantile = Square(Sin(PI * p / 2));
+            ddouble x = Square(Sin(PI * p / 2));
 
-            return quantile;
+            return x;
         }
 
         public override bool Symmetric => true;

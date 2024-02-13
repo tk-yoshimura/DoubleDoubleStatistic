@@ -51,14 +51,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = InverseLowerIncompleteGamma(K, p) * Theta;
+                ddouble x = InverseLowerIncompleteGamma(K, p) * Theta;
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = InverseUpperIncompleteGamma(K, p) * Theta;
+                ddouble x = InverseUpperIncompleteGamma(K, p) * Theta;
 
-                return quantile;
+                return x;
             }
         }
 

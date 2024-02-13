@@ -62,18 +62,18 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble quantile = Beta / InverseUpperIncompleteGamma(Alpha, p);
+                ddouble x = Beta / InverseUpperIncompleteGamma(Alpha, p);
 
-                return quantile;
+                return x;
             }
             else {
                 if (p >= 1d) {
                     return 0d;
                 }
 
-                ddouble quantile = Beta / InverseLowerIncompleteGamma(Alpha, p);
+                ddouble x = Beta / InverseLowerIncompleteGamma(Alpha, p);
 
-                return quantile;
+                return x;
             }
         }
 

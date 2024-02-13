@@ -86,18 +86,18 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = (p < p_thr)
+                ddouble x = (p < p_thr)
                     ? A + Sqrt(abxac * p)
                     : B - Sqrt(abxcb * (1d - p));
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = ((1d - p) < p_thr)
+                ddouble x = ((1d - p) < p_thr)
                     ? A + Sqrt(abxac * (1d - p))
                     : B - Sqrt(abxcb * p);
 
-                return quantile;
+                return x;
             }
         }
 

@@ -61,11 +61,11 @@ namespace DoubleDoubleDistribution {
                 return Quantile(1d - p);
             }
 
-            ddouble quantile = Expm1(p * C / pdf_norm) / C;
+            ddouble x = Expm1(p * C / pdf_norm) / C;
 
-            quantile = Clamp(quantile, 0d, 1d);
+            x = Clamp(x, 0d, 1d);
 
-            return quantile;
+            return x;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, 1d);

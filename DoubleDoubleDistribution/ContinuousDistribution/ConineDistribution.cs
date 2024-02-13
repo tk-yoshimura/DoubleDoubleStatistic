@@ -82,9 +82,9 @@ namespace DoubleDoubleDistribution {
 
             ddouble u = KeplerE(PI * p * 2, 1d) * RcpPI - 1d;
 
-            ddouble quantile = (interval == Interval.Lower) ? (Mu + Sigma * u) : (Mu - Sigma * u);
+            ddouble x = (interval == Interval.Lower) ? (Mu + Sigma * u) : (Mu - Sigma * u);
 
-            return quantile;
+            return x;
         }
 
         public override (ddouble min, ddouble max) Support => (Mu - Sigma, Mu + Sigma);

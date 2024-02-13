@@ -72,14 +72,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = A + p * range;
+                ddouble x = A + p * range;
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = B - p * range;
+                ddouble x = B - p * range;
 
-                return quantile;
+                return x;
             }
         }
 

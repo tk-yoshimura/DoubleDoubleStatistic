@@ -55,18 +55,18 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = -Log1p(-p) * Theta;
+                ddouble x = -Log1p(-p) * Theta;
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = -Log(p) * Theta;
+                ddouble x = -Log(p) * Theta;
 
-                if (IsNegative(quantile)) {
+                if (IsNegative(x)) {
                     return 0d;
                 }
 
-                return quantile;
+                return x;
             }
         }
 

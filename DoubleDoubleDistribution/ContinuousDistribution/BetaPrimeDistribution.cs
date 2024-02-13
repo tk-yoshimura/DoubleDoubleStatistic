@@ -64,9 +64,9 @@ namespace DoubleDoubleDistribution {
                 }
 
                 ddouble u = InverseIncompleteBeta(p, Alpha, Beta);
-                ddouble quantile = u / (1d - u);
+                ddouble x = u / (1d - u);
 
-                return quantile;
+                return x;
             }
             else {
                 if (p <= 0d) {
@@ -77,9 +77,9 @@ namespace DoubleDoubleDistribution {
                 }
 
                 ddouble u = InverseIncompleteBeta(1d - p, Alpha, Beta);
-                ddouble quantile = u / (1d - u);
+                ddouble x = u / (1d - u);
 
-                return quantile;
+                return x;
             }
         }
 

@@ -62,9 +62,9 @@ namespace DoubleDoubleDistribution {
                 return Quantile(1d - p, Interval.Upper);
             }
 
-            ddouble quantile = Xm / Pow(p, 1d / Alpha);
+            ddouble x = Xm / Pow(p, 1d / Alpha);
 
-            return quantile;
+            return x;
         }
 
         public override bool Scalable => true;

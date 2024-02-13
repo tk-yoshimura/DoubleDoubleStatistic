@@ -3,14 +3,14 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ExtremeValueDistribution : ContinuousDistribution,
-        IAdditionOperators<ExtremeValueDistribution, ddouble, ExtremeValueDistribution>,
-        IMultiplyOperators<ExtremeValueDistribution, ddouble, ExtremeValueDistribution> {
+    public class GumbelDistribution : ContinuousDistribution,
+        IAdditionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
+        IMultiplyOperators<GumbelDistribution, ddouble, GumbelDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        public ExtremeValueDistribution(ddouble mu, ddouble sigma) {
+        public GumbelDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
             ValidateShape(sigma, beta => beta > 0);
 
@@ -48,17 +48,17 @@ namespace DoubleDoubleDistribution {
 
             if (interval == Interval.Lower) {
                 ddouble u = Log(-Log(p));
-                ddouble quantile = Mu - Sigma * u;
+                ddouble x = Mu - Sigma * u;
 
-                quantile = IsNaN(quantile) ? PositiveInfinity : quantile;
+                x = IsNaN(x) ? PositiveInfinity : x;
 
-                return quantile;
+                return x;
             }
             else {
                 ddouble u = Log(-Log1p(-p));
-                ddouble quantile = Mu - Sigma * u;
+                ddouble x = Mu - Sigma * u;
 
-                return quantile;
+                return x;
             }
         }
 
@@ -82,16 +82,16 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Entropy => Log(Sigma) + EulerGamma + 1d;
 
-        public static ExtremeValueDistribution operator +(ExtremeValueDistribution dist, ddouble s) {
+        public static GumbelDistribution operator +(GumbelDistribution dist, ddouble s) {
             return new(s + dist.Mu, dist.Sigma);
         }
 
-        public static ExtremeValueDistribution operator *(ExtremeValueDistribution dist, ddouble k) {
+        public static GumbelDistribution operator *(GumbelDistribution dist, ddouble k) {
             return new(k * dist.Mu, k * dist.Sigma);
         }
 
         public override string ToString() {
-            return $"{typeof(ExtremeValueDistribution).Name}[mu={Mu},sigma={Sigma}]";
+            return $"{typeof(GumbelDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
     }
 }

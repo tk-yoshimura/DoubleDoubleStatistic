@@ -74,18 +74,18 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = beta + Cbrt(3d * p - alpha * c) / Cbrt(alpha);
+                ddouble x = beta + Cbrt(3d * p - alpha * c) / Cbrt(alpha);
 
-                quantile = Clamp(quantile, A, B);
+                x = Clamp(x, A, B);
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = beta - Cbrt(3d * p - alpha * c) / Cbrt(alpha);
+                ddouble x = beta - Cbrt(3d * p - alpha * c) / Cbrt(alpha);
 
-                quantile = Clamp(quantile, A, B);
+                x = Clamp(x, A, B);
 
-                return quantile;
+                return x;
             }
         }
 

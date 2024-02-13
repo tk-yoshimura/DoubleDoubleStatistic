@@ -53,14 +53,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = Mu + Sigma * Log(p / (1d - p));
+                ddouble x = Mu + Sigma * Log(p / (1d - p));
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = Mu + Sigma * Log((1d - p) / p);
+                ddouble x = Mu + Sigma * Log((1d - p) / p);
 
-                return quantile;
+                return x;
             }
         }
 

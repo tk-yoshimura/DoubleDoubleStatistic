@@ -54,18 +54,18 @@ namespace DoubleDoubleDistribution {
             ddouble u = 2 * p;
 
             if (interval == Interval.Lower) {
-                ddouble quantile = p < 0.5d
+                ddouble x = p < 0.5d
                     ? Mu + Log(u) * Sigma
                     : Mu - Log(2d - u) * Sigma;
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = p < 0.5d
+                ddouble x = p < 0.5d
                     ? Mu - Log(u) * Sigma
                     : Mu + Log(2d - u) * Sigma;
 
-                return quantile;
+                return x;
             }
         }
 

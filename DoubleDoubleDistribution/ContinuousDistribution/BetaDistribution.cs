@@ -48,14 +48,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = InverseIncompleteBeta(p, Alpha, Beta);
+                ddouble x = InverseIncompleteBeta(p, Alpha, Beta);
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = InverseIncompleteBeta(1d - p, Alpha, Beta);
+                ddouble x = InverseIncompleteBeta(1d - p, Alpha, Beta);
 
-                return quantile;
+                return x;
             }
         }
 

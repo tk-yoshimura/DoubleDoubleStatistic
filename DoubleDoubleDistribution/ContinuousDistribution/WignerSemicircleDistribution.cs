@@ -61,11 +61,11 @@ namespace DoubleDoubleDistribution {
 
             ddouble u = Sqrt(2 * p);
 
-            ddouble quantile = QuantilePade.Value(u);
-            quantile = interval != Interval.Lower ? quantile : -quantile;
-            quantile *= R;
+            ddouble x = QuantilePade.Value(u);
+            x = interval != Interval.Lower ? x : -x;
+            x *= R;
 
-            return quantile;
+            return x;
         }
 
         public override bool Scalable => true;

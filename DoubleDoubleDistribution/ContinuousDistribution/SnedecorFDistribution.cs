@@ -70,15 +70,15 @@ namespace DoubleDoubleDistribution {
 
             if (interval == Interval.Lower) {
                 ddouble u = InverseIncompleteBeta(p, D1 * 0.5d, D2 * 0.5d);
-                ddouble quantile = (D2 * u) / (D1 * (1d - u));
+                ddouble x = (D2 * u) / (D1 * (1d - u));
 
-                return quantile;
+                return x;
             }
             else {
                 ddouble u = InverseIncompleteBeta(1d - p, D1 * 0.5d, D2 * 0.5d);
-                ddouble quantile = (D2 * u) / (D1 * (1d - u));
+                ddouble x = (D2 * u) / (D1 * (1d - u));
 
-                return quantile;
+                return x;
             }
         }
 

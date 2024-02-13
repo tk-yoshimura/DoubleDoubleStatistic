@@ -69,22 +69,22 @@ namespace DoubleDoubleDistribution {
                     return PositiveInfinity;
                 }
 
-                ddouble quantile = Pow(-Log1p(-p), k_inv) * Theta;
+                ddouble x = Pow(-Log1p(-p), k_inv) * Theta;
 
-                return quantile;
+                return x;
             }
             else {
                 if (p == 0d) {
                     return PositiveInfinity;
                 }
 
-                ddouble quantile = Pow(-Log(p), k_inv) * Theta;
+                ddouble x = Pow(-Log(p), k_inv) * Theta;
 
-                if (IsNegative(quantile)) {
+                if (IsNegative(x)) {
                     return 0d;
                 }
 
-                return quantile;
+                return x;
             }
         }
 

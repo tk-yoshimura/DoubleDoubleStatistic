@@ -74,34 +74,34 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble quantile;
+            ddouble x;
 
             if (p == 0) {
-                quantile = NegativeInfinity;
+                x = NegativeInfinity;
             }
             else if (p == 1) {
-                quantile = PositiveInfinity;
+                x = PositiveInfinity;
             }
             else if (Nu == 1) {
-                quantile = Tan(PI * (p - 0.5d));
+                x = Tan(PI * (p - 0.5d));
             }
             else if (Nu == 2) {
-                quantile = 2 * (p - 0.5d) * Sqrt(1d / (2 * p * (1d - p)));
+                x = 2 * (p - 0.5d) * Sqrt(1d / (2 * p * (1d - p)));
             }
             else if (Nu == 4) {
                 ddouble a = 4 * p * (1d - p);
                 ddouble q = Cos(Acos(Sqrt(a)) / 3d) / Sqrt(a);
 
-                quantile = Sign(p - 0.5d) * 2 * Sqrt(q - 1d);
+                x = Sign(p - 0.5d) * 2 * Sqrt(q - 1d);
             }
             else {
                 ddouble t = InverseIncompleteBeta(p, nu_half, nu_half);
                 ddouble u = Sqrt(Nu / (t * (1 - t)));
 
-                quantile = u * (2 * t - 1) / 2;
+                x = u * (2 * t - 1) / 2;
             }
 
-            return interval == Interval.Lower ? quantile : -quantile;
+            return interval == Interval.Lower ? x : -x;
         }
 
         public override bool Symmetric => true;
