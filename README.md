@@ -14,12 +14,13 @@ T: TODO Test
 |            | bradford           | T     | T     | T        | T     | N          | N      |            |
 |            | beta               | T     | T     | T        | T     | N          | N      |            |
 |            | beta prime         | T     | T     | T        | T     | N          | N      |            |
-|            | burr               | N     | N     | N        | N     | N          | N      | C          |
+|            | burr               | T     | T     | T        | T     | N          | N      |            |
 |            | chi                | T     | T     | T        | T     | N          | N      |            |
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
 |            | cosine             | T     | T     | T        | T     | N          | N      |            |
 |            | exponential        | T     | T     | T        | T     | N          | N      |            |
 |            | extreme value      | N     | N     | N        | N     | N          | N      | C          |
+|            | dagum              | N     | N     | N        | N     | N          | N      | C          |
 |            | gamma              | T     | T     | T        | T     | N          | N      |            |
 |            | gumbel             | N     | N     | N        | N     | N          | N      | C          |
 |            | gibrat             | N     | N     | N        | N     | N          | N      | C          |
@@ -60,7 +61,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 28/52 | 28/52 | 27/52    | 28/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 29/53 | 29/53 | 28/53    | 29/53 | 0/53       | 0/53   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
