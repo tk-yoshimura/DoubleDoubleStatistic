@@ -19,7 +19,7 @@ T: TODO Test
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
 |            | cosine             | T     | T     | T        | T     | N          | N      |            |
 |            | exponential        | T     | T     | T        | T     | N          | N      |            |
-|            | extreme value      | N     | N     | N        | N     | N          | N      | C          |
+|            | extreme value      | T     | T     | T        | T     | N          | N      |            |
 |            | dagum              | N     | N     | N        | N     | N          | N      | C          |
 |            | gamma              | T     | T     | T        | T     | N          | N      |            |
 |            | gumbel             | N     | N     | N        | N     | N          | N      | C          |
@@ -61,7 +61,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 29/53 | 29/53 | 28/53    | 29/53 | 0/53       | 0/53   |            |
+|            | ***coverage***     | 30/53 | 30/53 | 29/53    | 30/53 | 0/53       | 0/53   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
