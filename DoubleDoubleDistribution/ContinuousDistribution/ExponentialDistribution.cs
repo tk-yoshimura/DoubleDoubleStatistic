@@ -82,7 +82,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Skewness => 2d;
         public override ddouble Kurtosis => 6d;
 
-        public override ddouble Entropy => 1d - Log(theta_inv);
+        public override ddouble Entropy => 1d + Log(Theta);
 
         public static ExponentialDistribution operator *(ExponentialDistribution dist, ddouble k) {
             return new(k * dist.Theta);

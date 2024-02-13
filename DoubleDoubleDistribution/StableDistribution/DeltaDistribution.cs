@@ -3,14 +3,14 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class DeltaDistribution : ContinuousDistribution,
+    public class DeltaDistribution : StableDistribution,
         IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         IMultiplyOperators<DeltaDistribution, ddouble, DeltaDistribution> {
 
-        public ddouble Mu { get; }
+        public override ddouble Mu { get; }
 
-        public DeltaDistribution() : this(mu: 0) { }
+        public DeltaDistribution() : this(mu: 0d) { }
 
         public DeltaDistribution(ddouble mu) {
             ValidateLocation(mu);
@@ -43,9 +43,6 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) => InRangeUnit(p) ? Mu : NaN;
 
-        public override bool AdditiveClosed => true;
-        public override bool SubtractiveClosed => true;
-        public override bool Scalable => true;
         public override bool Symmetric => true;
 
         public override ddouble Mean => Mu;
@@ -54,6 +51,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Variance => 0;
 
         public override ddouble Entropy => NegativeInfinity;
+
+        public override ddouble Alpha => 0d;
+        public override ddouble Beta => 0d;
+        public override ddouble C => 0d;
 
         public static DeltaDistribution operator +(DeltaDistribution dist1, DeltaDistribution dist2) {
             return new(dist1.Mu + dist2.Mu);
