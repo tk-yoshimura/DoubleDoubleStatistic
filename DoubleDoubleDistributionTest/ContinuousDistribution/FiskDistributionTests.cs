@@ -117,8 +117,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ];
 
             foreach ((FiskDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_c1, expected_dist_c1), 
-                (dist_c2, expected_dist_c2), 
+                (dist_c1, expected_dist_c1),
+                (dist_c2, expected_dist_c2),
                 (dist_c3, expected_dist_c3),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
@@ -144,8 +144,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ];
 
             foreach ((FiskDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_c1, expected_dist_c1), 
-                (dist_c2, expected_dist_c2), 
+                (dist_c1, expected_dist_c1),
+                (dist_c2, expected_dist_c2),
                 (dist_c3, expected_dist_c3),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {

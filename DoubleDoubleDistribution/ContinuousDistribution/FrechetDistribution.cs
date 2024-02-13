@@ -58,7 +58,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble v = Pow(u, Alpha);
 
-                if (!IsFinite(v)) { 
+                if (!IsFinite(v)) {
                     return 1d;
                 }
 
@@ -73,7 +73,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble v = Pow(u, Alpha);
 
-                if (!IsFinite(v)) { 
+                if (!IsFinite(v)) {
                     return 0d;
                 }
 

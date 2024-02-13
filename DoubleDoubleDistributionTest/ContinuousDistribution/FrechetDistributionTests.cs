@@ -122,9 +122,9 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ddouble[] expected_dist_alpha3mu0theta4 = [];
 
             foreach ((FrechetDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_alpha1mu0theta1, expected_dist_alpha1mu0theta1), 
+                (dist_alpha1mu0theta1, expected_dist_alpha1mu0theta1),
                 (dist_alpha2mu1theta1, expected_dist_alpha2mu1theta1),
-                (dist_alpha1mu0theta2, expected_dist_alpha1mu0theta2), 
+                (dist_alpha1mu0theta2, expected_dist_alpha1mu0theta2),
                 (dist_alpha2mu2theta2, expected_dist_alpha2mu2theta2),
                 (dist_alpha3mu0theta4, expected_dist_alpha3mu0theta4),
             }) {
@@ -150,9 +150,9 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ddouble[] expected_dist_alpha3mu0theta4 = [];
 
             foreach ((FrechetDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_alpha1mu0theta1, expected_dist_alpha1mu0theta1), 
+                (dist_alpha1mu0theta1, expected_dist_alpha1mu0theta1),
                 (dist_alpha2mu1theta1, expected_dist_alpha2mu1theta1),
-                (dist_alpha1mu0theta2, expected_dist_alpha1mu0theta2), 
+                (dist_alpha1mu0theta2, expected_dist_alpha1mu0theta2),
                 (dist_alpha2mu2theta2, expected_dist_alpha2mu2theta2),
                 (dist_alpha3mu0theta4, expected_dist_alpha3mu0theta4),
             }) {
