@@ -76,10 +76,15 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => Sigma * Sqrt2 / Sqrt(PI);
+
         public override ddouble Median => Sigma * Sqrt2 * InverseErf(0.5d);
-        public override ddouble Mode => 0;
+
+        public override ddouble Mode => 0d;
+
         public override ddouble Variance => sigma_sq * (1d - 2 * RcpPI);
+
         public override ddouble Skewness => Sqrt2 * (4d - PI) / Cube(Sqrt(PI - 2d));
+
         public override ddouble Kurtosis => 8 * (PI - 3d) / Square(PI - 2d);
 
         public override ddouble Entropy => Log2(2 * PI * E * sigma_sq) / 2 - 1d;

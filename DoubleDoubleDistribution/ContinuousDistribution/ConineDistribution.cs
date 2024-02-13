@@ -4,6 +4,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
     public class CosineDistribution : ContinuousDistribution,
+        IAdditionOperators<CosineDistribution, ddouble, CosineDistribution>,
         IMultiplyOperators<CosineDistribution, ddouble, CosineDistribution> {
 
         public ddouble Mu { get; }
@@ -89,16 +90,29 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (Mu - Sigma, Mu + Sigma);
 
         public override bool Scalable => true;
+
+        public override bool Shiftable => true;
+
         public override bool Symmetric => true;
 
         public override ddouble Mean => Mu;
+
         public override ddouble Median => Mu;
+
         public override ddouble Mode => Mu;
-        public override ddouble Variance => Square(Sigma) * (1d - 6d / (PI * PI)) / 3d;
-        public override ddouble Skewness => 0;
-        public override ddouble Kurtosis => 6d * (90d - Square(Square(PI))) / (5d * Square(PI * PI - 6d));
+
+        public override ddouble Variance =>
+            Square(Sigma) * (1d - 6d / (PI * PI)) / 3d;
+        public override ddouble Skewness => 0d;
+
+        public override ddouble Kurtosis =>
+            6d * (90d - Square(Square(PI))) / (5d * Square(PI * PI - 6d));
 
         public override ddouble Entropy => -0.5d + 2 * Ln2 + Log(Sigma);
+
+        public static CosineDistribution operator +(CosineDistribution dist, ddouble s) {
+            return new(s + dist.Mu, dist.Sigma);
+        }
 
         public static CosineDistribution operator *(CosineDistribution dist, ddouble k) {
             return new(k * dist.Mu, k * dist.Sigma);

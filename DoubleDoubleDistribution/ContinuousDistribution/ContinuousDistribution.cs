@@ -10,6 +10,7 @@ namespace DoubleDoubleDistribution {
         public virtual bool SubtractiveClosed => false;
         public virtual bool MultiplyClosed => false;
         public virtual bool Scalable => false;
+        public virtual bool Shiftable => false;
         public virtual bool Symmetric => false;
 
         public virtual (ddouble min, ddouble max) Support =>

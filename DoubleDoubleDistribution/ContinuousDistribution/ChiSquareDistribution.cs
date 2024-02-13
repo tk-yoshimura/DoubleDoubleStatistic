@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ChiSquareDistribution : ContinuousDistribution {
+    public class ChiSquareDistribution : ContinuousDistribution,
+        IAdditionOperators<ChiSquareDistribution, ChiSquareDistribution, ChiSquareDistribution> {
 
         public int K { get; }
 
@@ -68,13 +70,20 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool AdditiveClosed => true;
+
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
         public override ddouble Mean => K;
+
         public override ddouble Median => Quantile(0.5);
+
         public override ddouble Mode => Max(K - 2, 0);
+
         public override ddouble Variance => Ldexp(K, 1);
+
         public override ddouble Skewness => Sqrt((ddouble)8 / K);
+
         public override ddouble Kurtosis => (ddouble)12 / K;
 
         public override ddouble Entropy {
@@ -83,6 +92,10 @@ namespace DoubleDoubleDistribution {
 
                 return k_half + Log(2 * Gamma(k_half)) + (1 - k_half) * Digamma(k_half);
             }
+        }
+
+        public static ChiSquareDistribution operator +(ChiSquareDistribution dist1, ChiSquareDistribution dist2) {
+            return new(dist1.K + dist2.K);
         }
 
         public override string ToString() {

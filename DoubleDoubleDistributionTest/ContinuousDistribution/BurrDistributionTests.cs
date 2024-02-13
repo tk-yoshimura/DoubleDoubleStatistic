@@ -32,7 +32,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
-                Console.WriteLine($"Entropy={dist.Entropy}");
+                /* TODO: implement entropy */
+                //Console.WriteLine($"Entropy={dist.Entropy}");
             }
         }
 

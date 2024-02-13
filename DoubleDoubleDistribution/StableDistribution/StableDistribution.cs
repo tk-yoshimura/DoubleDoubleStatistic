@@ -5,6 +5,7 @@ namespace DoubleDoubleDistribution {
         public override bool AdditiveClosed => true;
         public override bool SubtractiveClosed => true;
         public override bool Scalable => true;
+        public override bool Shiftable => true;
 
         public virtual ddouble Alpha => throw new NotImplementedException();
         public virtual ddouble Beta => throw new NotImplementedException();

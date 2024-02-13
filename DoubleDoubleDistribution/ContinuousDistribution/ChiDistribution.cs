@@ -78,10 +78,15 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
-        public override ddouble Mean => Sqrt2 * Exp(LogGamma((K + 1) * 0.5) - LogGamma(K * 0.5));
+        public override ddouble Mean =>
+            Sqrt2 * Exp(LogGamma((K + 1) * 0.5) - LogGamma(K * 0.5));
+
         public override ddouble Median => Quantile(0.5);
+
         public override ddouble Mode => Sqrt(K - 1);
+
         public override ddouble Variance => K - Square(Mean);
+
         public override ddouble Skewness {
             get {
                 ddouble variance = Variance;

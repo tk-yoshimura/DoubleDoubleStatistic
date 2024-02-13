@@ -85,13 +85,22 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => Exp(Mu + Ldexp(sigma_sq, -1));
-        public override ddouble Median => Exp(Mu);
-        public override ddouble Mode => Exp(Mu - sigma_sq);
-        public override ddouble Variance => Exp(2 * Mu + sigma_sq) * (Exp(sigma_sq) - 1);
-        public override ddouble Skewness => Sqrt(Exp(sigma_sq) - 1) * (Exp(sigma_sq) + 2);
-        public override ddouble Kurtosis => Exp(4 * sigma_sq) + 2 * Exp(3 * sigma_sq) + 3 * Exp(2 * sigma_sq) - 6;
 
-        public override ddouble Entropy => (1d + Log(2 * PI * sigma_sq)) / 2 + Mu;
+        public override ddouble Median => Exp(Mu);
+
+        public override ddouble Mode => Exp(Mu - sigma_sq);
+
+        public override ddouble Variance =>
+            Exp(2 * Mu + sigma_sq) * (Exp(sigma_sq) - 1);
+
+        public override ddouble Skewness =>
+            Sqrt(Exp(sigma_sq) - 1) * (Exp(sigma_sq) + 2);
+
+        public override ddouble Kurtosis =>
+            Exp(4 * sigma_sq) + 2 * Exp(3 * sigma_sq) + 3 * Exp(2 * sigma_sq) - 6d;
+
+        public override ddouble Entropy =>
+            (1d + Log(2 * PI * sigma_sq)) / 2 + Mu;
 
         public static LogNormalDistribution operator *(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));

@@ -4,6 +4,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
     public class LaplaceDistribution : ContinuousDistribution,
+        IAdditionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         IMultiplyOperators<LaplaceDistribution, ddouble, LaplaceDistribution> {
 
         public ddouble Mu { get; }
@@ -69,17 +70,29 @@ namespace DoubleDoubleDistribution {
         }
 
         public override bool Scalable => true;
+
+        public override bool Shiftable => true;
+
         public override bool Symmetric => true;
 
+
         public override ddouble Mean => Mu;
+
         public override ddouble Median => Mu;
+
         public override ddouble Mode => Mu;
 
         public override ddouble Variance => 2 * Sigma * Sigma;
+
         public override ddouble Skewness => 0d;
+
         public override ddouble Kurtosis => 3d;
 
         public override ddouble Entropy => Log(2 * Sigma * E);
+
+        public static LaplaceDistribution operator +(LaplaceDistribution dist, ddouble s) {
+            return new(s + dist.Mu, dist.Sigma);
+        }
 
         public static LaplaceDistribution operator *(LaplaceDistribution dist, ddouble k) {
             return new(k * dist.Mu, k * dist.Sigma);

@@ -106,12 +106,23 @@ namespace DoubleDoubleDistribution {
 
         public override bool Symmetric => true;
 
-        public override ddouble Mean => Nu > 1 ? 0 : NaN;
-        public override ddouble Median => 0;
-        public override ddouble Mode => 0;
-        public override ddouble Variance => Nu > 2 ? Nu / (Nu - 2) : Nu > 1 ? PositiveInfinity : NaN;
-        public override ddouble Skewness => Nu > 3 ? 0 : NaN;
-        public override ddouble Kurtosis => Nu > 4 ? 6 / (Nu - 4) : NaN;
+        public override ddouble Mean => Nu > 1d ? 0 : NaN;
+
+        public override ddouble Median => 0d;
+
+        public override ddouble Mode => 0d;
+
+        public override ddouble Variance => (Nu > 2d)
+            ? Nu / (Nu - 2d)
+            : (Nu > 1d)
+            ? PositiveInfinity
+            : NaN;
+
+        public override ddouble Skewness => (Nu > 3d) ? 0d : NaN;
+
+        public override ddouble Kurtosis => (Nu > 4d)
+            ? 6d / (Nu - 4d)
+            : NaN;
 
         public override ddouble Entropy =>
             (Nu + 1) / 2 * (Digamma((Nu + 1) / 2) - Digamma(Nu / 2)) + Log(Sqrt(Nu) * Beta(Nu / 2, Point5));

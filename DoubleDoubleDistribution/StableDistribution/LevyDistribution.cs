@@ -6,6 +6,7 @@ namespace DoubleDoubleDistribution {
     public class LevyDistribution : StableDistribution,
         IAdditionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
         ISubtractionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
+        IAdditionOperators<LevyDistribution, ddouble, LevyDistribution>,
         IMultiplyOperators<LevyDistribution, ddouble, LevyDistribution> {
 
         public override ddouble Mu { get; }
@@ -80,18 +81,19 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override bool AdditiveClosed => true;
-        public override bool SubtractiveClosed => true;
-        public override bool Scalable => true;
-
         public override ddouble Mean => PositiveInfinity;
+
         public override ddouble Median => Mu + C / (2 * Square(Erfc(0.5d)));
+
         public override ddouble Mode => Mu + C / 3d;
+
         public override ddouble Variance => PositiveInfinity;
 
-        public override ddouble Entropy => (1d + 3d * EulerGamma + Log(16 * PI * C * C)) / 2;
+        public override ddouble Entropy =>
+            (1d + 3d * EulerGamma + Log(16 * PI * C * C)) / 2;
 
         public override ddouble Alpha => 0.5d;
+
         public override ddouble Beta => 1d;
 
         public static LevyDistribution operator +(LevyDistribution dist1, LevyDistribution dist2) {
@@ -100,6 +102,10 @@ namespace DoubleDoubleDistribution {
 
         public static LevyDistribution operator -(LevyDistribution dist1, LevyDistribution dist2) {
             return new(dist1.Mu - dist2.Mu, Hypot(dist1.C, dist2.C));
+        }
+
+        public static LevyDistribution operator +(LevyDistribution dist, ddouble s) {
+            return new(s + dist.Mu, dist.C);
         }
 
         public static LevyDistribution operator *(LevyDistribution dist, ddouble k) {

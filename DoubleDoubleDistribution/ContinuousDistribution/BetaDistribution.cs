@@ -64,15 +64,21 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean => Alpha / (Alpha + Beta);
+
         public override ddouble Median => InverseIncompleteBeta(0.5, Alpha, Beta);
+
         public override ddouble Mode =>
             Alpha > 1d && Beta > 1d ? (Alpha - 1d) / (Alpha + Beta - 2d) :
             Alpha <= 1d && Beta >= 1d && Alpha != Beta ? 0d :
             Alpha >= 1d && Beta <= 1d && Alpha != Beta ? 1d :
             NaN;
 
-        public override ddouble Variance => Alpha * Beta / (Square(Alpha + Beta) * (Alpha + Beta + 1d));
-        public override ddouble Skewness => 2 * (Beta - Alpha) * Sqrt(Alpha + Beta + 1d) / ((Alpha + Beta + 2d) * Sqrt(Alpha * Beta));
+        public override ddouble Variance =>
+            Alpha * Beta / (Square(Alpha + Beta) * (Alpha + Beta + 1d));
+
+        public override ddouble Skewness =>
+            2 * (Beta - Alpha) * Sqrt(Alpha + Beta + 1d) / ((Alpha + Beta + 2d) * Sqrt(Alpha * Beta));
+
         public override ddouble Kurtosis =>
             6 * (Square(Alpha - Beta) * (Alpha + Beta + 1d) - Alpha * Beta * (Alpha + Beta + 2d)) / (Alpha * Beta * (Alpha + Beta + 2d) * (Alpha + Beta + 3d));
 

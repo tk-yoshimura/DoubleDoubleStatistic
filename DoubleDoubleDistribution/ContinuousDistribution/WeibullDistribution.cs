@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class WeibullDistribution : ContinuousDistribution, 
+    public class WeibullDistribution : ContinuousDistribution,
         IMultiplyOperators<WeibullDistribution, ddouble, WeibullDistribution> {
 
         public ddouble K { get; }
@@ -68,7 +68,7 @@ namespace DoubleDoubleDistribution {
                 if (p == 1d) {
                     return PositiveInfinity;
                 }
-                
+
                 ddouble quantile = Pow(-Log1p(-p), k_inv) * Theta;
 
                 return quantile;
@@ -92,11 +92,19 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => Theta * Gamma(1d + k_inv);
-        public override ddouble Median => Theta * Pow(Ln2, k_inv);
-        public override ddouble Mode => (K <= 1d) ? 0d : Theta * Pow((K - 1d) * k_inv, k_inv);
+        public override ddouble Mean =>
+            Theta * Gamma(1d + k_inv);
 
-        public override ddouble Variance => Theta * Theta * (Gamma(1d + 2d * k_inv) - Square(Gamma(1d + k_inv)));
+        public override ddouble Median =>
+            Theta * Pow(Ln2, k_inv);
+
+        public override ddouble Mode => (K <= 1d)
+            ? 0d
+            : Theta * Pow((K - 1d) * k_inv, k_inv);
+
+        public override ddouble Variance =>
+            Theta * Theta * (Gamma(1d + 2d * k_inv) - Square(Gamma(1d + k_inv)));
+
         public override ddouble Skewness {
             get {
                 ddouble mu = Mean, var = Variance;

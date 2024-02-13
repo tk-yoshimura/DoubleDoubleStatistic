@@ -1,8 +1,11 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class UniformDistribution : ContinuousDistribution {
+    public class UniformDistribution : ContinuousDistribution,
+        IAdditionOperators<UniformDistribution, ddouble, UniformDistribution>,
+        IMultiplyOperators<UniformDistribution, ddouble, UniformDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -80,18 +83,33 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Scalable => true;
+
+        public override bool Shiftable => true;
+
         public override bool Symmetric => true;
 
         public override (ddouble min, ddouble max) Support => (A, B);
 
         public override ddouble Mean => Ldexp(A + B, -1);
+
         public override ddouble Median => Ldexp(A + B, -1);
 
-        public override ddouble Variance => Square(range) / 12;
+        public override ddouble Variance => Square(range) / 12d;
+
         public override ddouble Skewness => 0d;
+
         public override ddouble Kurtosis => -(ddouble)6 / 5;
 
         public override ddouble Entropy => Log(range);
+
+        public static UniformDistribution operator +(UniformDistribution dist, ddouble s) {
+            return new(s + dist.A, s + dist.B);
+        }
+
+        public static UniformDistribution operator *(UniformDistribution dist, ddouble k) {
+            return new(k * dist.A, k * dist.B);
+        }
 
         public override string ToString() {
             return $"{typeof(UniformDistribution).Name}[a={A},b={B}]";

@@ -131,10 +131,13 @@ namespace DoubleDoubleDistribution {
         }
 
         public override bool AdditiveClosed => true;
+
         public override bool Scalable => true;
+
         public override bool Symmetric => true;
 
         public override ddouble Median => 0d;
+
         public override ddouble Mode => 0d;
 
         public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {

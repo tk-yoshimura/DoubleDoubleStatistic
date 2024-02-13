@@ -1,8 +1,11 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class UShapeDistribution : ContinuousDistribution {
+    public class UShapeDistribution : ContinuousDistribution,
+        IAdditionOperators<UShapeDistribution, ddouble, UShapeDistribution>,
+        IMultiplyOperators<UShapeDistribution, ddouble, UShapeDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -86,17 +89,25 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Scalable => true;
+        public override bool Shiftable => true;
         public override bool Symmetric => true;
 
         public override (ddouble min, ddouble max) Support => (A, B);
 
         public override ddouble Mean => Ldexp(A + B, -1);
+
         public override ddouble Median => Ldexp(A + B, -1);
+
         public override ddouble Mode => NaN;
 
-        public override ddouble Variance => Square(range) * 3d / 20d;
+        public override ddouble Variance =>
+            Square(range) * 3d / 20d;
+
         public override ddouble Skewness => 0d;
-        public override ddouble Kurtosis => Square(Square(range)) * 3d / 112d;
+
+        public override ddouble Kurtosis =>
+            Square(Square(range)) * 3d / 112d;
 
         public override ddouble Entropy {
             get {
@@ -104,6 +115,14 @@ namespace DoubleDoubleDistribution {
 
                 return -(Cube(Sqrt(range)) * Exp(r / 2) * (r - 2)) / (3 * Cube(Sqrt(3)));
             }
+        }
+
+        public static UShapeDistribution operator +(UShapeDistribution dist, ddouble s) {
+            return new(s + dist.A, s + dist.B);
+        }
+
+        public static UShapeDistribution operator *(UShapeDistribution dist, ddouble k) {
+            return new(k * dist.A, k * dist.B);
         }
 
         public override string ToString() {

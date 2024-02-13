@@ -38,7 +38,7 @@ namespace DoubleDoubleDistribution {
                 if (x <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) { 
+                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
                     return 1d;
                 }
 
@@ -50,7 +50,7 @@ namespace DoubleDoubleDistribution {
                 if (x <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) { 
+                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
                     return 0d;
                 }
 
@@ -93,9 +93,15 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => K * Beta(K - 1d / C, 1d + 1d / C);
-        public override ddouble Median => Pow(Pow2(1d / K) - 1d, 1d / C);
-        public override ddouble Mode => Pow((C - 1d) / (K * C + 1d), 1d / C);
+        public override ddouble Mean =>
+            K * Beta(K - 1d / C, 1d + 1d / C);
+
+        public override ddouble Median =>
+            Pow(Pow2(1d / K) - 1d, 1d / C);
+
+        public override ddouble Mode =>
+            Pow((C - 1d) / (K * C + 1d), 1d / C);
+
         public override ddouble Variance {
             get {
                 ddouble mu1 = K * Beta(K - 1d / C, 1d + 1d / C);
@@ -124,6 +130,8 @@ namespace DoubleDoubleDistribution {
                 return (-3d * Square(Square(mu1)) + 6d * mu1 * mu1 * mu2 - 4d * mu1 * mu3 + mu4) / Square(mu2 - mu1 * mu1);
             }
         }
+
+        public override ddouble Entropy => throw new NotImplementedException();
 
         public override string ToString() {
             return $"{typeof(BurrDistribution).Name}[k={K},c={C}]";

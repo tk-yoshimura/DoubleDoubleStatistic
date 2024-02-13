@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ExponentialDistribution : ContinuousDistribution, 
+    public class ExponentialDistribution : ContinuousDistribution,
         IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution> {
 
         public ddouble Theta { get; }
@@ -75,11 +75,15 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => Theta;
+
         public override ddouble Median => Ln2 * Theta;
+
         public override ddouble Mode => 0d;
 
         public override ddouble Variance => Square(Theta);
+
         public override ddouble Skewness => 2d;
+
         public override ddouble Kurtosis => 6d;
 
         public override ddouble Entropy => 1d + Log(Theta);

@@ -6,6 +6,7 @@ namespace DoubleDoubleDistribution {
     public class CauchyDistribution : StableDistribution,
         IAdditionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
+        IAdditionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution> {
 
         public override ddouble Mu { get; }
@@ -63,18 +64,18 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override bool AdditiveClosed => true;
-        public override bool SubtractiveClosed => true;
-        public override bool Scalable => true;
         public override bool Symmetric => true;
 
         public override ddouble Median => Mu;
+
         public override ddouble Mode => Mu;
 
         public override ddouble Entropy => Log(4 * PI * Gamma);
 
         public override ddouble Alpha => 1d;
+
         public override ddouble Beta => 0d;
+
         public override ddouble C => Gamma;
 
         public static CauchyDistribution operator +(CauchyDistribution dist1, CauchyDistribution dist2) {
@@ -83,6 +84,10 @@ namespace DoubleDoubleDistribution {
 
         public static CauchyDistribution operator -(CauchyDistribution dist1, CauchyDistribution dist2) {
             return new(dist1.Mu - dist2.Mu, dist1.Gamma + dist2.Gamma);
+        }
+
+        public static CauchyDistribution operator +(CauchyDistribution dist, ddouble s) {
+            return new(s + dist.Mu, dist.Gamma);
         }
 
         public static CauchyDistribution operator *(CauchyDistribution dist, ddouble k) {

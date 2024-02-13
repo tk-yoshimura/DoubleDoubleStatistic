@@ -67,6 +67,8 @@ namespace DoubleDoubleDistribution {
             return quantile;
         }
 
+        public override bool Scalable => true;
+
         public override (ddouble min, ddouble max) Support => (Xm, PositiveInfinity);
 
         public override ddouble Mean => (Alpha > 1d) ? (Alpha * Xm) / (Alpha - 1d) : PositiveInfinity;

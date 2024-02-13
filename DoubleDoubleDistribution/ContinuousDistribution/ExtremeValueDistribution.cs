@@ -1,30 +1,33 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class ExtremeValueDistribution : ContinuousDistribution {
+    public class ExtremeValueDistribution : ContinuousDistribution,
+        IAdditionOperators<ExtremeValueDistribution, ddouble, ExtremeValueDistribution>,
+        IMultiplyOperators<ExtremeValueDistribution, ddouble, ExtremeValueDistribution> {
 
-        public ddouble Alpha { get; }
-        public ddouble Beta { get; }
+        public ddouble Mu { get; }
+        public ddouble Sigma { get; }
 
-        public ExtremeValueDistribution(ddouble alpha, ddouble beta) {
-            ValidateLocation(alpha);
-            ValidateShape(beta, beta => beta > 0);
+        public ExtremeValueDistribution(ddouble mu, ddouble sigma) {
+            ValidateLocation(mu);
+            ValidateShape(sigma, beta => beta > 0);
 
-            Alpha = alpha;
-            Beta = beta;
+            Mu = mu;
+            Sigma = sigma;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = (Alpha - x) / Beta;
+            ddouble u = (Mu - x) / Sigma;
 
-            ddouble pdf = Exp(-Exp(u) + u) / Beta;
+            ddouble pdf = Exp(-Exp(u) + u) / Sigma;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = (Alpha - x) / Beta;
+            ddouble u = (Mu - x) / Sigma;
 
             if (interval == Interval.Lower) {
                 ddouble cdf = Exp(-Exp(u));
@@ -45,7 +48,7 @@ namespace DoubleDoubleDistribution {
 
             if (interval == Interval.Lower) {
                 ddouble u = Log(-Log(p));
-                ddouble quantile = Alpha - Beta * u;
+                ddouble quantile = Mu - Sigma * u;
 
                 quantile = IsNaN(quantile) ? PositiveInfinity : quantile;
 
@@ -53,26 +56,42 @@ namespace DoubleDoubleDistribution {
             }
             else {
                 ddouble u = Log(-Log1p(-p));
-                ddouble quantile = Alpha - Beta * u;
+                ddouble quantile = Mu - Sigma * u;
 
                 return quantile;
             }
         }
 
-        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
+        public override bool Scalable => true;
+        public override bool Shiftable => true;
 
-        public override ddouble Mean => Alpha + EulerGamma * Beta;
+        public override ddouble Mean =>
+            Mu + EulerGamma * Sigma;
+
         public override ddouble Median => Quantile(0.5);
-        public override ddouble Mode => Alpha;
 
-        public override ddouble Variance => Square(PI * Beta) / 6d;
-        public override ddouble Skewness => 12d * Sqrt(6d) * Zeta3 / Cube(PI);
+        public override ddouble Mode => Mu;
+
+        public override ddouble Variance =>
+            Square(PI * Sigma) / 6d;
+
+        public override ddouble Skewness =>
+            12d * Sqrt(6d) * Zeta3 / Cube(PI);
+
         public override ddouble Kurtosis => (ddouble)12 / 5;
 
-        public override ddouble Entropy => Log(Beta) + EulerGamma + 1d;
+        public override ddouble Entropy => Log(Sigma) + EulerGamma + 1d;
+
+        public static ExtremeValueDistribution operator +(ExtremeValueDistribution dist, ddouble s) {
+            return new(s + dist.Mu, dist.Sigma);
+        }
+
+        public static ExtremeValueDistribution operator *(ExtremeValueDistribution dist, ddouble k) {
+            return new(k * dist.Mu, k * dist.Sigma);
+        }
 
         public override string ToString() {
-            return $"{typeof(ExtremeValueDistribution).Name}[alpha={Alpha},beta={Beta}]";
+            return $"{typeof(ExtremeValueDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
     }
 }

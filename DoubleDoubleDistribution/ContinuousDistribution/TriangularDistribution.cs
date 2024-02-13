@@ -1,8 +1,11 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class TriangularDistribution : ContinuousDistribution {
+    public class TriangularDistribution : ContinuousDistribution,
+        IAdditionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
+        IMultiplyOperators<TriangularDistribution, ddouble, TriangularDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -98,21 +101,37 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        public override bool Scalable => true;
+
+        public override bool Shiftable => true;
+
         public override bool Symmetric => true;
 
         public override (ddouble min, ddouble max) Support => (A, B);
 
         public override ddouble Mean => (A + B + C) / 3d;
+
         public override ddouble Median => Quantile(0.5d);
+
         public override ddouble Mode => C;
 
         public override ddouble Variance => (A * A + B * B + C * C - A * B - A * C - B * C) / 18d;
+
         public override ddouble Skewness =>
             Sqrt2 * (2 * A - B - C) * (A - 2 * B - C) * (A + B - 2 * C)
             / (5d * Cube(Sqrt(A * A + B * B + C * C - A * B - A * C - B * C)));
+
         public override ddouble Kurtosis => -(ddouble)3 / 5;
 
         public override ddouble Entropy => 0.5d + Log(ab / 2);
+
+        public static TriangularDistribution operator +(TriangularDistribution dist, ddouble s) {
+            return new(s + dist.A, s + dist.B, s + dist.C);
+        }
+
+        public static TriangularDistribution operator *(TriangularDistribution dist, ddouble k) {
+            return new(k * dist.A, k * dist.B, k * dist.C);
+        }
 
         public override string ToString() {
             return $"{typeof(TriangularDistribution).Name}[a={A},b={B},c={C}]";

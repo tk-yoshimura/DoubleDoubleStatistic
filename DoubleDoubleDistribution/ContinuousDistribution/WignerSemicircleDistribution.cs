@@ -69,16 +69,20 @@ namespace DoubleDoubleDistribution {
         }
 
         public override bool Scalable => true;
+
         public override bool Symmetric => true;
 
         public override (ddouble min, ddouble max) Support => (-R, R);
 
         public override ddouble Mean => 0d;
+
         public override ddouble Median => 0d;
 
         public override ddouble Variance => radius_sq / 4;
+
         public override ddouble Skewness => 0d;
-        public override ddouble Kurtosis => -1;
+
+        public override ddouble Kurtosis => -1d;
 
         public override ddouble Entropy => Log(PI * R) - 0.5d;
 

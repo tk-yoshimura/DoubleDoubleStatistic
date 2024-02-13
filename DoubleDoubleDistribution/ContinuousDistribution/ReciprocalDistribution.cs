@@ -81,7 +81,8 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => A;
 
-        public override ddouble Variance => (B * B - A * A) * pdf_norm / 2 - Square(Mean);
+        public override ddouble Variance =>
+            (B * B - A * A) * pdf_norm / 2 - Square(Mean);
 
         public override ddouble Skewness {
             get {

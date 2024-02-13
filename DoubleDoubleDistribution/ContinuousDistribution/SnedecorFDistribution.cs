@@ -84,16 +84,24 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => (D2 > 2) ? (ddouble)D2 / (D2 - 2) : NaN;
+        public override ddouble Mean => (D2 > 2)
+            ? (ddouble)D2 / (D2 - 2)
+            : NaN;
+
         public override ddouble Median => Quantile(0.5d);
-        public override ddouble Mode => (D1 > 2) ? (ddouble)checked((D1 - 2) * D2) / (D1 * (D2 + 2)) : NaN;
+
+        public override ddouble Mode => (D1 > 2)
+            ? (ddouble)checked((D1 - 2) * D2) / (D1 * (D2 + 2))
+            : NaN;
 
         public override ddouble Variance => (D2 > 4)
             ? (ddouble)checked(2 * D2 * D2 * (D1 + D2 - 2)) / checked(D1 * (D2 - 2) * (D2 - 2) * (D2 - 4))
             : NaN;
+
         public override ddouble Skewness => (D2 > 6)
             ? checked(2 * D1 + D2 - 2) * Sqrt(8 * (D2 - 4)) / ((D2 - 6) * Sqrt(checked(D1 * (D1 + D2 - 2))))
             : NaN;
+
         public override ddouble Kurtosis => (D2 > 8)
             ? checked(12d * (ddouble)checked(D1 * (5 * D2 - 22) * (D1 + D2 - 2) + (D2 - 4) * (D2 - 2) * (D2 - 2))
                 / checked(D1 * (D2 - 6) * (D2 - 8) * (D1 + D2 - 2)))

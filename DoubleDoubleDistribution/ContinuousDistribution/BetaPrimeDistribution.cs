@@ -86,15 +86,21 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => (Beta > 1d) ? Alpha / (Beta - 1d) : NaN;
+
         public override ddouble Median => Quantile(0.5d);
-        public override ddouble Mode => (Alpha >= 1d) ? (Alpha - 1d / (Beta + 1d)) : 0d;
+
+        public override ddouble Mode => (Alpha >= 1d) ?
+            (Alpha - 1d / (Beta + 1d))
+            : 0d;
 
         public override ddouble Variance => (Beta > 2d)
             ? Alpha * (Alpha + Beta - 1d) / ((Beta - 2d) * Square(Beta - 1d))
             : NaN;
+
         public override ddouble Skewness => (Beta > 3d)
             ? 2d * (2d * Alpha + Beta - 1d) / (Beta - 3d) * Sqrt((Beta - 2d) / (Alpha * (Alpha + Beta - 1d)))
             : NaN;
+
         public override ddouble Kurtosis => (Beta > 4d)
             ? 6d * (Alpha * (Alpha + Beta - 1d) * (5d * Beta - 11d) + Square(Beta - 1d) * (Beta - 2d)) / (Alpha * (Alpha + Beta - 1d) * (Beta - 3d) * (Beta - 4d))
             : NaN;

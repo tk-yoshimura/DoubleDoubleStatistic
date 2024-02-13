@@ -4,6 +4,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
     public class LogisticDistribution : ContinuousDistribution,
+        IAdditionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
         IMultiplyOperators<LogisticDistribution, ddouble, LogisticDistribution> {
 
         public ddouble Mu { get; }
@@ -64,16 +65,29 @@ namespace DoubleDoubleDistribution {
         }
 
         public override bool Scalable => true;
+
+        public override bool Shiftable => true;
+
         public override bool Symmetric => true;
 
         public override ddouble Mean => Mu;
+
         public override ddouble Median => Mu;
+
         public override ddouble Mode => Mu;
-        public override ddouble Variance => Square(Sigma * PI) / 3d;
-        public override ddouble Skewness => 0;
+
+        public override ddouble Variance =>
+            Square(Sigma * PI) / 3d;
+
+        public override ddouble Skewness => 0d;
+
         public override ddouble Kurtosis => (ddouble)6 / 5;
 
-        public override ddouble Entropy => Log(Sigma) + 2;
+        public override ddouble Entropy => Log(Sigma) + 2d;
+
+        public static LogisticDistribution operator +(LogisticDistribution dist, ddouble s) {
+            return new(s + dist.Mu, dist.Sigma);
+        }
 
         public static LogisticDistribution operator *(LogisticDistribution dist, ddouble k) {
             return new(k * dist.Mu, k * dist.Sigma);

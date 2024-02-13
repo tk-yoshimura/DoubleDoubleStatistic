@@ -5,11 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class ExtremeValueDistributionTests {
-        readonly ExtremeValueDistribution dist_a1b1 = new(alpha: 1, beta: 1);
-        readonly ExtremeValueDistribution dist_a2b1 = new(alpha: 2, beta: 1);
-        readonly ExtremeValueDistribution dist_a1b2 = new(alpha: 1, beta: 2);
-        readonly ExtremeValueDistribution dist_a2b2 = new(alpha: 2, beta: 2);
-        readonly ExtremeValueDistribution dist_a3b4 = new(alpha: 3, beta: 4);
+        readonly ExtremeValueDistribution dist_a1b1 = new(mu: 1, sigma: 1);
+        readonly ExtremeValueDistribution dist_a2b1 = new(mu: 2, sigma: 1);
+        readonly ExtremeValueDistribution dist_a1b2 = new(mu: 1, sigma: 2);
+        readonly ExtremeValueDistribution dist_a2b2 = new(mu: 2, sigma: 2);
+        readonly ExtremeValueDistribution dist_a3b4 = new(mu: 3, sigma: 4);
 
         ExtremeValueDistribution[] Dists => new[]{
             dist_a1b1,
@@ -24,8 +24,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             foreach (ExtremeValueDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Alpha={dist.Alpha}");
-                Console.WriteLine($"Beta={dist.Beta}");
+                Console.WriteLine($"Mu={dist.Mu}");
+                Console.WriteLine($"Sigma={dist.Sigma}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");

@@ -96,6 +96,7 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
         public override ddouble Median => Quantile(0.5);
+
         public override ddouble Mode => (Sqrt(Alpha * Alpha + 8d) - Alpha) / 4;
 
         public override string ToString() {

@@ -64,10 +64,13 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean => 0.5d;
+
         public override ddouble Median => 0.5d;
 
         public override ddouble Variance => 1 / 8d;
+
         public override ddouble Skewness => 0;
+
         public override ddouble Kurtosis => -1.5d;
 
         public override ddouble Entropy => Log(PI / 4);

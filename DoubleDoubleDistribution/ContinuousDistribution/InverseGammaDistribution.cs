@@ -79,13 +79,26 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => (Alpha > 1d) ? (Beta / (Alpha - 1d)) : NaN;
-        public override ddouble Median => Quantile(0.5d);
-        public override ddouble Mode => Beta / (Alpha + 1d);
+        public override ddouble Mean => (Alpha > 1d)
+            ? (Beta / (Alpha - 1d))
+            : NaN;
 
-        public override ddouble Variance => (Alpha > 2d) ? Square(Beta / (Alpha - 1d)) / (Alpha - 2d) : NaN;
-        public override ddouble Skewness => (Alpha > 3d) ? (4 * Sqrt(Alpha - 2d) / (Alpha - 3d)) : NaN;
-        public override ddouble Kurtosis => (Alpha > 4d) ? ((30d * Alpha - 66d) / ((Alpha - 3d) * (Alpha - 4d))) : NaN;
+        public override ddouble Median => Quantile(0.5d);
+
+        public override ddouble Mode =>
+            Beta / (Alpha + 1d);
+
+        public override ddouble Variance => (Alpha > 2d)
+            ? Square(Beta / (Alpha - 1d)) / (Alpha - 2d)
+            : NaN;
+
+        public override ddouble Skewness => (Alpha > 3d)
+            ? (4 * Sqrt(Alpha - 2d) / (Alpha - 3d))
+            : NaN;
+
+        public override ddouble Kurtosis => (Alpha > 4d)
+            ? ((30d * Alpha - 66d) / ((Alpha - 3d) * (Alpha - 4d)))
+            : NaN;
 
         public override ddouble Entropy => Alpha + Log(Beta) + LogGamma(Alpha) - (Alpha + 1d) * Digamma(Alpha);
 

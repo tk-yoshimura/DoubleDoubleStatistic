@@ -93,15 +93,24 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
 
-        public override ddouble Mean => 2 * Sigma * Sqrt(2 * RcpPI);
+        public override ddouble Mean =>
+            2 * Sigma * Sqrt(2 * RcpPI);
+
         public override ddouble Median => Quantile(0.5);
+
         public override ddouble Mode => Sqrt2 * Sigma;
-        public override ddouble Variance => sigma_sq * (3d - 8d * RcpPI);
-        public override ddouble Skewness => 2 * Sqrt2 * (16d - PI * 5) / Cube(Sqrt(3d * PI - 8d));
 
-        public override ddouble Kurtosis => (-392d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
+        public override ddouble Variance =>
+            sigma_sq * (3d - 8d * RcpPI);
 
-        public override ddouble Entropy => -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;
+        public override ddouble Skewness =>
+            2 * Sqrt2 * (16d - PI * 5) / Cube(Sqrt(3d * PI - 8d));
+
+        public override ddouble Kurtosis =>
+            (-392d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
+
+        public override ddouble Entropy =>
+            -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;
 
         public static MaxwellDistribution operator *(MaxwellDistribution dist, ddouble k) {
             return new(k * dist.Sigma);
