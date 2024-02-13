@@ -27,7 +27,7 @@ T: TODO Test
 |            | fisk               | T     | T     | T        | T     | N          | N      |            |
 |            | frechet            | T     | T     | T        | T     | N          | N      |            |
 |            | half normal        | T     | T     | T        | T     | N          | N      |            |
-|            | hyperbolic secant  | N     | N     | N        | N     | N          | N      | C          |
+|            | hyperbolic secant  | T     | T     | T        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | T        | T     | N          | N      |            |
 |            | inverse gauss      | N     | N     | N        | N     | N          | N      | C          |
 |            | inverse chi        | N     | N     | N        | N     | N          | N      | C          |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 34/52 | 34/52 | 33/52    | 34/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 35/52 | 35/52 | 34/52    | 35/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
