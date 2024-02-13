@@ -22,7 +22,6 @@ T: TODO Test
 |            | dagum              | N     | N     | N        | N     | N          | N      | B          |
 |            | gamma              | T     | T     | T        | T     | N          | N      |            |
 |            | gumbel             | T     | T     | T        | T     | N          | N      |            |
-|            | gibrat             | N     | N     | N        | N     | N          | N      | C          |
 |            | gompertz           | N     | N     | N        | N     | N          | N      | C          |
 |            | fisher z           | N     | N     | N        | N     | N          | N      | B          |
 |            | fisk               | N     | N     | N        | N     | N          | N      | C          |
@@ -60,6 +59,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
+|            | zold               | N     | N     | N        | N     | N          | N      | C          |
 |            | ***coverage***     | 30/52 | 30/52 | 29/52    | 30/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
