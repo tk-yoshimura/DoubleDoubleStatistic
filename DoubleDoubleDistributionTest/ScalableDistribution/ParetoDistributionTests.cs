@@ -5,16 +5,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ScalableDistribution {
     [TestClass()]
     public class ParetoDistributionTests {
-        readonly ParetoDistribution dist_xm1alpha2 = new(xm: 1, alpha: 2);
-        readonly ParetoDistribution dist_xm2alpha3 = new(xm: 2, alpha: 3);
-        readonly ParetoDistribution dist_xm2alpha4 = new(xm: 2, alpha: 4);
-        readonly ParetoDistribution dist_xm3alpha4 = new(xm: 3, alpha: 4);
+        readonly ParetoDistribution dist_alpha2xm1 = new(alpha: 2, xm: 1);
+        readonly ParetoDistribution dist_alpha3xm2 = new(alpha: 3, xm: 2);
+        readonly ParetoDistribution dist_alpha4xm2 = new(alpha: 4, xm: 2);
+        readonly ParetoDistribution dist_alpha4xm3 = new(alpha: 4, xm: 3);
 
         ParetoDistribution[] Dists => new[]{
-            dist_xm1alpha2,
-            dist_xm2alpha3,
-            dist_xm2alpha4,
-            dist_xm3alpha4,
+            dist_alpha2xm1,
+            dist_alpha3xm2,
+            dist_alpha4xm2,
+            dist_alpha4xm3,
         };
 
         [TestMethod()]
@@ -22,8 +22,8 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
             foreach (ParetoDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"Xm={dist.Xm}");
                 Console.WriteLine($"Alpha={dist.Alpha}");
+                Console.WriteLine($"Xm={dist.Xm}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
@@ -111,20 +111,20 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_xm1alpha2 = [
+            ddouble[] expected_dist_alpha2xm1 = [
             ];
-            ddouble[] expected_dist_xm2alpha3 = [
+            ddouble[] expected_dist_alpha3xm2 = [
             ];
-            ddouble[] expected_dist_xm2alpha4 = [
+            ddouble[] expected_dist_alpha4xm2 = [
             ];
-            ddouble[] expected_dist_xm3alpha4 = [
+            ddouble[] expected_dist_alpha4xm3 = [
             ];
 
             foreach ((ParetoDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_xm1alpha2, expected_dist_xm1alpha2),
-                (dist_xm2alpha3, expected_dist_xm2alpha3),
-                (dist_xm2alpha4, expected_dist_xm2alpha4),
-                (dist_xm3alpha4, expected_dist_xm3alpha4),
+                (dist_alpha2xm1, expected_dist_alpha2xm1),
+                (dist_alpha3xm2, expected_dist_alpha3xm2),
+                (dist_alpha4xm2, expected_dist_alpha4xm2),
+                (dist_alpha4xm3, expected_dist_alpha4xm3),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];
@@ -141,20 +141,20 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_xm1alpha2 = [
+            ddouble[] expected_dist_alpha2xm1 = [
             ];
-            ddouble[] expected_dist_xm2alpha3 = [
+            ddouble[] expected_dist_alpha3xm2 = [
             ];
-            ddouble[] expected_dist_xm2alpha4 = [
+            ddouble[] expected_dist_alpha4xm2 = [
             ];
-            ddouble[] expected_dist_xm3alpha4 = [
+            ddouble[] expected_dist_alpha4xm3 = [
             ];
 
             foreach ((ParetoDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_xm1alpha2, expected_dist_xm1alpha2),
-                (dist_xm2alpha3, expected_dist_xm2alpha3),
-                (dist_xm2alpha4, expected_dist_xm2alpha4),
-                (dist_xm3alpha4, expected_dist_xm3alpha4),
+                (dist_alpha2xm1, expected_dist_alpha2xm1),
+                (dist_alpha3xm2, expected_dist_alpha3xm2),
+                (dist_alpha4xm2, expected_dist_alpha4xm2),
+                (dist_alpha4xm3, expected_dist_alpha4xm3),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
                     ddouble expected = expecteds[i];

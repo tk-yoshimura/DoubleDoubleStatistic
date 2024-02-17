@@ -110,7 +110,7 @@ namespace DoubleDoubleDistribution {
             1d + Log(Sigma / Sqrt2) + EulerGamma / 2;
 
         public static RayleighDistribution operator *(RayleighDistribution dist, ddouble k) {
-            return new(k * dist.Sigma);
+            return new(dist.Sigma * k);
         }
 
         public override string ToString() {

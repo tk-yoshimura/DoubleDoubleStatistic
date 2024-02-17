@@ -87,7 +87,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => 1d + Log(Theta);
 
         public static ExponentialDistribution operator *(ExponentialDistribution dist, ddouble k) {
-            return new(k * dist.Theta);
+            return new(dist.Theta * k);
         }
 
         public override string ToString() {

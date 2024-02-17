@@ -81,7 +81,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => throw new NotImplementedException();
 
         public static GompertzDistribution operator *(GompertzDistribution dist, ddouble k) {
-            return new(k, k * dist.Theta);
+            return new(dist.Eta, dist.Theta * k);
         }
 
         public override string ToString() {

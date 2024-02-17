@@ -6,14 +6,14 @@ namespace DoubleDoubleDistribution {
     public class ParetoDistribution : ScalableDistribution<ParetoDistribution>,
         IMultiplyOperators<ParetoDistribution, ddouble, ParetoDistribution> {
 
-        public ddouble Xm { get; }
         public ddouble Alpha { get; }
+        public ddouble Xm { get; }
 
         private readonly ddouble pdf_norm;
 
-        public ParetoDistribution(ddouble xm, ddouble alpha) {
-            Xm = xm;
+        public ParetoDistribution(ddouble alpha, ddouble xm) {
             Alpha = alpha;
+            Xm = xm;
 
             pdf_norm = alpha * Pow(xm, alpha);
         }
@@ -90,11 +90,11 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => 1d + Log(Xm / Alpha) + 1d / Alpha;
 
         public static ParetoDistribution operator *(ParetoDistribution dist, ddouble k) {
-            return new(k * dist.Xm, dist.Alpha);
+            return new(dist.Alpha, dist.Xm * k);
         }
 
         public override string ToString() {
-            return $"{typeof(ParetoDistribution).Name}[xm={Xm},alpha={Alpha}]";
+            return $"{typeof(ParetoDistribution).Name}[alpha={Alpha},xm={Xm}]";
         }
     }
 }

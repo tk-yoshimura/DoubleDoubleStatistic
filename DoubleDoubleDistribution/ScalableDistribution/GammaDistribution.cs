@@ -81,7 +81,7 @@ namespace DoubleDoubleDistribution {
             K + Log(Theta) + LogGamma(K) - (K - 1d) * Digamma(K);
 
         public static GammaDistribution operator *(GammaDistribution dist, ddouble k) {
-            return new(k, k * dist.Theta);
+            return new(dist.K, dist.Theta * k);
         }
 
         public override string ToString() {

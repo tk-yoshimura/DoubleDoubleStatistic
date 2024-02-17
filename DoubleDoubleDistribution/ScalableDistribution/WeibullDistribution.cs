@@ -126,7 +126,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => 1d + EulerGamma * (1d - k_inv) + Log(Theta * k_inv);
 
         public static WeibullDistribution operator *(WeibullDistribution dist, ddouble k) {
-            return new(dist.K, k * dist.Theta);
+            return new(dist.K, dist.Theta * k);
         }
 
         public override string ToString() {

@@ -144,7 +144,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public static VoigtDistribution operator *(VoigtDistribution dist, ddouble k) {
-            return new(k * dist.Gamma, k * dist.Sigma);
+            return new(dist.Gamma * k, dist.Sigma * k);
         }
 
         public override string ToString() {

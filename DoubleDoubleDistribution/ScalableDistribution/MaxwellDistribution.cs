@@ -111,7 +111,7 @@ namespace DoubleDoubleDistribution {
             -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;
 
         public static MaxwellDistribution operator *(MaxwellDistribution dist, ddouble k) {
-            return new(k * dist.Sigma);
+            return new(dist.Sigma * k);
         }
 
         public override string ToString() {

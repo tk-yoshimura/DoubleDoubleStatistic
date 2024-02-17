@@ -88,7 +88,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => Log2(2 * PI * E * sigma_sq) / 2 - 1d;
 
         public static HalfNormalDistribution operator *(HalfNormalDistribution dist, ddouble k) {
-            return new(k * dist.Sigma);
+            return new(dist.Sigma * k);
         }
 
         public override string ToString() {

@@ -85,7 +85,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => Log(PI * R) - 0.5d;
 
         public static WignerSemicircleDistribution operator *(WignerSemicircleDistribution dist, ddouble k) {
-            return new(k * dist.R);
+            return new(dist.R * k);
         }
 
         public override string ToString() {
