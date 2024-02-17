@@ -7,7 +7,6 @@ using Complex = DoubleDoubleComplex.Complex;
 namespace DoubleDoubleDistribution {
     public class VoigtDistribution : ScalableDistribution<VoigtDistribution>,
         IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
-        ISubtractionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
         IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution> {
 
         public ddouble Gamma { get; }
@@ -142,10 +141,6 @@ namespace DoubleDoubleDistribution {
 
         public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {
             return new(dist1.Gamma + dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
-        }
-
-        public static VoigtDistribution operator -(VoigtDistribution dist1, VoigtDistribution dist2) {
-            return new(dist1.Gamma - dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
         }
 
         public static VoigtDistribution operator *(VoigtDistribution dist, ddouble k) {
