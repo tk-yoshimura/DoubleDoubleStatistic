@@ -108,7 +108,7 @@ namespace DoubleDoubleDistribution {
                 ddouble b1 = Beta(Beta, 1d + alpha_inv);
                 ddouble b2 = Beta(Beta, 1d + 2d * alpha_inv);
                 ddouble b3 = Beta(Beta, 1d + 3d * alpha_inv);
-                ddouble b4 = Beta(Beta, 1d + 3d * alpha_inv);
+                ddouble b4 = Beta(Beta, 1d + 4d * alpha_inv);
 
                 return (-3d * Pow(Beta * b1, 4) + 6d * Cube(Beta) * b1 * b1 * b2 - 4d * Beta * Beta * b1 * b3 + Beta * b4)
                     / Square(Beta * b2 - Square(Beta * b1));
