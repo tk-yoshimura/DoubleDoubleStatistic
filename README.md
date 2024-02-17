@@ -41,7 +41,7 @@ T: TODO Test
 |            | logistic           | T     | T     | T        | T     | N          | N      |            |
 |            | lomax              | T     | T     | T        | T     | N          | N      |            |
 |            | maxwell            | T     | T     | T        | T     | N          | N      |            |
-|            | nakagami           | N     | N     | N        | N     | N          | N      | C          |
+|            | nakagami           | T     | T     | T        | T     | N          | N      |            |
 |            | non central chi sq | N     | N     | N        | N     | N          | N      | AAA        |
 |            | non central f      | N     | N     | N        | N     | N          | N      | AAA        |
 |            | non central t      | N     | N     | N        | N     | N          | N      | AAA        |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 38/52 | 38/52 | 37/52    | 38/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 39/52 | 39/52 | 38/52    | 39/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
