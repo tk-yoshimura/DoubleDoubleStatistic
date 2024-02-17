@@ -2,7 +2,7 @@
 using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistributionTest.ContinuousDistribution {
+namespace DoubleDoubleDistributionTest.ScalableDistribution {
     [TestClass()]
     public class VoigtDistributionTests {
         readonly VoigtDistribution dist1 = new() { EnableCDFErrorException = true };

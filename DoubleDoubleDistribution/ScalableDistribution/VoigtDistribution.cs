@@ -1,12 +1,14 @@
 ﻿using DoubleDouble;
-using DoubleDoubleComplex;
 using DoubleDoubleIntegrate;
+using System.Numerics;
 using static DoubleDouble.ddouble;
+using Complex = DoubleDoubleComplex.Complex;
 
 namespace DoubleDoubleDistribution {
-    public class VoigtDistribution : ContinuousDistribution,
-        System.Numerics.IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
-        System.Numerics.IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution> {
+    public class VoigtDistribution : ScalableDistribution<VoigtDistribution>,
+        IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
+        ISubtractionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
+        IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
@@ -132,8 +134,6 @@ namespace DoubleDoubleDistribution {
 
         public override bool AdditiveClosed => true;
 
-        public override bool Scalable => true;
-
         public override bool Symmetric => true;
 
         public override ddouble Median => 0d;
@@ -142,6 +142,10 @@ namespace DoubleDoubleDistribution {
 
         public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {
             return new(dist1.Gamma + dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
+        }
+
+        public static VoigtDistribution operator -(VoigtDistribution dist1, VoigtDistribution dist2) {
+            return new(dist1.Gamma - dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
         }
 
         public static VoigtDistribution operator *(VoigtDistribution dist, ddouble k) {
