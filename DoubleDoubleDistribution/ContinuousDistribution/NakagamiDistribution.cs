@@ -63,7 +63,7 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => 
+        public override ddouble Mean =>
             Exp(LogGamma(M + 0.5d) - LogGamma(M)) * Sqrt(omegam);
 
         public override ddouble Median => Quantile(0.5d);
@@ -71,7 +71,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Mode =>
             Sqrt((2 * M - 1d) * Omega / (2 * M));
 
-        public override ddouble Variance => 
+        public override ddouble Variance =>
             Omega * (1d - Square(Exp(LogGamma(M + 0.5d) - LogGamma(M))) / M);
 
         public override ddouble Skewness {
@@ -79,7 +79,7 @@ namespace DoubleDoubleDistribution {
                 ddouble mp5 = Exp(LogGamma(M + 0.5d) - LogGamma(M));
                 ddouble w = M - mp5 * mp5;
 
-                return mp5 * (0.5d - 2 * w) / Cube(Sqrt(w)); 
+                return mp5 * (0.5d - 2 * w) / Cube(Sqrt(w));
             }
         }
 
@@ -88,7 +88,7 @@ namespace DoubleDoubleDistribution {
                 ddouble mp5 = Exp(LogGamma(M + 0.5d) - LogGamma(M));
                 ddouble w = M - mp5 * mp5;
 
-                return (M * (4 * M - 1d) - 2d * (2 * M + 1) * mp5 * mp5) / (w * w) - 3d; 
+                return (M * (4 * M - 1d) - 2d * (2 * M + 1) * mp5 * mp5) / (w * w) - 3d;
             }
         }
 

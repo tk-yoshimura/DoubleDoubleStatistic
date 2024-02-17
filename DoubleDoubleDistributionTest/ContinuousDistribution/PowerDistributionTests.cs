@@ -113,21 +113,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_k1a1 = [     
+            ddouble[] expected_dist_k1a1 = [
             ];
-            ddouble[] expected_dist_k1a2 = [     
+            ddouble[] expected_dist_k1a2 = [
             ];
-            ddouble[] expected_dist_k2a1 = [     
+            ddouble[] expected_dist_k2a1 = [
             ];
-            ddouble[] expected_dist_k2a2 = [      
+            ddouble[] expected_dist_k2a2 = [
             ];
-            ddouble[] expected_dist_k4a3 = [      
+            ddouble[] expected_dist_k4a3 = [
             ];
 
             foreach ((PowerDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_k1a1, expected_dist_k1a1), 
+                (dist_k1a1, expected_dist_k1a1),
                 (dist_k1a2, expected_dist_k1a2),
-                (dist_k2a1, expected_dist_k2a1), 
+                (dist_k2a1, expected_dist_k2a1),
                 (dist_k2a2, expected_dist_k2a2),
                 (dist_k4a3, expected_dist_k4a3),
             }) {
@@ -146,21 +146,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_k1a1 = [     
+            ddouble[] expected_dist_k1a1 = [
             ];
-            ddouble[] expected_dist_k1a2 = [     
+            ddouble[] expected_dist_k1a2 = [
             ];
-            ddouble[] expected_dist_k2a1 = [     
+            ddouble[] expected_dist_k2a1 = [
             ];
-            ddouble[] expected_dist_k2a2 = [      
+            ddouble[] expected_dist_k2a2 = [
             ];
-            ddouble[] expected_dist_k4a3 = [      
+            ddouble[] expected_dist_k4a3 = [
             ];
 
             foreach ((PowerDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_k1a1, expected_dist_k1a1), 
+                (dist_k1a1, expected_dist_k1a1),
                 (dist_k1a2, expected_dist_k1a2),
-                (dist_k2a1, expected_dist_k2a1), 
+                (dist_k2a1, expected_dist_k2a1),
                 (dist_k2a2, expected_dist_k2a2),
                 (dist_k4a3, expected_dist_k4a3),
             }) {

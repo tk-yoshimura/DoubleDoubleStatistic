@@ -26,7 +26,7 @@ namespace DoubleDoubleDistribution {
             }
 
             ddouble pdf = Exp(pdf_lognorm + Log(x) * (Alpha - 1d));
-            
+
             return pdf;
         }
 

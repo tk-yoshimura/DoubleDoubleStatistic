@@ -114,21 +114,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_m1omega1 = [         
+            ddouble[] expected_dist_m1omega1 = [
             ];
-            ddouble[] expected_dist_m2omega1 = [        
+            ddouble[] expected_dist_m2omega1 = [
             ];
-            ddouble[] expected_dist_m1omega2 = [       
+            ddouble[] expected_dist_m1omega2 = [
             ];
-            ddouble[] expected_dist_m2omega2 = [      
+            ddouble[] expected_dist_m2omega2 = [
             ];
-            ddouble[] expected_dist_m3omega4 = [      
+            ddouble[] expected_dist_m3omega4 = [
             ];
 
             foreach ((NakagamiDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_m1omega1, expected_dist_m1omega1), 
+                (dist_m1omega1, expected_dist_m1omega1),
                 (dist_m2omega1, expected_dist_m2omega1),
-                (dist_m1omega2, expected_dist_m1omega2), 
+                (dist_m1omega2, expected_dist_m1omega2),
                 (dist_m2omega2, expected_dist_m2omega2),
                 (dist_m3omega4, expected_dist_m3omega4),
             }) {
@@ -147,21 +147,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_m1omega1 = [         
+            ddouble[] expected_dist_m1omega1 = [
             ];
-            ddouble[] expected_dist_m2omega1 = [        
+            ddouble[] expected_dist_m2omega1 = [
             ];
-            ddouble[] expected_dist_m1omega2 = [       
+            ddouble[] expected_dist_m1omega2 = [
             ];
-            ddouble[] expected_dist_m2omega2 = [      
+            ddouble[] expected_dist_m2omega2 = [
             ];
-            ddouble[] expected_dist_m3omega4 = [      
+            ddouble[] expected_dist_m3omega4 = [
             ];
 
             foreach ((NakagamiDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_m1omega1, expected_dist_m1omega1), 
+                (dist_m1omega1, expected_dist_m1omega1),
                 (dist_m2omega1, expected_dist_m2omega1),
-                (dist_m1omega2, expected_dist_m1omega2), 
+                (dist_m1omega2, expected_dist_m1omega2),
                 (dist_m2omega2, expected_dist_m2omega2),
                 (dist_m3omega4, expected_dist_m3omega4),
             }) {
