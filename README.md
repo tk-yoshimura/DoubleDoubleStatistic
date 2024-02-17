@@ -46,7 +46,7 @@ T: TODO Test
 |            | non central f      | N     | N     | N        | N     | N          | N      | AAA        |
 |            | non central t      | N     | N     | N        | N     | N          | N      | AAA        |
 |            | pareto             | T     | T     | T        | T     | N          | N      |            |
-|            | power              | N     | N     | N        | N     | N          | N      | C          |
+|            | power              | T     | T     | T        | T     | N          | N      |            |
 |            | rayleigh           | T     | T     | T        | T     | N          | N      |            |
 |            | reciprocal         | T     | T     | T        | C     | N          | N      |            |
 |            | rice               | N     | N     | N        | N     | N          | N      | AAA        |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 35/52 | 35/52 | 34/52    | 35/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 36/52 | 36/52 | 35/52    | 36/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
