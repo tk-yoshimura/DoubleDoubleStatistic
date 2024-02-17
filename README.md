@@ -39,7 +39,7 @@ T: TODO Test
 |            | laplace            | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
 |            | logistic           | T     | T     | T        | T     | N          | N      |            |
-|            | lomax              | N     | N     | N        | N     | N          | N      | C          |
+|            | lomax              | T     | T     | T        | T     | N          | N      |            |
 |            | maxwell            | T     | T     | T        | T     | N          | N      |            |
 |            | nakagami           | N     | N     | N        | N     | N          | N      | C          |
 |            | non central chi sq | N     | N     | N        | N     | N          | N      | AAA        |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 37/52 | 37/52 | 36/52    | 37/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 38/52 | 38/52 | 37/52    | 38/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
