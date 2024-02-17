@@ -7,6 +7,7 @@ namespace DoubleDoubleDistribution {
         IAdditionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         IAdditionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
+        ISubtractionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution> {
 
         public override ddouble Mu { get; }
@@ -87,11 +88,15 @@ namespace DoubleDoubleDistribution {
         }
 
         public static CauchyDistribution operator +(CauchyDistribution dist, ddouble s) {
-            return new(s + dist.Mu, dist.Gamma);
+            return new(dist.Mu + s, dist.Gamma);
+        }
+
+        public static CauchyDistribution operator -(CauchyDistribution dist, ddouble s) {
+            return new(dist.Mu - s, dist.Gamma);
         }
 
         public static CauchyDistribution operator *(CauchyDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.Gamma);
+            return new(dist.Mu * k, dist.Gamma * k);
         }
 
         public override string ToString() {

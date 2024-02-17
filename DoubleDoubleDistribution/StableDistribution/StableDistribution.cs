@@ -7,7 +7,8 @@ namespace DoubleDoubleDistribution {
             IAdditionOperators<TSelf, TSelf, TSelf>,
             ISubtractionOperators<TSelf, TSelf, TSelf>,
             IMultiplyOperators<TSelf, ddouble, TSelf>,
-            IAdditionOperators<TSelf, ddouble, TSelf> {
+            IAdditionOperators<TSelf, ddouble, TSelf>,
+            ISubtractionOperators<TSelf, ddouble, TSelf> {
 
         public sealed override bool AdditiveClosed => true;
         public sealed override bool SubtractiveClosed => true;

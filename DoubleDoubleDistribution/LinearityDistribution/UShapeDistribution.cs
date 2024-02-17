@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class UShapeDistribution : LinearityDistribution<UShapeDistribution>,
         IAdditionOperators<UShapeDistribution, ddouble, UShapeDistribution>,
+        ISubtractionOperators<UShapeDistribution, ddouble, UShapeDistribution>,
         IMultiplyOperators<UShapeDistribution, ddouble, UShapeDistribution> {
 
         public ddouble A { get; }
@@ -116,11 +117,15 @@ namespace DoubleDoubleDistribution {
         }
 
         public static UShapeDistribution operator +(UShapeDistribution dist, ddouble s) {
-            return new(s + dist.A, s + dist.B);
+            return new(dist.A + s, dist.B + s);
+        }
+
+        public static UShapeDistribution operator -(UShapeDistribution dist, ddouble s) {
+            return new(dist.A - s, dist.B - s);
         }
 
         public static UShapeDistribution operator *(UShapeDistribution dist, ddouble k) {
-            return new(k * dist.A, k * dist.B);
+            return new(dist.A * k, dist.B * k);
         }
 
         public override string ToString() {

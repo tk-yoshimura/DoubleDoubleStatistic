@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class TriangularDistribution : LinearityDistribution<TriangularDistribution>,
         IAdditionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
+        ISubtractionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
         IMultiplyOperators<TriangularDistribution, ddouble, TriangularDistribution> {
 
         public ddouble A { get; }
@@ -122,11 +123,15 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => 0.5d + Log(ab / 2);
 
         public static TriangularDistribution operator +(TriangularDistribution dist, ddouble s) {
-            return new(s + dist.A, s + dist.B, s + dist.C);
+            return new(dist.A + s, dist.B + s, dist.C + s);
+        }
+
+        public static TriangularDistribution operator -(TriangularDistribution dist, ddouble s) {
+            return new(dist.A - s, dist.B - s, dist.C - s);
         }
 
         public static TriangularDistribution operator *(TriangularDistribution dist, ddouble k) {
-            return new(k * dist.A, k * dist.B, k * dist.C);
+            return new(dist.A * k, dist.B * k, dist.C * k);
         }
 
         public override string ToString() {

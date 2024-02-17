@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class CosineDistribution : LinearityDistribution<CosineDistribution>,
         IAdditionOperators<CosineDistribution, ddouble, CosineDistribution>,
+        ISubtractionOperators<CosineDistribution, ddouble, CosineDistribution>,
         IMultiplyOperators<CosineDistribution, ddouble, CosineDistribution> {
 
         public ddouble Mu { get; }
@@ -107,11 +108,15 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => -0.5d + 2 * Ln2 + Log(Sigma);
 
         public static CosineDistribution operator +(CosineDistribution dist, ddouble s) {
-            return new(s + dist.Mu, dist.Sigma);
+            return new(dist.Mu + s, dist.Sigma);
+        }
+
+        public static CosineDistribution operator -(CosineDistribution dist, ddouble s) {
+            return new(dist.Mu - s, dist.Sigma);
         }
 
         public static CosineDistribution operator *(CosineDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.Sigma);
+            return new(dist.Mu * k, dist.Sigma * k);
         }
 
         public override string ToString() {

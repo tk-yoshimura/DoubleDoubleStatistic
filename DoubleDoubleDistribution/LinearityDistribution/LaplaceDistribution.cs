@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class LaplaceDistribution : LinearityDistribution<LaplaceDistribution>,
         IAdditionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
+        ISubtractionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         IMultiplyOperators<LaplaceDistribution, ddouble, LaplaceDistribution> {
 
         public ddouble Mu { get; }
@@ -87,11 +88,15 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => Log(2 * Sigma * E);
 
         public static LaplaceDistribution operator +(LaplaceDistribution dist, ddouble s) {
-            return new(s + dist.Mu, dist.Sigma);
+            return new(dist.Mu + s, dist.Sigma);
+        }
+
+        public static LaplaceDistribution operator -(LaplaceDistribution dist, ddouble s) {
+            return new(dist.Mu - s, dist.Sigma);
         }
 
         public static LaplaceDistribution operator *(LaplaceDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.Sigma);
+            return new(dist.Mu * k, dist.Sigma * k);
         }
 
         public override string ToString() {

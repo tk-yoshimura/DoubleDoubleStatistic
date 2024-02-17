@@ -7,6 +7,7 @@ namespace DoubleDoubleDistribution {
         IAdditionOperators<NormalDistribution, NormalDistribution, NormalDistribution>,
         ISubtractionOperators<NormalDistribution, NormalDistribution, NormalDistribution>,
         IAdditionOperators<NormalDistribution, ddouble, NormalDistribution>,
+        ISubtractionOperators<NormalDistribution, ddouble, NormalDistribution>,
         IMultiplyOperators<NormalDistribution, ddouble, NormalDistribution> {
 
         public override ddouble Mu { get; }
@@ -96,11 +97,15 @@ namespace DoubleDoubleDistribution {
         }
 
         public static NormalDistribution operator +(NormalDistribution dist, ddouble s) {
-            return new(s + dist.Mu, dist.Sigma);
+            return new(dist.Mu + s, dist.Sigma);
+        }
+
+        public static NormalDistribution operator -(NormalDistribution dist, ddouble s) {
+            return new(dist.Mu - s, dist.Sigma);
         }
 
         public static NormalDistribution operator *(NormalDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.Sigma);
+            return new(dist.Mu * k, dist.Sigma * k);
         }
 
         public override string ToString() {

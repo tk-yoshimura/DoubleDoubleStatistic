@@ -7,6 +7,7 @@ namespace DoubleDoubleDistribution {
         IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         IAdditionOperators<DeltaDistribution, ddouble, DeltaDistribution>,
+        ISubtractionOperators<DeltaDistribution, ddouble, DeltaDistribution>,
         IMultiplyOperators<DeltaDistribution, ddouble, DeltaDistribution> {
 
         public override ddouble Mu { get; }
@@ -69,12 +70,17 @@ namespace DoubleDoubleDistribution {
         public static DeltaDistribution operator -(DeltaDistribution dist1, DeltaDistribution dist2) {
             return new(dist1.Mu - dist2.Mu);
         }
+
         public static DeltaDistribution operator +(DeltaDistribution dist, ddouble s) {
-            return new(s + dist.Mu);
+            return new(dist.Mu + s);
+        }
+
+        public static DeltaDistribution operator -(DeltaDistribution dist, ddouble s) {
+            return new(dist.Mu - s);
         }
 
         public static DeltaDistribution operator *(DeltaDistribution dist, ddouble k) {
-            return new(k * dist.Mu);
+            return new(dist.Mu * k);
         }
 
         public override string ToString() {

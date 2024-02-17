@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class FrechetDistribution : LinearityDistribution<FrechetDistribution>,
         IAdditionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
+        ISubtractionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
         IMultiplyOperators<FrechetDistribution, ddouble, FrechetDistribution> {
 
         public ddouble Alpha { get; }
@@ -163,11 +164,15 @@ namespace DoubleDoubleDistribution {
             1d + EulerGamma * (Alpha + 1d) / Alpha + Log(Theta / Alpha);
 
         public static FrechetDistribution operator +(FrechetDistribution dist, ddouble s) {
-            return new(dist.Alpha, s + dist.Mu, dist.Theta);
+            return new(dist.Alpha, dist.Mu + s, dist.Theta);
+        }
+
+        public static FrechetDistribution operator -(FrechetDistribution dist, ddouble s) {
+            return new(dist.Alpha, dist.Mu - s, dist.Theta);
         }
 
         public static FrechetDistribution operator *(FrechetDistribution dist, ddouble k) {
-            return new(dist.Alpha, k * dist.Mu, k * dist.Theta);
+            return new(dist.Alpha, dist.Mu * k, dist.Theta * k);
         }
 
         public override string ToString() {

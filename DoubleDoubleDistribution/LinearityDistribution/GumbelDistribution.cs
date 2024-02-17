@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class GumbelDistribution : LinearityDistribution<GumbelDistribution>,
         IAdditionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
+        ISubtractionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
         IMultiplyOperators<GumbelDistribution, ddouble, GumbelDistribution> {
 
         public ddouble Mu { get; }
@@ -80,11 +81,15 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => Log(Sigma) + EulerGamma + 1d;
 
         public static GumbelDistribution operator +(GumbelDistribution dist, ddouble s) {
-            return new(s + dist.Mu, dist.Sigma);
+            return new(dist.Mu + s, dist.Sigma);
+        }
+
+        public static GumbelDistribution operator -(GumbelDistribution dist, ddouble s) {
+            return new(dist.Mu - s, dist.Sigma);
         }
 
         public static GumbelDistribution operator *(GumbelDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.Sigma);
+            return new(dist.Mu * k, dist.Sigma * k);
         }
 
         public override string ToString() {

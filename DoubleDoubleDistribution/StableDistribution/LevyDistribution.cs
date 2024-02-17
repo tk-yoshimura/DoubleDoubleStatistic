@@ -7,6 +7,7 @@ namespace DoubleDoubleDistribution {
         IAdditionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
         ISubtractionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
         IAdditionOperators<LevyDistribution, ddouble, LevyDistribution>,
+        ISubtractionOperators<LevyDistribution, ddouble, LevyDistribution>,
         IMultiplyOperators<LevyDistribution, ddouble, LevyDistribution> {
 
         public override ddouble Mu { get; }
@@ -105,11 +106,15 @@ namespace DoubleDoubleDistribution {
         }
 
         public static LevyDistribution operator +(LevyDistribution dist, ddouble s) {
-            return new(s + dist.Mu, dist.C);
+            return new(dist.Mu + s, dist.C);
+        }
+
+        public static LevyDistribution operator -(LevyDistribution dist, ddouble s) {
+            return new(dist.Mu - s, dist.C);
         }
 
         public static LevyDistribution operator *(LevyDistribution dist, ddouble k) {
-            return new(k * dist.Mu, k * dist.C);
+            return new(dist.Mu * k, dist.C * k);
         }
 
         public override string ToString() {

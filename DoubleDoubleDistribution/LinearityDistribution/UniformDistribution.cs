@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class UniformDistribution : LinearityDistribution<UniformDistribution>,
         IAdditionOperators<UniformDistribution, ddouble, UniformDistribution>,
+        ISubtractionOperators<UniformDistribution, ddouble, UniformDistribution>,
         IMultiplyOperators<UniformDistribution, ddouble, UniformDistribution> {
 
         public ddouble A { get; }
@@ -100,11 +101,15 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => Log(range);
 
         public static UniformDistribution operator +(UniformDistribution dist, ddouble s) {
-            return new(s + dist.A, s + dist.B);
+            return new(dist.A + s, dist.B + s);
+        }
+
+        public static UniformDistribution operator -(UniformDistribution dist, ddouble s) {
+            return new(dist.A - s, dist.B - s);
         }
 
         public static UniformDistribution operator *(UniformDistribution dist, ddouble k) {
-            return new(k * dist.A, k * dist.B);
+            return new(dist.A * k, dist.B * k);
         }
 
         public override string ToString() {
