@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class LevyDistribution : StableDistribution,
+    public class LevyDistribution : StableDistribution<LevyDistribution>,
         IAdditionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
         ISubtractionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
         IAdditionOperators<LevyDistribution, ddouble, LevyDistribution>,

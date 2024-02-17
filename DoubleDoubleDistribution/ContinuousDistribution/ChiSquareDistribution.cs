@@ -72,7 +72,7 @@ namespace DoubleDoubleDistribution {
 
         public override bool AdditiveClosed => true;
 
-        public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => K;
 

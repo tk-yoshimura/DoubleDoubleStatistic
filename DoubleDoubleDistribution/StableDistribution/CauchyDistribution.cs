@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class CauchyDistribution : StableDistribution,
+    public class CauchyDistribution : StableDistribution<CauchyDistribution>,
         IAdditionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         IAdditionOperators<CauchyDistribution, ddouble, CauchyDistribution>,

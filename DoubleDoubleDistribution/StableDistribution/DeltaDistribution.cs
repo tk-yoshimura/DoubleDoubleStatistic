@@ -3,7 +3,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class DeltaDistribution : StableDistribution,
+    public class DeltaDistribution : StableDistribution<DeltaDistribution>,
         IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         IAdditionOperators<DeltaDistribution, ddouble, DeltaDistribution>,

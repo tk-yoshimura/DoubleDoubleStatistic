@@ -76,7 +76,7 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
             Sqrt2 * Exp(LogGamma((K + 1) * 0.5) - LogGamma(K * 0.5));
