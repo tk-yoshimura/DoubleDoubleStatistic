@@ -35,7 +35,7 @@ T: TODO Test
 |            | irwin hall         | N     | N     | N        | N     | N          | N      | B          |
 |            | johnson sb         | N     | N     | N        | N     | N          | N      | B          |
 |            | johnson su         | N     | N     | N        | N     | N          | N      | B          |
-|            | kumaraswamy        | N     | N     | N        | N     | N          | N      | C          |
+|            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
 |            | laplace            | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
 |            | logistic           | T     | T     | T        | T     | N          | N      |            |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 36/52 | 36/52 | 35/52    | 36/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 37/52 | 37/52 | 36/52    | 37/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
