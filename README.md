@@ -30,8 +30,8 @@ T: TODO Test
 |            | hyperbolic secant  | T     | T     | T        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | T        | T     | N          | N      |            |
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
-|            | inverse chi        | N     | N     | N        | N     | N          | N      | C          |
-|            | inverse chi sq     | N     | N     | N        | N     | N          | N      | C          |
+|            | inverse chi        | N     | N     | N        | N     | N          | N      | B          |
+|            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |
 |            | irwin hall         | N     | N     | N        | N     | N          | N      | B          |
 |            | johnson sb         | N     | N     | N        | N     | N          | N      | B          |
 |            | johnson su         | N     | N     | N        | N     | N          | N      | B          |
@@ -59,8 +59,8 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 40/52 | 40/52 | 38/52    | 40/52 | 0/52       | 0/52   |            |
+|            | zold               | N     | N     | N        | N     | N          | N      | B          |
+|            | ***coverage***     | 41/52 | 41/52 | 39/52    | 41/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
