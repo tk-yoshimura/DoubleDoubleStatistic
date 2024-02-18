@@ -29,7 +29,7 @@ T: TODO Test
 |            | half normal        | T     | T     | T        | T     | N          | N      |            |
 |            | hyperbolic secant  | T     | T     | T        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | T        | T     | N          | N      |            |
-|            | inverse gauss      | N     | N     | N        | N     | N          | N      | C          |
+|            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse chi        | N     | N     | N        | N     | N          | N      | C          |
 |            | inverse chi sq     | N     | N     | N        | N     | N          | N      | C          |
 |            | irwin hall         | N     | N     | N        | N     | N          | N      | B          |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | C          |
-|            | ***coverage***     | 39/52 | 39/52 | 38/52    | 39/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 40/52 | 40/52 | 38/52    | 40/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
