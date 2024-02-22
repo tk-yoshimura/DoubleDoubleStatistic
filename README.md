@@ -32,7 +32,7 @@ T: TODO Test
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse chi        | N     | N     | N        | N     | N          | N      | B          |
 |            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |
-|            | irwin hall         | N     | N     | N        | N     | N          | N      | B          |
+|            | irwin hall         | T     | T     | T        | T     | N          | N      |            |
 |            | johnson sb         | N     | N     | N        | N     | N          | N      | B          |
 |            | johnson su         | N     | N     | N        | N     | N          | N      | B          |
 |            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
@@ -60,7 +60,7 @@ T: TODO Test
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
 |            | zold               | N     | N     | N        | N     | N          | N      | B          |
-|            | ***coverage***     | 41/52 | 41/52 | 39/52    | 41/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 42/52 | 42/52 | 40/52    | 42/52 | 0/52       | 0/52   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
@@ -70,3 +70,6 @@ T: TODO Test
 |            | normal             | C     | C     | C        | T     | N          | N      |            |
 |            | sas point5         | N     | N     | N        | N     | N          | N      | A          |
 |            | ***coverage***     | 4/8   | 4/8   | 4/8      | 4/8   | 0/8        | 0/8    |            |
+
+## Not investigated
+- birnbaum saunders
