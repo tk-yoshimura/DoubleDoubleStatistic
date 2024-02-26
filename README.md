@@ -50,7 +50,7 @@ T: TODO Test
 |            | rayleigh           | T     | T     | T        | T     | N          | N      |            |
 |            | reciprocal         | T     | T     | T        | C     | N          | N      |            |
 |            | rice               | N     | N     | N        | N     | N          | N      | AAA        |
-|            | skew normal        | N     | N     | N        | N     | N          | N      | A          |
+|            | skew normal        | T     | T     | N        | T     | N          | N      |            |
 |            | snedecor f         | T     | T     | T        | T     | N          | N      |            |
 |            | student t          | C     | C     | C        | T     | N          | N      |            |
 |            | triangular         | T     | T     | T        | T     | N          | N      |            |
@@ -59,8 +59,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | zold               | N     | N     | N        | N     | N          | N      | B          |
-|            | ***coverage***     | 42/52 | 42/52 | 40/52    | 42/52 | 0/52       | 0/52   |            |
+|            | ***coverage***     | 43/51 | 43/51 | 40/51    | 43/51 | 0/51       | 0/51   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |

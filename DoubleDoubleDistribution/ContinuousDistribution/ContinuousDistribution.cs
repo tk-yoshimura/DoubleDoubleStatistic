@@ -41,6 +41,12 @@ namespace DoubleDoubleDistribution {
             }
         }
 
+        protected static void ValidateLocation(ddouble location, Func<ddouble, bool> condition) {
+            if (!ddouble.IsFinite(location) || !condition(location)) {
+                throw new ArgumentOutOfRangeException(nameof(location), "Invalid location parameter.");
+            }
+        }
+
         protected static void ValidateShape(ddouble shape, Func<ddouble, bool> condition) {
             if (!condition(shape)) {
                 throw new ArgumentOutOfRangeException(nameof(shape), "Invalid shape parameter.");

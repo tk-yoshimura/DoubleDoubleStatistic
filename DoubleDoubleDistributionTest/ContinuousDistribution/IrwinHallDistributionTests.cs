@@ -2,7 +2,7 @@
 using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistributionTest.ContinousDistribution {
+namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class IrwinHallDistributionTests {
         readonly IrwinHallDistribution dist_n1 = new(n: 1);
