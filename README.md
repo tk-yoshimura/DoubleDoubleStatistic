@@ -33,7 +33,7 @@ T: TODO Test
 |            | inverse chi        | N     | N     | N        | N     | N          | N      | B          |
 |            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |
 |            | irwin hall         | T     | T     | T        | T     | N          | N      |            |
-|            | johnson sb         | N     | N     | N        | N     | N          | N      | B          |
+|            | johnson sb         | T     | T     | T        | N     | N          | N      |            |
 |            | johnson su         | T     | T     | T        | T     | N          | N      |            |
 |            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
 |            | laplace            | T     | T     | T        | T     | N          | N      |            |
@@ -59,7 +59,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 44/51 | 44/51 | 41/51    | 44/51 | 0/51       | 0/51   |            |
+|            | ***coverage***     | 45/51 | 45/51 | 42/51    | 44/51 | 0/51       | 0/51   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
