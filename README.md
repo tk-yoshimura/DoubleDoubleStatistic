@@ -30,7 +30,7 @@ T: TODO Test
 |            | hyperbolic secant  | T     | T     | T        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
-|            | inverse chi        | N     | N     | N        | N     | N          | N      | B          |
+|            | inverse chi        | T     | T     | T        | T     | N          | N      |            |
 |            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |
 |            | irwin hall         | T     | T     | T        | T     | N          | N      |            |
 |            | johnson sb         | T     | T     | T        | N     | N          | N      |            |
@@ -59,7 +59,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 45/51 | 45/51 | 42/51    | 44/51 | 0/51       | 0/51   |            |
+|            | ***coverage***     | 46/51 | 46/51 | 43/51    | 45/51 | 0/51       | 0/51   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
