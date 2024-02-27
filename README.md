@@ -28,13 +28,13 @@ T: TODO Test
 |            | frechet            | T     | T     | T        | T     | N          | N      |            |
 |            | half normal        | T     | T     | T        | T     | N          | N      |            |
 |            | hyperbolic secant  | T     | T     | T        | T     | N          | N      |            |
-|            | inverse gamma      | T     | T     | T        | T     | N          | N      |            |
+|            | inverse gamma      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse chi        | N     | N     | N        | N     | N          | N      | B          |
 |            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |
 |            | irwin hall         | T     | T     | T        | T     | N          | N      |            |
 |            | johnson sb         | N     | N     | N        | N     | N          | N      | B          |
-|            | johnson su         | N     | N     | N        | N     | N          | N      | B          |
+|            | johnson su         | T     | T     | T        | T     | N          | N      |            |
 |            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
 |            | laplace            | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
@@ -59,7 +59,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 43/51 | 43/51 | 40/51    | 43/51 | 0/51       | 0/51   |            |
+|            | ***coverage***     | 44/51 | 44/51 | 41/51    | 44/51 | 0/51       | 0/51   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
