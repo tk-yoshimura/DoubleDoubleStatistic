@@ -11,7 +11,7 @@ T: TODO Test
 | continuous | alpha              | T     | T     | T        | T     | N          | N      |            |
 |            | arcsine            | T     | T     | T        | T     | N          | N      |            |
 |            | argus              | N     | N     | N        | N     | N          | N      | A          |
-|            | birnbaum saunders  | N     | N     | N        | N     | N          | N      | C          |
+|            | birnbaum saunders  | T     | T     | T        | T     | N          | N      |            |
 |            | bradford           | T     | T     | T        | T     | N          | N      |            |
 |            | beta               | T     | T     | T        | T     | N          | N      |            |
 |            | beta prime         | T     | T     | T        | T     | N          | N      |            |
@@ -61,7 +61,7 @@ T: TODO Test
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 47/53 | 47/53 | 44/53    | 46/53 | 0/53       | 0/53   |            |
+|            | ***coverage***     | 48/53 | 48/53 | 45/53    | 47/53 | 0/53       | 0/53   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
