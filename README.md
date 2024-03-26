@@ -69,5 +69,5 @@ T: TODO Test
 |            | map-airy           | N     | N     | N        | N     | N          | N      | A          |
 |            | levy               | T     | T     | T        | T     | N          | N      |            |
 |            | normal             | C     | C     | C        | T     | N          | N      |            |
-|            | sas point5         | N     | N     | N        | N     | N          | N      | A          |
-|            | ***coverage***     | 4/8   | 4/8   | 4/8      | 4/8   | 0/8        | 0/8    |            |
+|            | sas point5         | C	  | C     | C        | C     | N          | N      |            |
+|            | ***coverage***     | 5/8   | 5/8   | 5/8      | 5/8   | 0/8        | 0/8    |            |
