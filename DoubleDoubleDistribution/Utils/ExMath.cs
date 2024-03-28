@@ -3,7 +3,7 @@
 namespace DoubleDoubleDistribution {
     internal static class ExMath {
 
-        public static ddouble Pow1p5(ddouble x) {
+        public static ddouble Pow3d2(ddouble x) {
             if (ddouble.IsZero(x) || !ddouble.IsFinite(x) || int.Abs(double.ILogB((double)x)) < 320) {
                 return ddouble.Sqrt(ddouble.Cube(x));
             }

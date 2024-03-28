@@ -87,11 +87,11 @@ namespace DoubleDoubleDistribution {
         public override ddouble Beta => 0d;
 
         public static HoltsmarkDistribution operator +(HoltsmarkDistribution dist1, HoltsmarkDistribution dist2) {
-            return new(dist1.Mu + dist2.Mu, ExMath.Pow2d3(ExMath.Pow1p5(dist1.C) + ExMath.Pow1p5(dist2.C)));
+            return new(dist1.Mu + dist2.Mu, ExMath.Pow2d3(ExMath.Pow3d2(dist1.C) + ExMath.Pow3d2(dist2.C)));
         }
 
         public static HoltsmarkDistribution operator -(HoltsmarkDistribution dist1, HoltsmarkDistribution dist2) {
-            return new(dist1.Mu - dist2.Mu, ExMath.Pow2d3(ExMath.Pow1p5(dist1.C) + ExMath.Pow1p5(dist2.C)));
+            return new(dist1.Mu - dist2.Mu, ExMath.Pow2d3(ExMath.Pow3d2(dist1.C) + ExMath.Pow3d2(dist2.C)));
         }
 
         public static HoltsmarkDistribution operator +(HoltsmarkDistribution dist, ddouble s) {
@@ -335,7 +335,7 @@ namespace DoubleDoubleDistribution {
                     y = ApproxUtil.Pade(x - 32d, pade_plus_32_64);
                 }
                 else {
-                    ddouble u = 1d / ExMath.Pow1p5(x);
+                    ddouble u = 1d / ExMath.Pow3d2(x);
 
                     y = ApproxUtil.Pade(u, pade_plus_limit) * u / x;
                 }
@@ -553,7 +553,7 @@ namespace DoubleDoubleDistribution {
                     y = ApproxUtil.Pade(x - 32d, pade_plus_32_64);
                 }
                 else {
-                    ddouble u = 1d / ExMath.Pow1p5(x);
+                    ddouble u = 1d / ExMath.Pow3d2(x);
 
                     y = ApproxUtil.Pade(u, pade_plus_limit) * u;
                 }
