@@ -933,21 +933,6 @@ namespace DoubleDoubleDistribution {
                 ((-1, -189, 0xFB986F5E5D955C69uL, 0x18D9B59FDF513AEEuL), Zero),
             }));
 
-            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_plus_expm192_256 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
-                ((+1, -2, 0xAECAEFB5E9576CD1uL, 0x6D1522FE71B6C322uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
-                ((+1, -3, 0xA03903CE7321F9A2uL, 0x0E74DB1AF62304CDuL), (+1, -2, 0xEAA92FEE3DA03E4CuL, 0xE1055A5EC96BF1AAuL)),
-                ((+1, -5, 0x8F8B5931D5105742uL, 0x2FF6CE2DDC59B7EAuL), (+1, -4, 0xD23BDE4E2D6E690EuL, 0xECB2DCCDD73C7520uL)),
-                ((+1, -8, 0xA740820377578211uL, 0x3B3EFEA66E5FB9C2uL), (+1, -7, 0xF4F4B5C75E33B5E2uL, 0x8884ABCB0C9A9563uL)),
-                ((+1, -11, 0x8C4D5FFBE49A5D1CuL, 0x8C9D56322DFA3805uL), (+1, -10, 0xCD7C4BC3C1123B9FuL, 0xA8F1B2E691DD94E5uL)),
-                ((+1, -15, 0xC031E1B6C1066D42uL, 0x4E40B373DFA5DF4BuL), (+1, -13, 0x8CBE56A0D3ACDC06uL, 0x3E4CF16DC45637FEuL)),
-                ((+1, -19, 0xA17F40A2A8418672uL, 0x70B23916E7A4B9EAuL), (+1, -18, 0xEC86FE0031EC77EEuL, 0x0D4F807B9AE3B8DCuL)),
-                ((+1, -23, 0xEC82D9CE62DF5702uL, 0xC4A83640B826F295uL), (+1, -21, 0xAD323697C894F5B9uL, 0x6ECF23B764DEB4A8uL)),
-                ((+1, -34, 0xEE62F8523ED4C8A1uL, 0x8C11A81636829261uL), (+1, -32, 0xAE91CD76EC370244uL, 0x05A87889BACF3329uL)),
-                ((+1, -31, 0x90DF80AEFF3E10E3uL, 0xA74B28D73028E1F2uL), (+1, -30, 0xD42E0E37EB3A95ADuL, 0x52C78576C2303F20uL)),
-                ((+1, -244, 0xFC06BB0047A8661FuL, 0xB306200B412CDECEuL), Zero),
-                ((-1, -253, 0xFB986F5E5D955C69uL, 0x18D9B59FDF513AF0uL), Zero),
-            }));
-
 
             public static ddouble Value(ddouble x) {
                 if (x > 0.5) {
@@ -1046,9 +1031,6 @@ namespace DoubleDoubleDistribution {
                     }
                     else if (exponent >= -192) {
                         v = ApproxUtil.Pade(-Log2(Ldexp(x, 128)), pade_plus_expm128_192);
-                    }
-                    else if (exponent >= -256) {
-                        v = ApproxUtil.Pade(-Log2(Ldexp(x, 192)), pade_plus_expm192_256);
                     }
                     else {
                         v = 1d / Ldexp(Cbrt(PI), 1);
