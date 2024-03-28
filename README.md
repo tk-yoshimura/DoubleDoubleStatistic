@@ -64,10 +64,10 @@ T: TODO Test
 |            | ***coverage***     | 48/53 | 48/53 | 45/53    | 47/53 | 0/53       | 0/53   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
-|            | holtsmark          | N     | N     | N        | N     | N          | N      | A          |
+|            | holtsmark          | C     | C     | C        | C     | N          | N      |            |
 |            | landau             | N     | N     | N        | N     | N          | N      | A          |
 |            | map-airy           | N     | N     | N        | N     | N          | N      | A          |
 |            | levy               | T     | T     | T        | T     | N          | N      |            |
 |            | normal             | C     | C     | C        | T     | N          | N      |            |
 |            | sas point5         | C	  | C     | C        | C     | N          | N      |            |
-|            | ***coverage***     | 5/8   | 5/8   | 5/8      | 5/8   | 0/8        | 0/8    |            |
+|            | ***coverage***     | 6/8   | 6/8   | 6/8      | 6/8   | 0/8        | 0/8    |            |
