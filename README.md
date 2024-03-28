@@ -11,6 +11,7 @@ T: TODO Test
 | continuous | alpha              | T     | T     | T        | T     | N          | N      |            |
 |            | arcsine            | T     | T     | T        | T     | N          | N      |            |
 |            | argus              | N     | N     | N        | N     | N          | N      | A          |
+|            | benktander         | N     | N     | N        | N     | N          | N      | C          |
 |            | birnbaum saunders  | T     | T     | T        | T     | N          | N      |            |
 |            | bradford           | T     | T     | T        | T     | N          | N      |            |
 |            | beta               | T     | T     | T        | T     | N          | N      |            |
@@ -21,6 +22,7 @@ T: TODO Test
 |            | cosine             | T     | T     | T        | T     | N          | N      |            |
 |            | exponential        | T     | T     | T        | T     | N          | N      |            |
 |            | dagum              | N     | N     | N        | N     | N          | N      | B          |
+|            | davis              | N     | N     | N        | N     | N          | N      | B          |
 |            | gamma              | T     | T     | T        | T     | N          | N      |            |
 |            | gumbel             | T     | T     | T        | T     | N          | N      |            |
 |            | gompertz           | T     | T     | T        | T     | N          | N      |            |
@@ -55,13 +57,14 @@ T: TODO Test
 |            | skew normal        | T     | T     | N        | T     | N          | N      |            |
 |            | snedecor f         | T     | T     | T        | T     | N          | N      |            |
 |            | student t          | C     | C     | C        | T     | N          | N      |            |
+|            | suzuki             | N     | N     | N        | N     | N          | N      | B          |
 |            | triangular         | T     | T     | T        | T     | N          | N      |            |
 |            | uniform            | T     | T     | T        | T     | N          | N      |            |
 |            | u shape            | T     | T     | T        | T     | N          | N      |            |
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
 |            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 48/53 | 48/53 | 45/53    | 47/53 | 0/53       | 0/53   |            |
+|            | ***coverage***     | 48/56 | 48/56 | 45/56    | 47/56 | 0/56       | 0/56   |            |
 | stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | C     | C     | C        | C     | N          | N      |            |
