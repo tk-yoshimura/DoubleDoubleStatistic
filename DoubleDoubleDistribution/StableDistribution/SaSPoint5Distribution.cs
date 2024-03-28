@@ -14,7 +14,9 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mu { get; }
 
-        private readonly ddouble c, c_inv;
+        public override ddouble C { get; }
+
+        private readonly ddouble c_inv;
 
         private static readonly ddouble entropy_czero = "3.6399244456803064957308496039071853510";
 
@@ -25,7 +27,7 @@ namespace DoubleDoubleDistribution {
             ValidateScale(c);
 
             Mu = mu;
-            this.c = c;
+            C = c;
 
             c_inv = 1d / c;
         }
@@ -81,8 +83,6 @@ namespace DoubleDoubleDistribution {
         public override ddouble Alpha => 0.5d;
 
         public override ddouble Beta => 0d;
-
-        public override ddouble C => c;
 
         public static SaSPoint5Distribution operator +(SaSPoint5Distribution dist1, SaSPoint5Distribution dist2) {
             return new(dist1.Mu + dist2.Mu, Square(Sqrt(dist1.C) + Sqrt(dist2.C)));
