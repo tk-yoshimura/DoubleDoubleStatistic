@@ -98,11 +98,11 @@ namespace DoubleDoubleDistribution {
         public override ddouble Beta => 1d;
 
         public static LevyDistribution operator +(LevyDistribution dist1, LevyDistribution dist2) {
-            return new(dist1.Mu + dist2.Mu, Hypot(dist1.C, dist2.C));
+            return new(dist1.Mu + dist2.Mu, Square(Sqrt(dist1.C) + Sqrt(dist2.C)));
         }
 
         public static LevyDistribution operator -(LevyDistribution dist1, LevyDistribution dist2) {
-            return new(dist1.Mu - dist2.Mu, Hypot(dist1.C, dist2.C));
+            return new(dist1.Mu - dist2.Mu, Square(Sqrt(dist1.C) + Sqrt(dist2.C)));
         }
 
         public static LevyDistribution operator +(LevyDistribution dist, ddouble s) {
