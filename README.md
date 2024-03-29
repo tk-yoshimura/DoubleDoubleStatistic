@@ -69,8 +69,8 @@ T: TODO Test
 |            | delta              | C     | C     | C        | T     | -          | N      |            |
 |            | holtsmark          | C     | C     | C        | C     | N          | N      |            |
 |            | landau             | N     | N     | N        | N     | N          | N      | A          |
-|            | map-airy           | N     | N     | N        | N     | N          | N      | A          |
+|            | map-airy           | C     | C     | C        | C     | N          | N      |            |
 |            | levy               | T     | T     | T        | T     | N          | N      |            |
 |            | normal             | C     | C     | C        | T     | N          | N      |            |
 |            | sas point5         | C	  | C     | C        | C     | N          | N      |            |
-|            | ***coverage***     | 6/8   | 6/8   | 6/8      | 6/8   | 0/8        | 0/8    |            |
+|            | ***coverage***     | 7/8   | 7/8   | 7/8      | 7/8   | 0/8        | 0/8    |            |

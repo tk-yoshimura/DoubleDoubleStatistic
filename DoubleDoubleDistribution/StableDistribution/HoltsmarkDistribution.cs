@@ -82,7 +82,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Entropy => entropy_czero + Log(C);
 
-        public override ddouble Alpha => 0.5d;
+        public override ddouble Alpha => 1.5d;
 
         public override ddouble Beta => 0d;
 
