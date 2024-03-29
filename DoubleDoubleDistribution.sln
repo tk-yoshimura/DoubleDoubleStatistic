@@ -10,6 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleDoubleDistributionTes
 		{8135883D-8ED2-4099-86C2-BE77FED9079A} = {8135883D-8ED2-4099-86C2-BE77FED9079A}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleDoubleDistributionSandbox", "DoubleDoubleDistributionSandbox\DoubleDoubleDistributionSandbox.csproj", "{8A8E4658-DDDC-4341-B8B6-8640B20ABBE9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8135883D-8ED2-4099-86C2-BE77FED9079A} = {8135883D-8ED2-4099-86C2-BE77FED9079A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +29,10 @@ Global
 		{A1B12FBA-43DD-424B-9303-2530B87EDD23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1B12FBA-43DD-424B-9303-2530B87EDD23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1B12FBA-43DD-424B-9303-2530B87EDD23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8E4658-DDDC-4341-B8B6-8640B20ABBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8E4658-DDDC-4341-B8B6-8640B20ABBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8E4658-DDDC-4341-B8B6-8640B20ABBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8E4658-DDDC-4341-B8B6-8640B20ABBE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
