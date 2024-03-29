@@ -8865,7 +8865,7 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
                     ddouble expected = expecteds[i];
                     ddouble actual = dist.Quantile(p, Interval.Upper);
 
-                    Console.WriteLine($"{dist} qnantile({p})");
+                    Console.WriteLine($"{dist} quantile({p})");
                     Console.WriteLine(expected);
                     Console.WriteLine(actual);
 
@@ -8873,7 +8873,7 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
                         continue;
                     }
 
-                    Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-30, $"{dist} qnantile({p})\n{expected}\n{actual}");
+                    Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-30, $"{dist} quantile({p})\n{expected}\n{actual}");
                 }
             }
         }
