@@ -55,14 +55,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = Mu - Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+                ddouble x = Mu - Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+                ddouble x = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
 
-                return quantile;
+                return x;
             }
         }
 

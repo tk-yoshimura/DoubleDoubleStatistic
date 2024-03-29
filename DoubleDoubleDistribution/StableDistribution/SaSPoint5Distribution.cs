@@ -61,14 +61,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = Mu - C * QuantilePade.Value(p);
+                ddouble x = Mu - C * QuantilePade.Value(p);
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = Mu + C * QuantilePade.Value(p);
+                ddouble x = Mu + C * QuantilePade.Value(p);
 
-                return quantile;
+                return x;
             }
         }
 

@@ -55,9 +55,9 @@ namespace DoubleDoubleDistribution {
                 return NaN;
             }
 
-            ddouble quantile = Mu + C * QuantilePade.Value(p, interval != Interval.Lower);
+            ddouble x = Mu + C * QuantilePade.Value(p, interval != Interval.Lower);
 
-            return quantile;
+            return x;
         }
 
         public override ddouble Mean => Mu;

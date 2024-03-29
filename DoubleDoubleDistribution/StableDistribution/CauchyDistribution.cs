@@ -54,14 +54,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble quantile = Mu + Gamma * TanPI(p - Point5);
+                ddouble x = Mu + Gamma * TanPI(p - Point5);
 
-                return quantile;
+                return x;
             }
             else {
-                ddouble quantile = Mu - Gamma * TanPI(p - Point5);
+                ddouble x = Mu - Gamma * TanPI(p - Point5);
 
-                return quantile;
+                return x;
             }
         }
 
