@@ -388,23 +388,6 @@ namespace DoubleDoubleDistribution {
                 ((+1, -41, 0xBBA421AB0D0081C5uL, 0x8E9EBE92247BD8BCuL), (+1, -40, 0x95B74F16F5F9D4F5uL, 0x9D6A64E12924F9A0uL)),
             }));
 
-            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_minus_8_16 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
-                ((+1, -1, 0xA06C9D26C5844B61uL, 0x2708A4F62383CA54uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
-                ((+1, -1, 0x8B357431FCEA2F85uL, 0x53FCB7903F833677uL), (+1, -1, 0xDE252AABDFE1F9A9uL, 0xF0FB2569189C8C64uL)),
-                ((+1, -3, 0xE9F34984FAE7127EuL, 0x95DF7AD83AF818F4uL), (+1, -2, 0xBAAA5239D6A299A8uL, 0xFA7CAFEC5E52F567uL)),
-                ((+1, -5, 0xFCC40909D4C1B909uL, 0x0EC1CADCC7B6C295uL), (+1, -4, 0xC9AD8D7780C68976uL, 0x11600B8886364B8EuL)),
-                ((+1, -7, 0xC486FE379B96A61EuL, 0xFAA9C2D634FE3456uL), (+1, -6, 0x9CCE5BC561C0838AuL, 0x5D5B703DB885B5B3uL)),
-                ((+1, -10, 0xE91BE0A24C3628BFuL, 0x6ADE2B8C21E3A12DuL), (+1, -9, 0xB9FE77786611BCECuL, 0x78B79A648D2D87A3uL)),
-                ((+1, -13, 0xD9F29E5E971292B9uL, 0xC088E9A43B3C7633uL), (+1, -12, 0xADE5A940338AF4F0uL, 0x0C7E460C76590CB9uL)),
-                ((+1, -16, 0xA37C62AAC6C8F917uL, 0x1B623D65304A26EFuL), (+1, -15, 0x82715FC3159E9CADuL, 0x45F9D54FB61F3603uL)),
-                ((+1, -20, 0xC60B3961CF432333uL, 0xBB148FC553974749uL), (+1, -19, 0x9E04206B33FA3F3FuL, 0x534A050F5949949AuL)),
-                ((+1, -24, 0xC0DE5117A37D78C1uL, 0x58B513FE5D6DED1FuL), (+1, -23, 0x99E3018A94069E5EuL, 0xFC3E7258BB2A764DuL)),
-                ((+1, -28, 0x945125674313D597uL, 0x6F6ED7ABCD8233F7uL), (+1, -28, 0xECADFD72548C493CuL, 0x9DDE53BF83DCC3F4uL)),
-                ((+1, -33, 0xAD0F31BA3B19C873uL, 0x5C7BE0C9C8560BCCuL), (+1, -32, 0x8A14D5C168584A6BuL, 0xF17ECD4B04B99256uL)),
-                ((+1, -38, 0x8C4AB3679AF69150uL, 0xAE740AED8BCE0829uL), (+1, -38, 0xDFDF91FF29206DEEuL, 0xD080CA762A72123AuL)),
-                ((+1, -45, 0xF90BD957862692F1uL, 0x7CE2FE62BE194E7FuL), (+1, -44, 0xC6B5CEC37AD8B7E5uL, 0x09FEB3B854062458uL)),
-            }));
-
             private static ddouble PlusValue(ddouble x) {
                 Debug.Assert(x >= 0);
 
@@ -482,7 +465,7 @@ namespace DoubleDoubleDistribution {
 
                     return y;
                 }
-                else if (x <= 16d) {
+                else if (x <= 8d) {
                     ddouble v;
                     if (x <= 2d) {
                         v = ApproxUtil.Pade(x - 1d, pade_minus_1_2);
@@ -490,11 +473,8 @@ namespace DoubleDoubleDistribution {
                     else if (x <= 4d) {
                         v = ApproxUtil.Pade(x - 2d, pade_minus_2_4);
                     }
-                    else if (x <= 8d) {
-                        v = ApproxUtil.Pade(x - 4d, pade_minus_4_8);
-                    }
                     else {
-                        v = ApproxUtil.Pade(x - 8d, pade_minus_8_16);
+                        v = ApproxUtil.Pade(x - 4d, pade_minus_4_8);
                     }
 
                     ddouble sigma = Exp(x * pi_half - 1);
@@ -797,25 +777,6 @@ namespace DoubleDoubleDistribution {
                 ((+1, -41, 0x9D4F9E4A2794E83FuL, 0x32D31A11C61BC877uL), (+1, -40, 0xC52906A3AEF41539uL, 0x196F84BCD0C75538uL)),
             }));
 
-            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_minus_8_16 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
-                ((+1, -2, 0xCC41EF75AB4A9C4EuL, 0x4D4CB7CFEF2253A1uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
-                ((+1, -2, 0xBB142D5615AF709FuL, 0x6D64091725ED737DuL), (+1, -1, 0xEA77C1930485B106uL, 0x4822BA49BE21A63FuL)),
-                ((+1, -3, 0xA578266006B525C4uL, 0x1636E4BAB0B92A1EuL), (+1, -2, 0xCF62B04B71CE5251uL, 0x7175E8A2BFF77DD8uL)),
-                ((+1, -5, 0xBBB7F51786BF63BCuL, 0xBC390D049948B598uL), (+1, -4, 0xEB452029950F10EEuL, 0x73B2902F32F099E0uL)),
-                ((+1, -7, 0x98E9E53FF2B1E9F4uL, 0xBD05159675B87CD5uL), (+1, -6, 0xBFA6259A91B7BA8BuL, 0xCA5F8400E3657474uL)),
-                ((+1, -10, 0xBDA5F89423AF367EuL, 0x7FAB1400B2AA6861uL), (+1, -9, 0xEDB056083DC14D10uL, 0xE0E962CD3332911EuL)),
-                ((+1, -13, 0xB911059DF25CA8DEuL, 0xB7F4D1017441986BuL), (+1, -12, 0xE7F24DB38332C071uL, 0x19647753DB336197uL)),
-                ((+1, -16, 0x90A87EF142DCB13FuL, 0x4BB5C2E5D6CFFF69uL), (+1, -15, 0xB54D596EE9366BE2uL, 0xB4F44B812F6AB99CuL)),
-                ((+1, -20, 0xB6583E7923D73CB9uL, 0x75A2F070CEAAC024uL), (+1, -19, 0xE489015448374245uL, 0x10F3905E3A474D37uL)),
-                ((+1, -24, 0xB88F280A783E0CD4uL, 0xAC4408C187742A65uL), (+1, -23, 0xE74F8973DE979E47uL, 0x002E3E2A39247C0DuL)),
-                ((+1, -28, 0x935CC2863E8ACF93uL, 0x0194ED031162264BuL), (+1, -27, 0xB8B0F7BA0845C977uL, 0x09E878E14059929EuL)),
-                ((+1, -33, 0xB26D98F10BE398DBuL, 0x1561748680684ECDuL), (+1, -32, 0xDFA063228A15D005uL, 0x62C81B851C29C5FAuL)),
-                ((+1, -38, 0x9618BCA5C83608A9uL, 0x9AD131B9466A9BC6uL), (+1, -37, 0xBC1E42546E4372EFuL, 0x1992830BAD52F76FuL)),
-                ((+1, -44, 0x8AA5A16B4CB7D946uL, 0xB4BBC56B1FF61FEAuL), (+1, -43, 0xADC4ACF77542646AuL, 0xFC21664D2DE01897uL)),
-                ((+1, -74, 0x9FA1F9CBDA5DC2CDuL, 0x7BE21B94A47157E8uL), Zero),
-            }));
-
-
             private static ddouble PlusValue(ddouble x) {
                 Debug.Assert(x >= 0);
 
@@ -887,7 +848,7 @@ namespace DoubleDoubleDistribution {
 
                     return y;
                 }
-                else if (x <= 16d) {
+                else if (x <= 8d) {
                     ddouble v;
                     if (x <= 2d) {
                         v = ApproxUtil.Pade(x - 1d, pade_minus_1_2);
@@ -895,11 +856,8 @@ namespace DoubleDoubleDistribution {
                     else if (x <= 4d) {
                         v = ApproxUtil.Pade(x - 2d, pade_minus_2_4);
                     }
-                    else if (x <= 8d) {
-                        v = ApproxUtil.Pade(x - 4d, pade_minus_4_8);
-                    }
                     else {
-                        v = ApproxUtil.Pade(x - 8d, pade_minus_8_16);
+                        v = ApproxUtil.Pade(x - 4d, pade_minus_4_8);
                     }
 
                     ddouble sigma = Exp(x * pi_half - 1);
