@@ -18,9 +18,9 @@ namespace DoubleDoubleDistribution {
 
         private readonly ddouble c_inv;
 
-        private static readonly ddouble mode_czero = "-1.1615872711359706852500000803029112987";
-        private static readonly ddouble median_czero = "-0.71671068545502205331700196278067230944440";
-        private static readonly ddouble entropy_czero = "2.0072768184106563460003025875575283708";
+        private static readonly ddouble mode_base = "-1.1615872711359706852500000803029112987";
+        private static readonly ddouble median_base = "-0.71671068545502205331700196278067230944440";
+        private static readonly ddouble entropy_base = "2.0072768184106563460003025875575283708";
                                            
         public MapAiryDistribution() : this(mu: 0, c: 1) { }
 
@@ -62,11 +62,11 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mean => Mu;
 
-        public override ddouble Median => median_czero * C + Mu;
+        public override ddouble Median => median_base * C + Mu;
 
-        public override ddouble Mode => mode_czero * C + Mu;
+        public override ddouble Mode => mode_base * C + Mu;
 
-        public override ddouble Entropy => entropy_czero + Log(C);
+        public override ddouble Entropy => entropy_base + Log(C);
 
         public override ddouble Alpha => 1.5d;
 

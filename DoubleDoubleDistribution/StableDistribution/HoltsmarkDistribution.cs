@@ -18,7 +18,7 @@ namespace DoubleDoubleDistribution {
 
         private readonly ddouble c_inv;
 
-        private static readonly ddouble entropy_czero = "2.0694485051346244003155800384542166381";
+        private static readonly ddouble entropy_base = "2.0694485051346244003155800384542166381";
 
         public HoltsmarkDistribution() : this(mu: 0, c: 1) { }
 
@@ -35,7 +35,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * c_inv;
 
-            ddouble pdf = PDFPade.Value(Abs(u)) * c_inv;
+            ddouble pdf = PDFPade.Value(u) * c_inv;
 
             return pdf;
         }
@@ -43,16 +43,9 @@ namespace DoubleDoubleDistribution {
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = (x - Mu) * c_inv;
 
-            if (interval == Interval.Lower) {
-                ddouble cdf = u >= 0d ? 1d - CDFPade.Value(u) : CDFPade.Value(-u);
+            ddouble cdf = (interval == Interval.Lower) ? CDFPade.Value(-u) : CDFPade.Value(u);
 
-                return cdf;
-            }
-            else {
-                ddouble cdf = u >= 0d ? CDFPade.Value(u) : 1d - CDFPade.Value(-u);
-
-                return cdf;
-            }
+            return cdf;
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
@@ -80,7 +73,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => Mu;
 
-        public override ddouble Entropy => entropy_czero + Log(C);
+        public override ddouble Entropy => entropy_base + Log(C);
 
         public override ddouble Alpha => 1.5d;
 
@@ -296,7 +289,7 @@ namespace DoubleDoubleDistribution {
             }));
 
             public static ddouble Value(ddouble x) {
-                Debug.Assert(x >= 0);
+                x = Abs(x); 
 
                 ddouble y;
                 if (x <= 1d) {
@@ -517,7 +510,9 @@ namespace DoubleDoubleDistribution {
             }));
 
             public static ddouble Value(ddouble x) {
-                Debug.Assert(x >= 0);
+                if (IsNegative(x)) {
+                    return 1d - Value(-x);
+                }
 
                 ddouble y;
                 if (x <= 0.5d) {

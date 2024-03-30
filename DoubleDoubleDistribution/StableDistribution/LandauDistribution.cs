@@ -18,9 +18,9 @@ namespace DoubleDoubleDistribution {
 
         private readonly ddouble c_inv;
 
-        private static readonly ddouble mode_czero = "-0.14182805081482592285930203871252083765";
-        private static readonly ddouble median_czero = "0.86311662299158754170254190531890461851";
-        private static readonly ddouble entropy_czero = "2.3726364400044818244844049010588577710";
+        private static readonly ddouble mode_base = "-0.14182805081482592285930203871252083765";
+        private static readonly ddouble median_base = "0.86311662299158754170254190531890461851";
+        private static readonly ddouble entropy_base = "2.3726364400044818244844049010588577710";
 
         public LandauDistribution() : this(mu: 0, c: 1) { }
 
@@ -60,11 +60,11 @@ namespace DoubleDoubleDistribution {
             return x;
         }
 
-        public override ddouble Median => median_czero * C + Mu;
+        public override ddouble Median => median_base * C + Mu;
 
-        public override ddouble Mode => mode_czero * C + Mu;
+        public override ddouble Mode => mode_base * C + Mu;
 
-        public override ddouble Entropy => entropy_czero + Log(C);
+        public override ddouble Entropy => entropy_base + Log(C);
 
         public override ddouble Alpha => 1d;
 
