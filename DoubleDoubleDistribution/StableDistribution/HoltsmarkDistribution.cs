@@ -289,7 +289,7 @@ namespace DoubleDoubleDistribution {
             }));
 
             public static ddouble Value(ddouble x) {
-                x = Abs(x); 
+                x = Abs(x);
 
                 ddouble y;
                 if (x <= 1d) {

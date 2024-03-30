@@ -41,7 +41,7 @@ namespace DoubleDoubleDistribution {
                 }
 
                 ddouble cdf = UpperIncompleteGammaRegularized(K * 0.5d, 1d / (2 * x));
-            
+
                 if (IsNaN(cdf)) {
                     return x < Mean ? 0d : 1d;
                 }

@@ -115,23 +115,23 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_sigma1gamma1 = [        
+            ddouble[] expected_dist_sigma1gamma1 = [
             ];
-            ddouble[] expected_dist_sigma2gamma1 = [        
+            ddouble[] expected_dist_sigma2gamma1 = [
             ];
-            ddouble[] expected_dist_sigma1gamma2 = [        
+            ddouble[] expected_dist_sigma1gamma2 = [
             ];
-            ddouble[] expected_dist_sigma2gamma2 = [        
+            ddouble[] expected_dist_sigma2gamma2 = [
             ];
-            ddouble[] expected_dist_sigma3gamma4 = [        
+            ddouble[] expected_dist_sigma3gamma4 = [
             ];
-            ddouble[] expected_dist_sigma4gamma5 = [        
+            ddouble[] expected_dist_sigma4gamma5 = [
             ];
 
             foreach ((LogLogisticDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_sigma1gamma1, expected_dist_sigma1gamma1), 
+                (dist_sigma1gamma1, expected_dist_sigma1gamma1),
                 (dist_sigma2gamma1, expected_dist_sigma2gamma1),
-                (dist_sigma1gamma2, expected_dist_sigma1gamma2), 
+                (dist_sigma1gamma2, expected_dist_sigma1gamma2),
                 (dist_sigma2gamma2, expected_dist_sigma2gamma2),
                 (dist_sigma3gamma4, expected_dist_sigma3gamma4),
                 (dist_sigma4gamma5, expected_dist_sigma4gamma5),
@@ -151,23 +151,23 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_sigma1gamma1 = [        
+            ddouble[] expected_dist_sigma1gamma1 = [
             ];
-            ddouble[] expected_dist_sigma2gamma1 = [        
+            ddouble[] expected_dist_sigma2gamma1 = [
             ];
-            ddouble[] expected_dist_sigma1gamma2 = [        
+            ddouble[] expected_dist_sigma1gamma2 = [
             ];
-            ddouble[] expected_dist_sigma2gamma2 = [        
+            ddouble[] expected_dist_sigma2gamma2 = [
             ];
-            ddouble[] expected_dist_sigma3gamma4 = [        
+            ddouble[] expected_dist_sigma3gamma4 = [
             ];
-            ddouble[] expected_dist_sigma4gamma5 = [        
+            ddouble[] expected_dist_sigma4gamma5 = [
             ];
 
             foreach ((LogLogisticDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_sigma1gamma1, expected_dist_sigma1gamma1), 
+                (dist_sigma1gamma1, expected_dist_sigma1gamma1),
                 (dist_sigma2gamma1, expected_dist_sigma2gamma1),
-                (dist_sigma1gamma2, expected_dist_sigma1gamma2), 
+                (dist_sigma1gamma2, expected_dist_sigma1gamma2),
                 (dist_sigma2gamma2, expected_dist_sigma2gamma2),
                 (dist_sigma3gamma4, expected_dist_sigma3gamma4),
                 (dist_sigma4gamma5, expected_dist_sigma4gamma5),

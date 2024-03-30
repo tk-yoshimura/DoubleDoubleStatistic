@@ -120,21 +120,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void PDFExpectedTest() {
-            ddouble[] expected_dist_alpha1mu1sigma1 = [      
+            ddouble[] expected_dist_alpha1mu1sigma1 = [
             ];
-            ddouble[] expected_dist_alpha2mu1sigma2 = [       
+            ddouble[] expected_dist_alpha2mu1sigma2 = [
             ];
-            ddouble[] expected_dist_alpha1mu2sigma1 = [       
+            ddouble[] expected_dist_alpha1mu2sigma1 = [
             ];
-            ddouble[] expected_dist_alpha2mu2sigma2 = [      
+            ddouble[] expected_dist_alpha2mu2sigma2 = [
             ];
-            ddouble[] expected_dist_alpha3mu4sigma3 = [     
+            ddouble[] expected_dist_alpha3mu4sigma3 = [
             ];
 
             foreach ((SkewNormalDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_alpha1mu1sigma1, expected_dist_alpha1mu1sigma1), 
+                (dist_alpha1mu1sigma1, expected_dist_alpha1mu1sigma1),
                 (dist_alpha2mu1sigma2, expected_dist_alpha2mu1sigma2),
-                (dist_alpha1mu2sigma1, expected_dist_alpha1mu2sigma1), 
+                (dist_alpha1mu2sigma1, expected_dist_alpha1mu2sigma1),
                 (dist_alpha2mu2sigma2, expected_dist_alpha2mu2sigma2),
                 (dist_alpha3mu4sigma3, expected_dist_alpha3mu4sigma3),
             }) {
@@ -153,21 +153,21 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_alpha1mu1sigma1 = [      
+            ddouble[] expected_dist_alpha1mu1sigma1 = [
             ];
-            ddouble[] expected_dist_alpha2mu1sigma2 = [       
+            ddouble[] expected_dist_alpha2mu1sigma2 = [
             ];
-            ddouble[] expected_dist_alpha1mu2sigma1 = [       
+            ddouble[] expected_dist_alpha1mu2sigma1 = [
             ];
-            ddouble[] expected_dist_alpha2mu2sigma2 = [      
+            ddouble[] expected_dist_alpha2mu2sigma2 = [
             ];
-            ddouble[] expected_dist_alpha3mu4sigma3 = [     
+            ddouble[] expected_dist_alpha3mu4sigma3 = [
             ];
 
             foreach ((SkewNormalDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_alpha1mu1sigma1, expected_dist_alpha1mu1sigma1), 
+                (dist_alpha1mu1sigma1, expected_dist_alpha1mu1sigma1),
                 (dist_alpha2mu1sigma2, expected_dist_alpha2mu1sigma2),
-                (dist_alpha1mu2sigma1, expected_dist_alpha1mu2sigma1), 
+                (dist_alpha1mu2sigma1, expected_dist_alpha1mu2sigma1),
                 (dist_alpha2mu2sigma2, expected_dist_alpha2mu2sigma2),
                 (dist_alpha3mu4sigma3, expected_dist_alpha3mu4sigma3),
             }) {

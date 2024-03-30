@@ -36,10 +36,10 @@ namespace DoubleDoubleDistribution {
             }
 
             ddouble u = (x - Mu) * sigma_inv;
-            
+
             if (u <= 0d || u >= 1d) {
                 return 0d;
-            } 
+            }
 
             ddouble pdf = pdf_norm / (u * (1d - u)) * Exp(-0.5d * Square(Gamma + Delta * Log(u / (1d - u))));
             pdf = IsFinite(pdf) ? pdf : 0d;
@@ -56,10 +56,10 @@ namespace DoubleDoubleDistribution {
 
             if (u <= 0d) {
                 return (interval == Interval.Lower) ? 0d : 1d;
-            } 
+            }
             if (u >= 1d) {
                 return (interval == Interval.Lower) ? 1d : 0d;
-            } 
+            }
 
             ddouble v = Gamma + Delta * Log(u / (1d - u));
 

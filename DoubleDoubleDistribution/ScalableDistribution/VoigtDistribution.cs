@@ -85,7 +85,7 @@ namespace DoubleDoubleDistribution {
                     return y;
                 };
 
-                (ddouble value, error, long eval_points) = 
+                (ddouble value, error, long eval_points) =
                     GaussKronrodIntegral.AdaptiveIntegrate(f, 0d, u, eps, order: GaussKronrodOrder.G31K63, maxdepth: 6);
                 value = Max(0d, value) * pdf_norm;
 
@@ -106,7 +106,7 @@ namespace DoubleDoubleDistribution {
                     return y;
                 };
 
-                (ddouble value, error, long eval_points) = 
+                (ddouble value, error, long eval_points) =
                     GaussKronrodIntegral.AdaptiveIntegrate(f, u, 1d, eps, order: GaussKronrodOrder.G31K63, maxdepth: 6);
                 value = Max(0d, value) * pdf_norm;
 

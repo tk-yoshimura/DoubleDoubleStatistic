@@ -44,7 +44,7 @@ namespace DoubleDoubleDistribution {
             if (n % 2 == 0) {
                 intway.Add(2 * intway[^1] - intway[^2]);
             }
-            else { 
+            else {
                 intway.Add(quantile_norm - intway[^1]);
             }
 

@@ -21,7 +21,7 @@ namespace DoubleDoubleDistribution {
         private static readonly ddouble mode_base = "-1.1615872711359706852500000803029112987";
         private static readonly ddouble median_base = "-0.71671068545502205331700196278067230944440";
         private static readonly ddouble entropy_base = "2.0072768184106563460003025875575283708";
-                                           
+
         public MapAiryDistribution() : this(mu: 0, c: 1) { }
 
         public MapAiryDistribution(ddouble mu, ddouble c) {

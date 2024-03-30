@@ -55,7 +55,7 @@ namespace DoubleDoubleDistribution {
             }
             else {
                 ddouble cdf = Erfc(Alpha * u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
-                 cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 1d : 0d;
+                cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 1d : 0d;
 
                 return cdf;
             }

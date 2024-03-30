@@ -7,7 +7,7 @@ namespace DoubleDoubleDistribution {
             if (ddouble.IsZero(x) || !ddouble.IsFinite(x) || int.Abs(double.ILogB((double)x)) < 320) {
                 return ddouble.Sqrt(ddouble.Cube(x));
             }
-            else { 
+            else {
                 return ddouble.Cube(ddouble.Sqrt(x));
             }
         }
@@ -16,7 +16,7 @@ namespace DoubleDoubleDistribution {
             if (ddouble.IsZero(x) || !ddouble.IsFinite(x) || int.Abs(double.ILogB((double)x)) < 480) {
                 return ddouble.Cbrt(ddouble.Square(x));
             }
-            else { 
+            else {
                 return ddouble.Square(ddouble.Cbrt(x));
             }
         }

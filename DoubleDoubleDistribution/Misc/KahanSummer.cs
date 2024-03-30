@@ -11,7 +11,7 @@ namespace DoubleDoubleDistribution {
             this.carry = carry;
         }
 
-        public void Add(ddouble v) { 
+        public void Add(ddouble v) {
             ddouble d = v - carry;
             ddouble acc_next = acc + d;
 
@@ -23,7 +23,7 @@ namespace DoubleDoubleDistribution {
             return kahan.acc;
         }
 
-        public static KahanSummer operator* (KahanSummer kahan, ddouble s) {
+        public static KahanSummer operator *(KahanSummer kahan, ddouble s) {
             return new(kahan.acc * s, kahan.carry * s);
         }
     }
