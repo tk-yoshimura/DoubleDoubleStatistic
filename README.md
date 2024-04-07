@@ -14,7 +14,7 @@ T: TODO Test
 |            | benktander         | N     | N     | N        | N     | N          | N      | C          |
 |            | birnbaum saunders  | T     | T     | T        | T     | N          | N      |            |
 |            | bradford           | T     | T     | T        | T     | N          | N      |            |
-|            | beta               | T     | T     | T        | T     | N          | N      |            |
+|            | beta               | C     | C     | C        | T     | N          | N      |            |
 |            | beta prime         | T     | T     | T        | T     | N          | N      |            |
 |            | burr               | T     | T     | T        | T     | N          | N      |            |
 |            | chi                | T     | T     | T        | T     | N          | N      |            |

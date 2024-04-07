@@ -24,9 +24,24 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = pdf_norm * Pow(x, Alpha - 1d) * Beta(1d - x, Beta - 1d);
+            if (Alpha != 1d && Beta != 1d) {
+                ddouble pdf = pdf_norm * Pow(x, Alpha - 1d) * Pow(1d - x, Beta - 1d);
 
-            return pdf;
+                return pdf;
+            }
+            else if (Alpha != 1d) {
+                ddouble pdf = pdf_norm * Pow(x, Alpha - 1d);
+
+                return pdf;
+            }
+            else if (Beta != 1d) {
+                ddouble pdf = pdf_norm * Pow(1d - x, Beta - 1d);
+
+                return pdf;
+            }
+            else {
+                return 1d;
+            }
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
