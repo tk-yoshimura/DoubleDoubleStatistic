@@ -15,7 +15,7 @@ T: TODO Test
 |            | birnbaum saunders  | T     | T     | T        | T     | N          | N      |            |
 |            | bradford           | T     | T     | T        | T     | N          | N      |            |
 |            | beta               | C     | C     | C        | T     | N          | N      |            |
-|            | beta prime         | T     | T     | T        | T     | N          | N      |            |
+|            | beta prime         | C     | C     | C        | T     | N          | N      |            |
 |            | burr               | T     | T     | T        | T     | N          | N      |            |
 |            | chi                | T     | T     | T        | T     | N          | N      |            |
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
