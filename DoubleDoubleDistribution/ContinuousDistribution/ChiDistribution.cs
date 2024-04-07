@@ -14,7 +14,7 @@ namespace DoubleDoubleDistribution {
             K = k;
 
             c = K * 0.5d - 1d;
-            pdf_lognorm = k * c + LogGamma(k * 0.5d) * LbE;
+            pdf_lognorm = c + LogGamma(k * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
