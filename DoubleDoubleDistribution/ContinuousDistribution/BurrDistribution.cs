@@ -24,18 +24,30 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble xc = Pow(x, C);
+            if (C == 1d) {
+                ddouble pdf = K / Pow(x + 1, K + 1d);
 
-            ddouble pdf = ck * xc / (x * Pow(xc + 1d, K + 1d));
+                return pdf;
+            }
 
-            return pdf;
+            else {
+                ddouble xc = Pow(x, C);
+
+                if (xc <= 0d) {
+                    return (C < 1d) ? PositiveInfinity : 0d;
+                }
+
+                ddouble pdf = ck * xc / (x * Pow(xc + 1d, K + 1d));
+
+                return pdf;
+            }
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble xc = Pow(x, C);
 
             if (interval == Interval.Lower) {
-                if (x <= 0d) {
+                if (xc <= 0d) {
                     return 0d;
                 }
                 if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
@@ -47,7 +59,7 @@ namespace DoubleDoubleDistribution {
                 return cdf;
             }
             else {
-                if (x <= 0d) {
+                if (xc <= 0d) {
                     return 1d;
                 }
                 if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
@@ -134,7 +146,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Entropy => throw new NotImplementedException();
 
         public override string ToString() {
-            return $"{typeof(BurrDistribution).Name}[k={K},c={C}]";
+            return $"{typeof(BurrDistribution).Name}[c={C},k={K}]";
         }
     }
 }

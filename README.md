@@ -16,7 +16,7 @@ T: TODO Test
 |            | beta               | C     | C     | C        | T     | N          | N      |            |
 |            | beta prime         | C     | C     | C        | T     | N          | N      |            |
 |            | bradford           | C     | C     | C        | T     | N          | N      |            |
-|            | burr               | T     | T     | T        | T     | N          | N      |            |
+|            | burr               | C     | C     | C        | T     | N          | N      |            |
 |            | chi                | T     | T     | T        | T     | N          | N      |            |
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
 |            | cosine             | T     | T     | T        | T     | N          | N      |            |
