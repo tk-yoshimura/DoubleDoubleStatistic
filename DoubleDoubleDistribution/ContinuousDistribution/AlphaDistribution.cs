@@ -17,7 +17,7 @@ namespace DoubleDoubleDistribution {
 
             Alpha = alpha;
             cdf_norm = 1d / Erfc(-alpha * phi_scale);
-            pdf_norm = cdf_norm / Sqrt(2 * PI);
+            pdf_norm = cdf_norm * Sqrt(2d / PI);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -28,7 +28,7 @@ namespace DoubleDoubleDistribution {
                 return NaN;
             }
 
-            ddouble u = Alpha - 1 / x;
+            ddouble u = Alpha - 1d / x;
 
             ddouble pdf = pdf_norm / (x * x) * Exp(-u * u / 2);
 
@@ -40,7 +40,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = Alpha - 1 / x;
+            ddouble u = Alpha - 1d / x;
 
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
