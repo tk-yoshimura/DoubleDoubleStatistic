@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleIntegrate;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
@@ -143,8 +144,28 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override ddouble Entropy => throw new NotImplementedException();
+        public override ddouble Entropy {
+            get {
+                ddouble f(ddouble x) {
+                    ddouble pdf = PDF(x);
 
+                    if (pdf == 0d) {
+                        return 0d;
+                    }
+
+                    ddouble y = -pdf * Log(pdf);
+
+                    return y;
+                }
+
+                (ddouble value, ddouble err, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(
+                    f, 0, PositiveInfinity, 1e-28, maxdepth: 128
+                );
+
+                return value;
+            }
+        }
+    
         public override string ToString() {
             return $"{typeof(BurrDistribution).Name}[c={C},k={K}]";
         }
