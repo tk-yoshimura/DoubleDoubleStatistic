@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleIntegrate;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
@@ -19,6 +20,10 @@ namespace DoubleDoubleDistribution {
 
             ddouble xc = Pow(x, C);
 
+            if (xc <= 0d) {
+                return (C < 1d) ? PositiveInfinity : (C == 1d) ? 1d : 0d;
+            }
+
             ddouble pdf = C * xc / (x * Square(xc + 1d));
 
             return pdf;
@@ -28,7 +33,7 @@ namespace DoubleDoubleDistribution {
             ddouble xc = Pow(x, C);
 
             if (interval == Interval.Lower) {
-                if (x <= 0d) {
+                if (xc <= 0d) {
                     return 0d;
                 }
                 if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
@@ -40,7 +45,7 @@ namespace DoubleDoubleDistribution {
                 return cdf;
             }
             else {
-                if (x <= 0d) {
+                if (xc <= 0d) {
                     return 1d;
                 }
                 if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
@@ -123,7 +128,27 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override ddouble Entropy => throw new NotImplementedException();
+        public override ddouble Entropy {
+            get {
+                ddouble f(ddouble x) {
+                    ddouble pdf = PDF(x);
+
+                    if (pdf == 0d) {
+                        return 0d;
+                    }
+
+                    ddouble y = -pdf * Log(pdf);
+
+                    return y;
+                }
+
+                (ddouble value, ddouble err, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(
+                    f, 0, PositiveInfinity, 1e-28, maxdepth: 128
+                );
+
+                return value;
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(FiskDistribution).Name}[c={C}]";

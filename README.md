@@ -27,10 +27,10 @@ T: TODO Test
 |            | gumbel             | T     | T     | T        | T     | N          | N      |            |
 |            | gompertz           | T     | T     | T        | T     | N          | N      |            |
 |            | fisher z           | T     | T     | T        | T     | N          | N      |            |
-|            | fisk               | T     | T     | T        | T     | N          | N      |            |
+|            | fisk               | C     | C     | C        | T     | N          | N      |            |
 |            | frechet            | T     | T     | T        | T     | N          | N      |            |
 |            | half normal        | T     | T     | T        | T     | N          | N      |            |
-|            | hyperbolic secant  | T     | T     | T        | T     | N          | N      |            |
+|            | hyperbolic secant  | C     | C     | C        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse chi        | T     | T     | T        | T     | N          | N      |            |
