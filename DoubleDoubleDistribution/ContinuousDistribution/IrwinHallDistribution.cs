@@ -52,7 +52,7 @@ namespace DoubleDoubleDistribution {
                 return NaN;
             }
 
-            if (IsNegative(x) || x >= N) {
+            if (IsNegative(x) || x > N) {
                 return 0d;
             }
 
@@ -65,7 +65,7 @@ namespace DoubleDoubleDistribution {
                 return pdf;
             }
 
-            int index = int.Min((int)Floor(x), pdf_table.Count - 1);
+            int index = int.Clamp((int)Floor(x), 0, pdf_table.Count - 1);
             ddouble c = x - index;
 
             ReadOnlyCollection<ddouble> coef = pdf_table[index];
@@ -103,7 +103,7 @@ namespace DoubleDoubleDistribution {
                 return cdf;
             }
 
-            int index = int.Min((int)Floor(x), cdf_table.Count - 1);
+            int index = int.Clamp((int)Floor(x), 0, cdf_table.Count - 1);
             ddouble c = x - index;
 
             ReadOnlyCollection<ddouble> coef = cdf_table[index];
