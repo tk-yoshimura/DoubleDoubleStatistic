@@ -35,7 +35,7 @@ T: TODO Test
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse chi        | T     | T     | T        | T     | N          | N      |            |
 |            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |
-|            | irwin hall         | T     | T     | T        | T     | N          | N      |            |
+|            | irwin hall         | C     | C     | C        | C     | N          | N      |            |
 |            | johnson sb         | T     | T     | T        | N     | N          | N      |            |
 |            | johnson su         | T     | T     | T        | T     | N          | N      |            |
 |            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
