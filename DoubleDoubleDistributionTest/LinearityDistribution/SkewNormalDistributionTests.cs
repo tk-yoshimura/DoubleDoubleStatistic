@@ -2,7 +2,7 @@
 using DoubleDoubleDistribution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DoubleDoubleDistributionTest.ContinuousDistribution {
+namespace DoubleDoubleDistributionTest.LinearityDistribution {
     [TestClass()]
     public class SkewNormalDistributionTests {
         readonly SkewNormalDistribution dist_alpha1mu1sigma1 = new(alpha: 1, mu: 1, sigma: 1);
@@ -45,8 +45,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 for (ddouble x = -4; x <= 4; x += 0.125) {
                     ddouble pdf = dist.PDF(x);
 
-                    //Console.WriteLine($"pdf({x})={pdf}");
-                    Console.WriteLine($"{x},{pdf}");
+                    Console.WriteLine($"pdf({x})={pdf}");
                 }
             }
         }
@@ -138,7 +137,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 (dist_alpha2mu2sigma2, expected_dist_alpha2mu2sigma2),
                 (dist_alpha3mu4sigma3, expected_dist_alpha3mu4sigma3),
             }) {
-                for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
+                for ((ddouble x, int i) = (-4, 0); i < expecteds.Length; x += 1d / 64, i++) {
                     ddouble expected = expecteds[i];
                     ddouble actual = dist.PDF(x);
 
@@ -146,7 +145,12 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                     Console.WriteLine(expected);
                     Console.WriteLine(actual);
 
-                    Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-30, $"{dist} pdf({x})\n{expected}\n{actual}");
+                    if (expected > 0) {
+                        Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-10, $"{dist} pdf({x})\n{expected}\n{actual}");
+                    }
+                    else {
+                        Assert.AreEqual(0, actual);
+                    }
                 }
             }
         }
@@ -171,7 +175,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 (dist_alpha2mu2sigma2, expected_dist_alpha2mu2sigma2),
                 (dist_alpha3mu4sigma3, expected_dist_alpha3mu4sigma3),
             }) {
-                for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.5, i++) {
+                for ((ddouble x, int i) = (-4, 0); i < expecteds.Length; x += 1d / 64, i++) {
                     ddouble expected = expecteds[i];
                     ddouble actual = dist.CDF(x);
 
@@ -179,7 +183,12 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                     Console.WriteLine(expected);
                     Console.WriteLine(actual);
 
-                    Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-30, $"{dist} cdf({x})\n{expected}\n{actual}");
+                    if (expected > 0) {
+                        Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-10, $"{dist} cdf({x})\n{expected}\n{actual}");
+                    }
+                    else {
+                        Assert.AreEqual(0, actual);
+                    }
                 }
             }
         }

@@ -1,8 +1,12 @@
 ﻿using DoubleDouble;
+using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class SkewNormalDistribution : ContinuousDistribution {
+    public class SkewNormalDistribution : LinearityDistribution<SkewNormalDistribution>,
+        IAdditionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
+        ISubtractionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
+        IMultiplyOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -72,6 +76,18 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Kurtosis =>
             2 * (PI - 3d) * Square(Square(s * Sqrt(2 / PI))) / Square(1 - 2 * s * s / PI);
+
+        public static SkewNormalDistribution operator +(SkewNormalDistribution dist, ddouble s) {
+            return new(dist.Alpha, dist.Mu + s, dist.Sigma);
+        }
+
+        public static SkewNormalDistribution operator -(SkewNormalDistribution dist, ddouble s) {
+            return new(dist.Alpha, dist.Mu - s, dist.Sigma);
+        }
+
+        public static SkewNormalDistribution operator *(SkewNormalDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.Mu * k, dist.Sigma * k);
+        }
 
         public override string ToString() {
             return $"{typeof(SkewNormalDistribution).Name}[alpha={Alpha},mu={Mu},sigma={Sigma}]";
