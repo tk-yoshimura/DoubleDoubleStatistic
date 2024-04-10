@@ -52,7 +52,7 @@ T: TODO Test
 |            | pareto             | T     | T     | T        | T     | N          | N      |            |
 |            | power              | T     | T     | T        | T     | N          | N      |            |
 |            | rayleigh           | T     | T     | T        | T     | N          | N      |            |
-|            | reciprocal         | T     | T     | T        | C     | N          | N      |            |
+|            | reciprocal         | C     | C     | C        | C     | N          | N      |            |
 |            | rice               | N     | N     | N        | N     | N          | N      | AAA        |
 |            | skew normal        | T     | T     | N        | T     | N          | N      |            |
 |            | snedecor f         | T     | T     | T        | T     | N          | N      |            |
