@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly AlphaDistribution dist1 = new(alpha: 1);
         readonly AlphaDistribution dist2 = new(alpha: 2);
 
-        AlphaDistribution[] Dists => new[]{
+        AlphaDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

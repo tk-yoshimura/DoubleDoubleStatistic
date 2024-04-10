@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly InverseGaussDistribution dist_mu2lambda2 = new(mu: 2, lambda: 2);
         readonly InverseGaussDistribution dist_mu3lambda4 = new(mu: 3, lambda: 4);
 
-        InverseGaussDistribution[] Dists => new[]{
+        InverseGaussDistribution[] Dists => [
             dist_mu1lambda1,
             dist_mu2lambda1,
             dist_mu1lambda2,
             dist_mu2lambda2,
             dist_mu3lambda4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

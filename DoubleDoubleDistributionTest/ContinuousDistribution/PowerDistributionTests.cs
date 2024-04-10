@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly PowerDistribution dist_k2a2 = new(k: 2, alpha: 2);
         readonly PowerDistribution dist_k4a3 = new(k: 4, alpha: 3);
 
-        PowerDistribution[] Dists => new[]{
+        PowerDistribution[] Dists => [
             dist_k1a1,
             dist_k1a2,
             dist_k2a1,
             dist_k2a2,
             dist_k4a3,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

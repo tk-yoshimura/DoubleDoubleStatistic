@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly InverseGammaDistribution dist_alpha2beta2 = new(alpha: 2, beta: 2);
         readonly InverseGammaDistribution dist_alpha3beta4 = new(alpha: 3, beta: 4);
 
-        InverseGammaDistribution[] Dists => new[]{
+        InverseGammaDistribution[] Dists => [
             dist_alpha1beta1,
             dist_alpha2beta1,
             dist_alpha1beta2,
             dist_alpha2beta2,
             dist_alpha3beta4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

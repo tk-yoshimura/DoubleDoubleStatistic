@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         readonly HoltsmarkDistribution dist1 = new();
         readonly HoltsmarkDistribution dist2 = new(mu: 1, c: 3);
 
-        HoltsmarkDistribution[] Dists => new[]{
+        HoltsmarkDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

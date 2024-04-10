@@ -7,9 +7,9 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     public class ArcsineDistributionTests {
         readonly ArcsineDistribution dist = new();
 
-        ArcsineDistribution[] Dists => new[]{
+        ArcsineDistribution[] Dists => [
             dist
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

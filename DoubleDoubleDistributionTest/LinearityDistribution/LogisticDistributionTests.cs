@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly LogisticDistribution dist1 = new();
         readonly LogisticDistribution dist2 = new(mu: 1, sigma: 3);
 
-        LogisticDistribution[] Dists => new[]{
+        LogisticDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

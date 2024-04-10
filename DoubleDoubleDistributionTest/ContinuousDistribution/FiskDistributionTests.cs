@@ -9,11 +9,11 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly FiskDistribution dist_c2 = new(c: 2);
         readonly FiskDistribution dist_c3 = new(c: 3);
 
-        FiskDistribution[] Dists => new[]{
+        FiskDistribution[] Dists => [
             dist_c1,
             dist_c2,
             dist_c3,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

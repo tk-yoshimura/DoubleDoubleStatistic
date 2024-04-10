@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly RayleighDistribution dist1 = new(sigma: 1);
         readonly RayleighDistribution dist2 = new(sigma: 2);
 
-        RayleighDistribution[] Dists => new[]{
+        RayleighDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly LaplaceDistribution dist1 = new();
         readonly LaplaceDistribution dist2 = new(mu: 1, sigma: 3);
 
-        LaplaceDistribution[] Dists => new[]{
+        LaplaceDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

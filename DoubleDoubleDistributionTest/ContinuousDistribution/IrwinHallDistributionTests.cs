@@ -16,7 +16,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly IrwinHallDistribution dist_n64 = new(n: 64);
 
 
-        IrwinHallDistribution[] Dists => new[]{
+        IrwinHallDistribution[] Dists => [
             dist_n1,
             dist_n2,
             dist_n3,
@@ -26,7 +26,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             dist_n16,
             dist_n32,
             dist_n64,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {
@@ -331,8 +331,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ];
 
             foreach ((IrwinHallDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_n1, expected_n1), (dist_n2, expected_n2), (dist_n3, expected_n3), 
-                (dist_n4, expected_n4), (dist_n5, expected_n5), (dist_n8, expected_n8), 
+                (dist_n1, expected_n1), (dist_n2, expected_n2), (dist_n3, expected_n3),
+                (dist_n4, expected_n4), (dist_n5, expected_n5), (dist_n8, expected_n8),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.125, i++) {
                     ddouble expected = expecteds[i];
@@ -561,8 +561,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ];
 
             foreach ((IrwinHallDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_n1, expected_n1), (dist_n2, expected_n2), (dist_n3, expected_n3), 
-                (dist_n4, expected_n4), (dist_n5, expected_n5), (dist_n8, expected_n8), 
+                (dist_n1, expected_n1), (dist_n2, expected_n2), (dist_n3, expected_n3),
+                (dist_n4, expected_n4), (dist_n5, expected_n5), (dist_n8, expected_n8),
             }) {
                 for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 0.125, i++) {
                     ddouble expected = expecteds[i];

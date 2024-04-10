@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         readonly SaSPoint5Distribution dist1 = new();
         readonly SaSPoint5Distribution dist2 = new(mu: 1, c: 3);
 
-        SaSPoint5Distribution[] Dists => new[]{
+        SaSPoint5Distribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

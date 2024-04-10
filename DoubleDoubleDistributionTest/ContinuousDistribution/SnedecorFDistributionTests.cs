@@ -18,7 +18,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly SnedecorFDistribution dist_d1_8_d2_8 = new(d1: 8, d2: 8);
         readonly SnedecorFDistribution dist_d1_10_d2_10 = new(d1: 10, d2: 10);
 
-        SnedecorFDistribution[] Dists => new[]{
+        SnedecorFDistribution[] Dists => [
             dist_d1_1_d2_1,
             dist_d1_2_d2_1,
             dist_d1_1_d2_2,
@@ -31,7 +31,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             dist_d1_8_d2_6,
             dist_d1_8_d2_8,
             dist_d1_10_d2_10
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         readonly NormalDistribution dist1 = new();
         readonly NormalDistribution dist2 = new(mu: 1, sigma: 3);
 
-        NormalDistribution[] Dists => new[]{
+        NormalDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

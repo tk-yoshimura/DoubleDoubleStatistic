@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly CosineDistribution dist1 = new();
         readonly CosineDistribution dist2 = new(mu: 1, sigma: 3);
 
-        CosineDistribution[] Dists => new[]{
+        CosineDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

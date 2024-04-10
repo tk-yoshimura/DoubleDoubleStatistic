@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly GumbelDistribution dist_a2b2 = new(mu: 2, sigma: 2);
         readonly GumbelDistribution dist_a3b4 = new(mu: 3, sigma: 4);
 
-        GumbelDistribution[] Dists => new[]{
+        GumbelDistribution[] Dists => [
             dist_a1b1,
             dist_a2b1,
             dist_a1b2,
             dist_a2b2,
             dist_a3b4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

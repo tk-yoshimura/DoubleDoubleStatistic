@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly WeibullDistribution dist_k2theta2 = new(k: 2, theta: 2);
         readonly WeibullDistribution dist_k3theta4 = new(k: 3, theta: 4);
 
-        WeibullDistribution[] Dists => new[]{
+        WeibullDistribution[] Dists => [
             dist_k1theta1,
             dist_k2theta1,
             dist_k1theta2,
             dist_k2theta2,
             dist_k3theta4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

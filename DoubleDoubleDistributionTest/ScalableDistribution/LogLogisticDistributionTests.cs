@@ -12,14 +12,14 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly LogLogisticDistribution dist_sigma3gamma4 = new(sigma: 3, gamma: 4);
         readonly LogLogisticDistribution dist_sigma4gamma5 = new(sigma: 4, gamma: 5);
 
-        LogLogisticDistribution[] Dists => new[]{
+        LogLogisticDistribution[] Dists => [
             dist_sigma1gamma1,
             dist_sigma2gamma1,
             dist_sigma1gamma2,
             dist_sigma2gamma2,
             dist_sigma3gamma4,
             dist_sigma4gamma5,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

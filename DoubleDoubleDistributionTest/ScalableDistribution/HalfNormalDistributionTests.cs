@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly HalfNormalDistribution dist1 = new();
         readonly HalfNormalDistribution dist2 = new(sigma: 3);
 
-        HalfNormalDistribution[] Dists => new[]{
+        HalfNormalDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

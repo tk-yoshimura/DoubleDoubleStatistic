@@ -10,12 +10,12 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly ParetoDistribution dist_alpha4xm2 = new(alpha: 4, xm: 2);
         readonly ParetoDistribution dist_alpha4xm3 = new(alpha: 4, xm: 3);
 
-        ParetoDistribution[] Dists => new[]{
+        ParetoDistribution[] Dists => [
             dist_alpha2xm1,
             dist_alpha3xm2,
             dist_alpha4xm2,
             dist_alpha4xm3,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

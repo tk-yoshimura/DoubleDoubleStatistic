@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly ExponentialDistribution dist1 = new(theta: 1);
         readonly ExponentialDistribution dist2 = new(theta: 2);
 
-        ExponentialDistribution[] Dists => new[]{
+        ExponentialDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

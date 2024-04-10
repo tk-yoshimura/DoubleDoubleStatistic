@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly BradfordDistribution dist_c1 = new(c: 1);
         readonly BradfordDistribution dist_c2 = new(c: 2);
 
-        BradfordDistribution[] Dists => new[]{
+        BradfordDistribution[] Dists => [
             dist_c1,
             dist_c2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

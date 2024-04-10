@@ -12,13 +12,13 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly JohnsonSUDistribution dist_gamma2delta2mu2sigma2 = new(gamma: 2, delta: 2, mu: 2, sigma: 2);
         readonly JohnsonSUDistribution dist_gamma3delta2mu0sigma4 = new(gamma: 3, delta: 2, mu: 0, sigma: 4);
 
-        JohnsonSUDistribution[] Dists => new[]{
+        JohnsonSUDistribution[] Dists => [
             dist_gamma1delta1mu0sigma1,
             dist_gamma2delta1mu1sigma1,
             dist_gamma1delta1mu0sigma2,
             dist_gamma2delta2mu2sigma2,
             dist_gamma3delta2mu0sigma4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

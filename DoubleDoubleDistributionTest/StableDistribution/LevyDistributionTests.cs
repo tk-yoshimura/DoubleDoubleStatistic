@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         readonly LevyDistribution dist1 = new();
         readonly LevyDistribution dist2 = new(mu: 1, c: 3);
 
-        LevyDistribution[] Dists => new[]{
+        LevyDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

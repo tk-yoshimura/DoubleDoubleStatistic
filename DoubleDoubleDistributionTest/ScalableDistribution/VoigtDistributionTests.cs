@@ -10,12 +10,12 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly VoigtDistribution dist3 = new(gamma: 3, sigma: 4) { EnableCDFErrorException = true };
         readonly VoigtDistribution dist4 = new(gamma: 1d / 16, sigma: 3d / 8) { EnableCDFErrorException = true };
 
-        VoigtDistribution[] Dists => new[]{
+        VoigtDistribution[] Dists => [
             dist1,
             dist2,
             dist3,
             dist4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

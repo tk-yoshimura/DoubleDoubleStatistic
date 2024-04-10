@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly GompertzDistribution dist_eta2theta2 = new(eta: 2, theta: 2);
         readonly GompertzDistribution dist_eta3theta4 = new(eta: 3, theta: 4);
 
-        GompertzDistribution[] Dists => new[]{
+        GompertzDistribution[] Dists => [
             dist_eta1theta1,
             dist_eta2theta1,
             dist_eta1theta2,
             dist_eta2theta2,
             dist_eta3theta4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

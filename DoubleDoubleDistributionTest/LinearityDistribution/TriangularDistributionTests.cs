@@ -9,11 +9,11 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly TriangularDistribution dist_a1b3c2 = new(a: 1, b: 3, c: 2);
         readonly TriangularDistribution dist_a2b6c3 = new(a: 2, b: 6, c: 3);
 
-        TriangularDistribution[] Dists => new[]{
+        TriangularDistribution[] Dists => [
             dist_a0b4c1,
             dist_a1b3c2,
             dist_a2b6c3,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

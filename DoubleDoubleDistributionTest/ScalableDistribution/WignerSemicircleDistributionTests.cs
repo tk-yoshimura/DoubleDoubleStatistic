@@ -9,11 +9,11 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly WignerSemicircleDistribution dist_r2 = new(r: 2);
         readonly WignerSemicircleDistribution dist_r3 = new(r: 3);
 
-        WignerSemicircleDistribution[] Dists => new[]{
+        WignerSemicircleDistribution[] Dists => [
             dist_r1,
             dist_r2,
             dist_r3,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

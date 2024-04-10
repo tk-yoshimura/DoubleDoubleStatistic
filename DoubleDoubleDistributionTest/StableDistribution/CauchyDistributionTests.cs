@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         readonly CauchyDistribution dist1 = new();
         readonly CauchyDistribution dist2 = new(mu: 1, gamma: 3);
 
-        CauchyDistribution[] Dists => new[]{
+        CauchyDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

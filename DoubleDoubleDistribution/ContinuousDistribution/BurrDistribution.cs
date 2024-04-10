@@ -165,7 +165,7 @@ namespace DoubleDoubleDistribution {
                 return value;
             }
         }
-    
+
         public override string ToString() {
             return $"{typeof(BurrDistribution).Name}[c={C},k={K}]";
         }

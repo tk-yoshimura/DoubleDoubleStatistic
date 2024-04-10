@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly NakagamiDistribution dist_m2omega2 = new(m: 2, omega: 2);
         readonly NakagamiDistribution dist_m3omega4 = new(m: 3, omega: 4);
 
-        NakagamiDistribution[] Dists => new[]{
+        NakagamiDistribution[] Dists => [
             dist_m1omega1,
             dist_m2omega1,
             dist_m1omega2,
             dist_m2omega2,
             dist_m3omega4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

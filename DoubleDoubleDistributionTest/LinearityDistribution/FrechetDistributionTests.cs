@@ -12,13 +12,13 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly FrechetDistribution dist_alpha2mu2theta2 = new(alpha: 2, mu: 2, theta: 2);
         readonly FrechetDistribution dist_alpha3mu0theta4 = new(alpha: 3, mu: 0, theta: 4);
 
-        FrechetDistribution[] Dists => new[]{
+        FrechetDistribution[] Dists => [
             dist_alpha1mu0theta1,
             dist_alpha2mu1theta1,
             dist_alpha1mu0theta2,
             dist_alpha2mu2theta2,
             dist_alpha3mu0theta4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

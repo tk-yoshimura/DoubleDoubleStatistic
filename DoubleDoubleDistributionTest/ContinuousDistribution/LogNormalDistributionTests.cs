@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly LogNormalDistribution dist1 = new();
         readonly LogNormalDistribution dist2 = new(mu: 1, sigma: 3);
 
-        LogNormalDistribution[] Dists => new[]{
+        LogNormalDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

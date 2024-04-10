@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly BirnbaumSaundersDistribution dist_alpha2theta2 = new(alpha: 2, theta: 2);
         readonly BirnbaumSaundersDistribution dist_alpha3theta4 = new(alpha: 3, theta: 4);
 
-        BirnbaumSaundersDistribution[] Dists => new[]{
+        BirnbaumSaundersDistribution[] Dists => [
             dist_alpha1theta1,
             dist_alpha2theta1,
             dist_alpha1theta2,
             dist_alpha2theta2,
             dist_alpha3theta4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

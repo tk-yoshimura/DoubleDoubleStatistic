@@ -10,12 +10,12 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly ReciprocalDistribution dist_a2b4 = new(a: 2, b: 4);
         readonly ReciprocalDistribution dist_a3b4 = new(a: 3, b: 4);
 
-        ReciprocalDistribution[] Dists => new[]{
+        ReciprocalDistribution[] Dists => [
             dist_a1b2,
             dist_a2b3,
             dist_a2b4,
             dist_a3b4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

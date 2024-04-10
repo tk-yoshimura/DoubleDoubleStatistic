@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         readonly MapAiryDistribution dist1 = new();
         readonly MapAiryDistribution dist2 = new(mu: 1, c: 3);
 
-        MapAiryDistribution[] Dists => new[]{
+        MapAiryDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly MaxwellDistribution dist1 = new(sigma: 1);
         readonly MaxwellDistribution dist2 = new(sigma: 2);
 
-        MaxwellDistribution[] Dists => new[]{
+        MaxwellDistribution[] Dists => [
             dist1,
             dist2,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

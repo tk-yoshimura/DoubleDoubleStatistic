@@ -23,7 +23,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly StudentTDistribution dist_nu129 = new(nu: 129);
 
 
-        StudentTDistribution[] Dists => new[]{
+        StudentTDistribution[] Dists => [
             dist_nu0p5,
             dist_nu1,
             dist_nu1p5,
@@ -40,7 +40,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             dist_nu64,
             dist_nu128,
             dist_nu129
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

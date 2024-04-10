@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly KumaraswamyDistribution dist_a2b2 = new(alpha: 2, beta: 2);
         readonly KumaraswamyDistribution dist_a3b4 = new(alpha: 3, beta: 4);
 
-        KumaraswamyDistribution[] Dists => new[]{
+        KumaraswamyDistribution[] Dists => [
             dist_a1b1,
             dist_a2b1,
             dist_a1b2,
             dist_a2b2,
             dist_a3b4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

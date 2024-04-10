@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly SkewNormalDistribution dist_alpha2mu2sigma2 = new(alpha: 2, mu: 2, sigma: 2);
         readonly SkewNormalDistribution dist_alpha3mu4sigma3 = new(alpha: 3, mu: 4, sigma: 3);
 
-        SkewNormalDistribution[] Dists => new[]{
+        SkewNormalDistribution[] Dists => [
             dist_alpha1mu1sigma1,
             dist_alpha2mu1sigma2,
             dist_alpha1mu2sigma1,
             dist_alpha2mu2sigma2,
             dist_alpha3mu4sigma3,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

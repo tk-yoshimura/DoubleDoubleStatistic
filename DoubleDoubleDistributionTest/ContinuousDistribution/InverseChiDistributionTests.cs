@@ -17,7 +17,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly InverseChiDistribution dist_nu128 = new(k: 128);
 
 
-        InverseChiDistribution[] Dists => new[]{
+        InverseChiDistribution[] Dists => [
             dist_nu1,
             dist_nu2,
             dist_nu3,
@@ -28,7 +28,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             dist_nu32,
             dist_nu64,
             dist_nu128,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

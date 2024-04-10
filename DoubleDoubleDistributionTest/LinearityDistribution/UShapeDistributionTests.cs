@@ -9,11 +9,11 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly UShapeDistribution dist_a1b2 = new(a: 1, b: 2);
         readonly UShapeDistribution dist_a2b4 = new(a: 2, b: 4);
 
-        UShapeDistribution[] Dists => new[]{
+        UShapeDistribution[] Dists => [
             dist_a0b1,
             dist_a1b2,
             dist_a2b4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

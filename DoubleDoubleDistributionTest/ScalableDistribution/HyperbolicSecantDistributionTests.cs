@@ -8,10 +8,10 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
         readonly HyperbolicSecantDistribution dist = new();
         readonly HyperbolicSecantDistribution dist_pi2 = new(s: ddouble.PI / 2);
 
-        HyperbolicSecantDistribution[] Dists => new[]{
+        HyperbolicSecantDistribution[] Dists => [
             dist,
             dist_pi2
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {

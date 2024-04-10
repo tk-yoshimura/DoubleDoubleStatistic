@@ -11,13 +11,13 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly BurrDistribution dist_a2b2 = new(c: 2, k: 2);
         readonly BurrDistribution dist_a3b4 = new(c: 3, k: 4);
 
-        BurrDistribution[] Dists => new[]{
+        BurrDistribution[] Dists => [
             dist_a1b1,
             dist_a2b1,
             dist_a1b2,
             dist_a2b2,
             dist_a3b4,
-        };
+        ];
 
         [TestMethod()]
         public void InfoTest() {
