@@ -86,7 +86,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error, long eval_points) =
-                    GaussKronrodIntegral.AdaptiveIntegrate(f, 0d, u, eps, order: GaussKronrodOrder.G31K63, maxdepth: 6);
+                    GaussKronrodIntegral.AdaptiveIntegrate(f, 0d, u, eps, discontinue_eval_points: 2048);
                 value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? value : 1d - value;
@@ -107,7 +107,7 @@ namespace DoubleDoubleDistribution {
                 };
 
                 (ddouble value, error, long eval_points) =
-                    GaussKronrodIntegral.AdaptiveIntegrate(f, u, 1d, eps, order: GaussKronrodOrder.G31K63, maxdepth: 6);
+                    GaussKronrodIntegral.AdaptiveIntegrate(f, u, 1d, eps, discontinue_eval_points: 2048);
                 value = Max(0d, value) * pdf_norm;
 
                 cdf = x < 0d ? 0.5d - value : 0.5d + value;

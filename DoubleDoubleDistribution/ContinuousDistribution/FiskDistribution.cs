@@ -143,7 +143,7 @@ namespace DoubleDoubleDistribution {
                 }
 
                 (ddouble value, ddouble err, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(
-                    f, 0, PositiveInfinity, 1e-28, maxdepth: 128
+                    f, 0, PositiveInfinity, 1e-28, discontinue_eval_points: 16384
                 );
 
                 return value;

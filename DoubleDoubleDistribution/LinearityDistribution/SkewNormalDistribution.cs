@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleIntegrate;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
@@ -12,7 +13,7 @@ namespace DoubleDoubleDistribution {
         public ddouble Sigma { get; }
         public ddouble Alpha { get; }
 
-        private readonly ddouble pdf_norm, sigma_inv, s;
+        private readonly ddouble pdf_norm, cdf_norm, sigma_inv, s;
 
         public SkewNormalDistribution() : this(alpha: 0, mu: 0, sigma: 1) { }
 
@@ -25,7 +26,8 @@ namespace DoubleDoubleDistribution {
             Sigma = sigma;
             Alpha = alpha;
 
-            pdf_norm = 2d / (Square(sigma) * Sqrt(2d * PI));
+            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
+            cdf_norm = 1d / Sqrt(2d * PI);
             sigma_inv = 1d / sigma;
 
             s = Alpha / Hypot(1, alpha);
@@ -52,14 +54,38 @@ namespace DoubleDoubleDistribution {
             ddouble u = (x - Mu) * sigma_inv;
 
             if (interval == Interval.Lower) {
-                ddouble cdf = Erfc(-Alpha * u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
+                ddouble cdf = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
+
+                if (cdf < 1e-5) {
+                    ddouble f(ddouble u) {
+                        ddouble c = Exp(-u * u * 0.5d) * Erfc(-Alpha * u / Sqrt2);
+                        return c;
+                    }
+
+                    ddouble eps = Erfc(-u / Sqrt2) * 1e-28;
+
+                    cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
+                }
+
                 cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 0d : 1d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Erfc(Alpha * u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
-                cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 1d : 0d;
+                ddouble cdf = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
+
+                if (cdf < 1e-5) {
+                    ddouble f(ddouble u) {
+                        ddouble c = Exp(-u * u * 0.5d) * Erfc(-Alpha * u / Sqrt2);
+                        return c;
+                    }
+
+                    ddouble eps = Erfc(u / Sqrt2) * 1e-28;
+
+                    cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
+                }
+
+                cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 0d : 1d;
 
                 return cdf;
             }
