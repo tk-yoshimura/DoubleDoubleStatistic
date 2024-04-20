@@ -54,7 +54,7 @@ T: TODO Test
 |            | rayleigh           | T     | T     | T        | T     | N          | N      |            |
 |            | reciprocal         | C     | C     | C        | C     | N          | N      |            |
 |            | rice               | N     | N     | N        | N     | N          | N      | AAA        |
-|            | skew normal        | T     | T     | N        | T     | N          | N      |            |
+|            | skew normal        | C     | C     | N        | T     | N          | N      |            |
 |            | snedecor f         | T     | T     | T        | T     | N          | N      |            |
 |            | student t          | C     | C     | C        | T     | N          | N      |            |
 |            | suzuki             | N     | N     | N        | N     | N          | N      | B          |

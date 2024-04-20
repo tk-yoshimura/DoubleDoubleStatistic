@@ -104,6 +104,32 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis =>
             2 * (PI - 3d) * Square(Square(s * Sqrt(2 / PI))) / Square(1 - 2 * s * s / PI);
 
+        public override ddouble Entropy {
+            get {
+                ddouble f(ddouble x) {
+                    ddouble pdf = pdf_norm * Exp(-x * x * 0.5d) * Erfc(-x * erfc_scale);
+
+                    if (pdf == 0d) {
+                        return 0d;
+                    }
+
+                    ddouble y = -pdf * Log(pdf);
+
+                    return y;
+                }
+
+                (ddouble value, ddouble err, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(
+                    f, NegativeInfinity, PositiveInfinity, 1e-28, discontinue_eval_points: 1024
+                );
+
+                value += Log(Sigma);
+
+                Debug.WriteLine($"Entropy integrate err: {err}");
+
+                return value;
+            }
+        }
+
         public static SkewNormalDistribution operator +(SkewNormalDistribution dist, ddouble s) {
             return new(dist.Alpha, dist.Mu + s, dist.Sigma);
         }
