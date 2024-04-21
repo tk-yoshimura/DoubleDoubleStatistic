@@ -22,7 +22,7 @@ namespace DoubleDoubleDistribution {
         public SkewNormalDistribution(ddouble alpha) : this(alpha, mu: 0, sigma: 1) { }
 
         public SkewNormalDistribution(ddouble alpha, ddouble mu, ddouble sigma) {
-            ValidateShape(alpha, alpha => Abs(alpha) <= 16d);
+            ValidateShape(alpha, alpha => Abs(alpha) <= 256d);
             ValidateLocation(mu);
             ValidateScale(sigma);
 
@@ -248,6 +248,70 @@ namespace DoubleDoubleDistribution {
                 ((+1, -68, 0xD1BD5A5F7DF7DDF0uL, 0x61B6F3926C953E63uL), (+1, -56, 0xE2E9DE00AE2EDD8BuL, 0xD19C905E9736C7E9uL)),
             }));
 
+            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_16_32 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
+                ((+1, 1, 0xAC9F5E14B0A29F66uL, 0x2CC9252C43FDC4A7uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
+                ((+1, 0, 0x80BBAFA6A41E489CuL, 0x1D4FF3AD36FB651FuL), (+1, -2, 0xB7344720C68AC27DuL, 0x08E10416E41108D8uL)),
+                ((+1, -3, 0xA719C564D80F0000uL, 0xD799F5F43011B0C6uL), (+1, -5, 0xE40373D4F591926DuL, 0x94C01935DE3EC9D3uL)),
+                ((+1, -7, 0xF7B550D99F9AD76BuL, 0x0114ADD0BE7A88B4uL), (+1, -8, 0xA1DE5CB8FBD76D4BuL, 0x4E139739AFF45581uL)),
+                ((+1, -11, 0xE756E4EC26729F31uL, 0xD7F5BE65A3B51C9EuL), (+1, -12, 0x9097CF71089B737DuL, 0xA16B87783D077B64uL)),
+                ((+1, -15, 0x8DB867C810D6ABEEuL, 0xFA9A1B4C69733F45uL), (+1, -17, 0xA926BEF907229B30uL, 0x9CDED29B1D20CC19uL)),
+                ((+1, -21, 0xE61905D9F5BA7303uL, 0xF78C15C130930ED6uL), (+1, -22, 0x82D05B442DB30E4AuL, 0x2C6D9D1F30EFD0FCuL)),
+                ((+1, -27, 0xF48873CF220C984CuL, 0xA6BBE1B3C9E5A679uL), (+1, -28, 0x8408F8FDCAD89F2DuL, 0xEDC96DC7D0B879AEuL)),
+                ((+1, -33, 0xA456BADA17BD12EFuL, 0x8A36112503C2C529uL), (+1, -35, 0xA7D7ACBDF24C9631uL, 0x3D73F9466AC4C47AuL)),
+                ((+1, -40, 0x830FF8D59F989C52uL, 0x3C2B3C6757C969F6uL), (+1, -43, 0xFBA02105B011FDFBuL, 0x60AB2820EC9F1F44uL)),
+                ((+1, -49, 0xDDC64F6A844394D7uL, 0xFBFA6DC467BA8FEBuL), (+1, -51, 0xC61A6CF73C9341AEuL, 0xC154EF2715F51FBFuL)),
+                ((+1, -58, 0xA0CE5DDC2FD4373AuL, 0xADA8C0AC9160B325uL), (+1, -60, 0x83269B708F7698BAuL, 0xAE5CD6EAF47B57D2uL)),
+                ((+1, -70, 0xEDDC56D714D642BCuL, 0x1A75BBE70D6F77B0uL), (+1, -72, 0xA851EBA313116861uL, 0xD5827FB1DCA9423EuL)),
+            }));
+
+            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_32_64 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
+                ((+1, 1, 0xC7D60E836AA0F11CuL, 0x483E2AB9C5FC1943uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
+                ((+1, -1, 0x91F4C8AD0779A7C5uL, 0x445CABB7B5612242uL), (+1, -3, 0xB50756CC7031C8A2uL, 0xB7F3290252CD73DCuL)),
+                ((+1, -5, 0xB972A4323A6E3231uL, 0xEE1F1119EC7E2B17uL), (+1, -7, 0xDE73A8ED1954A8A5uL, 0x710D7E843DB2EE10uL)),
+                ((+1, -9, 0x867B5DE6FC19CCBAuL, 0x50B058DD49A3BA0FuL), (+1, -11, 0x9BD10BD2F8D6F6E5uL, 0xCB91237E048FE280uL)),
+                ((+1, -15, 0xF5ABF1ABBA49310DuL, 0x01CE2AD897E5A46CuL), (+1, -16, 0x8942B54A082B54FAuL, 0xFE019EDABC0C892FuL)),
+                ((+1, -20, 0x93278F8A4D22F123uL, 0x68BB303B3BE2D788uL), (+1, -22, 0x9E49F038EAC64720uL, 0xA1786F3323033C49uL)),
+                ((+1, -27, 0xE990E52FB434EF46uL, 0x88377A6712134B89uL), (+1, -29, 0xF146FD747267CDDEuL, 0x6D7B9436D313FA6AuL)),
+                ((+1, -34, 0xF29FCE5AF17F39E9uL, 0xA9E8CD279E728A42uL), (+1, -36, 0xEFF5975311A5075DuL, 0x0B9F05D9DD9FCB1EuL)),
+                ((+1, -41, 0x9F5C8314BE91CB3CuL, 0xDE64E50A5B1DB53FuL), (+1, -43, 0x9644F73F2109AD60uL, 0xA53F417B6EC6B4D2uL)),
+                ((+1, -50, 0xF8601BBD25051DA8uL, 0x5D76DF700D2154C1uL), (+1, -52, 0xDDF37B99F07AC1B3uL, 0xA3C02390A18A1162uL)),
+                ((+1, -59, 0xCD3D93F7E61034E2uL, 0x89394C2C8444B168uL), (+1, -61, 0xAC2565A4AEDC74DBuL, 0x5746E31853A90285uL)),
+                ((+1, -69, 0x912A0FBACCC1E0E1uL, 0x388EB7F479E274D6uL), (+1, -72, 0xE07A7BCF1CFE409FuL, 0x02ABAD8C1E487929uL)),
+                ((+1, -82, 0xD0969DE335927585uL, 0x7CD865E6AC977797uL), (+1, -84, 0x8DA9AD4F9667E126uL, 0x981107F20B6BDA21uL)),
+            }));
+
+            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_64_128 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
+                ((+1, 1, 0xE05C1678BC1AA43CuL, 0xAB23025333CABAF3uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
+                ((+1, -2, 0x8A5B797018711CF9uL, 0x2BD78FF4399209E3uL), (+1, -4, 0x990DE97C2B90E85AuL, 0xABCFD7097188F337uL)),
+                ((+1, -7, 0x91CDEF03AD53D68BuL, 0xC465F70799A02794uL), (+1, -9, 0x9C3583645000485BuL, 0x367320D195D88B1DuL)),
+                ((+1, -13, 0xAB98F815A6395FA5uL, 0x14ED9B15FEA39EC9uL), (+1, -15, 0xB1CF73C88CB8FD59uL, 0xAF3F6E3A1330C734uL)),
+                ((+1, -20, 0xF778E3C56116235FuL, 0x645C48F1A3A8A1A6uL), (+1, -22, 0xF79741B0A4202F6AuL, 0x62EDC22DD4388E5EuL)),
+                ((+1, -27, 0xE1DC2AEA47684BB4uL, 0x046670B083EB8212uL), (+1, -29, 0xD9AF14F3D2404F67uL, 0xA66ECB650951F79CuL)),
+                ((+1, -34, 0x822D5E0E4A3FFF2AuL, 0x7EBF5901AB2924F7uL), (+1, -37, 0xF0FD12E7CB8051E6uL, 0xC0C283611A1FB238uL)),
+                ((+1, -43, 0xB792CBCB1CB59A3EuL, 0x50F2C5956D4E9CDBuL), (+1, -45, 0xA278F896218D2A86uL, 0x5B9661D5DA962455uL)),
+                ((+1, -52, 0x93AD0DE374A83205uL, 0x2BB25C049511E8C9uL), (+1, -55, 0xF83FD3A1222A7FBFuL, 0xFA26123E05F4EBDEuL)),
+                ((+1, -63, 0xEC46539251B0FB26uL, 0xD668F2BF4AABC622uL), (+1, -65, 0xBA49221CD84F451FuL, 0x28FBADA2BA781911uL)),
+                ((+1, -74, 0x8887D47805AE43D4uL, 0xBF8C27DB988025DAuL), (+1, -77, 0xC391BFDCD148F4C5uL, 0x0198728D88DB85E1uL)),
+                ((+1, -91, 0xACADB9F5644D6626uL, 0x4D65FC42BCECF7A2uL), Zero),
+                ((-1, -105, 0xDAF3BEDA6BD9ACDBuL, 0x69071F8364A964DBuL), Zero),
+            }));
+
+            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_128_256 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
+                ((+1, 1, 0xF6CD6807E5FDA60DuL, 0x058423D37D88237CuL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
+                ((+1, -3, 0xA56CB05DE8430EB0uL, 0xFD84CBC3B21B0F49uL), (+1, -5, 0xA78EA368CD387FC9uL, 0x2D25F8AC53EE4BB9uL)),
+                ((+1, -9, 0xBF93CD8530E0BC3CuL, 0x12023DE860AABF32uL), (+1, -11, 0xBD476D35D864B2CEuL, 0xE6E628753C7F18D7uL)),
+                ((+1, -16, 0xFB205450AB51F5ACuL, 0x00107FC5EE04F70FuL), (+1, -18, 0xF1B2EAB11EE51439uL, 0xFA00570D048931E2uL)),
+                ((+1, -23, 0xCD1AD06292D1AE5BuL, 0x1363F89A0101C27FuL), (+1, -25, 0xBFFE80F1383455C2uL, 0xE8D8212393EF88C9uL)),
+                ((+1, -31, 0xD8AA7BE6B4C9210BuL, 0x05109871C0A4627CuL), (+1, -33, 0xC4DDAD8C462B28E2uL, 0x6F93AFCACBC9C44AuL)),
+                ((+1, -39, 0x94CF4C4B0EC6BB51uL, 0x54BC9ECD780044CAuL), (+1, -41, 0x82E957B09720DBB6uL, 0xD0442A05D39A072FuL)),
+                ((+1, -48, 0x8252EC7A01754586uL, 0xBDD10232E7226B9DuL), (+1, -51, 0xDD42DE3D02568F83uL, 0x1A2EC52FF6C54FC4uL)),
+                ((+1, -58, 0x8ADCE382615B44BFuL, 0x75F3F5D19799818FuL), (+1, -61, 0xE26C30D2AD606FB4uL, 0x7B857C4330228A2BuL)),
+                ((+1, -69, 0xA502D32630D936E2uL, 0xE502B8E31D14FDEFuL), (+1, -71, 0x804551C1F595EC6AuL, 0x2DC3C2C0C5B278A5uL)),
+                ((+1, -81, 0xB9A1B9A553C5E279uL, 0xFA7156E41AA94204uL), (+1, -83, 0x87D3C602EC417FF4uL, 0x25ABE6A8DD21BC2EuL)),
+                ((+1, -94, 0x8808D85F53B2DC20uL, 0xEB07E5EDADFCF773uL), (+1, -97, 0xB5764A2863F76654uL, 0x86FB6C6B4FB70B88uL)),
+                ((+1, -113, 0x8FAC8CC2D8B19C0AuL, 0x79AE877842C81EDFuL), Zero),
+            }));
+
             public static ddouble Value(ddouble x) {
                 if (IsNegative(x)) {
                     return -Value(-x);
@@ -269,8 +333,20 @@ namespace DoubleDoubleDistribution {
                 else if (x <= 8d) {
                     y = ApproxUtil.Pade(x - 4d, pade_4_8);
                 }
-                else {
+                else if (x <= 16d) {
                     y = ApproxUtil.Pade(x - 8d, pade_8_16);
+                }
+                else if (x <= 32d) {
+                    y = ApproxUtil.Pade(x - 16d, pade_16_32) / x;
+                }
+                else if (x <= 64d) {
+                    y = ApproxUtil.Pade(x - 32d, pade_32_64) / x;
+                }
+                else if (x <= 128d) {
+                    y = ApproxUtil.Pade(x - 64d, pade_64_128) / x;
+                }
+                else{
+                    y = ApproxUtil.Pade(x - 128d, pade_128_256) / x;
                 }
 
                 return y;
