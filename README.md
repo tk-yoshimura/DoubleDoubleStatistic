@@ -42,7 +42,7 @@ T: TODO Test
 |            | laplace            | C     | C     | C        | T     | N          | N      |            |
 |            | log logistic       | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
-|            | logistic           | T     | T     | T        | T     | N          | N      |            |
+|            | logistic           | C     | C     | C        | T     | N          | N      |            |
 |            | lomax              | T     | T     | T        | T     | N          | N      |            |
 |            | maxwell            | T     | T     | T        | T     | N          | N      |            |
 |            | nakagami           | T     | T     | T        | T     | N          | N      |            |
