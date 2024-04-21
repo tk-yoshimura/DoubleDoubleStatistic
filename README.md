@@ -23,7 +23,7 @@ T: TODO Test
 |            | exponential        | C     | C     | C        | T     | N          | N      |            |
 |            | dagum              | N     | N     | N        | N     | N          | N      | B          |
 |            | davis              | N     | N     | N        | N     | N          | N      | B          |
-|            | gamma              | T     | T     | T        | T     | N          | N      |            |
+|            | gamma              | C     | C     | C        | T     | N          | N      |            |
 |            | gumbel             | C     | C     | C        | T     | N          | N      |            |
 |            | gompertz           | T     | T     | T        | T     | N          | N      |            |
 |            | fisher z           | T     | T     | T        | T     | N          | N      |            |

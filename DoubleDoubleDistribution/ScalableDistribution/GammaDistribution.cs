@@ -18,7 +18,7 @@ namespace DoubleDoubleDistribution {
             K = k;
             Theta = theta;
 
-            pdf_lognorm = -LogGamma(K) + K * Log(Theta);
+            pdf_lognorm = LogGamma(K) * LbE + K * Log2(Theta);
             theta_inv = 1d / theta;
         }
 
@@ -27,7 +27,11 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = Exp((K - 1d) * Log(x) - x * theta_inv + pdf_lognorm);
+            if (IsZero(x)) {
+                return K < 1d ? PositiveInfinity : K == 1d ? theta_inv : 0d;
+            }
+
+            ddouble pdf = Pow2((K - 1d) * Log2(x) - x * theta_inv * LbE - pdf_lognorm);
 
             return pdf;
         }
