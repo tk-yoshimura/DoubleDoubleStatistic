@@ -32,7 +32,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = (1 + CosPI(u)) / 2;
+            ddouble pdf = (1 + CosPI(u)) * sigma_inv / 2;
 
             return pdf;
         }

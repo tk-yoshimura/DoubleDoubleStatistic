@@ -19,7 +19,7 @@ T: TODO Test
 |            | burr               | C     | C     | C        | T     | N          | N      |            |
 |            | chi                | C     | C     | C        | T     | N          | N      |            |
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
-|            | cosine             | T     | T     | T        | T     | N          | N      |            |
+|            | cosine             | C     | C     | C        | T     | N          | N      |            |
 |            | exponential        | T     | T     | T        | T     | N          | N      |            |
 |            | dagum              | N     | N     | N        | N     | N          | N      | B          |
 |            | davis              | N     | N     | N        | N     | N          | N      | B          |
