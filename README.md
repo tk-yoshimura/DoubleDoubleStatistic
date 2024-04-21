@@ -39,7 +39,7 @@ T: TODO Test
 |            | johnson sb         | T     | T     | T        | N     | N          | N      |            |
 |            | johnson su         | T     | T     | T        | T     | N          | N      |            |
 |            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
-|            | laplace            | T     | T     | T        | T     | N          | N      |            |
+|            | laplace            | C     | C     | C        | T     | N          | N      |            |
 |            | log logistic       | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
 |            | logistic           | T     | T     | T        | T     | N          | N      |            |
