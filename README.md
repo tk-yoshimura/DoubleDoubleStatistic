@@ -20,7 +20,7 @@ T: TODO Test
 |            | chi                | C     | C     | C        | T     | N          | N      |            |
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
 |            | cosine             | C     | C     | C        | T     | N          | N      |            |
-|            | exponential        | T     | T     | T        | T     | N          | N      |            |
+|            | exponential        | C     | C     | C        | T     | N          | N      |            |
 |            | dagum              | N     | N     | N        | N     | N          | N      | B          |
 |            | davis              | N     | N     | N        | N     | N          | N      | B          |
 |            | gamma              | T     | T     | T        | T     | N          | N      |            |
