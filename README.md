@@ -59,7 +59,7 @@ T: TODO Test
 |            | student t          | C     | C     | C        | T     | N          | N      |            |
 |            | suzuki             | N     | N     | N        | N     | N          | N      | B          |
 |            | triangular         | T     | T     | T        | T     | N          | N      |            |
-|            | uniform            | T     | T     | T        | T     | N          | N      |            |
+|            | uniform            | C     | C     | C        | T     | N          | N      |            |
 |            | u shape            | T     | T     | T        | T     | N          | N      |            |
 |            | voigt              | C     | C     | N        | T     | N          | N      |            |
 |            | weibull            | T     | T     | T        | T     | N          | N      |            |
