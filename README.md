@@ -43,7 +43,7 @@ T: TODO Test
 |            | log logistic       | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
 |            | logistic           | C     | C     | C        | T     | N          | N      |            |
-|            | lomax              | T     | T     | T        | T     | N          | N      |            |
+|            | lomax              | C     | C     | C        | T     | N          | N      |            |
 |            | maxwell            | T     | T     | T        | T     | N          | N      |            |
 |            | nakagami           | T     | T     | T        | T     | N          | N      |            |
 |            | non central chi sq | N     | N     | N        | N     | N          | N      | AAA        |
