@@ -70,7 +70,7 @@ T: TODO Test
 |            | holtsmark          | C     | C     | C        | C     | N          | N      |            |
 |            | landau             | C     | C     | C        | C     | N          | N      |            |
 |            | map-airy           | C     | C     | C        | C     | N          | N      |            |
-|            | levy               | T     | T     | T        | T     | N          | N      |            |
+|            | levy               | C     | C     | C        | T     | N          | N      |            |
 |            | normal             | C     | C     | C        | T     | N          | N      |            |
 |            | sas point5         | C	  | C     | C        | C     | N          | N      |            |
 |            | ***coverage***     | 8/8   | 8/8   | 8/8      | 8/8   | 0/8        | 0/8    |            |
