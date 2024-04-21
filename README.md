@@ -29,7 +29,7 @@ T: TODO Test
 |            | fisher z           | T     | T     | T        | T     | N          | N      |            |
 |            | fisk               | C     | C     | C        | T     | N          | N      |            |
 |            | frechet            | T     | T     | T        | T     | N          | N      |            |
-|            | half normal        | T     | T     | T        | T     | N          | N      |            |
+|            | half normal        | C     | C     | C        | T     | N          | N      |            |
 |            | hyperbolic secant  | C     | C     | C        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | N        | T     | N          | N      |            |
 |            | inverse gauss      | T     | T     | N        | T     | N          | N      |            |
