@@ -83,7 +83,7 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => Nu > 2
-            ? 1d / (ddouble)(Nu - 1)
+            ? 1d / (Nu - 1d)
             : NaN;
 
         public override ddouble Median => Quantile(0.5);

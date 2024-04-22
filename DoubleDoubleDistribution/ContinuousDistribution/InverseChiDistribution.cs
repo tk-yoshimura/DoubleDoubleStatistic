@@ -13,12 +13,12 @@ namespace DoubleDoubleDistribution {
 
             Nu = nu;
 
-            c = Nu * 0.5d + 1d;
+            c = Nu + 1d;
             pdf_lognorm = nu * 0.5d - 1d + LogGamma(nu * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (x <= 0d) {
                 return 0d;
             }
             if (IsNaN(x)) {
