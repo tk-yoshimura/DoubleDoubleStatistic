@@ -90,7 +90,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public override string ToString() {
-            return $"{typeof(GompertzDistribution).Name}[k={Eta},theta={Theta}]";
+            return $"{typeof(GompertzDistribution).Name}[eta={Eta},theta={Theta}]";
         }
     }
 }
