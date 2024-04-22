@@ -7,7 +7,7 @@ namespace DoubleDoubleDistribution {
         public ddouble N { get; }
         public ddouble M { get; }
 
-        private readonly ddouble pdf_norm, logd2xd2;
+        private readonly ddouble pdf_lognorm;
 
         public SnedecorFDistribution(ddouble n, ddouble m) {
             ValidateShape(n, n => n > 0d);
@@ -16,8 +16,7 @@ namespace DoubleDoubleDistribution {
             N = n;
             M = m;
 
-            pdf_norm = 1d / Beta(n * 0.5d, m * 0.5d);
-            logd2xd2 = M * Log(M);
+            pdf_lognorm = M * Log2(M) * 0.5d - LogBeta(n * 0.5d, m * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -28,12 +27,11 @@ namespace DoubleDoubleDistribution {
             ddouble u = N * x;
 
             if (u <= 0d) {
-                return (N < 2d) ? PositiveInfinity : (N == 2d) ? 1d : 0d; 
+                return (N < 2d) ? PositiveInfinity : (N == 2d) ? 1d : 0d;
             }
 
-            ddouble v = Exp(N * Log(u) + logd2xd2 - (N + M) * Log(u + M));
-            ddouble pdf = pdf_norm * Sqrt(v) / x;
-
+            ddouble pdf = Pow2((N * Log2(u) - (N + M) * Log2(u + M)) * 0.5d + pdf_lognorm) / x;
+            
             return pdf;
         }
 
@@ -41,10 +39,10 @@ namespace DoubleDoubleDistribution {
             ddouble u = N * x;
 
             if (interval == Interval.Lower) {
-                if (x <= 0d) {
+                if (u <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(u)) {
                     return 1d;
                 }
 
@@ -53,10 +51,10 @@ namespace DoubleDoubleDistribution {
                 return cdf;
             }
             else {
-                if (x <= 0d) {
+                if (u <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(u)) {
                     return 0d;
                 }
 
