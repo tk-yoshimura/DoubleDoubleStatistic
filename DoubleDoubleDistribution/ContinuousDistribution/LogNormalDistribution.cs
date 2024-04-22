@@ -22,7 +22,7 @@ namespace DoubleDoubleDistribution {
 
             sigma_sq = sigma * sigma;
             pdf_norm = 1d / (sigma * Sqrt(2 * PI));
-            exp_scale = -1d / (2 * sigma_sq);
+            exp_scale = -LbE / (2 * sigma_sq);
             erf_scale = -1d / (Sqrt2 * sigma);
         }
 
@@ -36,7 +36,7 @@ namespace DoubleDoubleDistribution {
 
             ddouble s = Square(Log(x) - Mu) * exp_scale;
 
-            ddouble pdf = Exp(s + Log(pdf_norm / x));
+            ddouble pdf = Pow2(s + Log2(pdf_norm / x));
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
