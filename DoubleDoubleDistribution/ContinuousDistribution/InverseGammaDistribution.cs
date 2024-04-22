@@ -18,7 +18,7 @@ namespace DoubleDoubleDistribution {
             Alpha = alpha;
             Beta = beta;
 
-            pdf_lognorm = Alpha * Log(Beta) - LogGamma(Alpha);
+            pdf_lognorm = Alpha * Log2(Beta) - LogGamma(Alpha) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -26,7 +26,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = Exp(-(Beta / x + (Alpha + 1d) * Log(x)) + pdf_lognorm);
+            ddouble pdf = Pow2(-Beta / x * LbE - (Alpha + 1d) * Log2(x) + pdf_lognorm);
 
             return pdf;
         }
