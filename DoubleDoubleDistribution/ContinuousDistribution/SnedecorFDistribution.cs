@@ -31,7 +31,7 @@ namespace DoubleDoubleDistribution {
             }
 
             ddouble pdf = Pow2((N * Log2(u) - (N + M) * Log2(u + M)) * 0.5d + pdf_lognorm) / x;
-            
+
             return pdf;
         }
 

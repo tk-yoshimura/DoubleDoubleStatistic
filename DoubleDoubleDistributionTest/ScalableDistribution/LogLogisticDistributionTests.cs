@@ -534,7 +534,7 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
                     Console.WriteLine(expected);
                     Console.WriteLine(actual);
 
-                   if (expected > 0) {
+                    if (expected > 0) {
                         Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-10, $"{dist} pdf({x})\n{expected}\n{actual}");
                     }
                     else {

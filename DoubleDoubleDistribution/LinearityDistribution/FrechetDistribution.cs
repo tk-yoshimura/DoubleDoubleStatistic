@@ -38,7 +38,7 @@ namespace DoubleDoubleDistribution {
 
             ddouble v = Pow(u, Alpha);
 
-            ddouble pdf = this.pdf_norm * Exp(-1d / v) / (u * v);
+            ddouble pdf = pdf_norm * Exp(-1d / v) / (u * v);
 
             pdf = IsFinite(pdf) ? pdf : 0d;
 

@@ -463,7 +463,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 0.03805775700224587,
             ];
             ddouble[] expected_dist_n_4_m_2 = [
-                0, 
+                0,
                 0.3511659807956106,
                 0.5120000000000003,
                 0.577009767092412,
@@ -954,7 +954,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                     Console.WriteLine(expected);
                     Console.WriteLine(actual);
 
-                    if (ddouble.IsInfinity(expected)) { 
+                    if (ddouble.IsInfinity(expected)) {
                         Assert.IsTrue(ddouble.IsPositiveInfinity(actual));
                     }
                     else if (expected > 0) {
