@@ -6,17 +6,17 @@ namespace DoubleDoubleDistribution {
     public class ChiSquareDistribution : ContinuousDistribution,
         IAdditionOperators<ChiSquareDistribution, ChiSquareDistribution, ChiSquareDistribution> {
 
-        public int K { get; }
+        public ddouble Nu { get; }
 
         private readonly ddouble c, pdf_lognorm;
 
-        public ChiSquareDistribution(int k) {
-            ValidateShape(k, k => k > 0);
+        public ChiSquareDistribution(ddouble nu) {
+            ValidateShape(nu, nu => nu > 0d);
 
-            K = k;
+            Nu = nu;
 
-            c = K * 0.5d - 1d;
-            pdf_lognorm = k * 0.5d + LogGamma(k * 0.5d) * LbE;
+            c = Nu * 0.5d - 1d;
+            pdf_lognorm = nu * 0.5d + LogGamma(nu * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -24,7 +24,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
             if (IsZero(x)) {
-                return K <= 1 ? PositiveInfinity : K <= 2 ? 0.5d : 0d;
+                return Nu <= 1 ? PositiveInfinity : Nu <= 2 ? 0.5d : 0d;
             }
 
             ddouble pdf = Pow2(c * Log2(x) - Ldexp(x, -1) * LbE - pdf_lognorm);
@@ -38,7 +38,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
+                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x, -1));
 
                 return cdf;
             }
@@ -47,7 +47,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(K * 0.5d, Ldexp(x, -1));
+                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x, -1));
 
                 return cdf;
             }
@@ -59,12 +59,12 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = InverseLowerIncompleteGamma(K * 0.5d, p) * 2;
+                ddouble x = InverseLowerIncompleteGamma(Nu * 0.5d, p) * 2;
 
                 return x;
             }
             else {
-                ddouble x = InverseUpperIncompleteGamma(K * 0.5d, p) * 2;
+                ddouble x = InverseUpperIncompleteGamma(Nu * 0.5d, p) * 2;
 
                 return x;
             }
@@ -74,32 +74,32 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => K;
+        public override ddouble Mean => Nu;
 
         public override ddouble Median => Quantile(0.5);
 
-        public override ddouble Mode => Max(K - 2, 0);
+        public override ddouble Mode => Max(Nu - 2d, 0);
 
-        public override ddouble Variance => Ldexp(K, 1);
+        public override ddouble Variance => Ldexp(Nu, 1);
 
-        public override ddouble Skewness => Sqrt((ddouble)8 / K);
+        public override ddouble Skewness => Sqrt(8d / Nu);
 
-        public override ddouble Kurtosis => (ddouble)12 / K;
+        public override ddouble Kurtosis => 12d / Nu;
 
         public override ddouble Entropy {
             get {
-                ddouble k_half = Ldexp(K, -1);
+                ddouble k_half = Ldexp(Nu, -1);
 
                 return k_half + Log(2 * Gamma(k_half)) + (1 - k_half) * Digamma(k_half);
             }
         }
 
         public static ChiSquareDistribution operator +(ChiSquareDistribution dist1, ChiSquareDistribution dist2) {
-            return new(dist1.K + dist2.K);
+            return new(dist1.Nu + dist2.Nu);
         }
 
         public override string ToString() {
-            return $"{typeof(ChiSquareDistribution).Name}[k={K}]";
+            return $"{typeof(ChiSquareDistribution).Name}[nu={Nu}]";
         }
     }
 }

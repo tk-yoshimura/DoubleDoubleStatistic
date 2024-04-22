@@ -5,16 +5,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleDistributionTest.ContinuousDistribution {
     [TestClass()]
     public class ChiSquareDistributionTests {
-        readonly ChiSquareDistribution dist_nu1 = new(k: 1);
-        readonly ChiSquareDistribution dist_nu2 = new(k: 2);
-        readonly ChiSquareDistribution dist_nu3 = new(k: 3);
-        readonly ChiSquareDistribution dist_nu4 = new(k: 4);
-        readonly ChiSquareDistribution dist_nu5 = new(k: 5);
-        readonly ChiSquareDistribution dist_nu8 = new(k: 8);
-        readonly ChiSquareDistribution dist_nu16 = new(k: 16);
-        readonly ChiSquareDistribution dist_nu32 = new(k: 32);
-        readonly ChiSquareDistribution dist_nu64 = new(k: 64);
-        readonly ChiSquareDistribution dist_nu128 = new(k: 128);
+        readonly ChiSquareDistribution dist_nu1 = new(nu: 1);
+        readonly ChiSquareDistribution dist_nu2 = new(nu: 2);
+        readonly ChiSquareDistribution dist_nu3 = new(nu: 3);
+        readonly ChiSquareDistribution dist_nu4 = new(nu: 4);
+        readonly ChiSquareDistribution dist_nu5 = new(nu: 5);
+        readonly ChiSquareDistribution dist_nu8 = new(nu: 8);
+        readonly ChiSquareDistribution dist_nu16 = new(nu: 16);
+        readonly ChiSquareDistribution dist_nu32 = new(nu: 32);
+        readonly ChiSquareDistribution dist_nu64 = new(nu: 64);
+        readonly ChiSquareDistribution dist_nu128 = new(nu: 128);
 
 
         ChiSquareDistribution[] Dists => [
@@ -35,7 +35,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             foreach (ChiSquareDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"K={dist.K}");
+                Console.WriteLine($"K={dist.Nu}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
