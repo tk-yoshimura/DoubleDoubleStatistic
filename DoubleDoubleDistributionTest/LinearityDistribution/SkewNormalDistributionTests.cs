@@ -11,8 +11,8 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly SkewNormalDistribution dist_alpha2mu2sigma2 = new(alpha: 2, mu: 2, sigma: 2);
         readonly SkewNormalDistribution dist_alpha3mu4sigma3 = new(alpha: 3, mu: 4, sigma: 3);
         readonly SkewNormalDistribution dist_alpham2mu1sigma2 = new(alpha: -2, mu: 1, sigma: 2);
-        readonly SkewNormalDistribution dist_alpha4  = new(alpha: 4);
-        readonly SkewNormalDistribution dist_alpha8  = new(alpha: 8);
+        readonly SkewNormalDistribution dist_alpha4 = new(alpha: 4);
+        readonly SkewNormalDistribution dist_alpha8 = new(alpha: 8);
         readonly SkewNormalDistribution dist_alpha12 = new(alpha: 12);
         readonly SkewNormalDistribution dist_alpha16 = new(alpha: 16);
         readonly SkewNormalDistribution dist_alpha32 = new(alpha: 32);
@@ -135,7 +135,7 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
             }
         }
 
-        
+
         [TestMethod()]
         public void ModeTest() {
             ddouble[] expecteds = [
@@ -2190,10 +2190,10 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
                 "1.6332473028924012966682482836078094567344e-2",
             ];
 
-            for ((ddouble alpha, int i) = (0d, 0); alpha <= 256d; alpha += 0.125d, i++){
-                SkewNormalDistribution dist = new(alpha, mu:0, sigma:1);
-                SkewNormalDistribution dist_m = new(-alpha, mu:0, sigma:1);
-                ddouble expected = expecteds[i], actual=dist.Mode;
+            for ((ddouble alpha, int i) = (0d, 0); alpha <= 256d; alpha += 0.125d, i++) {
+                SkewNormalDistribution dist = new(alpha, mu: 0, sigma: 1);
+                SkewNormalDistribution dist_m = new(-alpha, mu: 0, sigma: 1);
+                ddouble expected = expecteds[i], actual = dist.Mode;
 
                 Console.WriteLine($"{alpha},{dist.Mode}");
 
@@ -16708,7 +16708,7 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
                         if (dist.Alpha < 32) {
                             Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-5, $"{dist} cdf({x})\n{expected}\n{actual}");
                         }
-                        else { 
+                        else {
                             Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-1, $"{dist} cdf({x})\n{expected}\n{actual}");
                         }
                     }

@@ -345,7 +345,7 @@ namespace DoubleDoubleDistribution {
                 else if (x <= 128d) {
                     y = ApproxUtil.Pade(x - 64d, pade_64_128) / x;
                 }
-                else{
+                else {
                     y = ApproxUtil.Pade(x - 128d, pade_128_256) / x;
                 }
 

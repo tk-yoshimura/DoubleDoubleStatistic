@@ -76,27 +76,27 @@ namespace DoubleDoubleDistribution {
 
         public override bool Symmetric => N == M;
 
-        public override ddouble Mean => 
-            Abs(N - M) < Hypot(N, M) * 1e-30 
-            ? 0d 
+        public override ddouble Mean =>
+            Abs(N - M) < Hypot(N, M) * 1e-30
+            ? 0d
             : IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Median => 
-            Abs(N - M) < Hypot(N, M) * 1e-30 
-            ? 0d 
+        public override ddouble Median =>
+            Abs(N - M) < Hypot(N, M) * 1e-30
+            ? 0d
             : Quantile(0.5d);
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => 
+        public override ddouble Variance =>
             IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Skewness => 
-            Abs(N - M) < Hypot(N, M) * 1e-30 
-            ? 0d 
+        public override ddouble Skewness =>
+            Abs(N - M) < Hypot(N, M) * 1e-30
+            ? 0d
             : IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Kurtosis => 
+        public override ddouble Kurtosis =>
             IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public override ddouble Entropy =>
