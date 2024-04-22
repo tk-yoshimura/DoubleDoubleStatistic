@@ -10,8 +10,8 @@ namespace DoubleDoubleDistribution {
         private readonly ddouble ab, alpha_inv, beta_inv;
 
         public KumaraswamyDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0);
-            ValidateShape(beta, beta => beta > 0);
+            ValidateShape(alpha, alpha => alpha > 0d);
+            ValidateShape(beta, beta => beta > 0d);
 
             Alpha = alpha;
             Beta = beta;
@@ -45,7 +45,7 @@ namespace DoubleDoubleDistribution {
 
             ddouble xa = Pow(x, Alpha);
 
-            ddouble pdf = ab * xa * Beta(1d - xa, Beta - 1d) / x;
+            ddouble pdf = ab * xa * Pow(1d - xa, Beta - 1d) / x;
 
             return pdf;
         }
