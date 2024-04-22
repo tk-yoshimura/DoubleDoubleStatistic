@@ -4,21 +4,21 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class InverseChiSquareDistribution : ContinuousDistribution {
 
-        public int K { get; }
+        public ddouble Nu { get; }
 
         private readonly ddouble c, pdf_lognorm;
 
-        public InverseChiSquareDistribution(int k) {
-            ValidateShape(k, k => k > 0);
+        public InverseChiSquareDistribution(ddouble nu) {
+            ValidateShape(nu, nu => nu > 0);
 
-            K = k;
+            Nu = nu;
 
-            c = K * 0.5d + 1d;
-            pdf_lognorm = k * 0.5d + LogGamma(k * 0.5d) * LbE;
+            c = Nu * 0.5d + 1d;
+            pdf_lognorm = nu * 0.5d + LogGamma(nu * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (x <= 0d) {
                 return 0d;
             }
             if (IsNaN(x)) {
@@ -40,7 +40,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(K * 0.5d, 1d / (2 * x));
+                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, 1d / (2 * x));
 
                 if (IsNaN(cdf)) {
                     return x < Mean ? 0d : 1d;
@@ -53,7 +53,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(K * 0.5d, 1d / (2 * x));
+                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, 1d / (2 * x));
 
                 if (IsNaN(cdf)) {
                     return x < Mean ? 1d : 0d;
@@ -69,12 +69,12 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = 0.5d / InverseUpperIncompleteGamma(K * 0.5d, p);
+                ddouble x = 0.5d / InverseUpperIncompleteGamma(Nu * 0.5d, p);
 
                 return x;
             }
             else {
-                ddouble x = 0.5d / InverseLowerIncompleteGamma(K * 0.5d, p);
+                ddouble x = 0.5d / InverseLowerIncompleteGamma(Nu * 0.5d, p);
 
                 return x;
             }
@@ -82,36 +82,36 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => K > 2
-            ? 1d / (ddouble)(K - 1)
+        public override ddouble Mean => Nu > 2
+            ? 1d / (ddouble)(Nu - 1)
             : NaN;
 
         public override ddouble Median => Quantile(0.5);
 
-        public override ddouble Mode => 1d / (ddouble)checked(K + 2);
+        public override ddouble Mode => 1d / (Nu + 2d);
 
-        public override ddouble Variance => K > 4
-            ? 2 / (Square(K - 2) * (ddouble)(K - 4))
+        public override ddouble Variance => Nu > 4
+            ? 2 / (Square(Nu - 2d) * (Nu - 4d))
             : NaN;
 
-        public override ddouble Skewness => K > 6
-            ? 4 * Sqrt(2 * (K - 4)) / (K - 6)
+        public override ddouble Skewness => Nu > 6
+            ? 4 * Sqrt(2d * (Nu - 4d)) / (Nu - 6d)
             : NaN;
 
-        public override ddouble Kurtosis => K > 8
-            ? (ddouble)checked(12 * (5 * K - 22)) / checked((K - 6) * (K - 8))
+        public override ddouble Kurtosis => Nu > 8
+            ? (12d * (5d * Nu - 22d)) / ((Nu - 6d) * (Nu - 8d))
             : NaN;
 
         public override ddouble Entropy {
             get {
-                ddouble k_half = Ldexp(K, -1);
+                ddouble k_half = Ldexp(Nu, -1);
 
                 return k_half + Log(k_half * Gamma(k_half)) + (1 + k_half) * Digamma(k_half);
             }
         }
 
         public override string ToString() {
-            return $"{typeof(InverseChiSquareDistribution).Name}[k={K}]";
+            return $"{typeof(InverseChiSquareDistribution).Name}[nu={Nu}]";
         }
     }
 }
