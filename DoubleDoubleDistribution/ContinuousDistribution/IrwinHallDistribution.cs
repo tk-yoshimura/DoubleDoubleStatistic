@@ -10,7 +10,7 @@ namespace DoubleDoubleDistribution {
 
         public int N { get; }
 
-        private ReadOnlyCollection<ddouble> cdf_intway;
+        private readonly ReadOnlyCollection<ddouble> cdf_intway;
         private readonly List<ReadOnlyCollection<ddouble>> pdf_table = [], cdf_table = [];
         private readonly ddouble pdf_norm, cdf_norm, quantile_norm;
 
@@ -281,7 +281,7 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        private static readonly ReadOnlyCollection<ddouble> entropy_table = new ReadOnlyCollection<ddouble>([
+        private static readonly ReadOnlyCollection<ddouble> entropy_table = new([
             0,
             0.5,
             "0.71929485277519245478725740580423449843973",
