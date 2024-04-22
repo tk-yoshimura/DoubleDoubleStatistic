@@ -38,7 +38,7 @@ T: TODO Test
 |            | irwin hall         | C     | C     | C        | C     | N          | N      |            |
 |            | johnson sb         | T     | T     | T        | N     | N          | N      |            |
 |            | johnson su         | T     | T     | T        | T     | N          | N      |            |
-|            | kumaraswamy        | T     | T     | T        | T     | N          | N      |            |
+|            | kumaraswamy        | C     | C     | C        | T     | N          | N      |            |
 |            | laplace            | C     | C     | C        | T     | N          | N      |            |
 |            | log logistic       | T     | T     | T        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
