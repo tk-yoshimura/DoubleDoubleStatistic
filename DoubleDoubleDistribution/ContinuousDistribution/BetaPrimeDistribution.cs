@@ -7,7 +7,7 @@ namespace DoubleDoubleDistribution {
         public ddouble Alpha { get; }
         public ddouble Beta { get; }
 
-        private readonly ddouble pdf_norm;
+        private readonly ddouble pdf_lognorm;
 
         public BetaPrimeDistribution(ddouble alpha, ddouble beta) {
             ValidateShape(alpha, alpha => alpha > 0);
@@ -16,7 +16,7 @@ namespace DoubleDoubleDistribution {
             Alpha = alpha;
             Beta = beta;
 
-            pdf_norm = 1d / Beta(alpha, beta);
+            pdf_lognorm = LogBeta(alpha, beta) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -24,7 +24,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = pdf_norm * Exp(Log(x) * (Alpha - 1d) - Log1p(x) * (Alpha + Beta));
+            ddouble pdf = Pow2(Log2(x) * (Alpha - 1d) - Log1p(x) * (Alpha + Beta) * LbE - pdf_lognorm);
 
             return pdf;
         }
