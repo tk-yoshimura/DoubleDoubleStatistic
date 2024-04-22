@@ -55,7 +55,7 @@ T: TODO Test
 |            | reciprocal         | C     | C     | C        | C     | N          | N      |            |
 |            | rice               | N     | N     | N        | N     | N          | N      | AAA        |
 |            | skew normal        | C     | C     | N        | T     | N          | N      |            |
-|            | snedecor f         | T     | T     | T        | T     | N          | N      |            |
+|            | snedecor f         | C     | C     | C        | T     | N          | N      |            |
 |            | student t          | C     | C     | C        | T     | N          | N      |            |
 |            | suzuki             | N     | N     | N        | N     | N          | N      | B          |
 |            | triangular         | C     | C     | C        | T     | N          | N      |            |

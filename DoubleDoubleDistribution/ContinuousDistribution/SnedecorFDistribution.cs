@@ -4,38 +4,41 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleDistribution {
     public class SnedecorFDistribution : ContinuousDistribution {
 
-        public int D1 { get; }
-        public int D2 { get; }
+        public ddouble N { get; }
+        public ddouble M { get; }
 
         private readonly ddouble pdf_norm, logd2xd2;
 
-        public SnedecorFDistribution(int d1, int d2) {
-            ValidateShape(d1, d1 => d1 > 0);
-            ValidateShape(d2, d2 => d2 > 0);
-            _ = checked(d1 + d2);
+        public SnedecorFDistribution(ddouble n, ddouble m) {
+            ValidateShape(n, n => n > 0d);
+            ValidateShape(m, m => m > 0d);
 
-            D1 = d1;
-            D2 = d2;
+            N = n;
+            M = m;
 
-            pdf_norm = 1d / Beta(d1 * 0.5d, d2 * 0.5d);
-            logd2xd2 = D2 * Log(D2);
+            pdf_norm = 1d / Beta(n * 0.5d, m * 0.5d);
+            logd2xd2 = M * Log(M);
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x <= 0d) {
+            if (IsNegative(x)) {
                 return 0d;
             }
 
-            ddouble d1x = D1 * x;
+            ddouble u = N * x;
 
-            ddouble u = Exp(D1 * Log(d1x) + logd2xd2 - (D1 + D2) * Log(d1x + D2));
-            ddouble pdf = pdf_norm * Sqrt(u) / x;
+            if (u <= 0d) {
+                return (N < 2d) ? PositiveInfinity : (N == 2d) ? 1d : 0d; 
+            }
+
+            ddouble v = Exp(N * Log(u) + logd2xd2 - (N + M) * Log(u + M));
+            ddouble pdf = pdf_norm * Sqrt(v) / x;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble d1x = D1 * x;
+            ddouble u = N * x;
 
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
@@ -45,7 +48,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = IncompleteBetaRegularized(d1x / (d1x + D2), D1 * 0.5d, D2 * 0.5d);
+                ddouble cdf = IncompleteBetaRegularized(u / (u + M), N * 0.5d, M * 0.5d);
 
                 return cdf;
             }
@@ -57,7 +60,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = IncompleteBetaRegularized(1d - d1x / (d1x + D2), D2 * 0.5d, D1 * 0.5d);
+                ddouble cdf = IncompleteBetaRegularized(M / (u + M), M * 0.5d, N * 0.5d);
 
                 return cdf;
             }
@@ -69,14 +72,14 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble u = InverseIncompleteBeta(p, D1 * 0.5d, D2 * 0.5d);
-                ddouble x = (D2 * u) / (D1 * (1d - u));
+                ddouble u = InverseIncompleteBeta(p, N * 0.5d, M * 0.5d);
+                ddouble x = M * u / (N * (1d - u));
 
                 return x;
             }
             else {
-                ddouble u = InverseIncompleteBeta(1d - p, D1 * 0.5d, D2 * 0.5d);
-                ddouble x = (D2 * u) / (D1 * (1d - u));
+                ddouble u = InverseIncompleteBeta(p, M * 0.5d, N * 0.5d);
+                ddouble x = M * (1d - u) / (N * u);
 
                 return x;
             }
@@ -84,36 +87,36 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => (D2 > 2)
-            ? (ddouble)D2 / (D2 - 2)
+        public override ddouble Mean => (M > 2d)
+            ? M / (M - 2d)
             : NaN;
 
         public override ddouble Median => Quantile(0.5d);
 
-        public override ddouble Mode => (D1 > 2)
-            ? (ddouble)checked((D1 - 2) * D2) / (D1 * (D2 + 2))
+        public override ddouble Mode => (N > 2d)
+            ? (N - 2d) * M / (N * (M + 2d))
             : NaN;
 
-        public override ddouble Variance => (D2 > 4)
-            ? (ddouble)checked(2 * D2 * D2 * (D1 + D2 - 2)) / checked(D1 * (D2 - 2) * (D2 - 2) * (D2 - 4))
+        public override ddouble Variance => (M > 4d)
+            ? 2d * M * M * (N + M - 2d) / (N * (M - 2d) * (M - 2d) * (M - 4d))
             : NaN;
 
-        public override ddouble Skewness => (D2 > 6)
-            ? checked(2 * D1 + D2 - 2) * Sqrt(8 * (D2 - 4)) / ((D2 - 6) * Sqrt(checked(D1 * (D1 + D2 - 2))))
+        public override ddouble Skewness => (M > 6d)
+            ? (2d * N + M - 2d) * Sqrt(8d * (M - 4d)) / ((M - 6d) * Sqrt(N * (N + M - 2d)))
             : NaN;
 
-        public override ddouble Kurtosis => (D2 > 8)
-            ? checked(12d * (ddouble)checked(D1 * (5 * D2 - 22) * (D1 + D2 - 2) + (D2 - 4) * (D2 - 2) * (D2 - 2))
-                / checked(D1 * (D2 - 6) * (D2 - 8) * (D1 + D2 - 2)))
+        public override ddouble Kurtosis => (M > 8d)
+            ? (12d * (N * (5d * M - 22d) * (N + M - 2d) + (M - 4d) * (M - 2d) * (M - 2d))
+                / (N * (M - 6d) * (M - 8d) * (N + M - 2d)))
             : NaN;
 
         public override ddouble Entropy =>
-            LogGamma(D1 * 0.5d) + LogGamma(D2 * 0.5d) - LogGamma((D1 + D2) * 0.5d)
-            + (1d - D1 * 0.5d) * Digamma(1d + D1 * 0.5d) - (1d - D2 * 0.5d) * Digamma(1d + D2 * 0.5d)
-            + ((D1 + D2) * 0.5d) * Digamma((D1 + D2) * 0.5d) + Log((ddouble)D1 / D2);
+            LogGamma(N * 0.5d) + LogGamma(M * 0.5d) - LogGamma((N + M) * 0.5d)
+            + (1d - N * 0.5d) * Digamma(1d + N * 0.5d) - (1d - M * 0.5d) * Digamma(1d + M * 0.5d)
+            + (N + M) * 0.5d * Digamma((N + M) * 0.5d) + Log(N / M);
 
         public override string ToString() {
-            return $"{typeof(SnedecorFDistribution).Name}[d1={D1},d2={D2}]";
+            return $"{typeof(SnedecorFDistribution).Name}[n={N},m={M}]";
         }
     }
 }
