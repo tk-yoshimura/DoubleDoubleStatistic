@@ -45,7 +45,7 @@ T: TODO Test
 |            | logistic           | C     | C     | C        | T     | N          | N      |            |
 |            | lomax              | C     | C     | C        | T     | N          | N      |            |
 |            | maxwell            | C     | C     | C        | T     | N          | N      |            |
-|            | nakagami           | T     | T     | T        | T     | N          | N      |            |
+|            | nakagami           | C     | C     | C        | T     | N          | N      |            |
 |            | non central chi sq | N     | N     | N        | N     | N          | N      | AAA        |
 |            | non central f      | N     | N     | N        | N     | N          | N      | AAA        |
 |            | non central t      | N     | N     | N        | N     | N          | N      | AAA        |

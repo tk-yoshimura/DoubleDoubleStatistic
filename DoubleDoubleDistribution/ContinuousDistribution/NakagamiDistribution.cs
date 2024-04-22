@@ -18,7 +18,7 @@ namespace DoubleDoubleDistribution {
 
             momega = m / omega;
             omegam = omega / m;
-            pdf_lognorm = -LogGamma(m) + m * Log(2 * momega);
+            pdf_lognorm = -LogGamma(m) * LbE + m * Log2(momega) + 1d;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -26,7 +26,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = Exp(Log(x) * (2 * M - 1d) - momega * x * x + pdf_lognorm);
+            ddouble pdf = Pow2(Log2(x) * (2 * M - 1d) - momega * x * x * LbE + pdf_lognorm);
 
             return pdf;
         }
