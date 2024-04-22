@@ -12,8 +12,8 @@ namespace DoubleDoubleDistribution {
         public InverseGammaDistribution() : this(alpha: 1d, beta: 1d) { }
 
         public InverseGammaDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0);
-            ValidateScale(beta);
+            ValidateShape(alpha, alpha => alpha > 0d);
+            ValidateShape(beta, beta => beta > 0d);
 
             Alpha = alpha;
             Beta = beta;
@@ -22,7 +22,7 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (x <= 0d) {
                 return 0d;
             }
 

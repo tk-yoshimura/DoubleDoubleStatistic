@@ -31,7 +31,7 @@ T: TODO Test
 |            | frechet            | C     | C     | C        | T     | N          | N      |            |
 |            | half normal        | C     | C     | C        | T     | N          | N      |            |
 |            | hyperbolic secant  | C     | C     | C        | T     | N          | N      |            |
-|            | inverse gamma      | T     | T     | N        | T     | N          | N      |            |
+|            | inverse gamma      | C     | C     | C        | T     | N          | N      |            |
 |            | inverse gauss      | C     | C     | N        | T     | N          | N      |            |
 |            | inverse chi        | T     | T     | T        | T     | N          | N      |            |
 |            | inverse chi sq     | T     | T     | T        | T     | N          | N      |            |

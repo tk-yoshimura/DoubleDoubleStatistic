@@ -54,7 +54,8 @@ nugetpack.bat
 /**/*.nuspec
 /**/*.nupkg
 
+DoubleDoubleDistributionMaximaExpected
+
 # Resource AutoGen
-DoubleDouble/Resource.Designer.cs
 
 # Safelist
