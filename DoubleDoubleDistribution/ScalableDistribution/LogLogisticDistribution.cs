@@ -24,13 +24,17 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x <= 0d) {
+            if (IsNegative(x)) {
                 return 0d;
             }
 
             ddouble u = x * sigma_inv;
 
             ddouble v = Pow(u, Gamma);
+
+            if (v == 0d) {
+                return Gamma < 1d ? PositiveInfinity : Gamma == 1d ? c : 0d;
+            }
 
             ddouble pdf = c * v / (u * Square(1 + v));
 

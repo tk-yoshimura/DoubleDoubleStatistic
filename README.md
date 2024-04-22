@@ -40,7 +40,7 @@ T: TODO Test
 |            | johnson su         | T     | T     | T        | T     | N          | N      |            |
 |            | kumaraswamy        | C     | C     | C        | T     | N          | N      |            |
 |            | laplace            | C     | C     | C        | T     | N          | N      |            |
-|            | log logistic       | T     | T     | T        | T     | N          | N      |            |
+|            | log logistic       | C     | C     | C        | T     | N          | N      |            |
 |            | log normal         | C     | C     | C        | T     | N          | N      |            |
 |            | logistic           | C     | C     | C        | T     | N          | N      |            |
 |            | lomax              | C     | C     | C        | T     | N          | N      |            |
