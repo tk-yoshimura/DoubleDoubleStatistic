@@ -12,7 +12,7 @@ T: TODO Test
 |            | arcsine            | C     | C     | C        | T     | N          | N      |            |
 |            | argus              | N     | N     | N        | N     | N          | N      | A          |
 |            | benktander         | N     | N     | N        | N     | N          | N      | C          |
-|            | birnbaum saunders  | T     | T     | T        | T     | N          | N      |            |
+|            | birnbaum saunders  | C     | C     | C        | T     | N          | N      |            |
 |            | beta               | C     | C     | C        | T     | N          | N      |            |
 |            | beta prime         | C     | C     | C        | T     | N          | N      |            |
 |            | bradford           | C     | C     | C        | T     | N          | N      |            |
@@ -25,10 +25,10 @@ T: TODO Test
 |            | davis              | N     | N     | N        | N     | N          | N      | B          |
 |            | gamma              | C     | C     | C        | T     | N          | N      |            |
 |            | gumbel             | C     | C     | C        | T     | N          | N      |            |
-|            | gompertz           | T     | T     | T        | T     | N          | N      |            |
-|            | fisher z           | T     | T     | T        | T     | N          | N      |            |
+|            | gompertz           | C     | C     | C        | T     | N          | N      |            |
+|            | fisher z           | C     | C     | C        | T     | N          | N      |            |
 |            | fisk               | C     | C     | C        | T     | N          | N      |            |
-|            | frechet            | T     | T     | T        | T     | N          | N      |            |
+|            | frechet            | C     | C     | C        | T     | N          | N      |            |
 |            | half normal        | C     | C     | C        | T     | N          | N      |            |
 |            | hyperbolic secant  | C     | C     | C        | T     | N          | N      |            |
 |            | inverse gamma      | T     | T     | N        | T     | N          | N      |            |

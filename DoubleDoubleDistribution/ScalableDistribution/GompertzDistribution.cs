@@ -27,6 +27,11 @@ namespace DoubleDoubleDistribution {
             }
 
             ddouble u = x * theta_inv;
+
+            if (IsPositiveInfinity(u)) {
+                return 0d;
+            }
+
             ddouble pdf = Eta * Exp(Eta * (1d - Exp(u)) + u) * theta_inv;
 
             return pdf;

@@ -19,7 +19,7 @@ namespace DoubleDoubleDistribution {
 
             theta_inv = 1d / theta;
             alpha_sq = alpha * alpha;
-            pdf_norm = 1d / (2 * Sqrt2 * Sqrt(PI / theta) * alpha);
+            pdf_norm = theta_inv / (2 * Sqrt2 * Sqrt(PI) * alpha);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -27,9 +27,9 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble u = x * theta_inv, up1 = u + 1;
+            ddouble u = x * theta_inv, up1 = u + 1d, um1 = u - 1d;
 
-            ddouble pdf = pdf_norm * up1 * Exp(-up1 * up1 / (2 * alpha_sq * u));
+            ddouble pdf = pdf_norm * up1 * Exp(-um1 * um1 / (2 * alpha_sq * u)) / ExMath.Pow3d2(u);
 
             return pdf;
         }

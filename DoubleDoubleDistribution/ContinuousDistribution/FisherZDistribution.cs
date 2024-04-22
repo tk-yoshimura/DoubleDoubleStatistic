@@ -1,34 +1,33 @@
 ﻿using DoubleDouble;
+using DoubleDoubleDistribution.Misc;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
     public class FisherZDistribution : ContinuousDistribution {
 
-        public int D1 { get; }
-        public int D2 { get; }
+        public ddouble N { get; }
+        public ddouble M { get; }
 
-        private readonly ddouble pdf_norm;
+        private readonly ddouble pdf_lognorm;
 
-        public FisherZDistribution(int d1, int d2) {
-            ValidateShape(d1, d1 => d1 > 0);
-            ValidateShape(d2, d2 => d2 > 0);
-            _ = checked(d1 + d2);
+        public FisherZDistribution(ddouble n, ddouble m) {
+            ValidateShape(n, d1 => d1 > 0d);
+            ValidateShape(m, d2 => d2 > 0d);
 
-            D1 = d1;
-            D2 = d2;
+            N = n;
+            M = m;
 
-            pdf_norm = 2 * Exp((Log(D1) * D1 + Log(D2) * D2) * 0.5d - LogBeta(d1 * 0.5d, d2 * 0.5d));
+            pdf_lognorm = (Log2(N) * N + Log2(M) * M) * 0.5d - LogBeta(n * 0.5d, m * 0.5d) * LbE + 1d;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = Exp(D1 * x - Log(D1 * Exp(2 * x) + D2) * (D1 + D2) * 0.5d);
-            ddouble pdf = pdf_norm * u;
+            ddouble pdf = Pow2(N * x * LbE - Log2(N * Exp(2d * x) + M) * (N + M) * 0.5d + pdf_lognorm);
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble d1x = D1 * Exp(2 * x);
+            ddouble u = N * Exp(2d * x);
 
             if (interval == Interval.Lower) {
                 if (IsNegativeInfinity(x)) {
@@ -38,7 +37,7 @@ namespace DoubleDoubleDistribution {
                     return 1d;
                 }
 
-                ddouble cdf = IncompleteBetaRegularized(d1x / (d1x + D2), D1 * 0.5d, D2 * 0.5d);
+                ddouble cdf = IncompleteBetaRegularized(u / (u + M), N * 0.5d, M * 0.5d);
 
                 return cdf;
             }
@@ -50,7 +49,7 @@ namespace DoubleDoubleDistribution {
                     return 0d;
                 }
 
-                ddouble cdf = IncompleteBetaRegularized(1d - d1x / (d1x + D2), D2 * 0.5d, D1 * 0.5d);
+                ddouble cdf = IncompleteBetaRegularized(M / (u + M), M * 0.5d, N * 0.5d);
 
                 return cdf;
             }
@@ -62,35 +61,49 @@ namespace DoubleDoubleDistribution {
             }
 
             if (interval == Interval.Lower) {
-                ddouble u = InverseIncompleteBeta(p, D1 * 0.5d, D2 * 0.5d);
-                ddouble x = Log(D2 * u / (D1 * (1d - u))) * 0.5d;
+                ddouble u = InverseIncompleteBeta(p, N * 0.5d, M * 0.5d);
+                ddouble x = Log(M * u / (N * (1d - u))) * 0.5d;
 
                 return x;
             }
             else {
-                ddouble u = InverseIncompleteBeta(1d - p, D1 * 0.5d, D2 * 0.5d);
-                ddouble x = Log(D2 * u / (D1 * (1d - u))) * 0.5d;
+                ddouble u = InverseIncompleteBeta(1d - p, N * 0.5d, M * 0.5d);
+                ddouble x = Log(M * u / (N * (1d - u))) * 0.5d;
 
                 return x;
             }
         }
 
-        public override ddouble Mean => throw new NotImplementedException();
+        public override bool Symmetric => N == M;
 
-        public override ddouble Median => Quantile(0.5d);
+        public override ddouble Mean => 
+            Abs(N - M) < Hypot(N, M) * 1e-30 
+            ? 0d 
+            : IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048);
+
+        public override ddouble Median => 
+            Abs(N - M) < Hypot(N, M) * 1e-30 
+            ? 0d 
+            : Quantile(0.5d);
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => throw new NotImplementedException();
+        public override ddouble Variance => 
+            IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Skewness => throw new NotImplementedException();
+        public override ddouble Skewness => 
+            Abs(N - M) < Hypot(N, M) * 1e-30 
+            ? 0d 
+            : IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Kurtosis => throw new NotImplementedException();
+        public override ddouble Kurtosis => 
+            IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Entropy => throw new NotImplementedException();
+        public override ddouble Entropy =>
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public override string ToString() {
-            return $"{typeof(FisherZDistribution).Name}[d1={D1},d2={D2}]";
+            return $"{typeof(FisherZDistribution).Name}[n={N},m={M}]";
         }
     }
 }
