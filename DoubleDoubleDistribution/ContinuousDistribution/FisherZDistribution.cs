@@ -11,8 +11,8 @@ namespace DoubleDoubleDistribution {
         private readonly ddouble pdf_lognorm;
 
         public FisherZDistribution(ddouble n, ddouble m) {
-            ValidateShape(n, d1 => d1 > 0d);
-            ValidateShape(m, d2 => d2 > 0d);
+            ValidateShape(n, n => n > 0d);
+            ValidateShape(m, m => m > 0d);
 
             N = n;
             M = m;
@@ -67,8 +67,8 @@ namespace DoubleDoubleDistribution {
                 return x;
             }
             else {
-                ddouble u = InverseIncompleteBeta(1d - p, N * 0.5d, M * 0.5d);
-                ddouble x = Log(M * u / (N * (1d - u))) * 0.5d;
+                ddouble u = InverseIncompleteBeta(p, M * 0.5d, N * 0.5d);
+                ddouble x = Log(M * (1d - u) / (N * u)) * 0.5d;
 
                 return x;
             }
