@@ -37,14 +37,14 @@ namespace DoubleDoubleDistribution {
             ddouble x2 = x * x;
 
             if (interval == Interval.Lower) {
-                if (x <= 0d) {
+                if (x <= 0d || x2 <= 0d) {
                     return 0d;
                 }
                 if (IsPositiveInfinity(x2)) {
                     return 1d;
                 }
 
-                ddouble cdf = 1d - Exp(-x2 / (2 * sigma_sq));
+                ddouble cdf = -Expm1(-x2 / (2 * sigma_sq));
 
                 if (IsNaN(cdf)) {
                     return 1d;
@@ -53,7 +53,7 @@ namespace DoubleDoubleDistribution {
                 return cdf;
             }
             else {
-                if (x <= 0d) {
+                if (x <= 0d || x2 <= 0d) {
                     return 1d;
                 }
                 if (IsPositiveInfinity(x2)) {
