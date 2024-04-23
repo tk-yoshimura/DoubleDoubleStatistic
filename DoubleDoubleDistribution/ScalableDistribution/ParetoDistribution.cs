@@ -6,20 +6,20 @@ namespace DoubleDoubleDistribution {
     public class ParetoDistribution : ScalableDistribution<ParetoDistribution>,
         IMultiplyOperators<ParetoDistribution, ddouble, ParetoDistribution> {
 
+        public ddouble K { get; }
         public ddouble Alpha { get; }
-        public ddouble Xm { get; }
 
         private readonly ddouble pdf_norm;
 
-        public ParetoDistribution(ddouble alpha, ddouble xm) {
+        public ParetoDistribution(ddouble alpha, ddouble k) {
+            K = k;
             Alpha = alpha;
-            Xm = xm;
 
-            pdf_norm = alpha * Pow(xm, alpha);
+            pdf_norm = alpha * Pow(k, alpha);
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x < Xm) {
+            if (x < K) {
                 return 0d;
             }
             if (IsNaN(x)) {
@@ -34,20 +34,20 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (interval == Interval.Lower) {
-                if (x < Xm) {
+                if (x < K) {
                     return 0d;
                 }
 
-                ddouble cdf = 1d - Pow(Xm / x, Alpha);
+                ddouble cdf = 1d - Pow(K / x, Alpha);
 
                 return cdf;
             }
             else {
-                if (x < Xm) {
+                if (x < K) {
                     return 1d;
                 }
 
-                ddouble cdf = Pow(Xm / x, Alpha);
+                ddouble cdf = Pow(K / x, Alpha);
 
                 return cdf;
             }
@@ -62,21 +62,21 @@ namespace DoubleDoubleDistribution {
                 return Quantile(1d - p, Interval.Upper);
             }
 
-            ddouble x = Xm / Pow(p, 1d / Alpha);
+            ddouble x = K / Pow(p, 1d / Alpha);
 
             return x;
         }
 
-        public override (ddouble min, ddouble max) Support => (Xm, PositiveInfinity);
+        public override (ddouble min, ddouble max) Support => (K, PositiveInfinity);
 
-        public override ddouble Mean => (Alpha > 1d) ? (Alpha * Xm) / (Alpha - 1d) : PositiveInfinity;
+        public override ddouble Mean => (Alpha > 1d) ? (Alpha * K) / (Alpha - 1d) : PositiveInfinity;
 
-        public override ddouble Median => Xm * Pow(2d, 1d / Alpha);
+        public override ddouble Median => K * Pow(2d, 1d / Alpha);
 
-        public override ddouble Mode => Xm;
+        public override ddouble Mode => K;
 
         public override ddouble Variance => (Alpha > 2d)
-            ? (Alpha * Xm * Xm) / (Square(Alpha - 1d) * (Alpha - 2d))
+            ? (Alpha * K * K) / (Square(Alpha - 1d) * (Alpha - 2d))
             : PositiveInfinity;
 
         public override ddouble Skewness => (Alpha > 3d)
@@ -87,14 +87,14 @@ namespace DoubleDoubleDistribution {
             ? 6d * (-2d + Alpha * (-6 + Alpha * (1d + Alpha))) / (Alpha * (Alpha - 3d) * (Alpha - 4d))
             : NaN;
 
-        public override ddouble Entropy => 1d + Log(Xm / Alpha) + 1d / Alpha;
+        public override ddouble Entropy => 1d + Log(K / Alpha) + 1d / Alpha;
 
         public static ParetoDistribution operator *(ParetoDistribution dist, ddouble k) {
-            return new(dist.Alpha, dist.Xm * k);
+            return new(dist.Alpha, dist.K * k);
         }
 
         public override string ToString() {
-            return $"{typeof(ParetoDistribution).Name}[alpha={Alpha},xm={Xm}]";
+            return $"{typeof(ParetoDistribution).Name}[k={K},alpha={Alpha}]";
         }
     }
 }
