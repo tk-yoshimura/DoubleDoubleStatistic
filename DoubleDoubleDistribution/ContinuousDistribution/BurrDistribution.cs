@@ -139,7 +139,7 @@ namespace DoubleDoubleDistribution {
                 ddouble mu3 = K * Beta((C * K - 3d) / C, (C + 3d) / C);
                 ddouble mu4 = K * Beta((C * K - 4d) / C, (C + 4d) / C);
 
-                return (-3d * Square(Square(mu1)) + 6d * mu1 * mu1 * mu2 - 4d * mu1 * mu3 + mu4) / Square(mu2 - mu1 * mu1);
+                return (-3d * Square(Square(mu1)) + 6d * mu1 * mu1 * mu2 - 4d * mu1 * mu3 + mu4) / Square(mu2 - mu1 * mu1) - 3d;
             }
         }
 

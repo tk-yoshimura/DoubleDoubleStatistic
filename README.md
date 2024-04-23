@@ -13,11 +13,11 @@ T: TODO Test
 |            | argus              | N     | N     | N        | N     | N          | N      | A          |
 |            | benktander         | N     | N     | N        | N     | N          | N      | C          |
 |            | birnbaum saunders  | C     | C     | C        | T     | N          | N      |            |
-|            | beta               | C     | C     | C        | T     | N          | N      |            |
-|            | beta prime         | C     | C     | C        | T     | N          | N      |            |
-|            | bradford           | C     | C     | C        | T     | N          | N      |            |
-|            | burr               | C     | C     | C        | T     | N          | N      |            |
-|            | chi                | C     | C     | C        | T     | N          | N      |            |
+|            | beta               | C     | C     | C        | C     | N          | N      |            |
+|            | beta prime         | C     | C     | C        | C     | N          | N      |            |
+|            | bradford           | C     | C     | C        | C     | N          | N      |            |
+|            | burr               | C     | C     | C        | C     | N          | N      |            |
+|            | chi                | C     | C     | C        | C     | N          | N      |            |
 |            | chi square         | C     | C     | C        | T     | N          | N      |            |
 |            | cosine             | C     | C     | C        | T     | N          | N      |            |
 |            | exponential        | C     | C     | C        | T     | N          | N      |            |

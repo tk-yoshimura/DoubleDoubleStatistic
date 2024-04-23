@@ -99,7 +99,7 @@ namespace DoubleDoubleDistribution {
             get {
                 ddouble variance = Variance;
 
-                return 2d / variance - Mean * Skewness / Sqrt(variance) - 1d;
+                return 2d * (1d / variance - Mean * Skewness / Sqrt(variance) - 1d);
             }
         }
 
