@@ -30,6 +30,27 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         }
 
         [TestMethod()]
+        public void ModeTest() {
+            foreach (AlphaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4));
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4));
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (AlphaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
         public void PDFTest() {
             foreach (AlphaDistribution dist in Dists) {
                 Console.WriteLine(dist);

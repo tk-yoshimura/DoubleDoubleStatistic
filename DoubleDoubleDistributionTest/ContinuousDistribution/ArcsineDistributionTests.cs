@@ -27,6 +27,50 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         }
 
         [TestMethod()]
+        public void MeanTest() {
+            foreach (ArcsineDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Mean;
+                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void VarianceTest() {
+            foreach (ArcsineDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Variance;
+                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void SkewnessTest() {
+            foreach (ArcsineDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Skewness;
+                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void KurtosisTest() {
+            foreach (ArcsineDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Kurtosis;
+                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
         public void PDFTest() {
             foreach (ArcsineDistribution dist in Dists) {
                 Console.WriteLine(dist);

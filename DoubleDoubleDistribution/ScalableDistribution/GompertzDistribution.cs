@@ -32,7 +32,7 @@ namespace DoubleDoubleDistribution {
                 return 0d;
             }
 
-            ddouble pdf = Eta * Exp(Eta * (1d - Exp(u)) + u) * theta_inv;
+            ddouble pdf = Eta * Exp(Eta * (-Expm1(u)) + u) * theta_inv;
 
             return pdf;
         }
@@ -41,12 +41,12 @@ namespace DoubleDoubleDistribution {
             ddouble u = x * theta_inv;
 
             if (interval == Interval.Lower) {
-                ddouble cdf = -Expm1(Eta * (1d - Exp(u)));
+                ddouble cdf = -Expm1(Eta * (-Expm1(u)));
 
                 return cdf;
             }
             else {
-                ddouble cdf = Exp(Eta * (1d - Exp(u)));
+                ddouble cdf = Exp(Eta * (-Expm1(u)));
 
                 return cdf;
             }
@@ -77,13 +77,17 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => (Eta >= 1d) ? 0d : -Log(Eta) * Theta;
 
-        public override ddouble Variance => throw new NotImplementedException();
+        public override ddouble Variance =>
+            IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Skewness => throw new NotImplementedException();
+        public override ddouble Skewness =>
+            IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Kurtosis => throw new NotImplementedException();
+        public override ddouble Kurtosis =>
+            IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Entropy => throw new NotImplementedException();
+        public override ddouble Entropy =>
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static GompertzDistribution operator *(GompertzDistribution dist, ddouble k) {
             return new(dist.Eta, dist.Theta * k);

@@ -27,14 +27,13 @@ namespace DoubleDoubleDistributionTest.ScalableDistribution {
                 Console.WriteLine($"Mu={dist.Mu}");
                 Console.WriteLine($"Lambda={dist.Lambda}");
                 Console.WriteLine($"Mean={dist.Mean}");
-                /* TODO: Implement */
+                /* TODO: implement */
                 //Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
-                /* TODO: Implement */
-                //Console.WriteLine($"Entropy={dist.Entropy}");
+                Console.WriteLine($"Entropy={dist.Entropy}");
             }
         }
 

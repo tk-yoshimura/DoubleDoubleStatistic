@@ -45,14 +45,14 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
                 Console.WriteLine($"Alpha={dist.Alpha}");
                 Console.WriteLine($"Mu={dist.Mu}");
                 Console.WriteLine($"Mode={dist.Mode}");
+                /* TODO: implement*/
+                //Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Sigma={dist.Sigma}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
                 Console.WriteLine($"Entropy={dist.Entropy}");
-                /* TODO: implement median */
-                //Console.WriteLine($"Median={dist.Median}");
             }
         }
 

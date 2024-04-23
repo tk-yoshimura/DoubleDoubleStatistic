@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleDistribution.Misc;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {

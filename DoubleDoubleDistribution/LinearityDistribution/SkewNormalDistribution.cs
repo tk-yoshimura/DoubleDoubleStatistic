@@ -95,6 +95,8 @@ namespace DoubleDoubleDistribution {
             Mu + Sigma * s * Sqrt(2d / PI);
         public override ddouble Mode => ModePade.Value(Alpha) * Sigma + Mu;
 
+        public override ddouble Median => Quantile(0.5d);
+
         public override ddouble Variance =>
             Sigma * Sigma * (1d - 2d * s * s / PI);
 

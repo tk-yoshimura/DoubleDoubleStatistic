@@ -92,7 +92,8 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public override ddouble Entropy => throw new NotImplementedException();
+        public override ddouble Entropy =>
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public override string ToString() {
             return $"{typeof(NakagamiDistribution).Name}[m={M},omega={Omega}]";

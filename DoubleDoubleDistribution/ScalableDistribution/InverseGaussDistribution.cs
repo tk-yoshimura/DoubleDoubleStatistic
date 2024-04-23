@@ -71,7 +71,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mean => Mu;
 
-        public override ddouble Median => throw new NotImplementedException();
+        public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode {
             get {
@@ -86,7 +86,8 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Kurtosis => 15d * Mu / Lambda;
 
-        public override ddouble Entropy => throw new NotImplementedException();
+        public override ddouble Entropy =>
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static InverseGaussDistribution operator *(InverseGaussDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Lambda * k);
