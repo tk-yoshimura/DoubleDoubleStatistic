@@ -3,17 +3,17 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleDistribution {
-    public class UShapeDistribution : LinearityDistribution<UShapeDistribution>,
-        IAdditionOperators<UShapeDistribution, ddouble, UShapeDistribution>,
-        ISubtractionOperators<UShapeDistribution, ddouble, UShapeDistribution>,
-        IMultiplyOperators<UShapeDistribution, ddouble, UShapeDistribution> {
+    public class UQuadraticDistribution : LinearityDistribution<UQuadraticDistribution>,
+        IAdditionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
+        ISubtractionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
+        IMultiplyOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
 
         private readonly ddouble alpha, beta, c, range;
 
-        public UShapeDistribution(ddouble a, ddouble b) {
+        public UQuadraticDistribution(ddouble a, ddouble b) {
             ValidateLocation(a);
             ValidateLocation(b);
 
@@ -116,20 +116,20 @@ namespace DoubleDoubleDistribution {
             }
         }
 
-        public static UShapeDistribution operator +(UShapeDistribution dist, ddouble s) {
+        public static UQuadraticDistribution operator +(UQuadraticDistribution dist, ddouble s) {
             return new(dist.A + s, dist.B + s);
         }
 
-        public static UShapeDistribution operator -(UShapeDistribution dist, ddouble s) {
+        public static UQuadraticDistribution operator -(UQuadraticDistribution dist, ddouble s) {
             return new(dist.A - s, dist.B - s);
         }
 
-        public static UShapeDistribution operator *(UShapeDistribution dist, ddouble k) {
+        public static UQuadraticDistribution operator *(UQuadraticDistribution dist, ddouble k) {
             return new(dist.A * k, dist.B * k);
         }
 
         public override string ToString() {
-            return $"{typeof(UShapeDistribution).Name}[a={A},b={B}]";
+            return $"{typeof(UQuadraticDistribution).Name}[a={A},b={B}]";
         }
     }
 }
