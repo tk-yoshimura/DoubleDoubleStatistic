@@ -18,7 +18,7 @@ T: TODO Test
 |            | bradford           | C     | C     | C        | C     | N          | N      |            |
 |            | burr               | C     | C     | C        | C     | N          | N      |            |
 |            | chi                | C     | C     | C        | C     | N          | N      |            |
-|            | chi square         | C     | C     | C        | T     | N          | N      |            |
+|            | chi square         | C     | C     | C        | C     | N          | N      |            |
 |            | cosine             | C     | C     | C        | T     | N          | N      |            |
 |            | exponential        | C     | C     | C        | T     | N          | N      |            |
 |            | dagum              | N     | N     | N        | N     | N          | N      | B          |
@@ -26,8 +26,8 @@ T: TODO Test
 |            | gamma              | C     | C     | C        | T     | N          | N      |            |
 |            | gumbel             | C     | C     | C        | T     | N          | N      |            |
 |            | gompertz           | C     | C     | C        | T     | N          | N      |            |
-|            | fisher z           | C     | C     | C        | T     | N          | N      |            |
-|            | fisk               | C     | C     | C        | T     | N          | N      |            |
+|            | fisher z           | C     | C     | C        | C     | N          | N      |            |
+|            | fisk               | C     | C     | C        | C     | N          | N      |            |
 |            | frechet            | C     | C     | C        | T     | N          | N      |            |
 |            | half normal        | C     | C     | C        | T     | N          | N      |            |
 |            | hyperbolic secant  | C     | C     | C        | T     | N          | N      |            |
