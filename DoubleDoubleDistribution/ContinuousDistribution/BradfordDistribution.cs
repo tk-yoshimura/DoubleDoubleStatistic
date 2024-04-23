@@ -73,7 +73,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Mean {
             get {
                 ddouble k = Log1p(C);
-                return (C - k) / (C + k);
+                return (C - k) / (C * k);
             }
         }
 
@@ -84,14 +84,14 @@ namespace DoubleDoubleDistribution {
         public override ddouble Variance {
             get {
                 ddouble k = Log1p(C);
-                return ((C + 2d) * k - 2 * C) / (2 * C * k * k);
+                return ((C + 2d) * k - 2d * C) / (2d * C * k * k);
             }
         }
 
         public override ddouble Skewness {
             get {
                 ddouble k = Log1p(C);
-                return Sqrt2 * (2d * k * k * (3d + C * (3d * C)) - 9d * C * k * (C + 2d) + 12d * C * C) /
+                return Sqrt2 * (2d * k * k * (3d + C * (3d + C)) - 9d * C * k * (C + 2d) + 12d * C * C) /
                     (Sqrt(C * (2 * k + C * (k - 2d))) * (6 * k + 3d * C * (k - 2d)));
             }
         }

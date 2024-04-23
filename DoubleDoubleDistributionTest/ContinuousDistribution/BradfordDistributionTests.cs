@@ -30,6 +30,91 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         }
 
         [TestMethod()]
+        public void MeanTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mean)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Mean;
+                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void ModeTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mode)) {
+                    continue;
+                }
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4));
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4));
+            }
+        }
+
+        [TestMethod()]
+        public void VarianceTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Variance)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Variance;
+                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void SkewnessTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Skewness)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Skewness;
+                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void KurtosisTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Kurtosis)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Kurtosis;
+                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
         public void PDFTest() {
             foreach (BradfordDistribution dist in Dists) {
                 Console.WriteLine(dist);
