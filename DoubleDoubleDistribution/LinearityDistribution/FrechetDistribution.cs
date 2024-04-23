@@ -14,9 +14,11 @@ namespace DoubleDoubleDistribution {
 
         private readonly ddouble pdf_norm, theta_inv;
 
+        public FrechetDistribution(ddouble alpha, ddouble theta) : this(alpha: alpha, mu: 0d, theta: theta) { }
+
         public FrechetDistribution(ddouble alpha, ddouble mu, ddouble theta) {
             ValidateShape(alpha, alpha => alpha > 0);
-            ValidateLocation(theta);
+            ValidateLocation(mu);
             ValidateScale(theta);
 
             Alpha = alpha;
@@ -36,9 +38,9 @@ namespace DoubleDoubleDistribution {
                 return NaN;
             }
 
-            ddouble v = Pow(u, Alpha);
+            ddouble v = Log2(u) * Alpha;
 
-            ddouble pdf = pdf_norm * Exp(-1d / v) / (u * v);
+            ddouble pdf = pdf_norm * Pow2(-Pow2(-v) * LbE - v) / u;
 
             pdf = IsFinite(pdf) ? pdf : 0d;
 
