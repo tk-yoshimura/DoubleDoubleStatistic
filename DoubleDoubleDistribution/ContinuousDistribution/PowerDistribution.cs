@@ -15,19 +15,26 @@ namespace DoubleDoubleDistribution {
 
             K = k;
             Alpha = alpha;
-            pdf_lognorm = Log(alpha) + Log(k) * alpha;
+            pdf_lognorm = Log2(alpha) + Log2(k) * alpha;
             k_inv = 1d / k;
             alpha_inv = 1d / alpha;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x <= 0d || x > k_inv) {
+            if (IsNegative(x) || x > k_inv) {
                 return 0d;
             }
 
-            ddouble pdf = Exp(pdf_lognorm + Log(x) * (Alpha - 1d));
+            if (Alpha <= 2d) {
+                ddouble pdf = Alpha * Pow(K, Alpha) * Pow(x, Alpha - 1d);
 
-            return pdf;
+                return pdf;
+            }
+            else {
+                ddouble pdf = Pow2(pdf_lognorm + Log2(x) * (Alpha - 1d));
+
+                return pdf;
+            }
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
