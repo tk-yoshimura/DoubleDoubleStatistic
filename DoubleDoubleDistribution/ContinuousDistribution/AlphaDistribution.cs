@@ -99,7 +99,8 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => (Sqrt(Alpha * Alpha + 8d) - Alpha) / 4;
 
-        public override ddouble Entropy =>
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
 
         public override string ToString() {

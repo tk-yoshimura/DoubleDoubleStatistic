@@ -34,8 +34,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             foreach (AlphaDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4));
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4));
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
             }
         }
 

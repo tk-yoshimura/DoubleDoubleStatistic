@@ -75,7 +75,8 @@ namespace DoubleDoubleDistribution {
 
         public override bool Symmetric => N == M;
 
-        public override ddouble Mean =>
+        private ddouble? mean = null;
+        public override ddouble Mean => mean ??=
             Abs(N - M) < Hypot(N, M) * 1e-30
             ? 0d
             : IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048);
@@ -87,18 +88,22 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance =>
+        private ddouble? variance = null;
+        public override ddouble Variance => variance ??=
             IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Skewness =>
+        private ddouble? skewness = null;
+        public override ddouble Skewness => skewness ??=
             Abs(N - M) < Hypot(N, M) * 1e-30
             ? 0d
             : IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Kurtosis =>
+        private ddouble? kurtosis = null;
+        public override ddouble Kurtosis => kurtosis ??=
             IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Entropy =>
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public override string ToString() {

@@ -77,16 +77,20 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => (Eta >= 1d) ? 0d : -Log(Eta) * Theta;
 
-        public override ddouble Variance =>
+        private ddouble? variance = null;
+        public override ddouble Variance => variance ??=
             IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Skewness =>
+        private ddouble? skewness = null;
+        public override ddouble Skewness => skewness ??=
             IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Kurtosis =>
+        private ddouble? kurtosis = null;
+        public override ddouble Kurtosis => kurtosis ??=
             IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Entropy =>
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static GompertzDistribution operator *(GompertzDistribution dist, ddouble k) {

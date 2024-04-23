@@ -86,7 +86,8 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Kurtosis => 15d * Mu / Lambda;
 
-        public override ddouble Entropy =>
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static InverseGaussDistribution operator *(InverseGaussDistribution dist, ddouble k) {

@@ -20,8 +20,12 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x <= 0d) {
+            if (IsNegative(x)) {
                 return 0d;
+            }
+
+            if (x <= 0d) {
+                return (Alpha < 1d) ? PositiveInfinity : (Alpha == 1d) ? Beta : 0d;
             }
 
             ddouble pdf = Pow2(Log2(x) * (Alpha - 1d) - Log1p(x) * (Alpha + Beta) * LbE - pdf_lognorm);
@@ -90,7 +94,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => (Alpha >= 1d) ?
-            (Alpha - 1d / (Beta + 1d))
+            ((Alpha - 1d) / (Beta + 1d))
             : 0d;
 
         public override ddouble Variance => (Beta > 2d)
@@ -104,6 +108,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis => (Beta > 4d)
             ? 6d * (Alpha * (Alpha + Beta - 1d) * (5d * Beta - 11d) + Square(Beta - 1d) * (Beta - 2d)) / (Alpha * (Alpha + Beta - 1d) * (Beta - 3d) * (Beta - 4d))
             : NaN;
+
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
 
         public override string ToString() {
             return $"{typeof(BetaPrimeDistribution).Name}[alpha={Alpha},beta={Beta}]";

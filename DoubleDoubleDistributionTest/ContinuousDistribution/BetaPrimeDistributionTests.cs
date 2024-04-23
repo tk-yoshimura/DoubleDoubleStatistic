@@ -10,6 +10,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly BetaPrimeDistribution dist_a1b2 = new(alpha: 1, beta: 2);
         readonly BetaPrimeDistribution dist_a2b2 = new(alpha: 2, beta: 2);
         readonly BetaPrimeDistribution dist_a3b4 = new(alpha: 3, beta: 4);
+        readonly BetaPrimeDistribution dist_a5b6 = new(alpha: 5, beta: 6);
+        readonly BetaPrimeDistribution dist_a7b8 = new(alpha: 7, beta: 8);
 
         BetaPrimeDistribution[] Dists => [
             dist_a1b1,
@@ -17,6 +19,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             dist_a1b2,
             dist_a2b2,
             dist_a3b4,
+            dist_a5b6,
+            dist_a7b8,
         ];
 
         [TestMethod()]
@@ -33,6 +37,92 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
                 Console.WriteLine($"Entropy={dist.Entropy}");
+                Console.WriteLine($"Entropy={dist.Entropy}");
+            }
+        }
+                
+        [TestMethod()]
+        public void MeanTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mean)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Mean;
+                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void ModeTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mode)) {
+                    continue;
+                }
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void VarianceTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Variance)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Variance;
+                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void SkewnessTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Skewness)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Skewness;
+                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void KurtosisTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Kurtosis)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Kurtosis;
+                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
             }
         }
 
@@ -114,7 +204,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         [TestMethod()]
         public void PDFExpectedTest() {
             ddouble[] expected_dist_a1b1 = [
-                0.000000000000000000e+00,
+                1.000000000000000000e+00,
                 4.444444444444444198e-01,
                 2.500000000000000000e-01,
                 1.599999999999999756e-01,
@@ -631,7 +721,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             ];
 
             ddouble[] expected_dist_a1b2 = [
-                0.000000000000000000e+00,
+                2.000000000000000000e+00,
                 5.925925925925925597e-01,
                 2.500000000000000555e-01,
                 1.280000000000000027e-01,
