@@ -92,7 +92,24 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (Mu, Mu + Sigma);
 
+        public override ddouble Mean =>
+            IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048);
+
+        public override ddouble Mode => throw new NotImplementedException();
+
         public override ddouble Median => Quantile(0.5d);
+
+        public override ddouble Variance =>
+            IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048);
+
+        public override ddouble Skewness =>
+            IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048);
+
+        public override ddouble Kurtosis =>
+            IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048);
+
+        public override ddouble Entropy =>
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static JohnsonSBDistribution operator *(JohnsonSBDistribution dist, ddouble k) {
             return new(dist.Gamma, dist.Sigma, dist.Mu * k, dist.Sigma * k);
