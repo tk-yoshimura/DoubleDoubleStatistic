@@ -39,7 +39,7 @@ namespace DoubleDoubleStatistic {
                     return cdf;
                 }
             }
-            else { 
+            else {
                 if (IsZero(Mu)) {
                     ddouble cdf = IsNegative(x) ? 1d : 0d;
 

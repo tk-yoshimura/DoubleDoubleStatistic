@@ -100,9 +100,9 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mode => (Sqrt(Alpha * Alpha + 8d) - Alpha) / 4;
 
         public override ddouble Mean => NaN;
-        
+
         public override ddouble Variance => NaN;
-        
+
         public override ddouble Skewness => NaN;
 
         public override ddouble Kurtosis => NaN;

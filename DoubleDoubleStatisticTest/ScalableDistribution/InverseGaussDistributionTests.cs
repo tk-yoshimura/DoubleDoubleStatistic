@@ -68,7 +68,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
 
         [TestMethod()]
         public void MedianTest() {
-             Assert.Inconclusive();
+            Assert.Inconclusive();
 
             foreach (InverseGaussDistribution dist in Dists) {
                 Console.WriteLine(dist);

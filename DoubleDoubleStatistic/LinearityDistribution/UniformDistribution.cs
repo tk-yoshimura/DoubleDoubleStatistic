@@ -89,7 +89,7 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (A, B);
 
         public override ddouble Mode => NaN;
-        
+
         public override ddouble Mean => Ldexp(A + B, -1);
 
         public override ddouble Median => Ldexp(A + B, -1);

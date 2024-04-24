@@ -73,7 +73,7 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void MedianTest() {
-             Assert.Inconclusive();
+            Assert.Inconclusive();
 
             foreach (SkewNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);

@@ -72,9 +72,9 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mode => Mu;
 
         public override ddouble Mean => NaN;
-        
+
         public override ddouble Variance => NaN;
-        
+
         public override ddouble Skewness => NaN;
 
         public override ddouble Kurtosis => NaN;
