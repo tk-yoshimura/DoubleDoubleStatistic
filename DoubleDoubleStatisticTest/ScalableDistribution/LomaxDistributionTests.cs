@@ -9,12 +9,14 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
         readonly LomaxDistribution dist_alpha3theta2 = new(alpha: 3, theta: 2);
         readonly LomaxDistribution dist_alpha4theta2 = new(alpha: 4, theta: 2);
         readonly LomaxDistribution dist_alpha4theta3 = new(alpha: 4, theta: 3);
+        readonly LomaxDistribution dist_alpha5theta6 = new(alpha: 5, theta: 6);
 
         LomaxDistribution[] Dists => [
             dist_alpha2theta1,
             dist_alpha3theta2,
             dist_alpha4theta2,
             dist_alpha4theta3,
+            dist_alpha5theta6,
         ];
 
         [TestMethod()]
