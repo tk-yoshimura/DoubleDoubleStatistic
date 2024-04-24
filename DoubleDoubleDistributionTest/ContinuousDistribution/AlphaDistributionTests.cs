@@ -40,6 +40,15 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         }
 
         [TestMethod()]
+        public void MedianTest() {
+            foreach (AlphaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
+            }
+        }
+
+        [TestMethod()]
         public void EntropyTest() {
             foreach (AlphaDistribution dist in Dists) {
                 Console.WriteLine(dist);

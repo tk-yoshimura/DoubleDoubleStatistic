@@ -60,11 +60,17 @@ namespace DoubleDoubleDistribution {
             return x;
         }
 
-        public override ddouble Mean => Mu;
-
         public override ddouble Median => median_base * C + Mu;
 
         public override ddouble Mode => mode_base * C + Mu;
+
+        public override ddouble Mean => Mu;
+                
+        public override ddouble Variance => NaN;
+        
+        public override ddouble Skewness => NaN;
+
+        public override ddouble Kurtosis => NaN;
 
         public override ddouble Entropy => entropy_base + Log(C);
 

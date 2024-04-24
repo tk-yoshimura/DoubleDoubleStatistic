@@ -53,8 +53,17 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                     continue;
                 }
 
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4));
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4));
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void MedianTest() {
+            foreach (BradfordDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
             }
         }
 

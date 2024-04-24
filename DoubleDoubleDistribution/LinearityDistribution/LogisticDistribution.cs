@@ -26,23 +26,23 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = Exp((Mu - x) * sigma_inv);
+            ddouble u = (Mu - x) * sigma_inv, v = Exp(u);
 
-            ddouble pdf = u / (Sigma * Square(1d + u));
+            ddouble pdf = IsFinite(v) ? (v / Square(1d + v) * sigma_inv) : 0d;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = Exp((Mu - x) * sigma_inv);
+            ddouble u = (Mu - x) * sigma_inv, v = Exp(u);
 
             if (interval == Interval.Lower) {
-                ddouble cdf = 1d / (1d + u);
+                ddouble cdf = 1d / (1d + v);
 
                 return cdf;
             }
             else {
-                ddouble cdf = u / (1d + u);
+                ddouble cdf = IsFinite(v) ? (v / (1d + v)) : 1d;
 
                 return cdf;
             }

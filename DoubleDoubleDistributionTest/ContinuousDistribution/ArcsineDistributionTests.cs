@@ -38,6 +38,15 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         }
 
         [TestMethod()]
+        public void MedianTest() {
+            foreach (ArcsineDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
+            }
+        }
+
+        [TestMethod()]
         public void VarianceTest() {
             foreach (ArcsineDistribution dist in Dists) {
                 Console.WriteLine(dist);

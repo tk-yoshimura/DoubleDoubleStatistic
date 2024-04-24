@@ -86,7 +86,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Median => 1d / (Pow2(alpha_inv) * K);
 
-        public override ddouble Mode => k_inv;
+        public override ddouble Mode => (Alpha < 1d) ? 0d : (Alpha > 1d) ? k_inv : NaN;
 
         public override ddouble Variance =>
             Alpha / (Square(K * (Alpha + 1d)) * (Alpha + 2d));

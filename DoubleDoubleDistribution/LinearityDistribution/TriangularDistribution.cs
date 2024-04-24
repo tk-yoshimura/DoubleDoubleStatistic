@@ -115,8 +115,8 @@ namespace DoubleDoubleDistribution {
         public override ddouble Variance => (A * A + B * B + C * C - A * B - A * C - B * C) / 18d;
 
         public override ddouble Skewness =>
-            Sqrt2 * (2 * A - B - C) * (A - 2 * B - C) * (A + B - 2 * C)
-            / (5d * Cube(Sqrt(A * A + B * B + C * C - A * B - A * C - B * C)));
+            Sqrt2 * (2 * A - B - C) * (A - 2 * B + C) * (A + B - 2 * C)
+            / (5d * ExMath.Pow3d2(A * A + B * B + C * C - A * B - A * C - B * C));
 
         public override ddouble Kurtosis => -(ddouble)3 / 5;
 

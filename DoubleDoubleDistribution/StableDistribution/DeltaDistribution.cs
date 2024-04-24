@@ -27,19 +27,29 @@ namespace DoubleDoubleDistribution {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (interval == Interval.Upper) {
-                return CDF(-x, Interval.Lower);
+            if (interval == Interval.Lower) {
+                if (IsZero(Mu)) {
+                    ddouble cdf = IsNegative(x) ? 0d : 1d;
+
+                    return cdf;
+                }
+                else {
+                    ddouble cdf = x < Mu ? 0d : 1d;
+
+                    return cdf;
+                }
             }
+            else { 
+                if (IsZero(Mu)) {
+                    ddouble cdf = IsNegative(x) ? 1d : 0d;
 
-            if (IsZero(Mu)) {
-                ddouble cdf = IsNegative(x) ? 0 : 1;
+                    return cdf;
+                }
+                else {
+                    ddouble cdf = x < Mu ? 1d : 0d;
 
-                return cdf;
-            }
-            else {
-                ddouble cdf = x < Mu ? 0 : 1;
-
-                return cdf;
+                    return cdf;
+                }
             }
         }
 
@@ -54,6 +64,10 @@ namespace DoubleDoubleDistribution {
         public override ddouble Mode => Mu;
 
         public override ddouble Variance => 0d;
+
+        public override ddouble Skewness => 0d;
+
+        public override ddouble Kurtosis => PositiveInfinity;
 
         public override ddouble Entropy => NegativeInfinity;
 

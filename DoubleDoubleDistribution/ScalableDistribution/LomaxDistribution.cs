@@ -84,11 +84,11 @@ namespace DoubleDoubleDistribution {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => (Alpha > 1d)
-            ? Theta * (Alpha - 1d)
+            ? Theta / (Alpha - 1d)
             : PositiveInfinity;
 
         public override ddouble Median =>
-            Theta * (Pow(Sqrt2, alpha_inv) - 1d);
+            Theta * (Pow(0.5d, -alpha_inv) - 1d);
 
         public override ddouble Mode => 0d;
 

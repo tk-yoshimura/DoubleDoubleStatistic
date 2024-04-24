@@ -82,23 +82,23 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => Nu > 2
-            ? 1d / (Nu - 1d)
+        public override ddouble Mean => Nu > 2d
+            ? 1d / (Nu - 2d)
             : NaN;
 
         public override ddouble Median => Quantile(0.5);
 
         public override ddouble Mode => 1d / (Nu + 2d);
 
-        public override ddouble Variance => Nu > 4
+        public override ddouble Variance => Nu > 4d
             ? 2 / (Square(Nu - 2d) * (Nu - 4d))
             : NaN;
 
-        public override ddouble Skewness => Nu > 6
+        public override ddouble Skewness => Nu > 6d
             ? 4 * Sqrt(2d * (Nu - 4d)) / (Nu - 6d)
             : NaN;
 
-        public override ddouble Kurtosis => Nu > 8
+        public override ddouble Kurtosis => Nu > 8d
             ? (12d * (5d * Nu - 22d)) / ((Nu - 6d) * (Nu - 8d))
             : NaN;
 
@@ -106,7 +106,7 @@ namespace DoubleDoubleDistribution {
             get {
                 ddouble k_half = Ldexp(Nu, -1);
 
-                return k_half + Log(k_half * Gamma(k_half)) + (1 + k_half) * Digamma(k_half);
+                return k_half + Log(k_half * Gamma(k_half)) - (1 + k_half) * Digamma(k_half) - Log(Nu);
             }
         }
 

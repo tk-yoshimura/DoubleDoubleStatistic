@@ -86,9 +86,8 @@ namespace DoubleDoubleDistribution {
         public override ddouble Kurtosis {
             get {
                 ddouble mp5 = Exp(LogGamma(M + 0.5d) - LogGamma(M));
-                ddouble w = M - mp5 * mp5;
 
-                return (M * (4 * M - 1d) - 2d * (2 * M + 1) * mp5 * mp5) / (w * w) - 3d;
+                return (M * (4 * M + 1d) - 2d * (2 * M + 1) * mp5 * mp5) / Square(M - mp5 * mp5) - 6d;
             }
         }
 

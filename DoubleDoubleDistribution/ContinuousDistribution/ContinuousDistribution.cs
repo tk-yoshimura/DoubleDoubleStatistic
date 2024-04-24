@@ -16,14 +16,13 @@ namespace DoubleDoubleDistribution {
         public virtual (ddouble min, ddouble max) Support =>
             (ddouble.NegativeInfinity, ddouble.PositiveInfinity);
 
-        public virtual ddouble Mean => ddouble.NaN;
-        public virtual ddouble Median => ddouble.NaN;
-        public virtual ddouble Mode => ddouble.NaN;
-        public virtual ddouble Variance => ddouble.NaN;
-        public virtual ddouble Skewness => ddouble.NaN;
-        public virtual ddouble Kurtosis => ddouble.NaN;
-
-        public virtual ddouble Entropy => ddouble.NaN;
+        public virtual ddouble Mean => throw new NotImplementedException();
+        public virtual ddouble Median => throw new NotImplementedException();
+        public virtual ddouble Mode => throw new NotImplementedException();
+        public virtual ddouble Variance => throw new NotImplementedException();
+        public virtual ddouble Skewness => throw new NotImplementedException();
+        public virtual ddouble Kurtosis => throw new NotImplementedException();
+        public virtual ddouble Entropy => throw new NotImplementedException();
 
         protected static bool InRangeUnit(ddouble v) {
             return v >= 0d && v <= 1d;

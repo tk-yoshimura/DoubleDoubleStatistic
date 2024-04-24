@@ -146,6 +146,18 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => 0d;
 
+        public override ddouble Mean => NaN;
+
+        public override ddouble Variance => NaN;
+        
+        public override ddouble Skewness => NaN;
+
+        public override ddouble Kurtosis => NaN;
+
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
+
         public static VoigtDistribution operator +(VoigtDistribution dist1, VoigtDistribution dist2) {
             return new(dist1.Gamma + dist2.Gamma, Hypot(dist1.Sigma, dist2.Sigma));
         }

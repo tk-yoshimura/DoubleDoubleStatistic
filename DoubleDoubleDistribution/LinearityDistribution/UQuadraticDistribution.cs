@@ -106,7 +106,7 @@ namespace DoubleDoubleDistribution {
         public override ddouble Skewness => 0d;
 
         public override ddouble Kurtosis =>
-            Square(Square(range)) * 3d / 112d;
+            -(ddouble)38d / 21d;
 
         public override ddouble Entropy {
             get {

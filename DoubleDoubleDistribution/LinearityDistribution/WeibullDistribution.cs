@@ -119,18 +119,18 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Skewness {
             get {
-                ddouble mu = Mean, var = Variance;
+                ddouble mu = Gamma(1d + 1d / Alpha), var = Gamma(1d + 2d / Alpha) - Square(mu);
 
-                return (Gamma(1d + 3d / Alpha) * Cube(Theta) - 3d * mu * var - Cube(mu)) / Cube(Sqrt(var));
+                return (Gamma(1d + 3d / Alpha) - 3d * mu * var - Cube(mu)) / ExMath.Pow3d2(var);
             }
         }
 
         public override ddouble Kurtosis {
             get {
-                ddouble mu = Mean, var = Variance;
+                ddouble mu = Gamma(1d + 1d / Alpha), var = Gamma(1d + 2d / Alpha) - Square(mu);
 
-                return (Gamma(1d + 4d / Alpha) * Square(Square(Theta))
-                    - 4d * mu * (Gamma(1d + 3d / Alpha) * Cube(Theta) - 3d * mu * var - Cube(mu))
+                return (Gamma(1d + 4d / Alpha)
+                    - 4d * mu * (Gamma(1d + 3d / Alpha) - 3d * mu * var - Cube(mu))
                     - 6d * Square(mu) * var
                     - Square(Square(mu))) /
                     Square(var) - 3d;

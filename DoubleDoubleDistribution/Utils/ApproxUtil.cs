@@ -8,18 +8,12 @@ namespace DoubleDoubleDistribution {
         public static ddouble Pade(ddouble x, ReadOnlyCollection<(ddouble c, ddouble d)> table) {
             (ddouble sc, ddouble sd) = table[^1];
 
-#if DEBUG
-            Trace.Assert(x >= 0, $"must be positive! {x}");
-#endif
-
             for (int i = table.Count - 2; i >= 0; i--) {
                 sc = sc * x + table[i].c;
                 sd = sd * x + table[i].d;
             }
 
-#if DEBUG
-            Trace.Assert(sd >= 0.5, $"pade denom digits loss! {x}");
-#endif
+            Debug.Assert(sd >= 0.5, $"pade denom digits loss! {x}");
 
             return sc / sd;
         }

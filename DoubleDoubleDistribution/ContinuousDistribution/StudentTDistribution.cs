@@ -122,10 +122,12 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Kurtosis => (Nu > 4d)
             ? 6d / (Nu - 4d)
+            : (Nu > 2d)
+            ? PositiveInfinity
             : NaN;
 
         public override ddouble Entropy =>
-            (Nu + 1) / 2 * (Digamma((Nu + 1) / 2) - Digamma(Nu / 2)) + Log(Sqrt(Nu) * Beta(Nu / 2, Point5));
+            (Nu + 1d) * 0.5d * (Digamma((Nu + 1d) * 0.5d) - Digamma(Nu * 0.5d)) + Log(Sqrt(Nu) * Beta(Nu * 0.5d, 0.5d));
 
         public override string ToString() {
             return $"{typeof(StudentTDistribution).Name}[nu={Nu}]";

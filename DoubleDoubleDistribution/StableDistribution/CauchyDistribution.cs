@@ -71,6 +71,14 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => Mu;
 
+        public override ddouble Mean => NaN;
+
+        public override ddouble Variance => NaN;
+        
+        public override ddouble Skewness => NaN;
+
+        public override ddouble Kurtosis => NaN;
+
         public override ddouble Entropy => Log(4 * PI * Gamma);
 
         public override ddouble Alpha => 1d;

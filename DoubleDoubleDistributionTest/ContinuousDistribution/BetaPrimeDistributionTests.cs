@@ -40,7 +40,7 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 Console.WriteLine($"Entropy={dist.Entropy}");
             }
         }
-                
+
         [TestMethod()]
         public void MeanTest() {
             foreach (BetaPrimeDistribution dist in Dists) {
@@ -67,6 +67,15 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
 
                 Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
                 Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void MedianTest() {
+            foreach (BetaPrimeDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
             }
         }
 

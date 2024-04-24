@@ -67,6 +67,8 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Median => 0.5d;
 
+        public override ddouble Mode => NaN;
+
         public override ddouble Variance => 1 / 8d;
 
         public override ddouble Skewness => 0;

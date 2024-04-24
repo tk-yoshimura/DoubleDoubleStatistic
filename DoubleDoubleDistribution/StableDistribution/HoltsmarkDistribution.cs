@@ -67,11 +67,17 @@ namespace DoubleDoubleDistribution {
 
         public override bool Symmetric => true;
 
-        public override ddouble Mean => Mu;
-
         public override ddouble Median => Mu;
 
         public override ddouble Mode => Mu;
+
+        public override ddouble Mean => Mu;
+
+        public override ddouble Variance => NaN;
+        
+        public override ddouble Skewness => NaN;
+
+        public override ddouble Kurtosis => NaN;
 
         public override ddouble Entropy => entropy_base + Log(C);
 

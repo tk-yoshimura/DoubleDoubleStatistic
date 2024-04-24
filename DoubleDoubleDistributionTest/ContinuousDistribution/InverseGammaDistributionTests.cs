@@ -10,6 +10,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
         readonly InverseGammaDistribution dist_alpha1beta2 = new(alpha: 1, beta: 2);
         readonly InverseGammaDistribution dist_alpha2beta2 = new(alpha: 2, beta: 2);
         readonly InverseGammaDistribution dist_alpha3beta4 = new(alpha: 3, beta: 4);
+        readonly InverseGammaDistribution dist_alpha5beta6 = new(alpha: 5, beta: 6);
+        readonly InverseGammaDistribution dist_alpha7beta8 = new(alpha: 7, beta: 8);
 
         InverseGammaDistribution[] Dists => [
             dist_alpha1beta1,
@@ -17,6 +19,8 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
             dist_alpha1beta2,
             dist_alpha2beta2,
             dist_alpha3beta4,
+            dist_alpha5beta6,
+            dist_alpha7beta8,
         ];
 
         [TestMethod()]
@@ -33,6 +37,100 @@ namespace DoubleDoubleDistributionTest.ContinuousDistribution {
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
                 Console.WriteLine($"Entropy={dist.Entropy}");
+            }
+        }
+
+        [TestMethod()]
+        public void MeanTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mean)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Mean;
+                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void ModeTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mode)) {
+                    continue;
+                }
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void MedianTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
+            }
+        }
+
+        [TestMethod()]
+        public void VarianceTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Variance)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Variance;
+                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void SkewnessTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Skewness)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Skewness;
+                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void KurtosisTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Kurtosis)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Kurtosis;
+                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (InverseGammaDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
             }
         }
 

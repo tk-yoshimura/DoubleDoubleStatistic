@@ -81,36 +81,37 @@ namespace DoubleDoubleDistribution {
         public override ddouble Mean =>
             Mu - Sigma * Exp(1d / (2 * Square(Delta))) * Sinh(Gamma / Delta);
 
+        public override ddouble Mode => throw new NotImplementedException();
+
         public override ddouble Median =>
             Mu + Sigma * Sinh(-Gamma / Delta);
 
         public override ddouble Variance =>
-            0.5d * Square(Sigma) * Expm1(1d / Square(Delta)) * (Exp(1d / Square(Delta)) * Cosh(2 * Gamma / Sigma) + 1);
+            0.5d * Square(Sigma) * Expm1(1d / Square(Delta)) * (Exp(1d / Square(Delta)) * Cosh(2 * Gamma / Delta) + 1);
 
         public override ddouble Skewness {
             get {
-                ddouble exp_delta2 = Exp(1d / Square(Delta));
+                ddouble omega = Exp(1d / Square(Delta)), omega_m1 = Expm1(1d / Square(Delta));
+                ddouble gd = Gamma / Delta;
 
-                return Cube(Sigma) * Sqrt(exp_delta2) * Square(Expm1(1d / Square(Delta)))
-                        * (exp_delta2 * (exp_delta2 + 2) * Sinh(3 * Gamma / Delta) + 3 * Sinh(2 * Gamma / Delta))
-                    / (4 * Cube(Sqrt(Variance)));
+                return -Sign(gd) * Sqrt(omega * omega_m1 * Square(omega * (2d + omega) * Sinh(3d * gd) + 3 * Sinh(gd))
+                    / (2 * Cube(omega * Cosh(2d * gd) + 1d)));
             }
         }
 
         public override ddouble Kurtosis {
             get {
-                ddouble exp_delta2_1 = Exp(1d / Square(Delta));
-                ddouble exp_delta2_2 = Square(exp_delta2_1);
-                ddouble exp_delta2_3 = Cube(exp_delta2_1);
-                ddouble exp_delta2_4 = exp_delta2_2 * exp_delta2_2;
+                ddouble omega = Exp(1d / Square(Delta));
+                ddouble gd = Gamma / Delta;
 
-                ddouble k1 = exp_delta2_2 * (exp_delta2_4 + 2 * exp_delta2_3 + 3 * exp_delta2_2 - 3) * Cosh(4 * Gamma / Delta);
-                ddouble k2 = 4 * exp_delta2_2 * (exp_delta2_1 + 2) * Cosh(3 * Gamma / Delta);
-                ddouble k3 = 3 * (2 * exp_delta2_2 + 1);
-
-                return Pow(Sigma, 4) * Square(Expm1(1d / Square(Delta))) * (k1 + k2 + k3) / (8 * Square(Variance));
+                return (3d + omega * (6d + omega * ((-3d + omega * omega * (3d + omega * (2d + omega))) * Cosh(4d * gd) + 4d * (2d + omega) * Cosh(2d * gd))))
+                    / (2 * Square(omega * Cosh(2d * gd) + 1d)) - 3d;
             }
         }
+
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static JohnsonSUDistribution operator *(JohnsonSUDistribution dist, ddouble k) {
             return new(dist.Gamma, dist.Sigma, dist.Mu * k, dist.Sigma * k);

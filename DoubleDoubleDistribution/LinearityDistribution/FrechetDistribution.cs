@@ -145,7 +145,7 @@ namespace DoubleDoubleDistribution {
 
                 ddouble g1 = Gamma(1d - 1d / Alpha), g2 = Gamma(1d - 2d / Alpha), g3 = Gamma(1d - 3d / Alpha);
 
-                return (g3 - 3d * g2 * g1 + 2d * Cube(g1)) / Sqrt(Cube(Variance));
+                return (g3 - 3d * g2 * g1 + 2d * Cube(g1)) / ExMath.Pow3d2(g2 - Square(g1));
             }
         }
 
@@ -158,7 +158,7 @@ namespace DoubleDoubleDistribution {
                 ddouble g1 = Gamma(1d - 1d / Alpha), g2 = Gamma(1d - 2d / Alpha);
                 ddouble g3 = Gamma(1d - 3d / Alpha), g4 = Gamma(1d - 4d / Alpha);
 
-                return (g4 - 4d * g3 * g1 + 3d * Square(g2)) / Square(Variance) - 6d;
+                return (g4 - 4d * g3 * g1 + 3d * Square(g2)) / Square(g2 - Square(g1)) - 6d;
             }
         }
 

@@ -108,8 +108,10 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Entropy {
             get {
+                ddouble c = 1d / Sqrt(2d * PI);
+
                 ddouble f(ddouble x) {
-                    ddouble pdf = pdf_norm * Exp(-x * x * 0.5d) * Erfc(-x * erfc_scale);
+                    ddouble pdf = c * Exp(-x * x * 0.5d) * Erfc(-x * erfc_scale);
 
                     if (pdf == 0d) {
                         return 0d;
@@ -127,6 +129,7 @@ namespace DoubleDoubleDistribution {
                 value += Log(Sigma);
 
                 Debug.WriteLine($"Entropy integrate err: {err}");
+                Debug.WriteLine($"Entropy integrate eval_points: {eval_points}");
 
                 return value;
             }

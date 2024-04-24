@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("DoubleDoubleDistribution")]
-[assembly: AssemblyDescription("Double-Double Continuous Distribution Implements")]
+[assembly: AssemblyDescription("Double-Double Statistic Distribution Implements")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DoubleDoubleDistribution")]

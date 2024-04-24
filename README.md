@@ -1,76 +1,139 @@
 # DoubleDoubleDistribution
- Double-Double Continuous Distribution Implements
+ Double-Double Statistic Distribution Implements
 
-## Dev Stage
-N: Not Implemented  
-C: Test Checked  
-T: TODO Test  
+## Requirement
+.NET 8.0  
+[DoubleDouble](https://github.com/tk-yoshimura/DoubleDouble)  
+[DoubleDoubleComplex](https://github.com/tk-yoshimura/DoubleDoubleComplex)  
+[DoubleDoubleIntegrate](https://github.com/tk-yoshimura/DoubleDoubleIntegrate)  
 
-| category   | distribution       | pdf   | cdf   | quantile | stats | random gen | define | difficulty |
-| ---------- | ------------------ | ----- | ----- | -------- | ----- | ---------- | ------ | ---------- |
-| continuous | alpha              | C     | C     | C        | C     | N          | N      |            |
-|            | arcsine            | C     | C     | C        | C     | N          | N      |            |
-|            | argus              | N     | N     | N        | N     | N          | N      | A          |
-|            | benktander         | N     | N     | N        | N     | N          | N      | C          |
-|            | birnbaum saunders  | C     | C     | C        | T     | N          | N      |            |
-|            | beta               | C     | C     | C        | C     | N          | N      |            |
-|            | beta prime         | C     | C     | C        | C     | N          | N      |            |
-|            | bradford           | C     | C     | C        | C     | N          | N      |            |
-|            | burr               | C     | C     | C        | C     | N          | N      |            |
-|            | chi                | C     | C     | C        | C     | N          | N      |            |
-|            | chi square         | C     | C     | C        | C     | N          | N      |            |
-|            | cosine             | C     | C     | C        | T     | N          | N      |            |
-|            | exponential        | C     | C     | C        | T     | N          | N      |            |
-|            | dagum              | N     | N     | N        | N     | N          | N      | B          |
-|            | davis              | N     | N     | N        | N     | N          | N      | B          |
-|            | gamma              | C     | C     | C        | T     | N          | N      |            |
-|            | gumbel             | C     | C     | C        | T     | N          | N      |            |
-|            | gompertz           | C     | C     | C        | T     | N          | N      |            |
-|            | fisher z           | C     | C     | C        | C     | N          | N      |            |
-|            | fisk               | C     | C     | C        | C     | N          | N      |            |
-|            | frechet            | C     | C     | C        | T     | N          | N      |            |
-|            | half normal        | C     | C     | C        | T     | N          | N      |            |
-|            | hyperbolic secant  | C     | C     | C        | T     | N          | N      |            |
-|            | inverse gamma      | C     | C     | C        | T     | N          | N      |            |
-|            | inverse gauss      | C     | C     | N        | T     | N          | N      |            |
-|            | inverse chi        | C     | C     | C        | T     | N          | N      |            |
-|            | inverse chi sq     | C     | C     | C        | T     | N          | N      |            |
-|            | irwin hall         | C     | C     | C        | C     | N          | N      |            |
-|            | johnson sb         | C     | C     | C        | T     | N          | N      |            |
-|            | johnson su         | C     | C     | C        | T     | N          | N      |            |
-|            | kumaraswamy        | C     | C     | C        | T     | N          | N      |            |
-|            | laplace            | C     | C     | C        | T     | N          | N      |            |
-|            | log logistic       | C     | C     | C        | T     | N          | N      |            |
-|            | log normal         | C     | C     | C        | T     | N          | N      |            |
-|            | logistic           | C     | C     | C        | T     | N          | N      |            |
-|            | lomax              | C     | C     | C        | T     | N          | N      |            |
-|            | maxwell            | C     | C     | C        | T     | N          | N      |            |
-|            | nakagami           | C     | C     | C        | T     | N          | N      |            |
-|            | non central chi sq | N     | N     | N        | N     | N          | N      | AAA        |
-|            | non central f      | N     | N     | N        | N     | N          | N      | AAA        |
-|            | non central t      | N     | N     | N        | N     | N          | N      | AAA        |
-|            | pareto             | C     | C     | C        | T     | N          | N      |            |
-|            | power              | C     | C     | C        | T     | N          | N      |            |
-|            | rayleigh           | C     | C     | C        | T     | N          | N      |            |
-|            | reciprocal         | C     | C     | C        | C     | N          | N      |            |
-|            | rice               | N     | N     | N        | N     | N          | N      | AAA        |
-|            | skew normal        | C     | C     | N        | T     | N          | N      |            |
-|            | snedecor f         | C     | C     | C        | T     | N          | N      |            |
-|            | student t          | C     | C     | C        | T     | N          | N      |            |
-|            | suzuki             | N     | N     | N        | N     | N          | N      | B          |
-|            | triangular         | C     | C     | C        | T     | N          | N      |            |
-|            | uniform            | C     | C     | C        | T     | N          | N      |            |
-|            | u quadratic        | C     | C     | C        | T     | N          | N      |            |
-|            | voigt              | C     | C     | N        | T     | N          | N      |            |
-|            | weibull            | C     | C     | C        | T     | N          | N      |            |
-|            | wigner semicircle  | C     | C     | C        | T     | N          | N      |            |
-|            | ***coverage***     | 48/56 | 48/56 | 45/56    | 47/56 | 0/56       | 0/56   |            |
-| stable     | cauchy             | C     | C     | C        | T     | N          | N      |            |
-|            | delta              | C     | C     | C        | T     | -          | N      |            |
-|            | holtsmark          | C     | C     | C        | C     | N          | N      |            |
-|            | landau             | C     | C     | C        | C     | N          | N      |            |
-|            | map-airy           | C     | C     | C        | C     | N          | N      |            |
-|            | levy               | C     | C     | C        | T     | N          | N      |            |
-|            | normal             | C     | C     | C        | T     | N          | N      |            |
-|            | sas point5         | C	  | C     | C        | C     | N          | N      |            |
-|            | ***coverage***     | 8/8   | 8/8   | 8/8      | 8/8   | 0/8        | 0/8    |            |
+## Install
+
+## Implemented Distributions
+
+| category   | distribution      | PDF      | CDF      | quantile | statistic | note                  |
+| ---------- | ----------------- | -------- | -------- | -------- | --------- | --------------------- |
+| continuous | alpha             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | beta prime        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Not implemented: mode |
+|            | bradford          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | burr              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | cauchy            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | chi               | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | chi square        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | cosine            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | delta             | &#x2714; | &#x2714; | N/A      | &#x2714;  |                       |
+|            | exponential       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | gamma             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | gumbel            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | gompertz          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | fisher z          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | fisk              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | frechet           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | half normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | holtsmark         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | hyperbolic secant | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | inverse gamma     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | inverse gauss     | &#x2714; | &#x2714; |          | &#x2714;  |                       |
+|            | inverse chi       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | inverse chi sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | irwin hall        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | johnson sb        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Not implemented: mode |
+|            | johnson su        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Not implemented: mode |
+|            | kumaraswamy       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | laplace           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | landau            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | levy              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | log logistic      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | log normal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | logistic          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | lomax             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | map-airy          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | maxwell           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | nakagami          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | normal            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | pareto            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | power             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | reciprocal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | sas point5        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | skew normal       | &#x2714; | &#x2714; |          | &#x2714;  |                       |
+|            | snedecor f        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | student t         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | triangular        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | uniform           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | u quadratic       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | voigt             | &#x2714; | &#x2714; |          | &#x2714;  |                       |
+|            | weibull           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | wigner semicircle | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+
+## Usage
+
+```cs
+NormalDistribution dist = new(mu: 1, sigma: 3);
+
+// PDF
+for (ddouble x = -4; x <= 4; x += 0.125) {
+    ddouble pdf = dist.PDF(x);
+
+    Console.WriteLine($"pdf({x})={pdf}");
+}
+
+// CDF
+for (ddouble x = -4; x <= 4; x += 0.125) {
+    ddouble ccdf = dist.CDF(x, Interval.Upper);
+
+    Console.WriteLine($"ccdf({x})={ccdf}");
+}
+
+// Quantile
+for (int i = 0; i <= 10; i++) {
+    ddouble p = (ddouble)i / 10;
+    ddouble x = dist.Quantile(p, Interval.Upper);
+
+    Console.WriteLine($"cquantile({p})={x}");
+}
+
+// Statistic
+Console.WriteLine($"Support={dist.Support}");
+Console.WriteLine($"Mu={dist.Mu}");
+Console.WriteLine($"Sigma={dist.Sigma}");
+Console.WriteLine($"Mean={dist.Mean}");
+Console.WriteLine($"Median={dist.Median}");
+Console.WriteLine($"Mode={dist.Mode}");
+Console.WriteLine($"Variance={dist.Variance}");
+Console.WriteLine($"Skewness={dist.Skewness}");
+Console.WriteLine($"Kurtosis={dist.Kurtosis}");
+Console.WriteLine($"Entropy={dist.Entropy}");
+```
+
+## To Be Updated
+
+### Not Implemented Distributions
+
+- argus              
+- benktander         
+- dagum              
+- davis              
+- non central chi sq 
+- non central f      
+- non central t      
+- rice               
+- suzuki             
+
+### Not Implemented Functions
+
+- Random Generation
+- Formula Definition
+- Fitting
+- Discrete Distributions
+- Statistic Test
+
+## Licence
+[MIT](https://github.com/tk-yoshimura/DoubleDoubleDistribution/blob/main/LICENSE)
+
+## Author
+
+[T.Yoshimura](https://github.com/tk-yoshimura)

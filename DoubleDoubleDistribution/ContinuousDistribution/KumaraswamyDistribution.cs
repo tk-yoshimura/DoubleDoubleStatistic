@@ -111,12 +111,12 @@ namespace DoubleDoubleDistribution {
                 ddouble b4 = Beta(Beta, 1d + 4d * alpha_inv);
 
                 return (-3d * Pow(Beta * b1, 4) + 6d * Cube(Beta) * b1 * b1 * b2 - 4d * Beta * Beta * b1 * b3 + Beta * b4)
-                    / Square(Beta * b2 - Square(Beta * b1));
+                    / Square(Beta * b2 - Square(Beta * b1)) - 3d;
             }
         }
 
         public override ddouble Entropy =>
-            (1d - alpha_inv) + (1d - beta_inv) * (Digamma(Beta + 1d) + EulerGamma) - Log(ab);
+            (1d - beta_inv) + (1d - alpha_inv) * (Digamma(Beta + 1d) + EulerGamma) - Log(ab);
 
         public override string ToString() {
             return $"{typeof(KumaraswamyDistribution).Name}[alpha={Alpha},beta={Beta}]";

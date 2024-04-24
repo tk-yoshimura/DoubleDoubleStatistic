@@ -124,10 +124,10 @@ namespace DoubleDoubleDistribution {
                     return NaN;
                 }
 
-                ddouble csc1 = SinPI(gamma_inv), csc2 = SinPI(2 * gamma_inv), csc3 = SinPI(3 * gamma_inv);
+                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2 * gamma_inv), csc3 = 1d / SinPI(3 * gamma_inv);
 
-                return (3 * Square(Gamma) * csc3 - 2 * Square(PI) * Cube(csc1) - 6 * PI * Gamma * csc1 * csc2) /
-                    (Sqrt(PI) * Cube(Sqrt(2 * Gamma * csc2 - PI * Square(csc2))));
+                return (3 * Square(Gamma) * csc3 + 2 * Square(PI) * Cube(csc1) - 6 * PI * Gamma * csc1 * csc2) /
+                    (Sqrt(PI) * ExMath.Pow3d2(2 * Gamma * csc2 - PI * Square(csc1)));
             }
         }
 
@@ -137,11 +137,11 @@ namespace DoubleDoubleDistribution {
                     return NaN;
                 }
 
-                ddouble csc1 = SinPI(gamma_inv), csc2 = SinPI(2 * gamma_inv);
-                ddouble csc3 = SinPI(3 * gamma_inv), csc4 = SinPI(4 * gamma_inv);
+                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2 * gamma_inv);
+                ddouble csc3 = 1d / SinPI(3 * gamma_inv), csc4 = 1d / SinPI(4 * gamma_inv);
 
                 return (4 * Cube(Gamma) * csc4 - 3 * PI * csc1 * (4 * Square(Gamma) * csc3 + Square(PI) * Cube(csc1) - 4 * PI * Gamma * csc1 * csc2)) /
-                    (PI * Square(PI * Square(csc2) - 2 * Gamma * csc2));
+                    (PI * Square(2 * Gamma * csc2 - PI * Square(csc1))) - 3d;
             }
         }
 

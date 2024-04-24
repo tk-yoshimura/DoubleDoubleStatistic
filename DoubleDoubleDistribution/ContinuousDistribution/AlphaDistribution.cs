@@ -99,6 +99,14 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mode => (Sqrt(Alpha * Alpha + 8d) - Alpha) / 4;
 
+        public override ddouble Mean => NaN;
+        
+        public override ddouble Variance => NaN;
+        
+        public override ddouble Skewness => NaN;
+
+        public override ddouble Kurtosis => NaN;
+
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);

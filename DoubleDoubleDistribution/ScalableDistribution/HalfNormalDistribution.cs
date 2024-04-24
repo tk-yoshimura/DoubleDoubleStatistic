@@ -85,7 +85,7 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Kurtosis => 8 * (PI - 3d) / Square(PI - 2d);
 
-        public override ddouble Entropy => Log2(2 * PI * E * sigma_sq) / 2 - 1d;
+        public override ddouble Entropy => (Log(PI / 2) + 1d) / 2 + Log(Sigma);
 
         public static HalfNormalDistribution operator *(HalfNormalDistribution dist, ddouble k) {
             return new(dist.Sigma * k);

@@ -84,11 +84,15 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Mean => PositiveInfinity;
 
-        public override ddouble Median => Mu + C / (2 * Square(Erfc(0.5d)));
+        public override ddouble Median => Mu + C / (2 * Square(InverseErfc(0.5d)));
 
         public override ddouble Mode => Mu + C / 3d;
 
-        public override ddouble Variance => PositiveInfinity;
+        public override ddouble Variance => NaN;
+        
+        public override ddouble Skewness => NaN;
+
+        public override ddouble Kurtosis => NaN;
 
         public override ddouble Entropy =>
             (1d + 3d * EulerGamma + Log(16 * PI * C * C)) / 2;

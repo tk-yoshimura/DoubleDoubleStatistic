@@ -72,9 +72,11 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (-R, R);
 
-        public override ddouble Mean => 0d;
-
         public override ddouble Median => 0d;
+
+        public override ddouble Mode => 0d;
+
+        public override ddouble Mean => 0d;
 
         public override ddouble Variance => radius_sq / 4;
 

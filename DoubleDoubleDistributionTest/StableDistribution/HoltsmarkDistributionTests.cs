@@ -31,6 +31,40 @@ namespace DoubleDoubleDistributionTest.StableDistribution {
         }
 
         [TestMethod()]
+        public void ModeTest() {
+            foreach (HoltsmarkDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mode)) {
+                    continue;
+                }
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void MedianTest() {
+            foreach (HoltsmarkDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (HoltsmarkDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
         public void PDFTest() {
             foreach (HoltsmarkDistribution dist in Dists) {
                 Console.WriteLine(dist);

@@ -110,8 +110,8 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Entropy =>
             LogGamma(N * 0.5d) + LogGamma(M * 0.5d) - LogGamma((N + M) * 0.5d)
-            + (1d - N * 0.5d) * Digamma(1d + N * 0.5d) - (1d - M * 0.5d) * Digamma(1d + M * 0.5d)
-            + (N + M) * 0.5d * Digamma((N + M) * 0.5d) + Log(N / M);
+            + (1d - N * 0.5d) * Digamma(N * 0.5d) - (1d + M * 0.5d) * Digamma(M * 0.5d)
+            + (N + M) * 0.5d * Digamma((N + M) * 0.5d) - Log(N / M);
 
         public override string ToString() {
             return $"{typeof(SnedecorFDistribution).Name}[n={N},m={M}]";

@@ -97,11 +97,15 @@ namespace DoubleDoubleDistribution {
 
         public override ddouble Median => Theta;
 
-        public override ddouble Variance => Theta * alpha_sq * (5 * alpha_sq + 4) / 2d;
+        public override ddouble Variance => Theta * Theta * alpha_sq * (5d * alpha_sq + 4d) / 4d;
 
-        public override ddouble Skewness => 4 * Alpha * (11 * alpha_sq + 6d) / Cube(Sqrt(5 * alpha_sq + 4d));
+        public override ddouble Skewness => 4d * Alpha * (6d + alpha_sq * 11d) / ExMath.Pow3d2(5d * alpha_sq + 4d);
 
-        public override ddouble Kurtosis => (48d + alpha_sq * (360d + alpha_sq * 633d)) / Square(5 * alpha_sq + 4d);
+        public override ddouble Kurtosis => (48d + alpha_sq * (360d + alpha_sq * 633d)) / Square(5d * alpha_sq + 4d) - 3d;
+
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static BirnbaumSaundersDistribution operator *(BirnbaumSaundersDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta * k);

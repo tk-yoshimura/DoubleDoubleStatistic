@@ -82,17 +82,37 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => Nu > 2d
-            ? Exp(LogGamma(Nu - 1d) - LogGamma(Nu * 0.5d)) * Sqrt2
-            : NaN;
-
         public override ddouble Median => Quantile(0.5);
 
-        public override ddouble Mode => 1d / Sqrt(Nu + 2d);
+        public override ddouble Mode => 1d / Sqrt(Nu + 1d);
 
-        public override ddouble Variance => Nu > 4d
-            ? 2d / (Nu - 2d) - Square(Mean)
+        private ddouble? mean = null;
+        public override ddouble Mean => mean ??=
+            (Nu > 1d)
+            ? IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048)
             : NaN;
+
+        private ddouble? variance = null;
+        public override ddouble Variance => variance ??=
+            (Nu > 2d)
+            ? IntegrationStatistics.Variance(this, eps: 1e-28, discontinue_eval_points: 2048)
+            : NaN;
+
+        private ddouble? skewness = null;
+        public override ddouble Skewness => skewness ??=
+            (Nu > 3d)
+            ? IntegrationStatistics.Skewness(this, eps: 1e-28, discontinue_eval_points: 2048)
+            : NaN;
+
+        private ddouble? kurtosis = null;
+        public override ddouble Kurtosis => kurtosis ??=
+            (Nu > 4d)
+            ? IntegrationStatistics.Kurtosis(this, eps: 1e-28, discontinue_eval_points: 2048)
+            : NaN;
+
+        private ddouble? entropy = null;
+        public override ddouble Entropy => entropy ??=
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
 
         public override string ToString() {
             return $"{typeof(InverseChiDistribution).Name}[nu={Nu}]";

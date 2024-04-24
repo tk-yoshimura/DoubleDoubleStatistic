@@ -105,7 +105,7 @@ namespace DoubleDoubleDistribution {
             }
 
             (ddouble entropy, ddouble err, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(
-                f, 0, PositiveInfinity, eps, discontinue_eval_points: discontinue_eval_points
+                f, dist.Support.min, dist.Support.max, eps, discontinue_eval_points: discontinue_eval_points
             );
 
             Debug.WriteLine($"Entropy integrate err: {err}");

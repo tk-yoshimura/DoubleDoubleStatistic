@@ -10,12 +10,16 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
         readonly FrechetDistribution dist_alpha2mu1theta1 = new(alpha: 2, mu: 1, theta: 1);
         readonly FrechetDistribution dist_alpha1mu0theta2 = new(alpha: 1, mu: 0, theta: 2);
         readonly FrechetDistribution dist_alpha3mu0theta4 = new(alpha: 3, mu: 0, theta: 4);
+        readonly FrechetDistribution dist_alpha4mu0theta4 = new(alpha: 4, mu: 0, theta: 4);
+        readonly FrechetDistribution dist_alpha5mu0theta6 = new(alpha: 5, mu: 0, theta: 6);
 
         FrechetDistribution[] Dists => [
             dist_alpha1mu0theta1,
             dist_alpha2mu1theta1,
             dist_alpha1mu0theta2,
             dist_alpha3mu0theta4,
+            dist_alpha4mu0theta4,
+            dist_alpha5mu0theta6,
         ];
 
         [TestMethod()]
@@ -33,6 +37,100 @@ namespace DoubleDoubleDistributionTest.LinearityDistribution {
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
                 Console.WriteLine($"Entropy={dist.Entropy}");
+            }
+        }
+
+        [TestMethod()]
+        public void MeanTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (!ddouble.IsFinite(dist.Mean)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Mean;
+                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void ModeTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mode)) {
+                    continue;
+                }
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void MedianTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
+            }
+        }
+
+        [TestMethod()]
+        public void VarianceTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (!ddouble.IsFinite(dist.Variance)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Variance;
+                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void SkewnessTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (!ddouble.IsFinite(dist.Skewness)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Skewness;
+                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void KurtosisTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (!ddouble.IsFinite(dist.Kurtosis)) {
+                    continue;
+                }
+
+                ddouble actual = dist.Kurtosis;
+                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (FrechetDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
             }
         }
 

@@ -102,10 +102,10 @@ namespace DoubleDoubleDistribution {
             sigma_sq * (3d - 8d * RcpPI);
 
         public override ddouble Skewness =>
-            2 * Sqrt2 * (16d - PI * 5) / Cube(Sqrt(3d * PI - 8d));
+            2 * Sqrt2 * (16d - PI * 5) / ExMath.Pow3d2(3d * PI - 8d);
 
         public override ddouble Kurtosis =>
-            (-392d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
+            (-384d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
 
         public override ddouble Entropy =>
             -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;

@@ -186,11 +186,11 @@ namespace DoubleDoubleDistribution {
 
         public override (ddouble min, ddouble max) Support => (0d, N);
 
-        public override ddouble Mean => N / 0.5d;
+        public override ddouble Mean => N * 0.5d;
 
-        public override ddouble Median => N / 0.5d;
+        public override ddouble Median => N * 0.5d;
 
-        public override ddouble Mode => N / 0.5d;
+        public override ddouble Mode => (N > 1) ? (N * 0.5d) : NaN;
 
         public override ddouble Variance => (ddouble)N / 12d;
 
