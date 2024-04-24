@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm;
 
-        public ParetoDistribution(ddouble alpha, ddouble k) {
+        public ParetoDistribution(ddouble k, ddouble alpha) {
             K = k;
             Alpha = alpha;
 
