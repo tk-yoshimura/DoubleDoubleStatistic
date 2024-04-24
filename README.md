@@ -1,4 +1,4 @@
-# DoubleDoubleDistribution
+# DoubleDoubleStatistic
  Double-Double Statistic Distribution Implements
 
 ## Requirement
@@ -132,7 +132,7 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 - Statistic Test
 
 ## Licence
-[MIT](https://github.com/tk-yoshimura/DoubleDoubleDistribution/blob/main/LICENSE)
+[MIT](https://github.com/tk-yoshimura/DoubleDoubleStatistic/blob/main/LICENSE)
 
 ## Author
 

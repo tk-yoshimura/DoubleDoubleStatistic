@@ -54,7 +54,7 @@ nugetpack.bat
 /**/*.nuspec
 /**/*.nupkg
 
-DoubleDoubleDistributionMaximaExpected
+DoubleDoubleStatisticMaximaExpected
 
 # Resource AutoGen
 
