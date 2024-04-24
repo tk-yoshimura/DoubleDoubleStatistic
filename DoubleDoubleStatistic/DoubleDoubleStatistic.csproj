@@ -10,7 +10,6 @@
   <ItemGroup>
     <PackageReference Include="TYoshimura.DoubleDouble" Version="3.2.1" />
     <PackageReference Include="TYoshimura.DoubleDouble.Complex" Version="1.4.0" />
-    <PackageReference Include="TYoshimura.DoubleDouble.Integrate" Version="1.4.2" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

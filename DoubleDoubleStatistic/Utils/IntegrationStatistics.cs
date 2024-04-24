@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleIntegrate;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -113,5 +112,6 @@ namespace DoubleDoubleStatistic {
 
             return entropy;
         }
+
     }
 }

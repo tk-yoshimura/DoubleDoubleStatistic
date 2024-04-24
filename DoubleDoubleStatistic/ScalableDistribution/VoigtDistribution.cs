@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleIntegrate;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
