@@ -1,5 +1,5 @@
 # DoubleDoubleStatistic
- Double-Double Statistic Implements
+ Double-Double Statistic Distribution Implements
 
 ## Requirement
 .NET 8.0  
@@ -17,7 +17,7 @@
 |            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | beta prime        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Not implemented: mode |
+|            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
 |            | bradford          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | burr              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | cauchy            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
@@ -36,12 +36,12 @@
 |            | holtsmark         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | hyperbolic secant | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | inverse gamma     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | inverse gauss     | &#x2714; | &#x2714; |          | &#x2714;  |                       |
+|            | inverse gauss     | &#x2714; | &#x2714; | &#x274c; | &#x2714;  |                       |
 |            | inverse chi       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | inverse chi sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | irwin hall        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | johnson sb        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Not implemented: mode |
-|            | johnson su        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Not implemented: mode |
+|            | johnson sb        | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
+|            | johnson su        | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
 |            | kumaraswamy       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | laplace           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | landau            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
@@ -59,13 +59,13 @@
 |            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | reciprocal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | sas point5        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | skew normal       | &#x2714; | &#x2714; |          | &#x2714;  |                       |
+|            | skew normal       | &#x2714; | &#x2714; | &#x274c; | &#x2714;  |                       |
 |            | snedecor f        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | student t         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | triangular        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | uniform           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | u quadratic       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | voigt             | &#x2714; | &#x2714; |          | &#x2714;  |                       |
+|            | voigt             | &#x2714; | &#x2714; | &#x274c; | &#x2714;  |                       |
 |            | weibull           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | wigner semicircle | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 
