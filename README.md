@@ -8,6 +8,8 @@
 [DoubleDoubleIntegrate](https://github.com/tk-yoshimura/DoubleDoubleIntegrate)  
 
 ## Install
+[Download DLL](https://github.com/tk-yoshimura/DoubleDoubleStatistic/releases)  
+[Download Nuget](https://www.nuget.org/packages/tyoshimura.DoubleDouble.Statistic/)  
 
 ## Implemented Distributions
 
