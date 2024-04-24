@@ -1,5 +1,5 @@
 # DoubleDoubleStatistic
- Double-Double Statistic Distribution Implements
+ Double-Double Statistic Implements
 
 ## Requirement
 .NET 8.0  
