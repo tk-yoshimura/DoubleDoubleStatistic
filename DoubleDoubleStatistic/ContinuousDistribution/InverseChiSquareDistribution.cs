@@ -104,9 +104,9 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Entropy {
             get {
-                ddouble k_half = Ldexp(Nu, -1);
+                ddouble nu_half = Ldexp(Nu, -1);
 
-                return k_half + Log(k_half * Gamma(k_half)) - (1 + k_half) * Digamma(k_half) - Log(Nu);
+                return nu_half + Log(nu_half * Gamma(nu_half)) - (1 + nu_half) * Digamma(nu_half) - Log(Nu);
             }
         }
 
