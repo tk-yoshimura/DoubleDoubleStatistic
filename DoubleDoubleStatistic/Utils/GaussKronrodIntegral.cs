@@ -5,7 +5,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     internal static class GaussKronrodIntegral {
-        const long GKPoints = 63;
+        const long gk_points = 63;
 
         public static (ddouble value, ddouble error) Integrate(Func<ddouble, ddouble> f, ddouble a, ddouble b) {
             ReadOnlyCollection<(ddouble x, ddouble wg, ddouble wk)> ps = gauss_kronrod_table;
@@ -52,7 +52,7 @@ namespace DoubleDoubleStatistic {
 
                 (ddouble value, ddouble error) = Integrate(f, a, b);
 
-                long eval_points = GKPoints;
+                long eval_points = gk_points;
                 eval_points_sum += eval_points;
 
                 if (!(error > eps) || eval_points_sum > discontinue_eval_points) {
