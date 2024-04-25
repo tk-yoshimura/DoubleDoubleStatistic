@@ -85,15 +85,16 @@ namespace DoubleDoubleStatistic {
                 return (interval == Interval.Lower) ? Quantile(1d - p, Interval.Upper) : Quantile(1d - p, Interval.Lower);
             }
 
+            ddouble df(ddouble x) {
+                ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2 * c * PI / x) * x * x);
+                return y;
+            }
+
             if (interval == Interval.Lower) {
                 ddouble f(ddouble x) {
                     ddouble u = Sqrt(c / (x * 2d));
                     ddouble y = (r * Erfc(u * (x + 1d)) + Erfc(u * (1d - x))) / 2;
                     return Min(1d, y);
-                }
-                ddouble df(ddouble x) {
-                    ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2 * c * PI / x) * x * x);
-                    return y;
                 }
 
                 this.quantile_lower_builder ??= new QuantileBuilder(0d, 2d, f);
@@ -127,10 +128,6 @@ namespace DoubleDoubleStatistic {
                     ddouble u = Sqrt(c / (x * 2d));
                     ddouble y = (-r * Erfc(u * (x + 1d)) + Erfc(u * (x - 1d))) / 2;
                     return Max(0d, y);
-                }
-                ddouble df(ddouble x) {
-                    ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2d * c * PI / x) * x * x);
-                    return y;
                 }
 
                 this.quantile_upper_builder ??= new QuantileBuilder(64d, 0d, f);
