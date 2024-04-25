@@ -184,6 +184,17 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                         Assert.IsTrue(ddouble.Abs(p - cdf) < 1e-28);
                     }
                 }
+
+                for (ddouble p = (ddouble)1 / 1000; p >= "1e-280"; p /= 10) {
+                    ddouble x = dist.Quantile(p, Interval.Lower);
+                    ddouble cdf = dist.CDF(x, Interval.Lower);
+
+                    Console.WriteLine($"quantile({p})={x}, cdf({x})={cdf}");
+
+                    if (ddouble.IsFinite(x)) {
+                        Assert.IsTrue(ddouble.Abs(p - cdf) < 1e-28);
+                    }
+                }
             }
         }
 
@@ -197,6 +208,17 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                     ddouble ccdf = dist.CDF(x, Interval.Upper);
 
                     Console.WriteLine($"cquantile({p})={x}, ccdf({x})={ccdf}");
+
+                    if (ddouble.IsFinite(x)) {
+                        Assert.IsTrue(ddouble.Abs(p - ccdf) < 1e-28);
+                    }
+                }
+
+                for (ddouble p = (ddouble)1 / 1000; p >= "1e-280"; p /= 10) {
+                    ddouble x = dist.Quantile(p, Interval.Upper);
+                    ddouble ccdf = dist.CDF(x, Interval.Upper);
+
+                    Console.WriteLine($"quantile({p})={x}, ccdf({x})={ccdf}");
 
                     if (ddouble.IsFinite(x)) {
                         Assert.IsTrue(ddouble.Abs(p - ccdf) < 1e-28);
