@@ -10,6 +10,9 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
         readonly BirnbaumSaundersDistribution dist_alpha1theta2 = new(alpha: 1, theta: 2);
         readonly BirnbaumSaundersDistribution dist_alpha2theta2 = new(alpha: 2, theta: 2);
         readonly BirnbaumSaundersDistribution dist_alpha3theta4 = new(alpha: 3, theta: 4);
+        readonly BirnbaumSaundersDistribution dist_alpha4theta5 = new(alpha: 4, theta: 5);
+        readonly BirnbaumSaundersDistribution dist_alpha5theta7 = new(alpha: 5, theta: 7);
+        readonly BirnbaumSaundersDistribution dist_alpha6theta3 = new(alpha: 6, theta: 3);
 
         BirnbaumSaundersDistribution[] Dists => [
             dist_alpha1theta1,
@@ -17,6 +20,9 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
             dist_alpha1theta2,
             dist_alpha2theta2,
             dist_alpha3theta4,
+            dist_alpha4theta5,
+            dist_alpha5theta7,
+            dist_alpha6theta3,
         ];
 
         [TestMethod()]
@@ -28,8 +34,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                 Console.WriteLine($"Theta={dist.Theta}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
-                /* TODO: implement */
-                //Console.WriteLine($"Mode={dist.Mode}");
+                Console.WriteLine($"Mode={dist.Mode}");
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
@@ -54,8 +59,6 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
 
         [TestMethod()]
         public void ModeTest() {
-            Assert.Inconclusive();
-
             foreach (BirnbaumSaundersDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
@@ -63,8 +66,8 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                     continue;
                 }
 
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-15), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-15), $"{dist}\n{dist.Mode}");
             }
         }
 

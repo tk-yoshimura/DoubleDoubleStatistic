@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
@@ -107,6 +108,33 @@ namespace DoubleDoubleStatistic {
         public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
+        public override ddouble Mode {
+            get { 
+                ddouble x = 0.25d / ExMath.Pow3d2(Alpha);
+
+                for (int i = 0; i < 256; i++) {
+                    ddouble dx = (-1d + x * (-1d + 3d * alpha_sq + x * (1d + alpha_sq + x))) 
+                        / (-1d + 3d * alpha_sq + x * (2d * (1d + alpha_sq) + x * 3d));
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x -= dx;
+
+                    x = Max(Epsilon, x);
+
+                    if (Abs(dx / x) < 1e-30 || Abs(dx) < Epsilon) {
+                        break;
+                    }
+                }
+
+                x *= Theta;
+
+                return x;
+            }
+        }
+    
         public static BirnbaumSaundersDistribution operator *(BirnbaumSaundersDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta * k);
         }
