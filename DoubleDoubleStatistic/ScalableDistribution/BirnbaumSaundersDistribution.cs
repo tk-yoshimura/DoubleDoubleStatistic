@@ -108,8 +108,13 @@ namespace DoubleDoubleStatistic {
         public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
+        private ddouble? mode = null;
         public override ddouble Mode {
-            get { 
+            get {
+                if (mode is not null) {
+                    return mode.Value;
+                }
+
                 ddouble u = 0.25d / ExMath.Pow3d2(Alpha);
 
                 for (int i = 0; i < 256; i++) {
@@ -129,7 +134,7 @@ namespace DoubleDoubleStatistic {
                     }
                 }
 
-                ddouble x = u * Theta;
+                ddouble x = mode ??= u * Theta;
 
                 return x;
             }

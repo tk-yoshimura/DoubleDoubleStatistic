@@ -96,8 +96,13 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mean => mean ??=
             IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048);
 
+        private ddouble? mode = null;
         public override ddouble Mode {
             get {
+                if (mode is not null) {
+                    return mode.Value;
+                }
+
                 ddouble u = 0.5d;
 
                 for (int i = 0; i < 256; i++) {
@@ -115,7 +120,7 @@ namespace DoubleDoubleStatistic {
                     }
                 }
 
-                ddouble x = Mu + u * Sigma;
+                ddouble x = mode ??= Mu + u * Sigma;
 
                 return x;
             }
