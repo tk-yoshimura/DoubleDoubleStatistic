@@ -9,7 +9,9 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Lambda { get; }
 
-        private readonly ddouble r;
+        private readonly ddouble r, c;
+
+        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
         public InverseGaussDistribution() : this(mu: 1d, lambda: 1d) { }
 
@@ -20,7 +22,8 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Lambda = lambda;
 
-            r = Exp(2 * Lambda / Mu);
+            c = Lambda / Mu;
+            r = Exp(2 * c);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -49,9 +52,12 @@ namespace DoubleDoubleStatistic {
                 if (IsNegative(x)) {
                     return 0d;
                 }
+                if (IsPositiveInfinity(x)) {
+                    return 1d;
+                }
 
                 ddouble cdf = (Erfc(un) + r * Erfc(up)) / 2;
-                cdf = Clamp(cdf, 0d, 1d);
+                cdf = Min(cdf, 1d);
 
                 return cdf;
             }
@@ -59,11 +65,95 @@ namespace DoubleDoubleStatistic {
                 if (IsNegative(x)) {
                     return 1d;
                 }
+                if (IsPositiveInfinity(x)) {
+                    return 0d;
+                }
 
                 ddouble cdf = (Erfc(-un) - r * Erfc(up)) / 2;
-                cdf = Clamp(cdf, 0d, 1d);
+                cdf = Max(cdf, 0d);
 
                 return cdf;
+            }
+        }
+
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
+                return NaN;
+            }
+
+            if (p > 0.5) {
+                return (interval == Interval.Lower) ? Quantile(1d - p, Interval.Upper) : Quantile(1d - p, Interval.Lower);
+            }
+
+            if (interval == Interval.Lower) {
+                ddouble f(ddouble x) {
+                    ddouble u = Sqrt(c / (x * 2d));
+                    ddouble y = (r * Erfc(u * (x + 1d)) + Erfc(u * (1d - x))) / 2;
+                    return Min(1d, y);
+                }
+                ddouble df(ddouble x) {
+                    ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2 * c * PI / x) * x * x);
+                    return y;
+                }
+
+                this.quantile_lower_builder ??= new QuantileBuilder(0d, 2d, f);
+
+                (ddouble x, ddouble x0, ddouble x1) = quantile_lower_builder.Estimate(p);
+
+                for (int i = 0; i < 8; i++) {
+                    ddouble y = f(x), dx = (y - p) / df(x);
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x = Clamp(x - dx, x0, x1);
+
+                    if (Abs(dx / x) < 1e-32) {
+                        break;
+                    }
+                }
+
+                x *= Mu;
+
+                return x;
+            }
+            else {
+                if (p <= 0d) {
+                    return PositiveInfinity;
+                }
+
+                ddouble f(ddouble x) {
+                    ddouble u = Sqrt(c / (x * 2d));
+                    ddouble y = (-r * Erfc(u * (x + 1d)) + Erfc(u * (x - 1d))) / 2;
+                    return Max(0d, y);
+                }
+                ddouble df(ddouble x) {
+                    ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2d * c * PI / x) * x * x);
+                    return y;
+                }
+
+                this.quantile_upper_builder ??= new QuantileBuilder(64d, 0d, f);
+
+                (ddouble x, ddouble x0, ddouble x1) = quantile_upper_builder.Estimate(p);
+
+                for (int i = 0; i < 8; i++) {
+                    ddouble y = f(x), dx = (y - p) / df(x);
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x = Clamp(x + dx, x1, x0);
+
+                    if (Abs(dx / x) < 1e-32) {
+                        break;
+                    }
+                }
+
+                x *= Mu;
+
+                return x;
             }
         }
 

@@ -27,8 +27,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                 Console.WriteLine($"Mu={dist.Mu}");
                 Console.WriteLine($"Lambda={dist.Lambda}");
                 Console.WriteLine($"Mean={dist.Mean}");
-                /* TODO: implement */
-                //Console.WriteLine($"Median={dist.Median}");
+                Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
@@ -68,8 +67,6 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
 
         [TestMethod()]
         public void MedianTest() {
-            Assert.Inconclusive();
-
             foreach (InverseGaussDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
@@ -174,12 +171,10 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            Assert.Inconclusive();
-
             foreach (InverseGaussDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (int i = 0; i <= 10; i++) {
-                    ddouble p = (ddouble)i / 10;
+                for (int i = 0; i <= 1000; i++) {
+                    ddouble p = (ddouble)i / 1000;
                     ddouble x = dist.Quantile(p, Interval.Lower);
                     ddouble cdf = dist.CDF(x, Interval.Lower);
 
@@ -194,8 +189,6 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            Assert.Inconclusive();
-
             foreach (InverseGaussDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 10; i++) {
