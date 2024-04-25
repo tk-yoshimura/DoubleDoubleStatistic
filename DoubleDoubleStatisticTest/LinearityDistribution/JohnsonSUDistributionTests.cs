@@ -31,8 +31,7 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
                 Console.WriteLine($"Sigma={dist.Sigma}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
-                /* TODO: implement */
-                //Console.WriteLine($"Mode={dist.Mode}");
+                Console.WriteLine($"Mode={dist.Mode}");
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
@@ -57,8 +56,6 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void ModeTest() {
-            Assert.Inconclusive();
-
             foreach (JohnsonSUDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
@@ -66,8 +63,8 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
                     continue;
                 }
 
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-15), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-15), $"{dist}\n{dist.Mode}");
             }
         }
 

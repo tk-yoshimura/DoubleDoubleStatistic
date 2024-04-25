@@ -81,7 +81,37 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mean =>
             Mu - Sigma * Exp(1d / (2 * Square(Delta))) * Sinh(Gamma / Delta);
 
-        public override ddouble Mode => throw new NotImplementedException();
+        private ddouble? mode = null;
+        public override ddouble Mode {
+            get {
+                if (mode is not null) {
+                    return mode.Value;
+                }
+
+                ddouble u = 0d;
+
+                for (int i = 0; i < 256; i++) {
+                    ddouble v = u * u + 1d, w = Delta * v * (Gamma + Delta * Arsinh(u)), v_sqrt = Sqrt(v);
+
+                    ddouble du = (w + u * v_sqrt) * v
+                        / (2d * u * w + ((Delta * Delta * v) + (v + u * u)) * v_sqrt);
+
+                    if (!IsFinite(du)) {
+                        break;
+                    }
+
+                    u -= du;
+
+                    if (Abs(du / u) < 1e-30 || Abs(du) < Epsilon) {
+                        break;
+                    }
+                }
+
+                ddouble x = mode ??= Mu + u * Sigma;
+
+                return x;
+            }
+        }
 
         public override ddouble Median =>
             Mu + Sigma * Sinh(-Gamma / Delta);
