@@ -16,6 +16,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, cdf_norm, erfc_scale, sigma_inv, s;
 
+        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+
         public SkewNormalDistribution() : this(alpha: 0, mu: 0, sigma: 1) { }
 
         public SkewNormalDistribution(ddouble alpha) : this(alpha, mu: 0, sigma: 1) { }
@@ -63,10 +65,14 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
+                if (IsNegativeInfinity(u)) {
+                    return 0d;
+                }
+
                 ddouble cdf = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
-                    ddouble eps = Ldexp(Erfc(-u / Sqrt2), -94);
+                    ddouble eps = Max(Epsilon, Ldexp(f(u), -94));
 
                     cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
                 }
@@ -76,10 +82,14 @@ namespace DoubleDoubleStatistic {
                 return cdf;
             }
             else {
+                if (IsPositiveInfinity(u)) {
+                    return 0d;
+                }
+
                 ddouble cdf = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
-                    ddouble eps = Ldexp(Erfc(u / Sqrt2), -94);
+                    ddouble eps = Max(Epsilon, Ldexp(f(u), -94));
 
                     cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
                 }
@@ -87,6 +97,100 @@ namespace DoubleDoubleStatistic {
                 cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 0d : 1d;
 
                 return cdf;
+            }
+        }
+
+         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
+                return NaN;
+            }
+
+            if (p > 0.5) {
+                return (interval == Interval.Lower) ? Quantile(1d - p, Interval.Upper) : Quantile(1d - p, Interval.Lower);
+            }
+
+            ddouble df(ddouble u) {
+                ddouble c = Exp(-u * u * 0.5d) * Erfc(-u * erfc_scale);
+                return c;
+            }
+
+            if (interval == Interval.Lower) {
+                if (p <= 0d) {
+                    return NegativeInfinity;
+                }
+
+                ddouble f(ddouble u) {
+                    ddouble y = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
+
+                    if (y < 1e-5) {
+                        ddouble eps = Max(Epsilon, Ldexp(df(u), -94));
+
+                        y = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(df, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
+                    }
+
+                    return Max(0d, y);
+                }
+
+                this.quantile_lower_builder ??= new QuantileBuilder(-64d, 64d, f);
+
+                (ddouble x, ddouble x0, ddouble x1) = quantile_lower_builder.Estimate(p);
+
+                for (int i = 0; i < 8; i++) {
+                    ddouble y = f(x), dx = (y - p) / (cdf_norm * df(x));
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x = Clamp(x - dx, x0, x1);
+
+                    if (Abs(dx / x) < 1e-32) {
+                        break;
+                    }
+                }
+
+                x = Mu + x * Sigma;
+
+                return x;
+            }
+            else {
+                if (p <= 0d) {
+                    return PositiveInfinity;
+                }
+
+                ddouble f(ddouble u) {
+                    ddouble y = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
+
+                    if (y < 1e-5) {
+                        ddouble eps = Max(Epsilon, Ldexp(df(u), -94));
+
+                        y = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(df, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
+                    }
+
+                    return Max(0d, y);
+                }
+
+                this.quantile_upper_builder ??= new QuantileBuilder(64d, -64d, f);
+
+                (ddouble x, ddouble x0, ddouble x1) = quantile_upper_builder.Estimate(p);
+
+                for (int i = 0; i < 8; i++) {
+                    ddouble y = f(x), dx = (y - p) / (cdf_norm * df(x));
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x = Clamp(x + dx, x1, x0);
+
+                    if (Abs(dx / x) < 1e-32) {
+                        break;
+                    }
+                }
+
+                x = Mu + x * Sigma;
+
+                return x;
             }
         }
 

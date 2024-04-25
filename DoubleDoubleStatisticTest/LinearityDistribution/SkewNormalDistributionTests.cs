@@ -45,8 +45,7 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
                 Console.WriteLine($"Alpha={dist.Alpha}");
                 Console.WriteLine($"Mu={dist.Mu}");
                 Console.WriteLine($"Mode={dist.Mode}");
-                /* TODO: implement*/
-                //Console.WriteLine($"Median={dist.Median}");
+                Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Sigma={dist.Sigma}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Variance={dist.Variance}");
@@ -73,8 +72,6 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void MedianTest() {
-            Assert.Inconclusive();
-
             foreach (SkewNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
@@ -179,12 +176,10 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            Assert.Inconclusive();
-
             foreach (SkewNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (int i = 0; i <= 10; i++) {
-                    ddouble p = (ddouble)i / 10;
+                for (int i = 0; i <= 1000; i++) {
+                    ddouble p = (ddouble)i / 1000;
                     ddouble x = dist.Quantile(p, Interval.Lower);
                     ddouble cdf = dist.CDF(x, Interval.Lower);
 
@@ -199,12 +194,10 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            Assert.Inconclusive();
-
             foreach (SkewNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (int i = 0; i <= 10; i++) {
-                    ddouble p = (ddouble)i / 10;
+                for (int i = 0; i <= 1000; i++) {
+                    ddouble p = (ddouble)i / 1000;
                     ddouble x = dist.Quantile(p, Interval.Upper);
                     ddouble ccdf = dist.CDF(x, Interval.Upper);
 
