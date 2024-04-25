@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble r, c;
 
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null, quantile_upper_ex_builder = null;
 
         public InverseGaussDistribution() : this(mu: 1d, lambda: 1d) { }
 
@@ -133,6 +133,12 @@ namespace DoubleDoubleStatistic {
                 this.quantile_upper_builder ??= new QuantileBuilder(64d, 0d, f);
 
                 (ddouble x, ddouble x0, ddouble x1) = quantile_upper_builder.Estimate(p);
+
+                if (IsPositiveInfinity(x0)) {
+                    this.quantile_upper_ex_builder ??= new QuantileBuilder(2112d, 64d, f);
+
+                    (x, x0, x1) = quantile_upper_ex_builder.Estimate(p);
+                }
 
                 for (int i = 0; i < 8; i++) {
                     ddouble y = f(x), dx = (y - p) / df(x);
