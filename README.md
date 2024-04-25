@@ -41,7 +41,7 @@
 |            | inverse chi       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | inverse chi sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | irwin hall        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | johnson sb        | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
+|            | johnson sb        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | johnson su        | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
 |            | kumaraswamy       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | laplace           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |

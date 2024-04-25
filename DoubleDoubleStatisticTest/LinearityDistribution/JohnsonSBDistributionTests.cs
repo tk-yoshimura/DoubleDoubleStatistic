@@ -58,8 +58,6 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void ModeTest() {
-            Assert.Inconclusive();
-
             foreach (JohnsonSBDistribution dist in Dists) {
                 Console.WriteLine(dist);
 

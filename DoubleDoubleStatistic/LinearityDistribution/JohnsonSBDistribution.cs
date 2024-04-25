@@ -96,7 +96,30 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mean => mean ??=
             IntegrationStatistics.Mean(this, eps: 1e-28, discontinue_eval_points: 2048);
 
-        public override ddouble Mode => throw new NotImplementedException();
+        public override ddouble Mode {
+            get {
+                ddouble u = 0.5d;
+
+                for (int i = 0; i < 256; i++) {
+                    ddouble du = -(Delta * Gamma + Delta * Delta * Log(u / (1 - u)) - 2 * u + 1) * (u * (u - 1))
+                        / (2 * u * u - 2 * u + Delta * Delta);
+
+                    if (!IsFinite(du)) {
+                        break;
+                    }
+
+                    u = Clamp(u - du, u / 16d, (u + 15d) / 16d);
+
+                    if (Abs(du / u) < 1e-30 || Abs(du) < Epsilon) {
+                        break;
+                    }
+                }
+
+                ddouble x = Mu + u * Sigma;
+
+                return x;
+            }
+        }
 
         public override ddouble Median => Quantile(0.5d);
 
