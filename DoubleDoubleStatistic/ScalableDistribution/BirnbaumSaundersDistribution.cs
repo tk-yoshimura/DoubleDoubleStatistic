@@ -110,26 +110,26 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode {
             get { 
-                ddouble x = 0.25d / ExMath.Pow3d2(Alpha);
+                ddouble u = 0.25d / ExMath.Pow3d2(Alpha);
 
                 for (int i = 0; i < 256; i++) {
-                    ddouble dx = (-1d + x * (-1d + 3d * alpha_sq + x * (1d + alpha_sq + x))) 
-                        / (-1d + 3d * alpha_sq + x * (2d * (1d + alpha_sq) + x * 3d));
+                    ddouble du = (-1d + u * (-1d + 3d * alpha_sq + u * (1d + alpha_sq + u))) 
+                        / (-1d + 3d * alpha_sq + u * (2d * (1d + alpha_sq) + u * 3d));
 
-                    if (!IsFinite(dx)) {
+                    if (!IsFinite(du)) {
                         break;
                     }
 
-                    x -= dx;
+                    u -= du;
 
-                    x = Max(Epsilon, x);
+                    u = Max(Epsilon, u);
 
-                    if (Abs(dx / x) < 1e-30 || Abs(dx) < Epsilon) {
+                    if (Abs(du / u) < 1e-30 || Abs(du) < Epsilon) {
                         break;
                     }
                 }
 
-                x *= Theta;
+                ddouble x = u * Theta;
 
                 return x;
             }
