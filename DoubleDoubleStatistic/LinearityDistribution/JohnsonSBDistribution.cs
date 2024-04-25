@@ -106,8 +106,10 @@ namespace DoubleDoubleStatistic {
                 ddouble u = 0.5d;
 
                 for (int i = 0; i < 256; i++) {
-                    ddouble du = -(Delta * Gamma + Delta * Delta * Log(u / (1 - u)) - 2 * u + 1) * (u * (u - 1))
-                        / (2 * u * u - 2 * u + Delta * Delta);
+                    ddouble v = u * (u - 1d);
+
+                    ddouble du = (2d * u - 1d - Delta * (Gamma + Delta * Log(u / (1d - u)))) * v
+                        / (2d * v + Delta * Delta);
 
                     if (!IsFinite(du)) {
                         break;
