@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
@@ -118,7 +117,7 @@ namespace DoubleDoubleStatistic {
                 ddouble u = 0.25d / ExMath.Pow3d2(Alpha);
 
                 for (int i = 0; i < 256; i++) {
-                    ddouble du = (-1d + u * (-1d + 3d * alpha_sq + u * (1d + alpha_sq + u))) 
+                    ddouble du = (-1d + u * (-1d + 3d * alpha_sq + u * (1d + alpha_sq + u)))
                         / (-1d + 3d * alpha_sq + u * (2d * (1d + alpha_sq) + u * 3d));
 
                     if (!IsFinite(du)) {
@@ -139,7 +138,7 @@ namespace DoubleDoubleStatistic {
                 return x;
             }
         }
-    
+
         public static BirnbaumSaundersDistribution operator *(BirnbaumSaundersDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta * k);
         }

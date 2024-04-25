@@ -100,7 +100,7 @@ namespace DoubleDoubleStatistic {
             }
         }
 
-         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
             if (!InRangeUnit(p)) {
                 return NaN;
             }
