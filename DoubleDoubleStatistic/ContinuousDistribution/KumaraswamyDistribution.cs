@@ -121,5 +121,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(KumaraswamyDistribution).Name}[alpha={Alpha},beta={Beta}]";
         }
+
+        public override string Formula => "p(x; alpha, beta) := alpha * beta * x^(alpha - 1) * (1 - x^alpha)^(beta - 1)";
     }
 }

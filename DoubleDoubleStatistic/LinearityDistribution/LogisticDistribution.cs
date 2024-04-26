@@ -26,7 +26,7 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = (Mu - x) * sigma_inv, v = Exp(u);
+            ddouble u = (x - Mu) * sigma_inv, v = Exp(-u);
 
             ddouble pdf = IsFinite(v) ? (v / Square(1d + v) * sigma_inv) : 0d;
 
@@ -34,7 +34,7 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = (Mu - x) * sigma_inv, v = Exp(u);
+            ddouble u = (x - Mu) * sigma_inv, v = Exp(-u);
 
             if (interval == Interval.Lower) {
                 ddouble cdf = 1d / (1d + v);
@@ -97,5 +97,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(LogisticDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; mu, sigma) := exp(-u) / (1 + exp(-u))^2 / sigma, u = (x - mu) / sigma";
     }
 }

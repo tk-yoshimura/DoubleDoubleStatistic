@@ -254,6 +254,8 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(SkewNormalDistribution).Name}[alpha={Alpha},mu={Mu},sigma={Sigma}]";
         }
 
+        public override string Formula => "p(x; alpha, mu, sigma) := exp(-u * u / 2) * erfc(-u * alpha / sqrt(2)) / (sqrt(2 * pi) * sigma), u = (x - mu) / sigma";
+
         private static class ModePade {
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_0_0p5 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
                 (Zero, (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),

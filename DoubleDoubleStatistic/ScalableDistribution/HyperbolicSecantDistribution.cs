@@ -6,20 +6,20 @@ namespace DoubleDoubleStatistic {
     public class HyperbolicSecantDistribution : ScalableDistribution<HyperbolicSecantDistribution>,
         IMultiplyOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution> {
 
-        public ddouble S { get; }
+        public ddouble Sigma { get; }
 
-        private readonly ddouble s_inv, pdf_norm;
+        private readonly ddouble sigma_inv, pdf_norm;
 
-        public HyperbolicSecantDistribution() : this(s: 1) { }
+        public HyperbolicSecantDistribution() : this(sigma: 1) { }
 
-        public HyperbolicSecantDistribution(ddouble s) {
-            S = s;
-            s_inv = 1d / s;
-            pdf_norm = s_inv * 0.5d;
+        public HyperbolicSecantDistribution(ddouble sigma) {
+            Sigma = sigma;
+            sigma_inv = 1d / sigma;
+            pdf_norm = sigma_inv * 0.5d;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = x * s_inv;
+            ddouble u = x * sigma_inv;
 
             ddouble pdf = pdf_norm / Cosh(u * PI * 0.5d);
 
@@ -27,7 +27,9 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble cdf = 2 * RcpPI * Atan(Exp(-Abs(x * s_inv) * PI * 0.5d));
+            ddouble u = x * sigma_inv;
+
+            ddouble cdf = 2 * RcpPI * Atan(Exp(-Abs(u) * PI * 0.5d));
             cdf = Max(cdf, 0d);
 
             cdf = interval != Interval.Lower ^ IsNegative(x) ? cdf : 1d - cdf;
@@ -40,11 +42,9 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble x = Log(TanPI(p * 0.5d)) * RcpPI * 2d;
+            ddouble x = Log(TanPI(p * 0.5d)) * RcpPI * Sigma * 2d;
 
             x = interval == Interval.Lower ? x : -x;
-
-            x *= S;
 
             return x;
         }
@@ -57,20 +57,22 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => S * S;
+        public override ddouble Variance => Sigma * Sigma;
 
         public override ddouble Skewness => 0d;
 
         public override ddouble Kurtosis => 2d;
 
-        public override ddouble Entropy => Log(4d * S);
+        public override ddouble Entropy => Log(4d * Sigma);
 
         public static HyperbolicSecantDistribution operator *(HyperbolicSecantDistribution dist, ddouble k) {
-            return new(dist.S * k);
+            return new(dist.Sigma * k);
         }
 
         public override string ToString() {
-            return $"{typeof(HyperbolicSecantDistribution).Name}[s={S}]";
+            return $"{typeof(HyperbolicSecantDistribution).Name}[sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; sigma) := 1 / cosh(u * pi / 2) / (2 * sigma), u = x / sigma";
     }
 }

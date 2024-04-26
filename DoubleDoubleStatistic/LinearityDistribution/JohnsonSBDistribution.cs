@@ -161,5 +161,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(JohnsonSBDistribution).Name}[gamma={Gamma},delta={Delta},mu={Mu},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; gamma, delta, mu, sigma) := (delta * exp(-(gamma + delta * log(u / (1 - u)))^2 / 2)) / (sqrt(2 * pi) * u * (1 - u)) / sigma, u = (x - mu) / sigma";
     }
 }

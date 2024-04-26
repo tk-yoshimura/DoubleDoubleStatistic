@@ -25,9 +25,9 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = Abs(x - Mu);
+            ddouble u = (x - Mu) * sigma_inv;
 
-            ddouble pdf = Exp(-u * sigma_inv) * sigma_inv / 2;
+            ddouble pdf = Exp(-Abs(u)) * sigma_inv / 2;
 
             return pdf;
         }
@@ -102,5 +102,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(LaplaceDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; mu, sigma) := exp(-|u|) / (sigma * 2), u = (x - mu) / sigma";
     }
 }

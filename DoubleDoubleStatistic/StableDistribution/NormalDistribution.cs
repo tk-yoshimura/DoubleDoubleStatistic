@@ -111,5 +111,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(NormalDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; mu, sigma) := exp(-u^2) / (sqrt(2 * pi) * sigma), u = (x - mu) / sigma";
     }
 }

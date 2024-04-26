@@ -152,5 +152,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(FiskDistribution).Name}[c={C}]";
         }
+
+        public override string Formula => "p(x; c) := c * x^(c - 1) / (1 + x^2)^2";
     }
 }

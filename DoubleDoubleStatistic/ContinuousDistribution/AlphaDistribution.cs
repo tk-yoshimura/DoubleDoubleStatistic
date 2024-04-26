@@ -112,7 +112,9 @@ namespace DoubleDoubleStatistic {
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
 
         public override string ToString() {
-            return $"{typeof(AlphaDistribution).Name}[sigma={Alpha}]";
+            return $"{typeof(AlphaDistribution).Name}[alpha={Alpha}]";
         }
+
+        public override string Formula => "p(x; alpha) := sqrt(2 / pi) / erfc(-alpha / sqrt(2)) * exp(-(alpha - 1 / x)^2 / 2) / x^2";
     }
 }

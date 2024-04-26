@@ -105,5 +105,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(InverseGammaDistribution).Name}[alpha={Alpha},beta={Beta}]";
         }
+
+        public override string Formula => "p(x; alpha, beta) := x^(- alpha - 1) * exp(-beta / x) * beta^alpha / gamma(alpha)";
     }
 }

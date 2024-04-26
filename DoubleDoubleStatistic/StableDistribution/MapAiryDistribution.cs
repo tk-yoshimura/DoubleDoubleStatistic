@@ -102,6 +102,8 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(MapAiryDistribution).Name}[mu={Mu},c={C}]";
         }
 
+        public override string Formula => "p(x; mu, c) := stable_distribution(alpha = 3/2, beta = 1, mu, c)";
+
         private static class PDFPade {
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_plus_0_1 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
                 ((+1, -3, 0xCA41ADEA0F2905FCuL, 0x536FE45EF780E1ADuL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),

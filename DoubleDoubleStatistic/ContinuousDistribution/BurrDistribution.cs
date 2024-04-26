@@ -150,5 +150,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(BurrDistribution).Name}[c={C},k={K}]";
         }
+
+        public override string Formula => "p(x; c, k) := c * k * x^(c - 1) / (1 + x^c)^(k + 1)";
     }
 }

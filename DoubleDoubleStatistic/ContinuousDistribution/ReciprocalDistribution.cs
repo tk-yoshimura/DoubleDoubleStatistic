@@ -120,5 +120,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(ReciprocalDistribution).Name}[a={A},b={B}]";
         }
+
+        public override string Formula => "p(x; a, b) := 1 / (x * log(b / a))";
     }
 }

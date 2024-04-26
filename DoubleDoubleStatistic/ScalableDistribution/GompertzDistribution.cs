@@ -22,13 +22,9 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
-                return 0d;
-            }
-
             ddouble u = x * theta_inv;
 
-            if (IsPositiveInfinity(u)) {
+            if (IsNegative(u) || IsPositiveInfinity(u)) {
                 return 0d;
             }
 
@@ -100,5 +96,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(GompertzDistribution).Name}[eta={Eta},theta={Theta}]";
         }
+
+        public override string Formula => "p(x; eta, theta) := exp(u + (1 - exp(u)) * eta) * eta / theta, u = x / theta";
     }
 }

@@ -95,5 +95,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(GumbelDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; mu, sigma) := exp(-exp(u) + u) / sigma, u = (x - mu) / sigma";
     }
 }

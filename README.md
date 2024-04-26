@@ -146,7 +146,6 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 ### Not Implemented Functions
 
 - Random Generation
-- Formula Definition
 - Fitting
 - Discrete Distributions
 - Statistic Test

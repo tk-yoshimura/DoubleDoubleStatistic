@@ -116,5 +116,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(SnedecorFDistribution).Name}[n={N},m={M}]";
         }
+
+        public override string Formula => "p(x; n, m) := x^(n / 2 - 1) * (m + n * x)^((- m - n) / 2) * m^(m / 2) * n^(n / 2) / beta(n / 2, m / 2)";
     }
 }

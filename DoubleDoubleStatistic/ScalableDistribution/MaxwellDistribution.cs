@@ -8,7 +8,7 @@ namespace DoubleDoubleStatistic {
 
         public ddouble Sigma { get; }
 
-        private readonly ddouble sigma_sq, sigma_cb, pdf_norm;
+        private readonly ddouble sigma_inv, sigma_sq, pdf_norm;
 
         public MaxwellDistribution() : this(sigma: 1d) { }
 
@@ -16,37 +16,42 @@ namespace DoubleDoubleStatistic {
             ValidateScale(sigma);
 
             Sigma = sigma;
+            sigma_inv = 1d / sigma;
             sigma_sq = sigma * sigma;
-            sigma_cb = sigma * sigma * sigma;
-            pdf_norm = Sqrt(2 * RcpPI) / sigma_cb;
+            pdf_norm = Sqrt(2 * RcpPI) * sigma_inv;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            ddouble u = x * sigma_inv;
+
+            if (IsNegative(u)) {
                 return 0d;
             }
-            if (IsNaN(x)) {
+            if (IsNaN(u)) {
                 return NaN;
             }
 
-            ddouble pdf = pdf_norm * x * x * Exp(-x * x / (2 * sigma_sq));
+            ddouble u2 = u * u;
+
+            ddouble pdf = pdf_norm * u2 * Exp(-u2 * 0.5d);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble x2 = x * x;
+            ddouble u = x * sigma_inv;
+            ddouble u2 = u * u;
 
             if (interval == Interval.Lower) {
-                if (x <= 0d) {
+                if (u <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x2)) {
+                if (IsPositiveInfinity(u2)) {
                     return 1d;
                 }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(1.5d, Ldexp(x2 / sigma_sq, -1));
+                ddouble cdf = LowerIncompleteGammaRegularized(1.5d, u2 * 0.5d);
 
                 if (IsNaN(cdf)) {
                     return 1d;
@@ -55,14 +60,14 @@ namespace DoubleDoubleStatistic {
                 return cdf;
             }
             else {
-                if (x <= 0d) {
+                if (u <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x2)) {
+                if (IsPositiveInfinity(u2)) {
                     return 0d;
                 }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(1.5d, Ldexp(x2 / sigma_sq, -1));
+                ddouble cdf = UpperIncompleteGammaRegularized(1.5d, u2 * 0.5d);
 
                 if (IsNaN(cdf)) {
                     return 0d;
@@ -117,5 +122,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(MaxwellDistribution).Name}[sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; sigma) := sqrt(2 / pi) * u^2 * Exp(-u^2 / 2) / sigma, u = x / sigma";
     }
 }

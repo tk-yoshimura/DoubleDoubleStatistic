@@ -109,6 +109,8 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(HoltsmarkDistribution).Name}[mu={Mu},c={C}]";
         }
 
+        public override string Formula => "p(x; mu, c) := stable_distribution(alpha = 3/2, beta = 0, mu, c)";
+
         private static class PDFPade {
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_plus_0_1 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
                 ((+1, -2, 0x931FE65BCE29D188uL, 0xDCFEA56837D33013uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),

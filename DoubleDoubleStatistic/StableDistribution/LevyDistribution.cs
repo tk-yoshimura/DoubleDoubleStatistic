@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mu { get; }
         public override ddouble C { get; }
 
-        private readonly ddouble pdf_norm;
+        private readonly ddouble pdf_norm, c_inv;
 
         public LevyDistribution() : this(mu: 0, c: 1) { }
 
@@ -24,16 +24,17 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             C = c;
 
-            pdf_norm = Sqrt(C / (2 * PI));
+            c_inv = 1d / c;
+            pdf_norm = 1d / (C * Sqrt(2 * PI));
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble v = x - Mu;
-            if (v <= 0d) {
+            ddouble u = (x - Mu) * c_inv;
+            if (u <= 0d) {
                 return 0d;
             }
 
-            ddouble pdf = pdf_norm * Exp(-C / (2 * v)) / Cube(Sqrt(v));
+            ddouble pdf = pdf_norm * Exp(-1d / (2d * u)) / ExMath.Pow3d2(u);
 
             if (IsNaN(pdf)) {
                 return 0d;
@@ -43,23 +44,23 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble v = x - Mu;
+            ddouble u = (x - Mu) * c_inv;
 
             if (interval == Interval.Lower) {
-                if (v <= 0d) {
+                if (u <= 0d) {
                     return 0d;
                 }
 
-                ddouble cdf = Erfc(Sqrt(C / (2 * v)));
+                ddouble cdf = Erfc(Sqrt(1d / (2d * u)));
 
                 return cdf;
             }
             else {
-                if (v <= 0d) {
+                if (u <= 0d) {
                     return 1d;
                 }
 
-                ddouble cdf = Erf(Sqrt(C / (2 * v)));
+                ddouble cdf = Erf(Sqrt(1d / (2d * u)));
 
                 return cdf;
             }
@@ -124,5 +125,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(LevyDistribution).Name}[mu={Mu},c={C}]";
         }
+
+        public override string Formula => "p(x; mu, c) := exp(-1 / (2 * u)) / u^(3/2) / (sqrt(2 * pi) * c), u = (x - mu) / c";
     }
 }

@@ -113,5 +113,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(LomaxDistribution).Name}[alpha={Alpha},theta={Theta}]";
         }
+
+        public override string Formula => "p(x; alpha, theta) := (1 + u)^(-alpha - 1) * (alpha / theta), u = x / theta";
     }
 }

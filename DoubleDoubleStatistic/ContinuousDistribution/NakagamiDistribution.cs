@@ -98,5 +98,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(NakagamiDistribution).Name}[m={M},omega={Omega}]";
         }
+
+        public override string Formula => "p(x; m, omega) := 2 * x^(2 * m - 1) * exp(- x^2 * m / omega) * (m / omega)^m / gamma(m)";
     }
 }

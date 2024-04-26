@@ -6,7 +6,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
     [TestClass()]
     public class HyperbolicSecantDistributionTests {
         readonly HyperbolicSecantDistribution dist = new();
-        readonly HyperbolicSecantDistribution dist_pi2 = new(s: ddouble.PI / 2);
+        readonly HyperbolicSecantDistribution dist_pi2 = new(sigma: ddouble.PI / 2);
 
         HyperbolicSecantDistribution[] Dists => [
             dist,
@@ -18,7 +18,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
             foreach (HyperbolicSecantDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"S={dist.S}");
+                Console.WriteLine($"S={dist.Sigma}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
                 Console.WriteLine($"Mode={dist.Mode}");

@@ -122,5 +122,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(CosineDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; mu, sigma) := (1 + cos(u * pi)) / (2 * sigma), u = (x - mu) / sigma";
     }
 }

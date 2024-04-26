@@ -137,5 +137,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(TriangularDistribution).Name}[a={A},b={B},c={C}]";
         }
+
+        public override string Formula => "p(x; a, b, c) := if x < c then 2 * (x - a) / ((b - a) * (c - a)) else 2 * (b - x) / ((b - a) * (b - c))";
     }
 }

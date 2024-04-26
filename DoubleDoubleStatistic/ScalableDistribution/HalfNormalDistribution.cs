@@ -94,5 +94,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(HalfNormalDistribution).Name}[sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; sigma) := exp(-u^2) * sqrt(2 / pi) / sigma, u = x / sigma, (x >= 0)";
     }
 }

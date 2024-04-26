@@ -165,6 +165,8 @@ namespace DoubleDoubleStatistic {
             return new(dist.Gamma * k, dist.Sigma * k);
         }
 
+        public override string Formula => "p(x; gamma, sigma) := Re[erfcx((x + i * gamma) / (sigma * sqrt(2)))] / (sigma * sqrt(2 * pi))";
+
         public override string ToString() {
             return $"{typeof(VoigtDistribution).Name}[gamma={Gamma},sigma={Sigma}]";
         }

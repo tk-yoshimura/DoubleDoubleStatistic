@@ -132,5 +132,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(StudentTDistribution).Name}[nu={Nu}]";
         }
+
+        public override string Formula => "p(x; nu) := (1 + x^2 / nu)^(- (nu + 1) / 2) * gamma((nu + 1) / 2) / (gamma(nu / 2) * sqrt(pi * nu))";
     }
 }

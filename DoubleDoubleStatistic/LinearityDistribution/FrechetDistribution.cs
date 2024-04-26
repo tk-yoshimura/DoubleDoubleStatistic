@@ -180,5 +180,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(FrechetDistribution).Name}[alpha={Alpha},mu={Mu},theta={Theta}]";
         }
+
+        public override string Formula => "p(x; alpha, mu, sigma) := exp(- u ^ (-alpha)) * alpha / u^(1 + alpha) / sigma, u = (x - mu) / sigma";
     }
 }

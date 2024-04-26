@@ -114,5 +114,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(ChiDistribution).Name}[nu={Nu}]";
         }
+
+        public override string Formula => "p(x; nu) := x^(nu - 1) * exp(-x^2 / 2) / (2^(nu / 2 - 1) * gamma(nu / 2))";
     }
 }

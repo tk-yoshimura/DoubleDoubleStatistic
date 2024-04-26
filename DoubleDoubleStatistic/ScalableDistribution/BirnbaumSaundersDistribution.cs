@@ -23,11 +23,13 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x <= 0d) {
+            ddouble u = x * theta_inv;
+
+            if (u <= 0d) {
                 return 0d;
             }
 
-            ddouble u = x * theta_inv, up1 = u + 1d, um1 = u - 1d;
+            ddouble up1 = u + 1d, um1 = u - 1d;
 
             ddouble pdf = pdf_norm * up1 * Exp(-um1 * um1 / (2 * alpha_sq * u)) / ExMath.Pow3d2(u);
 
@@ -146,5 +148,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(BirnbaumSaundersDistribution).Name}[alpha={Alpha},theta={Theta}]";
         }
+
+        public override string Formula => "p(x; alpha, theta) := ((u + 1) * exp(-(1 - u)^2 / (2 * alpha^2 * u))) / ((2 * u)^(3 / 2) * sqrt(pi) * alpha) / theta, u = x / theta";
     }
 }

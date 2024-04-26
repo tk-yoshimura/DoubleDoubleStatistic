@@ -117,5 +117,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(BradfordDistribution).Name}[c={C}]";
         }
+
+        public override string Formula => "p(x; c) := c / (log(1 + c) * (1 + c * x))";
     }
 }

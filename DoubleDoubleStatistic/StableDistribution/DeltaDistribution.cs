@@ -100,5 +100,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(DeltaDistribution).Name}[mu={Mu}]";
         }
+
+        public override string Formula => "p(x; mu) := if x == mu then inf else 0";
     }
 }

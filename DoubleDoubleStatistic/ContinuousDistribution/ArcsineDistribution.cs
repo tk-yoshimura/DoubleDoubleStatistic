@@ -80,5 +80,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(ArcsineDistribution).Name}[]";
         }
+
+        public override string Formula => "p(x) := 1 / (pi * sqrt(x * (1 - x)))";
     }
 }

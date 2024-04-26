@@ -117,5 +117,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(UniformDistribution).Name}[a={A},b={B}]";
         }
+
+        public override string Formula => "p(x; a, b) := 1 / (b - a)";
     }
 }

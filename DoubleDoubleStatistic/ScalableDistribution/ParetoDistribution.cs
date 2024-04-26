@@ -15,39 +15,43 @@ namespace DoubleDoubleStatistic {
             K = k;
             Alpha = alpha;
 
-            pdf_norm = alpha * Pow(k, alpha);
+            pdf_norm = alpha / k;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x < K) {
+            ddouble u = K / x;
+
+            if (IsNegative(x) || u > 1d) {
                 return 0d;
             }
-            if (IsNaN(x)) {
+            if (IsNaN(u)) {
                 return NaN;
             }
 
-            ddouble pdf = pdf_norm / Pow(x, Alpha + 1d);
+            ddouble pdf = pdf_norm * Pow(u, Alpha + 1d);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            ddouble u = K / x;
+
             if (interval == Interval.Lower) {
-                if (x < K) {
+                if (IsNegative(x) || u > 1d) {
                     return 0d;
                 }
 
-                ddouble cdf = 1d - Pow(K / x, Alpha);
+                ddouble cdf = 1d - Pow(u, Alpha);
 
                 return cdf;
             }
             else {
-                if (x < K) {
+                if (IsNegative(x) || u > 1d) {
                     return 1d;
                 }
 
-                ddouble cdf = Pow(K / x, Alpha);
+                ddouble cdf = Pow(u, Alpha);
 
                 return cdf;
             }
@@ -96,5 +100,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(ParetoDistribution).Name}[k={K},alpha={Alpha}]";
         }
+
+        public override string Formula => "p(x; k, alpha) := u^(- alpha - 1) * (alpha / k), u = x / K";
     }
 }

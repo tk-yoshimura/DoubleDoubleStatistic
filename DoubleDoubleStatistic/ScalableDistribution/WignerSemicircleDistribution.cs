@@ -10,36 +10,40 @@ namespace DoubleDoubleStatistic {
 
         public ddouble R { get; }
 
-        private readonly ddouble pdf_norm, radius_sq;
+        private readonly ddouble radius_inv, radius_sq;
 
         public WignerSemicircleDistribution(ddouble r) {
             ValidateScale(r);
 
             R = r;
 
+            radius_inv = 1d / r;
             radius_sq = r * r;
-            pdf_norm = 1d / (PI * radius_sq);
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x < -R || x > R) {
+            ddouble u = x * radius_inv;
+
+            if (u < -1d || u > 1d) {
                 return 0d;
             }
 
-            ddouble pdf = 2 * pdf_norm * Sqrt(radius_sq - x * x);
+            ddouble pdf = 2 * RcpPI * Sqrt(1d - u * u) * radius_inv;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (x <= -R) {
+            ddouble u = x * radius_inv;
+
+            if (u <= -1d) {
                 return interval == Interval.Lower ? 0d : 1d;
             }
-            if (x >= R) {
+            if (u >= 1d) {
                 return interval == Interval.Lower ? 1d : 0d;
             }
 
-            ddouble v = x * pdf_norm * Sqrt(radius_sq - x * x) + Asin(x / R) * RcpPI;
+            ddouble v = (u * Sqrt(1d - u * u) + Asin(u)) * RcpPI;
 
             ddouble cdf = interval == Interval.Lower ? 0.5d + v : 0.5d - v;
 
@@ -61,9 +65,8 @@ namespace DoubleDoubleStatistic {
 
             ddouble u = Sqrt(2 * p);
 
-            ddouble x = QuantilePade.Value(u);
+            ddouble x = R * QuantilePade.Value(u);
             x = interval != Interval.Lower ? x : -x;
-            x *= R;
 
             return x;
         }
@@ -93,6 +96,8 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(WignerSemicircleDistribution).Name}[r={R}]";
         }
+
+        public override string Formula => "p(x; r) := 2 / pi * sqrt(1 - u * u) / r, u = x / r";
 
         private static class QuantilePade {
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_0_0p0009765625 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{

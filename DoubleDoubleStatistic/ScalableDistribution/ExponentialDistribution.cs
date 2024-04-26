@@ -19,11 +19,13 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            ddouble u = x * theta_inv;
+
+            if (IsNegative(u)) {
                 return 0d;
             }
 
-            ddouble pdf = Exp(-theta_inv * x) * theta_inv;
+            ddouble pdf = Exp(-u) * theta_inv;
 
             return pdf;
         }
@@ -93,5 +95,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(ExponentialDistribution).Name}[theta={Theta}]";
         }
+
+        public override string Formula => "p(x; theta) := exp(-u) / theta, u = x / theta";
     }
 }

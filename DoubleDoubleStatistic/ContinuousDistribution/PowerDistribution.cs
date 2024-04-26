@@ -7,7 +7,7 @@ namespace DoubleDoubleStatistic {
         public ddouble K { get; }
         public ddouble Alpha { get; }
 
-        private readonly ddouble pdf_lognorm, k_inv, alpha_inv;
+        private readonly ddouble pdf_lognorm, pdf_norm, k_inv, alpha_inv;
 
         public PowerDistribution(ddouble k, ddouble alpha) {
             ValidateShape(k, k => k > 0d);
@@ -15,6 +15,7 @@ namespace DoubleDoubleStatistic {
 
             K = k;
             Alpha = alpha;
+            pdf_norm = Alpha * Pow(K, Alpha);
             pdf_lognorm = Log2(alpha) + Log2(k) * alpha;
             k_inv = 1d / k;
             alpha_inv = 1d / alpha;
@@ -26,7 +27,7 @@ namespace DoubleDoubleStatistic {
             }
 
             if (Alpha <= 2d) {
-                ddouble pdf = Alpha * Pow(K, Alpha) * Pow(x, Alpha - 1d);
+                ddouble pdf = pdf_norm * Pow(x, Alpha - 1d);
 
                 return pdf;
             }
@@ -103,5 +104,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(PowerDistribution).Name}[k={K},alpha={Alpha}]";
         }
+
+        public override string Formula => "p(x; k, alpha) := x^(alpha - 1) * alpha * k^alpha";
     }
 }

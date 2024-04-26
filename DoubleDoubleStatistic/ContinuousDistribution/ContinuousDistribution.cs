@@ -23,6 +23,7 @@ namespace DoubleDoubleStatistic {
         public virtual ddouble Skewness => throw new NotImplementedException();
         public virtual ddouble Kurtosis => throw new NotImplementedException();
         public virtual ddouble Entropy => throw new NotImplementedException();
+        public virtual string Formula => throw new NotFiniteNumberException();
 
         protected static bool InRangeUnit(ddouble v) {
             return v >= 0d && v <= 1d;

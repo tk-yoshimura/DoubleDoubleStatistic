@@ -131,5 +131,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(UQuadraticDistribution).Name}[a={A},b={B}]";
         }
+
+        public override string Formula => "p(x; a, b) := 12 / (b - a)^3 * (x - (a + b) / 2)^2";
     }
 }

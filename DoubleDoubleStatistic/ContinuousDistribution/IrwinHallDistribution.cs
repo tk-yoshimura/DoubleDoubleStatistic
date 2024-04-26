@@ -208,6 +208,8 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(IrwinHallDistribution).Name}[n={N}]";
         }
 
+        public override string Formula => "p(x; n) := sum((-1)^k * binom(n, k) * (x - k)^(n - 1), k, 0, floor(x)) / (n - 1)!";
+
         private static class PolynomialCoef {
             static readonly Dictionary<(int n, int k, int j), BigInteger> table = [];
 

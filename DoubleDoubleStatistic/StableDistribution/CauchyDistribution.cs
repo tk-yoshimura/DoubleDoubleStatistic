@@ -110,5 +110,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(CauchyDistribution).Name}[mu={Mu},gamma={Gamma}]";
         }
+
+        public override string Formula => "p(x; mu, gamma) := 1 / (1 + u^2) / (pi * gamma), u = (x - mu) / gamma";
     }
 }

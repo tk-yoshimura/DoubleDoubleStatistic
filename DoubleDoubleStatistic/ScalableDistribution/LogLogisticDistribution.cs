@@ -154,5 +154,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(LogLogisticDistribution).Name}[gamma={Gamma},sigma={Sigma}]";
         }
+
+        public override string Formula => "p(x; gamma, sigma) := (u^(gamma - 1) * gamma) / (u^gamma + 1)^2 / sigma, u = x / sigma";
     }
 }

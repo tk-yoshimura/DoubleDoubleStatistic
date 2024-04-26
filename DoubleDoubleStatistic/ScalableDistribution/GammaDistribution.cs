@@ -18,20 +18,22 @@ namespace DoubleDoubleStatistic {
             K = k;
             Theta = theta;
 
-            pdf_lognorm = LogGamma(K) * LbE + K * Log2(Theta);
+            pdf_lognorm = LogGamma(K) * LbE;
             theta_inv = 1d / theta;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            ddouble u = x * theta_inv;
+
+            if (IsNegative(u)) {
                 return 0d;
             }
 
-            if (IsZero(x)) {
+            if (IsZero(u)) {
                 return K < 1d ? PositiveInfinity : K == 1d ? theta_inv : 0d;
             }
 
-            ddouble pdf = Pow2((K - 1d) * Log2(x) - x * theta_inv * LbE - pdf_lognorm);
+            ddouble pdf = Pow2((K - 1d) * Log2(u) - u * LbE - pdf_lognorm) * theta_inv;
 
             return pdf;
         }
@@ -91,5 +93,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(GammaDistribution).Name}[k={K},theta={Theta}]";
         }
+
+        public override string Formula => "p(x; k, theta) := u^(k - 1) * exp(-u) / (gamma(k) * theta), u = x / theta";
     }
 }

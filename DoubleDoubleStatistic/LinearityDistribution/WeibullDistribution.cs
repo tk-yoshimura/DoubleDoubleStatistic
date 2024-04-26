@@ -154,5 +154,7 @@ namespace DoubleDoubleStatistic {
         public override string ToString() {
             return $"{typeof(WeibullDistribution).Name}[alpha={Alpha},mu={Mu},theta={Theta}]";
         }
+
+        public override string Formula => "p(x; alpha, mu, theta) := u^(k - 1) * exp(-u^alpha) * alpha / theta, u = (x - mu) / theta";
     }
 }
