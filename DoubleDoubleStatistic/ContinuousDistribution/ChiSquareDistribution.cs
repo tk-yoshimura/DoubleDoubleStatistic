@@ -20,7 +20,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            if (IsNegative(x) || IsPositiveInfinity(x)) {
                 return 0d;
             }
             if (IsZero(x)) {

@@ -36,11 +36,12 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (Abs(x) >= zero_thr) {
-                return 0d;
-            }
             if (IsNaN(x)) {
                 return NaN;
+            }
+
+            if (Abs(x) >= zero_thr || IsInfinity(x)) {
+                return 0d;
             }
 
             ddouble u = 1 + x * x * nu_inv;
@@ -53,12 +54,20 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (interval == Interval.Upper) {
                 return CDF(-x, Interval.Lower);
             }
 
             ddouble v = Sqrt(x * x + Nu);
             ddouble t = (x + v) / (2 * v);
+
+            if (IsNaN(t)) {
+                return x < 0d ? 0d : 1d;
+            }
 
             ddouble cdf = IncompleteBetaRegularized(t, nu_half, nu_half);
 

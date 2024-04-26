@@ -20,6 +20,10 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (x < 0d || x > 1d) {
                 return 0d;
             }
@@ -45,12 +49,30 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
+                if (x <= 0d) {
+                    return 0d;
+                }
+                if (x >= 1d) {
+                    return 1d;
+                }
+
                 ddouble cdf = IncompleteBetaRegularized(x, Alpha, Beta);
 
                 return cdf;
             }
             else {
+                if (x <= 0d) {
+                    return 1d;
+                }
+                if (x >= 1d) {
+                    return 0d;
+                }
+
                 ddouble cdf = IncompleteBetaRegularized(1d - x, Beta, Alpha);
 
                 return cdf;

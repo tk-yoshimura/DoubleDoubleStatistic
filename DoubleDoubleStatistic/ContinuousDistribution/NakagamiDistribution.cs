@@ -22,7 +22,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            if (IsNegative(x) || IsPositiveInfinity(x)) {
                 return 0d;
             }
 
@@ -32,13 +36,27 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            ddouble u = x * x * momega;
+
             if (interval == Interval.Lower) {
-                ddouble cdf = LowerIncompleteGammaRegularized(M, x * x * momega);
+                if (x <= 0d) {
+                    return 0d;
+                }
+
+                ddouble cdf = LowerIncompleteGammaRegularized(M, u);
 
                 return cdf;
             }
             else {
-                ddouble cdf = UpperIncompleteGammaRegularized(M, x * x * momega);
+                if (x <= 0d) {
+                    return 1d;
+                }
+
+                ddouble cdf = UpperIncompleteGammaRegularized(M, u);
 
                 return cdf;
             }

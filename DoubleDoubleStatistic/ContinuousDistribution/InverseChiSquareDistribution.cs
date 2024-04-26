@@ -18,11 +18,12 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (x <= 0d) {
-                return 0d;
-            }
             if (IsNaN(x)) {
                 return NaN;
+            }
+
+            if (x <= 0d || IsPositiveInfinity(x)) {
+                return 0d;
             }
 
             ddouble pdf = Pow2(-c * Log2(x) - LbE / (2 * x) - pdf_lognorm);
@@ -35,12 +36,14 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
+            ddouble u = 1d / (2 * x);
+
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
                     return 0d;
                 }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, 1d / (2 * x));
+                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, u);
 
                 if (IsNaN(cdf)) {
                     return x < Mean ? 0d : 1d;
@@ -53,7 +56,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, 1d / (2 * x));
+                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, u);
 
                 if (IsNaN(cdf)) {
                     return x < Mean ? 1d : 0d;

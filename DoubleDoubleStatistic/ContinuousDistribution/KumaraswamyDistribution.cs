@@ -51,12 +51,30 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
+                if (IsNegative(x)) {
+                    return 0d;
+                }
+                if (x > 1d) {
+                    return 1d;
+                }
+
                 ddouble cdf = 1d - Pow(1d - Pow(x, Alpha), Beta);
 
                 return cdf;
             }
             else {
+                if (IsNegative(x)) {
+                    return 1d;
+                }
+                if (x > 1d) {
+                    return 0d;
+                }
+
                 ddouble cdf = Pow(1d - Pow(x, Alpha), Beta);
 
                 return cdf;
@@ -72,7 +90,16 @@ namespace DoubleDoubleStatistic {
                 return Quantile(1d - p, Interval.Upper);
             }
             else {
-                ddouble x = Pow(1d - Pow(p, beta_inv), alpha_inv);
+                ddouble u = 1d - Pow(p, beta_inv);
+
+                if (u <= 0d) {
+                    return 0d;
+                }
+                if (u >= 1d) {
+                    return 1d;
+                }
+
+                ddouble x = Pow(u, alpha_inv);
 
                 return x;
             }

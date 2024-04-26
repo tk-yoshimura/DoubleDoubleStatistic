@@ -20,23 +20,31 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             ddouble pdf = Pow2(N * x * LbE - Log2(N * Exp(2d * x) + M) * (N + M) * 0.5d + pdf_lognorm);
+
+            if (IsNaN(pdf)) {
+                return 0d;
+            }
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = N * Exp(2d * x);
+            ddouble u = N * Exp(2d * x), upm = u + M;
 
             if (interval == Interval.Lower) {
                 if (IsNegativeInfinity(x)) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(upm)) {
                     return 1d;
                 }
 
-                ddouble cdf = IncompleteBetaRegularized(u / (u + M), N * 0.5d, M * 0.5d);
+                ddouble cdf = IncompleteBetaRegularized(u / upm, N * 0.5d, M * 0.5d);
 
                 return cdf;
             }
@@ -44,11 +52,11 @@ namespace DoubleDoubleStatistic {
                 if (IsNegativeInfinity(x)) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(upm)) {
                     return 0d;
                 }
 
-                ddouble cdf = IncompleteBetaRegularized(M / (u + M), M * 0.5d, N * 0.5d);
+                ddouble cdf = IncompleteBetaRegularized(M / upm, M * 0.5d, N * 0.5d);
 
                 return cdf;
             }

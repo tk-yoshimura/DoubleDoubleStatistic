@@ -18,7 +18,10 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+            if (IsNegative(x) || IsPositiveInfinity(x)) {
                 return 0d;
             }
             if (IsZero(x)) {
@@ -37,11 +40,8 @@ namespace DoubleDoubleStatistic {
                 if (x <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x2)) {
-                    return 1d;
-                }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x * x, -1));
+                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x2, -1));
 
                 return cdf;
             }
@@ -49,11 +49,8 @@ namespace DoubleDoubleStatistic {
                 if (x <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x2)) {
-                    return 0d;
-                }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x * x, -1));
+                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x2, -1));
 
                 return cdf;
             }

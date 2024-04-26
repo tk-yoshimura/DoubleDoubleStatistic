@@ -21,11 +21,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
-                return 0d;
-            }
             if (IsNaN(x)) {
                 return NaN;
+            }
+            if (IsNegative(x)) {
+                return 0d;
             }
 
             ddouble u = Alpha - 1d / x;
@@ -40,11 +40,18 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             ddouble u = Alpha - 1d / x;
 
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
                     return 0d;
+                }
+                if (IsPositiveInfinity(x)) {
+                    return 1d;
                 }
 
                 ddouble cdf = cdf_norm * Erfc(-u * phi_scale);
@@ -60,6 +67,9 @@ namespace DoubleDoubleStatistic {
             else {
                 if (x <= 0d) {
                     return 1d;
+                }
+                if (IsPositiveInfinity(x)) {
+                    return 0d;
                 }
 
                 ddouble cdf = 1d - cdf_norm * Erfc(-u * phi_scale);

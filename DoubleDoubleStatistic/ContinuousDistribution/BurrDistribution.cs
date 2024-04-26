@@ -20,16 +20,23 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (IsNegative(x)) {
                 return 0d;
             }
 
             if (C == 1d) {
-                ddouble pdf = K / Pow(x + 1, K + 1d);
+                ddouble pdf = K / Pow(x + 1d, K + 1d);
+
+                if (IsNaN(pdf)) {
+                    return 0d;
+                }
 
                 return pdf;
             }
-
             else {
                 ddouble xc = Pow(x, C);
 
@@ -37,36 +44,48 @@ namespace DoubleDoubleStatistic {
                     return (C < 1d) ? PositiveInfinity : 0d;
                 }
 
+                if (IsPositiveInfinity(xc)) {
+                    return 0d;
+                }
+
                 ddouble pdf = ck * xc / (x * Pow(xc + 1d, K + 1d));
+
+                if (IsNaN(pdf)) {
+                    return 0d;
+                }
 
                 return pdf;
             }
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble xc = Pow(x, C);
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            ddouble xc = Pow(x, C), xcp1 = 1d + xc;
 
             if (interval == Interval.Lower) {
-                if (xc <= 0d) {
+                if (IsNegative(x) || xc <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
+                if (IsPositiveInfinity(x) || IsPositiveInfinity(xcp1)) {
                     return 1d;
                 }
 
-                ddouble cdf = Max(0d, 1d - Pow(1d + xc, -K));
+                ddouble cdf = Max(0d, 1d - Pow(xcp1, -K));
 
                 return cdf;
             }
             else {
-                if (xc <= 0d) {
+                if (IsNegative(x) || xc <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
+                if (IsPositiveInfinity(x) || IsPositiveInfinity(xcp1)) {
                     return 0d;
                 }
 
-                ddouble cdf = Min(1d, Pow(1d + xc, -K));
+                ddouble cdf = Min(1d, Pow(xcp1, -K));
 
                 return cdf;
             }

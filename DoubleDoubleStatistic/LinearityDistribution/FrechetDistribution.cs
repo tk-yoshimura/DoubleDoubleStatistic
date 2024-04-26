@@ -100,6 +100,11 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble v = 1d / -Log(p);
+
+                if (IsNegative(v)) {
+                    return PositiveInfinity;
+                }
+
                 ddouble u = Pow(v, 1d / Alpha);
                 ddouble x = Mu + u * Theta;
 
@@ -114,6 +119,11 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble v = 1d / -Log1p(-p);
+
+                if (IsNegative(v)) {
+                    return 0d;
+                }
+
                 ddouble u = Pow(v, 1d / Alpha);
                 ddouble x = Mu + u * Theta;
 

@@ -13,7 +13,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            if (IsNegative(x) || IsPositiveInfinity(x)) {
                 return 0d;
             }
 
@@ -22,36 +26,43 @@ namespace DoubleDoubleStatistic {
             if (xc <= 0d) {
                 return (C < 1d) ? PositiveInfinity : (C == 1d) ? 1d : 0d;
             }
+            if (IsPositiveInfinity(xc)) {
+                return 0d;
+            }
 
-            ddouble pdf = C * xc / (x * Square(xc + 1d));
+            ddouble pdf = C * (xc / (x * Square(xc + 1d)));
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble xc = Pow(x, C);
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            ddouble xc = Pow(x, C), xcp1 = xc + 1d;
 
             if (interval == Interval.Lower) {
-                if (xc <= 0d) {
+                if (IsNegative(x) || xc <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
+                if (IsPositiveInfinity(x) || IsPositiveInfinity(xcp1)) {
                     return 1d;
                 }
 
-                ddouble cdf = Max(0d, 1d - 1d / (1d + xc));
+                ddouble cdf = xc / (1d + xc);
 
                 return cdf;
             }
             else {
-                if (xc <= 0d) {
+                if (IsNegative(x) || xc <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xc)) {
+                if (IsPositiveInfinity(x) || IsPositiveInfinity(xcp1)) {
                     return 0d;
                 }
 
-                ddouble cdf = Min(1d, 1d / (1d + xc));
+                ddouble cdf = 1d / (1d + xc);
 
                 return cdf;
             }

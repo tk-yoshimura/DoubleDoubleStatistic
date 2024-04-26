@@ -11,24 +11,39 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
+        private readonly ddouble sigma_inv;
+
         public GumbelDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
             ValidateShape(sigma, beta => beta > 0);
 
             Mu = mu;
             Sigma = sigma;
+            sigma_inv = 1d / sigma;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble u = (Mu - x) / Sigma;
+            if (IsNaN(x)) {
+                return NaN;
+            }
 
-            ddouble pdf = Exp(-Exp(u) + u) / Sigma;
+            ddouble u = (Mu - x) * sigma_inv;
+
+            if (IsInfinity(u)) {
+                return 0d;
+            }
+
+            ddouble pdf = Exp(-Exp(u) + u) * sigma_inv;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = (Mu - x) / Sigma;
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
+            ddouble u = (Mu - x) * sigma_inv;
 
             if (interval == Interval.Lower) {
                 ddouble cdf = Exp(-Exp(u));
