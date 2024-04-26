@@ -30,10 +30,7 @@ namespace DoubleDoubleStatistic {
 
             if (C == 1d) {
                 ddouble pdf = K / Pow(x + 1d, K + 1d);
-
-                if (IsNaN(pdf)) {
-                    return 0d;
-                }
+                pdf = IsFinite(pdf) ? pdf : 0d;
 
                 return pdf;
             }
@@ -49,10 +46,7 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble pdf = ck * xc / (x * Pow(xc + 1d, K + 1d));
-
-                if (IsNaN(pdf)) {
-                    return 0d;
-                }
+                pdf = IsFinite(pdf) ? pdf : 0d;
 
                 return pdf;
             }

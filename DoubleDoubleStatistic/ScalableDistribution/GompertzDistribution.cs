@@ -24,6 +24,10 @@ namespace DoubleDoubleStatistic {
         public override ddouble PDF(ddouble x) {
             ddouble u = x * theta_inv;
 
+            if (IsNaN(u)) {
+                return NaN;
+            }
+
             if (IsNegative(u) || IsPositiveInfinity(u)) {
                 return 0d;
             }
@@ -36,12 +40,24 @@ namespace DoubleDoubleStatistic {
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = x * theta_inv;
 
+            if (IsNaN(u)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
+                if (IsNegative(u)) {
+                    return 0d;
+                }
+
                 ddouble cdf = -Expm1(Eta * (-Expm1(u)));
 
                 return cdf;
             }
             else {
+                if (IsNegative(u)) {
+                    return 1d;
+                }
+
                 ddouble cdf = Exp(Eta * (-Expm1(u)));
 
                 return cdf;

@@ -30,21 +30,25 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * c_inv;
+            if (IsNaN(u)) {
+                return NaN;
+            }
             if (u <= 0d) {
                 return 0d;
             }
 
             ddouble pdf = pdf_norm * Exp(-1d / (2d * u)) / ExMath.Pow3d2(u);
-
-            if (IsNaN(pdf)) {
-                return 0d;
-            }
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = (x - Mu) * c_inv;
+
+            if (IsNaN(u)) {
+                return NaN;
+            }
 
             if (interval == Interval.Lower) {
                 if (u <= 0d) {

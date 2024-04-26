@@ -25,6 +25,9 @@ namespace DoubleDoubleStatistic {
         public override ddouble PDF(ddouble x) {
             ddouble u = x * theta_inv;
 
+            if (IsNaN(u)) {
+                return NaN;
+            }
             if (u <= 0d) {
                 return 0d;
             }
@@ -32,6 +35,7 @@ namespace DoubleDoubleStatistic {
             ddouble up1 = u + 1d, um1 = u - 1d;
 
             ddouble pdf = pdf_norm * up1 * Exp(-um1 * um1 / (2 * alpha_sq * u)) / ExMath.Pow3d2(u);
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }

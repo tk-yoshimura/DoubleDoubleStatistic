@@ -27,11 +27,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
-                return 0d;
-            }
             if (IsNaN(x)) {
                 return NaN;
+            }
+            if (IsNegative(x)) {
+                return 0d;
             }
 
             ddouble pdf = Sqrt(Lambda / (2 * PI * Cube(x))) * Exp(-Lambda * Square(x - Mu) / (2 * Square(Mu) * x));

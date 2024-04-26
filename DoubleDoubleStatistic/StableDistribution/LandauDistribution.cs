@@ -37,6 +37,13 @@ namespace DoubleDoubleStatistic {
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * c_inv;
 
+            if (IsNaN(u)) {
+                return NaN;
+            }
+            if (IsInfinity(u)) {
+                return 0d;
+            }
+
             ddouble pdf = PDFPade.Value(u) * c_inv;
 
             return pdf;
@@ -44,6 +51,10 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = (x - Mu) * c_inv;
+
+            if (IsNaN(u)) {
+                return NaN;
+            }
 
             ddouble cdf = CDFPade.Value(u, interval != Interval.Lower);
 

@@ -31,14 +31,17 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * theta_inv;
-            if (IsNegative(u)) {
-                return 0d;
-            }
             if (IsNaN(u)) {
                 return NaN;
             }
+            if (IsNegative(u)) {
+                return 0d;
+            }
             if (u <= 0d) {
                 return Alpha < 1d ? PositiveInfinity : Alpha == 1d ? theta_inv : 0d;
+            }
+            if (IsPositiveInfinity(u)) {
+                return 0d;
             }
 
             ddouble v = Log2(u) * Alpha;
@@ -55,6 +58,9 @@ namespace DoubleDoubleStatistic {
                 if (u <= 0d) {
                     return 0d;
                 }
+                if (IsPositiveInfinity(u)) {
+                    return 1d;
+                }
 
                 ddouble cdf = -Expm1(-Pow(u, Alpha));
 
@@ -63,6 +69,9 @@ namespace DoubleDoubleStatistic {
             else {
                 if (u <= 0d) {
                     return 1d;
+                }
+                if (IsPositiveInfinity(u)) {
+                    return 0d;
                 }
 
                 ddouble cdf = Exp(-Pow(u, Alpha));

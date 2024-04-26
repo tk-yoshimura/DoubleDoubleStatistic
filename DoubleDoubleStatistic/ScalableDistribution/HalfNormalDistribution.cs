@@ -24,6 +24,9 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
             if (IsNegative(x)) {
                 return 0d;
             }
@@ -34,6 +37,10 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
                 if (IsNegative(x)) {
                     return 0d;

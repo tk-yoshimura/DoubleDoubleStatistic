@@ -21,12 +21,20 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             ddouble pdf = x == Mu ? PositiveInfinity : 0d;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
                 if (IsZero(Mu)) {
                     ddouble cdf = IsNegative(x) ? 0d : 1d;

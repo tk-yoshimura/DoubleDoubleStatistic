@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mu { get; }
         public ddouble Gamma { get; }
 
-        private readonly ddouble pdf_norm, gamma_inv, gamma_sq;
+        private readonly ddouble pdf_norm, gamma_inv;
 
         public CauchyDistribution() : this(mu: 0, gamma: 1) { }
 
@@ -24,25 +24,36 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Gamma = gamma;
 
-            pdf_norm = RcpPI * Gamma;
+            pdf_norm = RcpPI / gamma;
             gamma_inv = 1d / gamma;
-            gamma_sq = gamma * gamma;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble pdf = pdf_norm / (Square(x - Mu) + gamma_sq);
+            ddouble u = (x - Mu) * gamma_inv;
+
+            ddouble pdf = pdf_norm / (Square(u) + 1d);
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            ddouble u = (x - Mu) * gamma_inv;
+
             if (interval == Interval.Lower) {
-                ddouble cdf = Atan((x - Mu) * gamma_inv) * RcpPI + Point5;
+                if (IsInfinity(u)) {
+                    return Sign(u) < 0 ? 0d : 1d;
+                }
+
+                ddouble cdf = Atan(u) * RcpPI + 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Atan((Mu - x) * gamma_inv) * RcpPI + Point5;
+                if (IsInfinity(u)) {
+                    return Sign(u) < 0 ? 1d : 0d;
+                }
+
+                ddouble cdf = Atan(-u) * RcpPI + 0.5d;
 
                 return cdf;
             }
@@ -54,12 +65,26 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Mu + Gamma * TanPI(p - Point5);
+                if (p == 0d) {
+                    return NegativeInfinity;
+                }
+                if (p == 1d) {
+                    return PositiveInfinity;
+                }
+
+                ddouble x = Mu + Gamma * TanPI(p - 0.5d);
 
                 return x;
             }
             else {
-                ddouble x = Mu - Gamma * TanPI(p - Point5);
+                if (p == 1d) {
+                    return NegativeInfinity;
+                }
+                if (p == 0d) {
+                    return PositiveInfinity;
+                }
+
+                ddouble x = Mu - Gamma * TanPI(p - 0.5d);
 
                 return x;
             }

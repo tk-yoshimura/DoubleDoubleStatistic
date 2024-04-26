@@ -29,6 +29,10 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (IsNaN(x)) {
+                return NaN;
+            }
+
             if (x < A || x > B) {
                 return 0d;
             }

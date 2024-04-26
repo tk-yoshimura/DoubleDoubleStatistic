@@ -21,11 +21,11 @@ namespace DoubleDoubleStatistic {
         public override ddouble PDF(ddouble x) {
             ddouble u = K / x;
 
-            if (IsNegative(x) || u > 1d) {
-                return 0d;
-            }
             if (IsNaN(u)) {
                 return NaN;
+            }
+            if (IsNegative(x) || u > 1d) {
+                return 0d;
             }
 
             ddouble pdf = pdf_norm * Pow(u, Alpha + 1d);
@@ -36,6 +36,10 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = K / x;
+
+            if (IsNaN(u)) {
+                return NaN;
+            }
 
             if (interval == Interval.Lower) {
                 if (IsNegative(x) || u > 1d) {

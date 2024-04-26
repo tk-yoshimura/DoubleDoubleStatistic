@@ -31,10 +31,7 @@ namespace DoubleDoubleStatistic {
             ddouble u = Alpha - 1d / x;
 
             ddouble pdf = pdf_norm / (x * x) * Exp(-u * u / 2);
-
-            if (IsNaN(pdf)) {
-                return 0d;
-            }
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }

@@ -25,7 +25,10 @@ namespace DoubleDoubleStatistic {
         public override ddouble PDF(ddouble x) {
             ddouble u = x * theta_inv;
 
-            if (IsNegative(u)) {
+            if (IsNaN(u)) {
+                return NaN;
+            }
+            if (IsNegative(u) || IsPositiveInfinity(u)) {
                 return 0d;
             }
 
@@ -39,13 +42,27 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            ddouble u = x * theta_inv;
+
+            if (IsNaN(u)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
-                ddouble cdf = LowerIncompleteGammaRegularized(K, x * theta_inv);
+                if (IsNegative(u)) {
+                    return 0d;
+                }
+
+                ddouble cdf = LowerIncompleteGammaRegularized(K, u);
 
                 return cdf;
             }
             else {
-                ddouble cdf = UpperIncompleteGammaRegularized(K, x * theta_inv);
+                if (IsNegative(u)) {
+                    return 1d;
+                }
+
+                ddouble cdf = UpperIncompleteGammaRegularized(K, u);
 
                 return cdf;
             }

@@ -25,10 +25,7 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble pdf = Pow2(N * x * LbE - Log2(N * Exp(2d * x) + M) * (N + M) * 0.5d + pdf_lognorm);
-
-            if (IsNaN(pdf)) {
-                return 0d;
-            }
+            pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }

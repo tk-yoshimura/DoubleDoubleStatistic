@@ -23,11 +23,11 @@ namespace DoubleDoubleStatistic {
         public override ddouble PDF(ddouble x) {
             ddouble u = x * sigma_inv;
 
-            if (IsNegative(u)) {
-                return 0d;
-            }
             if (IsNaN(u)) {
                 return NaN;
+            }
+            if (IsNegative(u)) {
+                return 0d;
             }
 
             ddouble pdf = u * Exp(-u * u * 0.5d) * sigma_inv;
@@ -39,6 +39,10 @@ namespace DoubleDoubleStatistic {
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = x * sigma_inv;
             ddouble u2 = u * u;
+
+            if (IsNaN(u)) {
+                return NaN;
+            }
 
             if (interval == Interval.Lower) {
                 if (u <= 0d || u2 <= 0d) {
@@ -80,18 +84,28 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Sigma * Sqrt(-2 * Log1p(-p));
+                ddouble v = -2d * Log1p(-p);
+                if (IsNegative(v)) {
+                    return 0d;
+                }
+
+                ddouble x = Sigma * Sqrt(-2d * Log1p(-p));
 
                 return x;
             }
             else {
-                ddouble x = Sigma * Sqrt(-2 * Log(p));
+                ddouble v = -2d * Log(p);
+                if (IsNegative(v)) {
+                    return 0d;
+                }
+
+                ddouble x = Sigma * Sqrt(v);
 
                 return x;
             }
         }
 
-        public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
             Sigma * Sqrt(PI / 2);

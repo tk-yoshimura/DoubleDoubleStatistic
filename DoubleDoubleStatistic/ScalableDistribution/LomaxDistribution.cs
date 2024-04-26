@@ -21,11 +21,16 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNegative(x)) {
+            ddouble u = x * theta_inv;
+
+            if (IsNaN(u)) {
+                return NaN;
+            }
+            if (IsNegative(u)) {
                 return 0d;
             }
 
-            ddouble pdf = pdf_norm / Pow(1d + x * theta_inv, Alpha + 1d);
+            ddouble pdf = pdf_norm / Pow(1d + u, Alpha + 1d);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -34,11 +39,15 @@ namespace DoubleDoubleStatistic {
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = x * theta_inv;
 
+            if (IsNaN(u)) {
+                return NaN;
+            }
+
             if (interval == Interval.Lower) {
-                if (IsNegative(x)) {
+                if (IsNegative(u)) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(u)) {
                     return 1d;
                 }
 
@@ -47,10 +56,10 @@ namespace DoubleDoubleStatistic {
                 return cdf;
             }
             else {
-                if (IsNegative(x)) {
+                if (IsNegative(u)) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(u)) {
                     return 0d;
                 }
 
