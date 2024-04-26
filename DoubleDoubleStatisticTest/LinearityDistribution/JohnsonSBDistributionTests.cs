@@ -36,6 +36,7 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
                 Console.WriteLine($"Entropy={dist.Entropy}");
+                Console.WriteLine(dist.Formula);
 
             }
         }
