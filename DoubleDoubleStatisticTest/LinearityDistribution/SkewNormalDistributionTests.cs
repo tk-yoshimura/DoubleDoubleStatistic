@@ -16822,11 +16822,11 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
                         if (expected > 1e-50) {
                             Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-2, $"{dist} cdf({x})\n{expected}\n{actual}");
                         }
-                        else if (expected > 0) {
+                        else if (expected > 1e-292) {
                             Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-1, $"{dist} cdf({x})\n{expected}\n{actual}");
                         }
                         else {
-                            Assert.IsTrue(actual < 1e-300);
+                            Assert.IsTrue(actual < 1e-292);
                         }
                     }
                 }

@@ -72,9 +72,14 @@ namespace DoubleDoubleStatistic {
                 ddouble cdf = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
-                    ddouble eps = Max(Epsilon, Ldexp(f(u), -94));
+                    ddouble eps = Ldexp(f(u), -94);
 
-                    cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
+                    if (eps > 0d) {
+                        cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
+                    }
+                    else {
+                        cdf = 0;
+                    }
                 }
 
                 cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 0d : 1d;
@@ -89,9 +94,14 @@ namespace DoubleDoubleStatistic {
                 ddouble cdf = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
-                    ddouble eps = Max(Epsilon, Ldexp(f(u), -94));
+                    ddouble eps = Ldexp(f(u), -94);
 
-                    cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
+                    if (eps > 0d) {
+                        cdf = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(f, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
+                    }
+                    else {
+                        cdf = 0;
+                    }
                 }
 
                 cdf = IsFinite(cdf) ? Clamp(cdf, 0d, 1d) : (x < Mu) ? 0d : 1d;
@@ -123,9 +133,14 @@ namespace DoubleDoubleStatistic {
                     ddouble y = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
 
                     if (y < 1e-5) {
-                        ddouble eps = Max(Epsilon, Ldexp(df(u), -94));
+                        ddouble eps = Ldexp(df(u), -94);
 
-                        y = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(df, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
+                        if (eps > 0d) {
+                            y = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(df, NegativeInfinity, u, eps, discontinue_eval_points: 2048).value;
+                        }
+                        else {
+                            return 0d;
+                        }
                     }
 
                     return Max(0d, y);
@@ -162,9 +177,14 @@ namespace DoubleDoubleStatistic {
                     ddouble y = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
 
                     if (y < 1e-5) {
-                        ddouble eps = Max(Epsilon, Ldexp(df(u), -94));
+                        ddouble eps = Ldexp(df(u), -94);
 
-                        y = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(df, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
+                        if (eps > 0d) {
+                            y = cdf_norm * GaussKronrodIntegral.AdaptiveIntegrate(df, u, PositiveInfinity, eps, discontinue_eval_points: 2048).value;
+                        }
+                        else {
+                            y = 0d;
+                        }
                     }
 
                     return Max(0d, y);
