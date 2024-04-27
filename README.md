@@ -135,13 +135,13 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 
 ### Not Implemented Distributions
 
-- benktander         
-- dagum              
-- davis              
-- non central chi sq 
-- non central f      
-- non central t      
-- suzuki             
+- benktander
+- dagum
+- davis
+- non central chi sq
+- non central f
+- non central t
+- suzuki
 
 ### Not Implemented Functions
 

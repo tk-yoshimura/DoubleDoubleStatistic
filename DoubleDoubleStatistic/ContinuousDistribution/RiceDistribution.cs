@@ -7,15 +7,12 @@ namespace DoubleDoubleStatistic {
 
         public ddouble Nu { get; }
 
-        private readonly ddouble nu_sq;
-
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
         public RiceDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu >= 0d);
 
             Nu = nu;
-            nu_sq = nu * nu;
         }
 
         public override ddouble PDF(ddouble x) {
