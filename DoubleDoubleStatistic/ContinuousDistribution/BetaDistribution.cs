@@ -10,8 +10,8 @@ namespace DoubleDoubleStatistic {
         private readonly ddouble pdf_norm;
 
         public BetaDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0);
-            ValidateShape(beta, beta => beta > 0);
+            ValidateShape(alpha, alpha => alpha > 0d);
+            ValidateShape(beta, beta => beta > 0d);
 
             Alpha = alpha;
             Beta = beta;

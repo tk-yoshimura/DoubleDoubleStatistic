@@ -10,8 +10,8 @@ namespace DoubleDoubleStatistic {
         private readonly ddouble ck;
 
         public BurrDistribution(ddouble c, ddouble k) {
-            ValidateShape(c, c => c > 0);
-            ValidateShape(k, k => k > 0);
+            ValidateShape(c, c => c > 0d);
+            ValidateShape(k, k => k > 0d);
 
             C = c;
             K = k;

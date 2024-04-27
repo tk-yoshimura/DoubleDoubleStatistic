@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic {
         public InverseGaussDistribution() : this(mu: 1d, lambda: 1d) { }
 
         public InverseGaussDistribution(ddouble mu, ddouble lambda) {
-            ValidateShape(mu, mu => mu > 0);
+            ValidateShape(mu, mu => mu > 0d);
             ValidateScale(lambda);
 
             Mu = mu;

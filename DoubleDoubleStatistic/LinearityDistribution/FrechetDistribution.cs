@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic {
         public FrechetDistribution(ddouble alpha, ddouble theta) : this(alpha: alpha, mu: 0d, theta: theta) { }
 
         public FrechetDistribution(ddouble alpha, ddouble mu, ddouble theta) {
-            ValidateShape(alpha, alpha => alpha > 0);
+            ValidateShape(alpha, alpha => alpha > 0d);
             ValidateLocation(mu);
             ValidateScale(theta);
 

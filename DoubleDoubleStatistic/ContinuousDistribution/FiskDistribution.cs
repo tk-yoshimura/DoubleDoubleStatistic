@@ -7,7 +7,7 @@ namespace DoubleDoubleStatistic {
         public ddouble C { get; }
 
         public FiskDistribution(ddouble c) {
-            ValidateShape(c, c => c > 0);
+            ValidateShape(c, c => c > 0d);
 
             C = c;
         }

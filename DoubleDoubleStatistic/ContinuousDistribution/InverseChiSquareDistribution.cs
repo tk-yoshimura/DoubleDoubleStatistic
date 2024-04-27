@@ -9,7 +9,7 @@ namespace DoubleDoubleStatistic {
         private readonly ddouble c, pdf_lognorm;
 
         public InverseChiSquareDistribution(ddouble nu) {
-            ValidateShape(nu, nu => nu > 0);
+            ValidateShape(nu, nu => nu > 0d);
 
             Nu = nu;
 

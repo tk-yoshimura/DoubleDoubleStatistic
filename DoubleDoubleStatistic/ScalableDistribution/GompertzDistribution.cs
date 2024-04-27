@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic {
         private readonly ddouble theta_inv;
 
         public GompertzDistribution(ddouble eta, ddouble theta) {
-            ValidateShape(eta, eta => eta > 0);
+            ValidateShape(eta, eta => eta > 0d);
             ValidateScale(theta);
 
             Eta = eta;

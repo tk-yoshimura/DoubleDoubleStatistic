@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic {
 
         public GumbelDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
-            ValidateShape(sigma, beta => beta > 0);
+            ValidateShape(sigma, beta => beta > 0d);
 
             Mu = mu;
             Sigma = sigma;

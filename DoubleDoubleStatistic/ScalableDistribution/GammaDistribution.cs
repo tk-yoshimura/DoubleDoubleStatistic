@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic {
         private readonly ddouble pdf_lognorm, theta_inv;
 
         public GammaDistribution(ddouble k, ddouble theta) {
-            ValidateShape(k, k => k > 0);
+            ValidateShape(k, k => k > 0d);
             ValidateScale(theta);
 
             K = k;
