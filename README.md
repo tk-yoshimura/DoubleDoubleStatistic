@@ -60,6 +60,7 @@
 |            | power             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | reciprocal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
+|            | rice              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | sas point5        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | skew normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | snedecor f        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
@@ -140,7 +141,6 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 - non central chi sq 
 - non central f      
 - non central t      
-- rice               
 - suzuki             
 
 ### Not Implemented Functions
