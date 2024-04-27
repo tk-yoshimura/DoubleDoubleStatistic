@@ -16,6 +16,7 @@
 | ---------- | ----------------- | -------- | -------- | -------- | --------- | ---- |
 | continuous | alpha             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
+|            | argus             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | beta prime        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
@@ -133,7 +134,6 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 
 ### Not Implemented Distributions
 
-- argus              
 - benktander         
 - dagum              
 - davis              
