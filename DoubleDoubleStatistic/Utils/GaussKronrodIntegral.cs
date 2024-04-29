@@ -95,7 +95,7 @@ namespace DoubleDoubleStatistic {
                         return Zero;
                     }
 
-                    ddouble u = (1 - t) / t;
+                    ddouble u = (1d - t) / t;
 
                     return (f(u) + f(-u)) / (t * t);
                 }
@@ -110,7 +110,7 @@ namespace DoubleDoubleStatistic {
                             return Zero;
                         }
 
-                        ddouble u = (1 - t) / t;
+                        ddouble u = (1d - t) / t;
 
                         return f(u) / (t * t);
                     }
@@ -123,7 +123,7 @@ namespace DoubleDoubleStatistic {
                             return Zero;
                         }
 
-                        ddouble u = (1 - t) / t;
+                        ddouble u = (1d - t) / t;
 
                         return f(a + u) / (t * t);
                     }
@@ -139,7 +139,7 @@ namespace DoubleDoubleStatistic {
                             return Zero;
                         }
 
-                        ddouble u = (t - 1) / t;
+                        ddouble u = (t - 1d) / t;
 
                         return f(u) / (t * t);
                     }
@@ -152,7 +152,7 @@ namespace DoubleDoubleStatistic {
                             return Zero;
                         }
 
-                        ddouble u = (t - 1) / t;
+                        ddouble u = (t - 1d) / t;
 
                         return f(b + u) / (t * t);
                     }

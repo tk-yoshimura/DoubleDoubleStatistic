@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -7,6 +8,7 @@ namespace DoubleDoubleStatistic {
 
         public ddouble Nu { get; }
 
+        private CDFSegmentCache cdf_cache;
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
         public RiceDistribution(ddouble nu) {
@@ -38,40 +40,23 @@ namespace DoubleDoubleStatistic {
                 return interval == Interval.Lower ? 0d : 1d;
             }
 
-            if (x < Mode) {
-                ddouble cdf_assume = PDF(x) * x;
+            ddouble mode = Mode;
 
-                ddouble value = 0d;
+            if (IsPositiveInfinity(x + mode)) {
+                return interval == Interval.Lower ? 1d : 0d;
+            }
 
-                if (cdf_assume > 0d) {
-                    ddouble eps = interval == Interval.Lower ? cdf_assume * 1e-28 : 1e-28;
+            this.cdf_cache ??= new CDFSegmentCache(0d, 1d,
+                t => t > 0d ? PDF((1d - t) / t * mode) / (t * t) : 0d
+            );
 
-                    (value, ddouble error, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(PDF, 0, x, eps, 2048);
+            ddouble t = mode / (x + mode);
 
-                    Debug.WriteLine($"evals: {eval_points}");
-                    Debug.WriteLine($"relative_error: {error / value}");
-                }
-
-                ddouble cdf = interval == Interval.Lower ? value : (1d - value);
-
-                return cdf;
+            if (interval == Interval.Lower) {
+                return Min(1d, cdf_cache.Upper(t) * mode);
             }
             else {
-                ddouble cdf_assume = PDF(x) / (x * x);
-                ddouble value = 0d;
-
-                if (cdf_assume > 0d) {
-                    ddouble eps = interval == Interval.Lower ? 1e-28 : cdf_assume * 1e-28;
-
-                    (value, ddouble error, long eval_points) = GaussKronrodIntegral.AdaptiveIntegrate(PDF, x, PositiveInfinity, eps, 2048);
-
-                    Debug.WriteLine($"evals: {eval_points}");
-                    Debug.WriteLine($"relative_error: {error / value}");
-                }
-
-                ddouble cdf = interval == Interval.Lower ? (1d - value) : value;
-
-                return cdf;
+                return Min(1d, cdf_cache.Lower(t) * mode);
             }
         }
 
