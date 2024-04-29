@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using static DoubleDouble.ddouble;
 
@@ -54,12 +53,11 @@ namespace DoubleDoubleStatistic {
 
             ddouble t = mode / (x + mode);
 
-            if (interval == Interval.Lower) {
-                return Min(1d, cdf_cache.Upper(t) * mode);
-            }
-            else {
-                return Min(1d, cdf_cache.Lower(t) * mode);
-            }
+            ddouble cdf = (interval == Interval.Lower)
+                ? Min(1d, cdf_cache.Upper(t) * mode)
+                : Min(1d, cdf_cache.Lower(t) * mode);
+
+            return cdf;
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {

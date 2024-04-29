@@ -18,6 +18,10 @@ namespace DoubleDoubleStatistic {
 
         public VoigtDistribution() : this(gamma: 1, sigma: 1) { }
 
+        private const int cache_samples = 512;
+        private CDFSegmentCache cdf_cache;
+        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+
         public VoigtDistribution(ddouble gamma, ddouble sigma) {
             ValidateScale(gamma);
             ValidateScale(sigma);
@@ -52,8 +56,13 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            if (interval == Interval.Upper) {
-                return CDF(-x, Interval.Lower);
+            if (IsInfinity(x)) {
+                if (x > 0d) {
+                    return interval == Interval.Lower ? 1d : 0d;
+                }
+                else { 
+                    return interval == Interval.Lower ? 0d : 1d;
+                }
             }
 
             ddouble p = PDF(x);
@@ -61,80 +70,35 @@ namespace DoubleDoubleStatistic {
                 return x < 0d ? 0d : 1d;
             }
 
-            ddouble eps = 1e-27 * pdf_norm;
+            ddouble f(ddouble t) {
+                if (IsZero(t)) {
+                    return cdf_limit;
+                }
 
-            ddouble u = 1d / (Abs(x) + 1d);
+                ddouble t_inv = 1d / t;
+                ddouble x = (1d - t) * t_inv;
 
-            ddouble error, cdf;
+                Complex z = (zr, x * z_scale);
+                ddouble pdf = Complex.Erfcx(z).R;
 
-            if (u < 0.5d) {
-                ddouble f(ddouble t) {
-                    if (IsZero(t)) {
-                        return cdf_limit;
-                    }
+                ddouble y = pdf * t_inv * t_inv;
 
-                    ddouble t_inv = 1d / t;
-                    ddouble x = (1d - t) * t_inv;
+                return y;
+            };
 
-                    Complex z = (zr, x * z_scale);
-                    ddouble pdf = Complex.Erfcx(z).R;
+            this.cdf_cache ??= new CDFSegmentCache(
+                0d, 1d,
+                f,
+                samples: cache_samples
+            );
 
-                    ddouble y = pdf * t_inv * t_inv;
+            ddouble t = 1d / (Abs(x) + 1d);
 
-                    return y;
-                };
-
-                (ddouble value, error, long eval_points) =
-                    GaussKronrodIntegral.AdaptiveIntegrate(f, 0d, u, eps, discontinue_eval_points: 2048);
-                value = Max(0d, value) * pdf_norm;
-
-                cdf = x < 0d ? value : 1d - value;
-
-                Debug.WriteLine($"evals: {eval_points}");
-            }
-            else {
-                ddouble f(ddouble t) {
-                    ddouble t_inv = 1d / t;
-                    ddouble x = (1d - t) * t_inv;
-
-                    Complex z = (zr, x * z_scale);
-                    ddouble pdf = Complex.Erfcx(z).R;
-
-                    ddouble y = pdf * t_inv * t_inv;
-
-                    return y;
-                };
-
-                (ddouble value, error, long eval_points) =
-                    GaussKronrodIntegral.AdaptiveIntegrate(f, u, 1d, eps, discontinue_eval_points: 2048);
-                value = Max(0d, value) * pdf_norm;
-
-                cdf = x < 0d ? 0.5d - value : 0.5d + value;
-
-                Debug.WriteLine($"evals: {eval_points}");
-            }
-
-            if (EnableCDFErrorException && !(error < eps)) {
-                throw new ArithmeticException("CDF integrate not convergence.");
-            }
+            ddouble cdf = (interval == Interval.Lower) ^ (x < 0d)
+                ? Min(1d, 0.5d + cdf_cache.Upper(t) * pdf_norm)
+                : Min(0.5d, cdf_cache.Lower(t) * pdf_norm);
 
             return cdf;
-        }
-
-        internal ddouble Integrand(ddouble t) {
-            if (IsZero(t)) {
-                return cdf_limit;
-            }
-
-            ddouble t_inv = 1d / t;
-            ddouble x = (1d - t) * t_inv;
-
-            Complex z = (zr, x * z_scale);
-            ddouble pdf = Complex.Erfcx(z).R;
-
-            ddouble y = pdf * t_inv * t_inv;
-
-            return y;
         }
 
         public override bool AdditiveClosed => true;

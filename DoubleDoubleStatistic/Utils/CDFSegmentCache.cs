@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace DoubleDoubleStatistic.Utils {
+namespace DoubleDoubleStatistic {
     internal class CDFSegmentCache {
         private readonly Func<ddouble, ddouble> f;
         private readonly ddouble xa, xb, xh;
