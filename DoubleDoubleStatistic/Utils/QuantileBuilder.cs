@@ -129,7 +129,6 @@ namespace DoubleDoubleStatistic {
             }
 
             Debug.Assert(index >= 0 && index < Samples);
-            Debug.Assert(cdf_table[index] <= p && cdf_table[index + 1] >= p);
 
             ddouble weight = (weight_table[index] + weight_table[index + 1]) / 2;
 

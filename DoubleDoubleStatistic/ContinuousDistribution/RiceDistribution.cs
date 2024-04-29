@@ -111,8 +111,8 @@ namespace DoubleDoubleStatistic {
                 }
 
                 this.quantile_upper_builder ??= new QuantileBuilder(
-                    0d, 1d, 
-                    cdf_cache.LowerSegmentTable, 
+                    0d, 1d,
+                    cdf_cache.LowerSegmentTable,
                     cdf_cache.Samples
                 );
 

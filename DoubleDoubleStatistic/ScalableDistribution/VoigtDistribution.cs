@@ -1,5 +1,5 @@
 ﻿using DoubleDouble;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 using Complex = DoubleDoubleComplex.Complex;
@@ -60,7 +60,7 @@ namespace DoubleDoubleStatistic {
                 if (x > 0d) {
                     return interval == Interval.Lower ? 1d : 0d;
                 }
-                else { 
+                else {
                     return interval == Interval.Lower ? 0d : 1d;
                 }
             }
@@ -70,35 +70,132 @@ namespace DoubleDoubleStatistic {
                 return x < 0d ? 0d : 1d;
             }
 
-            ddouble f(ddouble t) {
-                if (IsZero(t)) {
-                    return cdf_limit;
-                }
-
-                ddouble t_inv = 1d / t;
-                ddouble x = (1d - t) * t_inv;
-
-                Complex z = (zr, x * z_scale);
-                ddouble pdf = Complex.Erfcx(z).R;
-
-                ddouble y = pdf * t_inv * t_inv;
-
-                return y;
-            };
-
             this.cdf_cache ??= new CDFSegmentCache(
                 0d, 1d,
-                f,
+                Integrand,
                 samples: cache_samples
             );
 
             ddouble t = 1d / (Abs(x) + 1d);
 
             ddouble cdf = (interval == Interval.Lower) ^ (x < 0d)
-                ? Min(1d, 0.5d + cdf_cache.Upper(t) * pdf_norm)
-                : Min(0.5d, cdf_cache.Lower(t) * pdf_norm);
+                ? Min(1d, 0.5d + cdf_cache.Upper(t))
+                : Min(0.5d, cdf_cache.Lower(t));
 
             return cdf;
+        }
+
+        public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
+            if (!InRangeUnit(p)) {
+                return NaN;
+            }
+
+            if (p > 0.5) {
+                return (interval == Interval.Lower) ? Quantile(1d - p, Interval.Upper) : Quantile(1d - p, Interval.Lower);
+            }
+
+            this.cdf_cache ??= new CDFSegmentCache(
+                0d, 1d,
+                Integrand,
+                samples: cache_samples
+            );
+
+            if (interval == Interval.Lower) {
+                if (p <= 0d) {
+                    return NegativeInfinity;
+                }
+
+                this.quantile_lower_builder ??= new QuantileBuilder(
+                    1d, 0d,
+                    new ReadOnlyCollection<ddouble>(cdf_cache.UpperSegmentTable.Reverse().Select(x => Min(0.5d, x)).ToArray()),
+                    cdf_cache.Samples
+                );
+
+                (ddouble t, ddouble t0, ddouble t1) = quantile_lower_builder.Estimate(0.5d - p);
+
+                if (IsNegativeInfinity(t1)) {
+                    return NegativeInfinity;
+                }
+                if (IsPositiveInfinity(t0)) {
+                    return 0d;
+                }
+
+                ddouble x = (1d - t) / -t;
+                ddouble x0 = (1d - t0) / -t0;
+                ddouble x1 = (1d - t1) / -t1;
+
+                for (int i = 0; i < 8; i++) {
+                    ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x = Clamp(x - dx, x1, x0);
+
+                    if (Abs(dx / x) < 1e-29) {
+                        break;
+                    }
+                }
+
+                return x;
+            }
+            else {
+                if (p <= 0d) {
+                    return PositiveInfinity;
+                }
+
+                this.quantile_upper_builder ??= new QuantileBuilder(
+                    0d, 1d,
+                    new ReadOnlyCollection<ddouble>(cdf_cache.LowerSegmentTable.Select(x => Min(0.5d, x)).ToArray()),
+                    cdf_cache.Samples
+                );
+
+                (ddouble t, ddouble t0, ddouble t1) = quantile_upper_builder.Estimate(p);
+
+                if (IsNegativeInfinity(t0)) {
+                    return PositiveInfinity;
+                }
+                if (IsPositiveInfinity(t1)) {
+                    return 0d;
+                }
+
+                ddouble x = (1d - t) / t;
+                ddouble x0 = (1d - t0) / t0;
+                ddouble x1 = (1d - t1) / t1;
+
+                for (int i = 0; i < 8; i++) {
+                    ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
+
+                    if (!IsFinite(dx)) {
+                        break;
+                    }
+
+                    x = Clamp(x + dx, x1, x0);
+
+                    if (Abs(dx / x) < 1e-29) {
+                        break;
+                    }
+                }
+
+                return x;
+            }
+        }
+
+        internal ddouble Integrand(ddouble t) {
+            if (IsZero(t)) {
+                return cdf_limit;
+            }
+
+            ddouble t_inv = 1d / t;
+            ddouble x = (1d - t) * t_inv;
+
+            Complex z = (zr, x * z_scale);
+            ddouble pdf = Complex.Erfcx(z).R * pdf_norm;
+
+            ddouble y = pdf * t_inv * t_inv;
+
+            return y;
         }
 
         public override bool AdditiveClosed => true;
