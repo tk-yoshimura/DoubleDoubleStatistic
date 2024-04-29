@@ -5,10 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleStatisticTest.ScalableDistribution {
     [TestClass()]
     public class VoigtDistributionTests {
-        readonly VoigtDistribution dist1 = new() { EnableCDFErrorException = true };
-        readonly VoigtDistribution dist2 = new(gamma: 2, sigma: 3) { EnableCDFErrorException = true };
-        readonly VoigtDistribution dist3 = new(gamma: 3, sigma: 4) { EnableCDFErrorException = true };
-        readonly VoigtDistribution dist4 = new(gamma: 1d / 16, sigma: 3d / 8) { EnableCDFErrorException = true };
+        readonly VoigtDistribution dist1 = new();
+        readonly VoigtDistribution dist2 = new(gamma: 2, sigma: 3);
+        readonly VoigtDistribution dist3 = new(gamma: 3, sigma: 4);
+        readonly VoigtDistribution dist4 = new(gamma: 1d / 16, sigma: 3d / 8);
 
         VoigtDistribution[] Dists => [
             dist1,
@@ -268,11 +268,11 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            VoigtDistribution dist_g1s1 = new(gamma: 1, sigma: 1) { EnableCDFErrorException = true };
-            VoigtDistribution dist_g2s1 = new(gamma: 2, sigma: 1) { EnableCDFErrorException = true };
-            VoigtDistribution dist_g1s2 = new(gamma: 1, sigma: 2) { EnableCDFErrorException = true };
-            VoigtDistribution dist_g2s4 = new(gamma: 2, sigma: 4) { EnableCDFErrorException = true };
-            VoigtDistribution dist_grcp4srcp2 = new(gamma: 0.25, sigma: 0.5) { EnableCDFErrorException = true };
+            VoigtDistribution dist_g1s1 = new(gamma: 1, sigma: 1);
+            VoigtDistribution dist_g2s1 = new(gamma: 2, sigma: 1);
+            VoigtDistribution dist_g1s2 = new(gamma: 1, sigma: 2);
+            VoigtDistribution dist_g2s4 = new(gamma: 2, sigma: 4);
+            VoigtDistribution dist_grcp4srcp2 = new(gamma: 0.25, sigma: 0.5);
 
             ddouble[] expected_g1s1 = [
                 "0.4869597013016863855493486350777892009578",
@@ -422,7 +422,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                 (2, -1, expected_g2x1), (1, -4096, expected_g1x4096)
             }) {
                 for ((ddouble sigma, int i) = (1d / 4, 0); i < expecteds.Length; sigma *= 2, i++) {
-                    VoigtDistribution dist = new(gamma, sigma) { EnableCDFErrorException = true };
+                    VoigtDistribution dist = new(gamma, sigma);
                     ddouble expected = expecteds[i];
                     ddouble actual = dist.CDF(x);
 
@@ -459,7 +459,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                 (1, -1, expected_s1x1), (2, -4096, expected_s2x4096)
             }) {
                 for ((ddouble gamma, int i) = (1d / 4, 0); i < expecteds.Length; gamma *= 2, i++) {
-                    VoigtDistribution dist = new(gamma, sigma) { EnableCDFErrorException = true };
+                    VoigtDistribution dist = new(gamma, sigma);
                     ddouble expected = expecteds[i];
                     ddouble actual = dist.CDF(x);
 

@@ -11,8 +11,6 @@ namespace DoubleDoubleStatistic {
         private readonly int n;
         private readonly double zero_thr;
 
-        public bool EnableCDFErrorException { get; set; } = false;
-
         public StudentTDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu > 0d);
 
