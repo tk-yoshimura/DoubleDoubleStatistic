@@ -1,6 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.Utils;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
@@ -8,6 +8,7 @@ namespace DoubleDoubleStatistic {
 
         public ddouble Nu { get; }
 
+        private const int cache_samples = 512;
         private CDFSegmentCache cdf_cache;
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
@@ -47,7 +48,8 @@ namespace DoubleDoubleStatistic {
             }
 
             this.cdf_cache ??= new CDFSegmentCache(0d, 1d,
-                t => t > 0d ? PDF((1d - t) / t * mode) / (t * t) : 0d
+                t => t > 0d ? PDF((1d - t) / t * mode) / (t * t) : 0d,
+                samples: cache_samples
             );
 
             ddouble t = mode / (x + mode);
@@ -69,10 +71,25 @@ namespace DoubleDoubleStatistic {
                 return (interval == Interval.Lower) ? Quantile(1d - p, Interval.Upper) : Quantile(1d - p, Interval.Lower);
             }
 
-            if (interval == Interval.Lower) {
-                this.quantile_lower_builder ??= new QuantileBuilder(0d, 2d * Nu + 1d, x => CDF(x, Interval.Lower));
+            ddouble mode = Mode;
 
-                (ddouble x, ddouble x0, ddouble x1) = quantile_lower_builder.Estimate(p);
+            this.cdf_cache ??= new CDFSegmentCache(0d, 1d,
+                t => t > 0d ? PDF((1d - t) / t * mode) / (t * t) : 0d,
+                samples: cache_samples
+            );
+
+            if (interval == Interval.Lower) {
+                this.quantile_lower_builder ??= new QuantileBuilder(
+                    1d, 0d,
+                    new ReadOnlyCollection<ddouble>(cdf_cache.UpperSegmentTable.Reverse().ToArray()),
+                    cdf_cache.Samples
+                );
+
+                (ddouble t, ddouble t0, ddouble t1) = quantile_lower_builder.Estimate(p / mode);
+
+                ddouble x = (1d - t) / t * mode;
+                ddouble x0 = (1d - t0) / t0 * mode;
+                ddouble x1 = (1d - t1) / t1 * mode;
 
                 for (int i = 0; i < 8; i++) {
                     ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
@@ -83,7 +100,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x - dx, x0, x1);
 
-                    if (Abs(dx / x) < 1e-32) {
+                    if (Abs(dx / x) < 1e-29) {
                         break;
                     }
                 }
@@ -95,9 +112,17 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                this.quantile_upper_builder ??= new QuantileBuilder(2d * Nu + 32d, 0d, x => CDF(x, Interval.Upper));
+                this.quantile_upper_builder ??= new QuantileBuilder(
+                    0d, 1d, 
+                    cdf_cache.LowerSegmentTable, 
+                    cdf_cache.Samples
+                );
 
-                (ddouble x, ddouble x0, ddouble x1) = quantile_upper_builder.Estimate(p);
+                (ddouble t, ddouble t0, ddouble t1) = quantile_upper_builder.Estimate(p / mode);
+
+                ddouble x = (1d - t) / t * mode;
+                ddouble x0 = (1d - t0) / t0 * mode;
+                ddouble x1 = (1d - t1) / t1 * mode;
 
                 for (int i = 0; i < 8; i++) {
                     ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
@@ -108,7 +133,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x + dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-32) {
+                    if (Abs(dx / x) < 1e-29) {
                         break;
                     }
                 }

@@ -97,7 +97,7 @@ namespace DoubleDoubleStatistic {
                     return Min(1d, y);
                 }
 
-                this.quantile_lower_builder ??= new QuantileBuilder(0d, 2d, f);
+                this.quantile_lower_builder ??= new QuantileBuilder(0d, 2d, f, samples: 1024);
 
                 (ddouble x, ddouble x0, ddouble x1) = quantile_lower_builder.Estimate(p);
 
@@ -130,12 +130,12 @@ namespace DoubleDoubleStatistic {
                     return Max(0d, y);
                 }
 
-                this.quantile_upper_builder ??= new QuantileBuilder(64d, 0d, f);
+                this.quantile_upper_builder ??= new QuantileBuilder(64d, 0d, f, samples: 1024);
 
                 (ddouble x, ddouble x0, ddouble x1) = quantile_upper_builder.Estimate(p);
 
                 if (IsPositiveInfinity(x0)) {
-                    this.quantile_upper_ex_builder ??= new QuantileBuilder(2112d, 64d, f);
+                    this.quantile_upper_ex_builder ??= new QuantileBuilder(2112d, 64d, f, samples: 1024);
 
                     (x, x0, x1) = quantile_upper_ex_builder.Estimate(p);
                 }
