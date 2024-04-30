@@ -8,7 +8,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<CauchyDistribution, CauchyDistribution, CauchyDistribution>,
         IAdditionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         ISubtractionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
-        IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution> {
+        IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution>,
+        IDivisionOperators<CauchyDistribution, ddouble, CauchyDistribution> {
 
         public override ddouble Mu { get; }
         public ddouble Gamma { get; }
@@ -130,6 +131,10 @@ namespace DoubleDoubleStatistic {
 
         public static CauchyDistribution operator *(CauchyDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Gamma * k);
+        }
+
+        public static CauchyDistribution operator /(CauchyDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Gamma / k);
         }
 
         public override string ToString() {

@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class BirnbaumSaundersDistribution : ScalableDistribution<BirnbaumSaundersDistribution>,
-        IMultiplyOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution> {
+        IMultiplyOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution>,
+        IDivisionOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution> {
 
         public ddouble Theta { get; }
         public ddouble Alpha { get; }
@@ -147,6 +148,10 @@ namespace DoubleDoubleStatistic {
 
         public static BirnbaumSaundersDistribution operator *(BirnbaumSaundersDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta * k);
+        }
+
+        public static BirnbaumSaundersDistribution operator /(BirnbaumSaundersDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.Theta / k);
         }
 
         public override string ToString() {

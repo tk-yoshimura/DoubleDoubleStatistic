@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class GammaDistribution : ScalableDistribution<GammaDistribution>,
-        IMultiplyOperators<GammaDistribution, ddouble, GammaDistribution> {
+        IMultiplyOperators<GammaDistribution, ddouble, GammaDistribution>,
+        IDivisionOperators<GammaDistribution, ddouble, GammaDistribution> {
 
         public ddouble K { get; }
         public ddouble Theta { get; }
@@ -105,6 +106,10 @@ namespace DoubleDoubleStatistic {
 
         public static GammaDistribution operator *(GammaDistribution dist, ddouble k) {
             return new(dist.K, dist.Theta * k);
+        }
+
+        public static GammaDistribution operator /(GammaDistribution dist, ddouble k) {
+            return new(dist.K, dist.Theta / k);
         }
 
         public override string ToString() {

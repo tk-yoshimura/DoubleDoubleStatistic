@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class FrechetDistribution : LinearityDistribution<FrechetDistribution>,
         IAdditionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
         ISubtractionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
-        IMultiplyOperators<FrechetDistribution, ddouble, FrechetDistribution> {
+        IMultiplyOperators<FrechetDistribution, ddouble, FrechetDistribution>,
+        IDivisionOperators<FrechetDistribution, ddouble, FrechetDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }
@@ -185,6 +186,10 @@ namespace DoubleDoubleStatistic {
 
         public static FrechetDistribution operator *(FrechetDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Mu * k, dist.Theta * k);
+        }
+
+        public static FrechetDistribution operator /(FrechetDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.Mu / k, dist.Theta / k);
         }
 
         public override string ToString() {

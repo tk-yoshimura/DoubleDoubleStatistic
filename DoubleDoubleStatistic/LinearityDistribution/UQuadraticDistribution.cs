@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class UQuadraticDistribution : LinearityDistribution<UQuadraticDistribution>,
         IAdditionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
         ISubtractionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
-        IMultiplyOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution> {
+        IMultiplyOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
+        IDivisionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -126,6 +127,10 @@ namespace DoubleDoubleStatistic {
 
         public static UQuadraticDistribution operator *(UQuadraticDistribution dist, ddouble k) {
             return new(dist.A * k, dist.B * k);
+        }
+
+        public static UQuadraticDistribution operator /(UQuadraticDistribution dist, ddouble k) {
+            return new(dist.A / k, dist.B / k);
         }
 
         public override string ToString() {

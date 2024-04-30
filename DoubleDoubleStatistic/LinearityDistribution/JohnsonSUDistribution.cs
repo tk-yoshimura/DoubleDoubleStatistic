@@ -5,6 +5,7 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic {
     public class JohnsonSUDistribution : LinearityDistribution<JohnsonSUDistribution>,
         IMultiplyOperators<JohnsonSUDistribution, ddouble, JohnsonSUDistribution>,
+        IDivisionOperators<JohnsonSUDistribution, ddouble, JohnsonSUDistribution>,
         IAdditionOperators<JohnsonSUDistribution, ddouble, JohnsonSUDistribution>,
         ISubtractionOperators<JohnsonSUDistribution, ddouble, JohnsonSUDistribution> {
 
@@ -145,6 +146,10 @@ namespace DoubleDoubleStatistic {
 
         public static JohnsonSUDistribution operator *(JohnsonSUDistribution dist, ddouble k) {
             return new(dist.Gamma, dist.Sigma, dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static JohnsonSUDistribution operator /(JohnsonSUDistribution dist, ddouble k) {
+            return new(dist.Gamma, dist.Sigma, dist.Mu / k, dist.Sigma / k);
         }
 
         public static JohnsonSUDistribution operator +(JohnsonSUDistribution dist, ddouble s) {

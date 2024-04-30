@@ -10,7 +10,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<LandauDistribution, LandauDistribution, LandauDistribution>,
         IAdditionOperators<LandauDistribution, ddouble, LandauDistribution>,
         ISubtractionOperators<LandauDistribution, ddouble, LandauDistribution>,
-        IMultiplyOperators<LandauDistribution, ddouble, LandauDistribution> {
+        IMultiplyOperators<LandauDistribution, ddouble, LandauDistribution>,
+        IDivisionOperators<LandauDistribution, ddouble, LandauDistribution> {
 
         public override ddouble Mu { get; }
 
@@ -107,6 +108,10 @@ namespace DoubleDoubleStatistic {
 
         public static LandauDistribution operator *(LandauDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.C * k);
+        }
+
+        public static LandauDistribution operator /(LandauDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.C / k);
         }
 
         public override string ToString() {

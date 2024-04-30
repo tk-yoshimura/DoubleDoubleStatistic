@@ -10,7 +10,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<MapAiryDistribution, MapAiryDistribution, MapAiryDistribution>,
         IAdditionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
         ISubtractionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
-        IMultiplyOperators<MapAiryDistribution, ddouble, MapAiryDistribution> {
+        IMultiplyOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
+        IDivisionOperators<MapAiryDistribution, ddouble, MapAiryDistribution> {
 
         public override ddouble Mu { get; }
 
@@ -107,6 +108,10 @@ namespace DoubleDoubleStatistic {
 
         public static MapAiryDistribution operator *(MapAiryDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.C * k);
+        }
+
+        public static MapAiryDistribution operator /(MapAiryDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.C / k);
         }
 
         public override string ToString() {

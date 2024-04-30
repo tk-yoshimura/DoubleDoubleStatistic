@@ -7,7 +7,8 @@ using Complex = DoubleDoubleComplex.Complex;
 namespace DoubleDoubleStatistic {
     public class VoigtDistribution : ScalableDistribution<VoigtDistribution>,
         IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
-        IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution> {
+        IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution>,
+        IDivisionOperators<VoigtDistribution, ddouble, VoigtDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
@@ -222,6 +223,10 @@ namespace DoubleDoubleStatistic {
 
         public static VoigtDistribution operator *(VoigtDistribution dist, ddouble k) {
             return new(dist.Gamma * k, dist.Sigma * k);
+        }
+
+        public static VoigtDistribution operator /(VoigtDistribution dist, ddouble k) {
+            return new(dist.Gamma / k, dist.Sigma / k);
         }
 
         public override string Formula => "p(x; gamma, sigma) := Re[erfcx((x + i * gamma) / (sigma * sqrt(2)))] / (sigma * sqrt(2 * pi))";

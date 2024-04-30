@@ -10,7 +10,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<SaSPoint5Distribution, SaSPoint5Distribution, SaSPoint5Distribution>,
         IAdditionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
         ISubtractionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
-        IMultiplyOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution> {
+        IMultiplyOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
+        IDivisionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution> {
 
         public override ddouble Mu { get; }
 
@@ -114,6 +115,10 @@ namespace DoubleDoubleStatistic {
 
         public static SaSPoint5Distribution operator *(SaSPoint5Distribution dist, ddouble k) {
             return new(dist.Mu * k, dist.C * k);
+        }
+
+        public static SaSPoint5Distribution operator /(SaSPoint5Distribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.C / k);
         }
 
         public override string ToString() {

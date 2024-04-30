@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class HalfNormalDistribution : ScalableDistribution<HalfNormalDistribution>,
-        IMultiplyOperators<HalfNormalDistribution, ddouble, HalfNormalDistribution> {
+        IMultiplyOperators<HalfNormalDistribution, ddouble, HalfNormalDistribution>,
+        IDivisionOperators<HalfNormalDistribution, ddouble, HalfNormalDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -96,6 +97,10 @@ namespace DoubleDoubleStatistic {
 
         public static HalfNormalDistribution operator *(HalfNormalDistribution dist, ddouble k) {
             return new(dist.Sigma * k);
+        }
+
+        public static HalfNormalDistribution operator /(HalfNormalDistribution dist, ddouble k) {
+            return new(dist.Sigma / k);
         }
 
         public override string ToString() {

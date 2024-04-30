@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class UniformDistribution : LinearityDistribution<UniformDistribution>,
         IAdditionOperators<UniformDistribution, ddouble, UniformDistribution>,
         ISubtractionOperators<UniformDistribution, ddouble, UniformDistribution>,
-        IMultiplyOperators<UniformDistribution, ddouble, UniformDistribution> {
+        IMultiplyOperators<UniformDistribution, ddouble, UniformDistribution>,
+        IDivisionOperators<UniformDistribution, ddouble, UniformDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -116,6 +117,10 @@ namespace DoubleDoubleStatistic {
 
         public static UniformDistribution operator *(UniformDistribution dist, ddouble k) {
             return new(dist.A * k, dist.B * k);
+        }
+
+        public static UniformDistribution operator /(UniformDistribution dist, ddouble k) {
+            return new(dist.A / k, dist.B / k);
         }
 
         public override string ToString() {

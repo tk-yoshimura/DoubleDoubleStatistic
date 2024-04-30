@@ -7,6 +7,7 @@ namespace DoubleDoubleStatistic {
             IAdditionOperators<TSelf, TSelf, TSelf>,
             ISubtractionOperators<TSelf, TSelf, TSelf>,
             IMultiplyOperators<TSelf, ddouble, TSelf>,
+            IDivisionOperators<TSelf, ddouble, TSelf>,
             IAdditionOperators<TSelf, ddouble, TSelf>,
             ISubtractionOperators<TSelf, ddouble, TSelf> {
 

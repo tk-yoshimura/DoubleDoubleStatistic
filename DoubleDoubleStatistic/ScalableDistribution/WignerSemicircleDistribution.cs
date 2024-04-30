@@ -6,7 +6,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class WignerSemicircleDistribution : ScalableDistribution<WignerSemicircleDistribution>,
-        IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution> {
+        IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution>,
+        IDivisionOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution> {
 
         public ddouble R { get; }
 
@@ -91,6 +92,10 @@ namespace DoubleDoubleStatistic {
 
         public static WignerSemicircleDistribution operator *(WignerSemicircleDistribution dist, ddouble k) {
             return new(dist.R * k);
+        }
+
+        public static WignerSemicircleDistribution operator /(WignerSemicircleDistribution dist, ddouble k) {
+            return new(dist.R / k);
         }
 
         public override string ToString() {

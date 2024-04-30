@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class InverseGaussDistribution : ScalableDistribution<InverseGaussDistribution>,
-        IMultiplyOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution> {
+        IMultiplyOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution>,
+        IDivisionOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Lambda { get; }
@@ -186,6 +187,10 @@ namespace DoubleDoubleStatistic {
 
         public static InverseGaussDistribution operator *(InverseGaussDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Lambda * k);
+        }
+
+        public static InverseGaussDistribution operator /(InverseGaussDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Lambda / k);
         }
 
         public override string ToString() {

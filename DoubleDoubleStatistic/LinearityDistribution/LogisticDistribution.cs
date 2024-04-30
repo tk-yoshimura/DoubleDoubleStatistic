@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class LogisticDistribution : LinearityDistribution<LogisticDistribution>,
         IAdditionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
         ISubtractionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
-        IMultiplyOperators<LogisticDistribution, ddouble, LogisticDistribution> {
+        IMultiplyOperators<LogisticDistribution, ddouble, LogisticDistribution>,
+        IDivisionOperators<LogisticDistribution, ddouble, LogisticDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -100,6 +101,10 @@ namespace DoubleDoubleStatistic {
 
         public static LogisticDistribution operator *(LogisticDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static LogisticDistribution operator /(LogisticDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {

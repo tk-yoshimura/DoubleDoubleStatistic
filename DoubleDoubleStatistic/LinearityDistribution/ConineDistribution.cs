@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class CosineDistribution : LinearityDistribution<CosineDistribution>,
         IAdditionOperators<CosineDistribution, ddouble, CosineDistribution>,
         ISubtractionOperators<CosineDistribution, ddouble, CosineDistribution>,
-        IMultiplyOperators<CosineDistribution, ddouble, CosineDistribution> {
+        IMultiplyOperators<CosineDistribution, ddouble, CosineDistribution>,
+        IDivisionOperators<CosineDistribution, ddouble, CosineDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -117,6 +118,10 @@ namespace DoubleDoubleStatistic {
 
         public static CosineDistribution operator *(CosineDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static CosineDistribution operator /(CosineDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {

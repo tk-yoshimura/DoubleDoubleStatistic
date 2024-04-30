@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class HyperbolicSecantDistribution : ScalableDistribution<HyperbolicSecantDistribution>,
-        IMultiplyOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution> {
+        IMultiplyOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution>,
+        IDivisionOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -71,6 +72,10 @@ namespace DoubleDoubleStatistic {
 
         public static HyperbolicSecantDistribution operator *(HyperbolicSecantDistribution dist, ddouble k) {
             return new(dist.Sigma * k);
+        }
+
+        public static HyperbolicSecantDistribution operator /(HyperbolicSecantDistribution dist, ddouble k) {
+            return new(dist.Sigma / k);
         }
 
         public override string ToString() {

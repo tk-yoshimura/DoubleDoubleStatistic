@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class ExponentialDistribution : ScalableDistribution<ExponentialDistribution>,
-        IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution> {
+        IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution>,
+        IDivisionOperators<ExponentialDistribution, ddouble, ExponentialDistribution> {
 
         public ddouble Theta { get; }
 
@@ -99,6 +100,10 @@ namespace DoubleDoubleStatistic {
 
         public static ExponentialDistribution operator *(ExponentialDistribution dist, ddouble k) {
             return new(dist.Theta * k);
+        }
+
+        public static ExponentialDistribution operator /(ExponentialDistribution dist, ddouble k) {
+            return new(dist.Theta / k);
         }
 
         public override string ToString() {

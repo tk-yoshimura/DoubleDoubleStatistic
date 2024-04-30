@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class LaplaceDistribution : LinearityDistribution<LaplaceDistribution>,
         IAdditionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         ISubtractionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
-        IMultiplyOperators<LaplaceDistribution, ddouble, LaplaceDistribution> {
+        IMultiplyOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
+        IDivisionOperators<LaplaceDistribution, ddouble, LaplaceDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -97,6 +98,10 @@ namespace DoubleDoubleStatistic {
 
         public static LaplaceDistribution operator *(LaplaceDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static LaplaceDistribution operator /(LaplaceDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {

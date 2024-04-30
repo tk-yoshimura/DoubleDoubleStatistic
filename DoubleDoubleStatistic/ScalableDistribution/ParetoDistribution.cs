@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class ParetoDistribution : ScalableDistribution<ParetoDistribution>,
-        IMultiplyOperators<ParetoDistribution, ddouble, ParetoDistribution> {
+        IMultiplyOperators<ParetoDistribution, ddouble, ParetoDistribution>,
+        IDivisionOperators<ParetoDistribution, ddouble, ParetoDistribution> {
 
         public ddouble K { get; }
         public ddouble Alpha { get; }
@@ -99,6 +100,10 @@ namespace DoubleDoubleStatistic {
 
         public static ParetoDistribution operator *(ParetoDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.K * k);
+        }
+
+        public static ParetoDistribution operator /(ParetoDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.K / k);
         }
 
         public override string ToString() {

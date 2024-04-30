@@ -10,7 +10,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<HoltsmarkDistribution, HoltsmarkDistribution, HoltsmarkDistribution>,
         IAdditionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
         ISubtractionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
-        IMultiplyOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution> {
+        IMultiplyOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
+        IDivisionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution> {
 
         public override ddouble Mu { get; }
 
@@ -114,6 +115,10 @@ namespace DoubleDoubleStatistic {
 
         public static HoltsmarkDistribution operator *(HoltsmarkDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.C * k);
+        }
+
+        public static HoltsmarkDistribution operator /(HoltsmarkDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.C / k);
         }
 
         public override string ToString() {

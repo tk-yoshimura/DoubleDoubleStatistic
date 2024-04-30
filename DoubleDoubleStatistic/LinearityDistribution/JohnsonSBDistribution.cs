@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class JohnsonSBDistribution : LinearityDistribution<JohnsonSBDistribution>,
         IMultiplyOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
         IAdditionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
-        ISubtractionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution> {
+        ISubtractionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
+        IDivisionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Delta { get; }
@@ -148,6 +149,10 @@ namespace DoubleDoubleStatistic {
 
         public static JohnsonSBDistribution operator *(JohnsonSBDistribution dist, ddouble k) {
             return new(dist.Gamma, dist.Sigma, dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static JohnsonSBDistribution operator /(JohnsonSBDistribution dist, ddouble k) {
+            return new(dist.Gamma, dist.Sigma, dist.Mu / k, dist.Sigma / k);
         }
 
         public static JohnsonSBDistribution operator +(JohnsonSBDistribution dist, ddouble s) {

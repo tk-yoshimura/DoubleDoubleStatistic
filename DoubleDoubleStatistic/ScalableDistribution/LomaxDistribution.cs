@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class LomaxDistribution : ScalableDistribution<LomaxDistribution>,
-        IMultiplyOperators<LomaxDistribution, ddouble, LomaxDistribution> {
+        IMultiplyOperators<LomaxDistribution, ddouble, LomaxDistribution>,
+        IDivisionOperators<LomaxDistribution, ddouble, LomaxDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Theta { get; }
@@ -117,6 +118,10 @@ namespace DoubleDoubleStatistic {
 
         public static LomaxDistribution operator *(LomaxDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta * k);
+        }
+
+        public static LomaxDistribution operator /(LomaxDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.Theta / k);
         }
 
         public override string ToString() {

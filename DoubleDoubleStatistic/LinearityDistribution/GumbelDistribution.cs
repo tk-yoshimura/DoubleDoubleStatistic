@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class GumbelDistribution : LinearityDistribution<GumbelDistribution>,
         IAdditionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
         ISubtractionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
-        IMultiplyOperators<GumbelDistribution, ddouble, GumbelDistribution> {
+        IMultiplyOperators<GumbelDistribution, ddouble, GumbelDistribution>,
+        IDivisionOperators<GumbelDistribution, ddouble, GumbelDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -105,6 +106,10 @@ namespace DoubleDoubleStatistic {
 
         public static GumbelDistribution operator *(GumbelDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static GumbelDistribution operator /(GumbelDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {

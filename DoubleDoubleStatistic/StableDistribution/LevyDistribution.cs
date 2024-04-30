@@ -8,7 +8,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<LevyDistribution, LevyDistribution, LevyDistribution>,
         IAdditionOperators<LevyDistribution, ddouble, LevyDistribution>,
         ISubtractionOperators<LevyDistribution, ddouble, LevyDistribution>,
-        IMultiplyOperators<LevyDistribution, ddouble, LevyDistribution> {
+        IMultiplyOperators<LevyDistribution, ddouble, LevyDistribution>,
+        IDivisionOperators<LevyDistribution, ddouble, LevyDistribution> {
 
         public override ddouble Mu { get; }
         public override ddouble C { get; }
@@ -124,6 +125,10 @@ namespace DoubleDoubleStatistic {
 
         public static LevyDistribution operator *(LevyDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.C * k);
+        }
+
+        public static LevyDistribution operator /(LevyDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.C / k);
         }
 
         public override string ToString() {

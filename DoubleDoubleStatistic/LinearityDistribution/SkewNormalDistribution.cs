@@ -8,7 +8,8 @@ namespace DoubleDoubleStatistic {
     public class SkewNormalDistribution : LinearityDistribution<SkewNormalDistribution>,
         IAdditionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
         ISubtractionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
-        IMultiplyOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution> {
+        IMultiplyOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
+        IDivisionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -268,6 +269,10 @@ namespace DoubleDoubleStatistic {
 
         public static SkewNormalDistribution operator *(SkewNormalDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static SkewNormalDistribution operator /(SkewNormalDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {

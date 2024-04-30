@@ -8,7 +8,8 @@ namespace DoubleDoubleStatistic {
         ISubtractionOperators<NormalDistribution, NormalDistribution, NormalDistribution>,
         IAdditionOperators<NormalDistribution, ddouble, NormalDistribution>,
         ISubtractionOperators<NormalDistribution, ddouble, NormalDistribution>,
-        IMultiplyOperators<NormalDistribution, ddouble, NormalDistribution> {
+        IMultiplyOperators<NormalDistribution, ddouble, NormalDistribution>,
+        IDivisionOperators<NormalDistribution, ddouble, NormalDistribution> {
 
         public override ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -106,6 +107,10 @@ namespace DoubleDoubleStatistic {
 
         public static NormalDistribution operator *(NormalDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
+        }
+
+        public static NormalDistribution operator /(NormalDistribution dist, ddouble k) {
+            return new(dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {

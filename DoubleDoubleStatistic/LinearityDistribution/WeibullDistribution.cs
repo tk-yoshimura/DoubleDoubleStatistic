@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class WeibullDistribution : LinearityDistribution<WeibullDistribution>,
         IAdditionOperators<WeibullDistribution, ddouble, WeibullDistribution>,
         ISubtractionOperators<WeibullDistribution, ddouble, WeibullDistribution>,
-        IMultiplyOperators<WeibullDistribution, ddouble, WeibullDistribution> {
+        IMultiplyOperators<WeibullDistribution, ddouble, WeibullDistribution>,
+        IDivisionOperators<WeibullDistribution, ddouble, WeibullDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }
@@ -158,6 +159,10 @@ namespace DoubleDoubleStatistic {
 
         public static WeibullDistribution operator *(WeibullDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Mu * k, dist.Theta * k);
+        }
+
+        public static WeibullDistribution operator /(WeibullDistribution dist, ddouble k) {
+            return new(dist.Alpha, dist.Mu / k, dist.Theta / k);
         }
 
         public override string ToString() {

@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class MaxwellDistribution : ScalableDistribution<MaxwellDistribution>,
-        IMultiplyOperators<MaxwellDistribution, ddouble, MaxwellDistribution> {
+        IMultiplyOperators<MaxwellDistribution, ddouble, MaxwellDistribution>,
+        IDivisionOperators<MaxwellDistribution, ddouble, MaxwellDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -121,6 +122,10 @@ namespace DoubleDoubleStatistic {
 
         public static MaxwellDistribution operator *(MaxwellDistribution dist, ddouble k) {
             return new(dist.Sigma * k);
+        }
+
+        public static MaxwellDistribution operator /(MaxwellDistribution dist, ddouble k) {
+            return new(dist.Sigma / k);
         }
 
         public override string ToString() {

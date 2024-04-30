@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class RayleighDistribution : ScalableDistribution<RayleighDistribution>,
-        IMultiplyOperators<RayleighDistribution, ddouble, RayleighDistribution> {
+        IMultiplyOperators<RayleighDistribution, ddouble, RayleighDistribution>,
+        IDivisionOperators<RayleighDistribution, ddouble, RayleighDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -129,6 +130,10 @@ namespace DoubleDoubleStatistic {
 
         public static RayleighDistribution operator *(RayleighDistribution dist, ddouble k) {
             return new(dist.Sigma * k);
+        }
+
+        public static RayleighDistribution operator /(RayleighDistribution dist, ddouble k) {
+            return new(dist.Sigma / k);
         }
 
         public override string ToString() {

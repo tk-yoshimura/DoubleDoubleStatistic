@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class LogLogisticDistribution : ScalableDistribution<LogLogisticDistribution>,
-        IMultiplyOperators<LogLogisticDistribution, ddouble, LogLogisticDistribution> {
+        IMultiplyOperators<LogLogisticDistribution, ddouble, LogLogisticDistribution>,
+        IDivisionOperators<LogLogisticDistribution, ddouble, LogLogisticDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
@@ -153,6 +154,10 @@ namespace DoubleDoubleStatistic {
 
         public static LogLogisticDistribution operator *(LogLogisticDistribution dist, ddouble k) {
             return new(dist.Gamma, dist.Sigma * k);
+        }
+
+        public static LogLogisticDistribution operator /(LogLogisticDistribution dist, ddouble k) {
+            return new(dist.Gamma, dist.Sigma / k);
         }
 
         public override string ToString() {

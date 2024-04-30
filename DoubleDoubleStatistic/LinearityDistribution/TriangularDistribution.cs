@@ -6,7 +6,8 @@ namespace DoubleDoubleStatistic {
     public class TriangularDistribution : LinearityDistribution<TriangularDistribution>,
         IAdditionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
         ISubtractionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
-        IMultiplyOperators<TriangularDistribution, ddouble, TriangularDistribution> {
+        IMultiplyOperators<TriangularDistribution, ddouble, TriangularDistribution>,
+        IDivisionOperators<TriangularDistribution, ddouble, TriangularDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -132,6 +133,10 @@ namespace DoubleDoubleStatistic {
 
         public static TriangularDistribution operator *(TriangularDistribution dist, ddouble k) {
             return new(dist.A * k, dist.B * k, dist.C * k);
+        }
+
+        public static TriangularDistribution operator /(TriangularDistribution dist, ddouble k) {
+            return new(dist.A / k, dist.B / k, dist.C / k);
         }
 
         public override string ToString() {

@@ -4,7 +4,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
     public class GompertzDistribution : ScalableDistribution<GompertzDistribution>,
-        IMultiplyOperators<GompertzDistribution, ddouble, GompertzDistribution> {
+        IMultiplyOperators<GompertzDistribution, ddouble, GompertzDistribution>,
+        IDivisionOperators<GompertzDistribution, ddouble, GompertzDistribution> {
 
         public ddouble Eta { get; }
         public ddouble Theta { get; }
@@ -107,6 +108,10 @@ namespace DoubleDoubleStatistic {
 
         public static GompertzDistribution operator *(GompertzDistribution dist, ddouble k) {
             return new(dist.Eta, dist.Theta * k);
+        }
+
+        public static GompertzDistribution operator /(GompertzDistribution dist, ddouble k) {
+            return new(dist.Eta, dist.Theta / k);
         }
 
         public override string ToString() {
