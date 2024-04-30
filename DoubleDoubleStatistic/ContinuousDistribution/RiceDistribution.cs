@@ -164,7 +164,7 @@ namespace DoubleDoubleStatistic {
 
                     x -= dx;
 
-                    if (Abs(dx / x) < 1e-30 || Abs(dx) < Epsilon) {
+                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
                         break;
                     }
                 }

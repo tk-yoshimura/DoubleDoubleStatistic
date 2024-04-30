@@ -7,7 +7,7 @@ namespace DoubleDoubleStatistic {
         public ddouble C { get; }
         public ddouble K { get; }
 
-        private readonly ddouble ck;
+        private readonly ddouble ck, c_inv;
 
         public BurrDistribution(ddouble c, ddouble k) {
             ValidateShape(c, c => c > 0d);
@@ -17,6 +17,7 @@ namespace DoubleDoubleStatistic {
             K = k;
 
             ck = c * k;
+            c_inv = 1d / c;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -98,7 +99,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Pow(Pow(1d / (1d - p), 1d / K) - 1d, 1d / C);
+                ddouble x = Pow(Pow(1d / (1d - p), 1d / K) - 1d, 1d * c_inv);
 
                 return x;
             }
@@ -110,7 +111,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = Pow(Pow(1d / p, 1d / K) - 1d, 1d / C);
+                ddouble x = Pow(Pow(1d / p, 1d / K) - 1d, 1d * c_inv);
 
                 return x;
             }
@@ -119,38 +120,38 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
-            K * Beta(K - 1d / C, 1d + 1d / C);
+            K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
 
         public override ddouble Median =>
-            Pow(Pow2(1d / K) - 1d, 1d / C);
+            Pow(Pow2(1d / K) - 1d, 1d * c_inv);
 
         public override ddouble Mode =>
-            Pow((C - 1d) / (K * C + 1d), 1d / C);
+            Pow((C - 1d) / (K * C + 1d), 1d * c_inv);
 
         public override ddouble Variance {
             get {
-                ddouble mu1 = K * Beta(K - 1d / C, 1d + 1d / C);
-                ddouble mu2 = K * Beta((C * K - 2d) / C, (C + 2d) / C);
+                ddouble mu1 = K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+                ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
 
                 return mu2 - mu1 * mu1;
             }
         }
         public override ddouble Skewness {
             get {
-                ddouble mu1 = K * Beta(K - 1d / C, 1d + 1d / C);
-                ddouble mu2 = K * Beta((C * K - 2d) / C, (C + 2d) / C);
-                ddouble mu3 = K * Beta((C * K - 3d) / C, (C + 3d) / C);
+                ddouble mu1 = K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+                ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
+                ddouble mu3 = K * Beta((C * K - 3d) * c_inv, (C + 3d) * c_inv);
 
-                return (2 * Cube(mu1) - 3d * mu1 * mu2 + mu3) / Cube(Sqrt(mu2 - mu1 * mu1));
+                return (2 * Cube(mu1) - 3d * mu1 * mu2 + mu3) / ExMath.Pow3d2(mu2 - mu1 * mu1);
             }
         }
 
         public override ddouble Kurtosis {
             get {
-                ddouble mu1 = K * Beta(K - 1d / C, 1d + 1d / C);
-                ddouble mu2 = K * Beta((C * K - 2d) / C, (C + 2d) / C);
-                ddouble mu3 = K * Beta((C * K - 3d) / C, (C + 3d) / C);
-                ddouble mu4 = K * Beta((C * K - 4d) / C, (C + 4d) / C);
+                ddouble mu1 = K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+                ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
+                ddouble mu3 = K * Beta((C * K - 3d) * c_inv, (C + 3d) * c_inv);
+                ddouble mu4 = K * Beta((C * K - 4d) * c_inv, (C + 4d) * c_inv);
 
                 return (-3d * Square(Square(mu1)) + 6d * mu1 * mu1 * mu2 - 4d * mu1 * mu3 + mu4) / Square(mu2 - mu1 * mu1) - 3d;
             }

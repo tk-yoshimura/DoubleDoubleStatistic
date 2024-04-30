@@ -15,7 +15,9 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble ab, ac, cb, abxac, abxcb, p_thr;
 
-        public TriangularDistribution(ddouble a, ddouble b) : this(a, b, c: Ldexp(a + b, -1)) { }
+        public TriangularDistribution() : this(0d, 1d) { }
+
+        public TriangularDistribution(ddouble a, ddouble b) : this(a, b, c: (a + b) * 0.5d) { }
 
         public TriangularDistribution(ddouble a, ddouble b, ddouble c) {
             ValidateLocation(a);
@@ -43,8 +45,8 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble pdf = (x <= C)
-                ? 2 * (x - A) / abxac
-                : 2 * (B - x) / abxcb;
+                ? 2d * (x - A) / abxac
+                : 2d * (B - x) / abxcb;
 
             return pdf;
         }
@@ -116,7 +118,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Variance => (A * A + B * B + C * C - A * B - A * C - B * C) / 18d;
 
         public override ddouble Skewness =>
-            Sqrt2 * (2 * A - B - C) * (A - 2 * B + C) * (A + B - 2 * C)
+            Sqrt2 * (2d * A - B - C) * (A - 2d * B + C) * (A + B - 2d * C)
             / (5d * ExMath.Pow3d2(A * A + B * B + C * C - A * B - A * C - B * C));
 
         public override ddouble Kurtosis => -(ddouble)3 / 5;

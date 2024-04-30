@@ -16,7 +16,9 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, gamma_inv;
 
-        public CauchyDistribution() : this(mu: 0, gamma: 1) { }
+        public CauchyDistribution() : this(mu: 0d, gamma: 1d) { }
+
+        public CauchyDistribution(ddouble gamma) : this(mu: 0d, gamma: gamma) { }
 
         public CauchyDistribution(ddouble mu, ddouble gamma) {
             ValidateLocation(mu);
@@ -105,7 +107,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Kurtosis => NaN;
 
-        public override ddouble Entropy => Log(4 * PI * Gamma);
+        public override ddouble Entropy => Log(4d * PI * Gamma);
 
         public override ddouble Alpha => 1d;
 

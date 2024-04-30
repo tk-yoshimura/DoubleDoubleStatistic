@@ -16,7 +16,9 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, c_inv;
 
-        public LevyDistribution() : this(mu: 0, c: 1) { }
+        public LevyDistribution() : this(mu: 0d, c: 1d) { }
+
+        public LevyDistribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public LevyDistribution(ddouble mu, ddouble c) {
             ValidateLocation(mu);
@@ -26,7 +28,7 @@ namespace DoubleDoubleStatistic {
             C = c;
 
             c_inv = 1d / c;
-            pdf_norm = 1d / (C * Sqrt(2 * PI));
+            pdf_norm = 1d / (c * Sqrt(2d * PI));
         }
 
         public override ddouble PDF(ddouble x) {
@@ -77,12 +79,12 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Mu + C / (2 * Square(InverseErfc(p)));
+                ddouble x = Mu + C / (2d * Square(InverseErfc(p)));
 
                 return x;
             }
             else {
-                ddouble x = Mu + C / (2 * Square(InverseErf(p)));
+                ddouble x = Mu + C / (2d * Square(InverseErf(p)));
 
                 return x;
             }
@@ -90,7 +92,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mean => PositiveInfinity;
 
-        public override ddouble Median => Mu + C / (2 * Square(InverseErfc(0.5d)));
+        public override ddouble Median => Mu + C / (2d * Square(InverseErfc(0.5d)));
 
         public override ddouble Mode => Mu + C / 3d;
 
@@ -101,7 +103,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Kurtosis => NaN;
 
         public override ddouble Entropy =>
-            (1d + 3d * EulerGamma + Log(16 * PI * C * C)) / 2;
+            (1d + 3d * EulerGamma + Log(16d * PI * C * C)) * 0.5d;
 
         public override ddouble Alpha => 0.5d;
 

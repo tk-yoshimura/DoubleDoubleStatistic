@@ -16,7 +16,9 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
 
-        public NormalDistribution() : this(mu: 0, sigma: 1) { }
+        public NormalDistribution() : this(mu: 0d, sigma: 1d) { }
+
+        public NormalDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public NormalDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
@@ -26,7 +28,7 @@ namespace DoubleDoubleStatistic {
             Sigma = sigma;
 
             sigma_sq = sigma * sigma;
-            pdf_norm = 1d / (sigma * Sqrt(2 * PI));
+            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
             exp_scale = -1d / (2 * sigma_sq);
             erf_scale = -1d / (Sqrt2 * sigma);
         }
@@ -39,12 +41,12 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             if (interval == Interval.Lower) {
-                ddouble cdf = Ldexp(Erfc((x - Mu) * erf_scale), -1);
+                ddouble cdf = Erfc((x - Mu) * erf_scale) * 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Ldexp(Erfc((Mu - x) * erf_scale), -1);
+                ddouble cdf = Erfc((Mu - x) * erf_scale) * 0.5d;
 
                 return cdf;
             }
@@ -56,12 +58,12 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Mu - Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+                ddouble x = Mu - Sigma * Sqrt2 * InverseErfc(2d * p);
 
                 return x;
             }
             else {
-                ddouble x = Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1));
+                ddouble x = Mu + Sigma * Sqrt2 * InverseErfc(2d * p);
 
                 return x;
             }
@@ -81,7 +83,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Kurtosis => 0;
 
-        public override ddouble Entropy => Log(Sigma * Sqrt(2 * PI * E));
+        public override ddouble Entropy => Log(Sigma * Sqrt(2d * PI * E));
 
         public override ddouble Alpha => 2d;
 

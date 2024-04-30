@@ -21,7 +21,9 @@ namespace DoubleDoubleStatistic {
 
         private static readonly ddouble entropy_base = "2.0694485051346244003155800384542166381";
 
-        public HoltsmarkDistribution() : this(mu: 0, c: 1) { }
+        public HoltsmarkDistribution() : this(mu: 0d, c: 1d) { }
+
+        public HoltsmarkDistribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public HoltsmarkDistribution(ddouble mu, ddouble c) {
             ValidateLocation(mu);

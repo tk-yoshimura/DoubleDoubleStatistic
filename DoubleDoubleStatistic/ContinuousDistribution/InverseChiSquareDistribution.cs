@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic {
 
             Nu = nu;
 
-            c = Nu * 0.5d + 1d;
+            c = nu * 0.5d + 1d;
             pdf_lognorm = nu * 0.5d + LogGamma(nu * 0.5d) * LbE;
         }
 
@@ -26,7 +26,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = Pow2(-c * Log2(x) - LbE / (2 * x) - pdf_lognorm);
+            ddouble pdf = Pow2(-c * Log2(x) - LbE / (2d * x) - pdf_lognorm);
 
             return pdf;
         }
@@ -36,7 +36,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble u = 1d / (2 * x);
+            ddouble u = 1d / (2d * x);
 
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
@@ -89,7 +89,7 @@ namespace DoubleDoubleStatistic {
             ? 1d / (Nu - 2d)
             : NaN;
 
-        public override ddouble Median => Quantile(0.5);
+        public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => 1d / (Nu + 2d);
 
@@ -107,9 +107,9 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Entropy {
             get {
-                ddouble nu_half = Ldexp(Nu, -1);
+                ddouble nu_half = Nu * 0.5d;
 
-                return nu_half + Log(nu_half * Gamma(nu_half)) - (1 + nu_half) * Digamma(nu_half) - Log(Nu);
+                return nu_half + Log(nu_half * Gamma(nu_half)) - (1d + nu_half) * Digamma(nu_half) - Log(Nu);
             }
         }
 

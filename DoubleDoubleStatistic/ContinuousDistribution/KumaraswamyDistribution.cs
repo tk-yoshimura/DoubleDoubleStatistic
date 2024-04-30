@@ -16,9 +16,9 @@ namespace DoubleDoubleStatistic {
             Alpha = alpha;
             Beta = beta;
 
-            ab = Alpha * Beta;
-            alpha_inv = 1d / Alpha;
-            beta_inv = 1d / Beta;
+            ab = alpha * beta;
+            alpha_inv = 1d / alpha;
+            beta_inv = 1d / beta;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -107,7 +107,7 @@ namespace DoubleDoubleStatistic {
 
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
-        public override ddouble Mean => Beta * Beta(1 + alpha_inv, Beta);
+        public override ddouble Mean => Beta * Beta(1d + alpha_inv, Beta);
 
         public override ddouble Median => Pow(1d - Pow2(-beta_inv), alpha_inv);
 
@@ -117,7 +117,7 @@ namespace DoubleDoubleStatistic {
             : NaN;
 
         public override ddouble Variance =>
-            Beta * Beta(Beta, 1d + 2 * alpha_inv) - Square(Mean);
+            Beta * Beta(Beta, 1d + 2d * alpha_inv) - Square(Mean);
 
         public override ddouble Skewness {
             get {
@@ -125,8 +125,8 @@ namespace DoubleDoubleStatistic {
                 ddouble b2 = Beta(Beta, 1d + 2d * alpha_inv);
                 ddouble b3 = Beta(Beta, 1d + 3d * alpha_inv);
 
-                return (2 * Cube(Beta * b1) - 3d * Beta * Beta * b1 * b2 + Beta * b3)
-                     / Cube(Sqrt(Beta * b2 - Square(Beta * b1)));
+                return (2d * Cube(Beta * b1) - 3d * Beta * Beta * b1 * b2 + Beta * b3)
+                     / ExMath.Pow3d2(Beta * b2 - Square(Beta * b1));
             }
         }
 

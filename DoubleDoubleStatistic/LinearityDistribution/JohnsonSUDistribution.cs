@@ -16,6 +16,10 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, sigma_inv;
 
+        public JohnsonSUDistribution(ddouble gamma, ddouble delta) : this(gamma, delta, mu: 0d, sigma: 1d) { }
+
+        public JohnsonSUDistribution(ddouble gamma, ddouble delta, ddouble sigma) : this(gamma, delta, mu: 0d, sigma: sigma) { }
+
         public JohnsonSUDistribution(ddouble gamma, ddouble delta, ddouble mu, ddouble sigma) {
             ValidateShape(gamma, IsFinite);
             ValidateScale(delta);
@@ -27,7 +31,7 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Sigma = sigma;
 
-            pdf_norm = Delta / (Sigma * Sqrt(2 * PI));
+            pdf_norm = delta / (sigma * Sqrt(2d * PI));
             sigma_inv = 1d / sigma;
         }
 
@@ -38,7 +42,7 @@ namespace DoubleDoubleStatistic {
 
             ddouble u = (x - Mu) * sigma_inv;
 
-            ddouble pdf = pdf_norm / Hypot(1, u) * Exp(-0.5d * Square(Gamma + Delta * Arsinh(u)));
+            ddouble pdf = pdf_norm / Hypot(1d, u) * Exp(-0.5d * Square(Gamma + Delta * Arsinh(u)));
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -53,12 +57,12 @@ namespace DoubleDoubleStatistic {
             ddouble v = Gamma + Delta * Arsinh(u);
 
             if (interval == Interval.Lower) {
-                ddouble cdf = Erfc(-v / Sqrt2) / 2;
+                ddouble cdf = Erfc(-v / Sqrt2) * 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Erfc(v / Sqrt2) / 2;
+                ddouble cdf = Erfc(v / Sqrt2) * 0.5d;
 
                 return cdf;
             }
@@ -70,8 +74,8 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble v = interval == Interval.Lower
-                ? -InverseErfc(p * 2) * Sqrt2
-                : InverseErfc(p * 2) * Sqrt2;
+                ? -InverseErfc(p * 2d) * Sqrt2
+                : InverseErfc(p * 2d) * Sqrt2;
 
             ddouble u = Sinh((v - Gamma) / Delta);
             ddouble x = Mu + Sigma * u;
@@ -103,7 +107,7 @@ namespace DoubleDoubleStatistic {
 
                     u -= du;
 
-                    if (Abs(du / u) < 1e-30 || Abs(du) < Epsilon) {
+                    if (Abs(du / u) < 1e-29 || Abs(du) < Epsilon) {
                         break;
                     }
                 }
@@ -126,7 +130,7 @@ namespace DoubleDoubleStatistic {
                 ddouble gd = Gamma / Delta;
 
                 return -Sign(gd) * Sqrt(omega * omega_m1 * Square(omega * (2d + omega) * Sinh(3d * gd) + 3 * Sinh(gd))
-                    / (2 * Cube(omega * Cosh(2d * gd) + 1d)));
+                    / (2d * Cube(omega * Cosh(2d * gd) + 1d)));
             }
         }
 
@@ -136,7 +140,7 @@ namespace DoubleDoubleStatistic {
                 ddouble gd = Gamma / Delta;
 
                 return (3d + omega * (6d + omega * ((-3d + omega * omega * (3d + omega * (2d + omega))) * Cosh(4d * gd) + 4d * (2d + omega) * Cosh(2d * gd))))
-                    / (2 * Square(omega * Cosh(2d * gd) + 1d)) - 3d;
+                    / (2d * Square(omega * Cosh(2d * gd) + 1d)) - 3d;
             }
         }
 

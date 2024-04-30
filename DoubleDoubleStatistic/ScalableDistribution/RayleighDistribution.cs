@@ -109,24 +109,24 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
-            Sigma * Sqrt(PI / 2);
+            Sigma * Sqrt(PI * 0.5d);
 
         public override ddouble Median =>
-            Sigma * Sqrt(2 * Ln2);
+            Sigma * Sqrt(2d * Ln2);
 
         public override ddouble Mode => Sigma;
 
         public override ddouble Variance =>
-            (4d - PI) / 2 * sigma_sq;
+            (4d - PI) / 2d * sigma_sq;
 
         public override ddouble Skewness =>
-            2 * Sqrt(PI) * (PI - 3d) / Cube(Sqrt(4d - PI));
+            2d * Sqrt(PI) * (PI - 3d) / ExMath.Pow3d2(4d - PI);
 
         public override ddouble Kurtosis =>
             (-16d + PI * (24d + PI * -6d)) / Square(4d - PI);
 
         public override ddouble Entropy =>
-            1d + Log(Sigma / Sqrt2) + EulerGamma / 2;
+            1d + Log(Sigma / Sqrt2) + EulerGamma * 0.5d;
 
         public static RayleighDistribution operator *(RayleighDistribution dist, ddouble k) {
             return new(dist.Sigma * k);

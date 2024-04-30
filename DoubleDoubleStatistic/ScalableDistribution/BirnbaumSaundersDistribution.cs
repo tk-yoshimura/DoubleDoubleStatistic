@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble theta_inv, pdf_norm, alpha_sq;
 
+        public BirnbaumSaundersDistribution(ddouble alpha) : this(alpha, theta: 0d) { }
+
         public BirnbaumSaundersDistribution(ddouble alpha, ddouble theta) {
             ValidateScale(theta);
 
@@ -20,7 +22,7 @@ namespace DoubleDoubleStatistic {
 
             theta_inv = 1d / theta;
             alpha_sq = alpha * alpha;
-            pdf_norm = theta_inv / (2 * Sqrt2 * Sqrt(PI) * alpha);
+            pdf_norm = theta_inv / (2d * Sqrt2 * Sqrt(PI) * alpha);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -35,7 +37,7 @@ namespace DoubleDoubleStatistic {
 
             ddouble up1 = u + 1d, um1 = u - 1d;
 
-            ddouble pdf = pdf_norm * up1 * Exp(-um1 * um1 / (2 * alpha_sq * u)) / ExMath.Pow3d2(u);
+            ddouble pdf = pdf_norm * up1 * Exp(-um1 * um1 / (2d * alpha_sq * u)) / ExMath.Pow3d2(u);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -82,7 +84,7 @@ namespace DoubleDoubleStatistic {
                 return interval == Interval.Lower ? PositiveInfinity : 0;
             }
 
-            ddouble w = Alpha * InverseErfc(p * 2), w2 = w * w;
+            ddouble w = Alpha * InverseErfc(p * 2d), w2 = w * w;
 
             ddouble u;
 
@@ -135,7 +137,7 @@ namespace DoubleDoubleStatistic {
 
                     u = Max(Epsilon, u);
 
-                    if (Abs(du / u) < 1e-30 || Abs(du) < Epsilon) {
+                    if (Abs(du / u) < 1e-29 || Abs(du) < Epsilon) {
                         break;
                     }
                 }

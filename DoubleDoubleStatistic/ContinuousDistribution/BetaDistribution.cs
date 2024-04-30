@@ -102,7 +102,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mean => Alpha / (Alpha + Beta);
 
-        public override ddouble Median => InverseIncompleteBeta(0.5, Alpha, Beta);
+        public override ddouble Median => InverseIncompleteBeta(0.5d, Alpha, Beta);
 
         public override ddouble Mode =>
             Alpha > 1d && Beta > 1d ? (Alpha - 1d) / (Alpha + Beta - 2d) :

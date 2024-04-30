@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
 
-        public HalfNormalDistribution() : this(sigma: 1) { }
+        public HalfNormalDistribution() : this(sigma: 1d) { }
 
         public HalfNormalDistribution(ddouble sigma) {
             ValidateScale(sigma);
@@ -20,7 +20,7 @@ namespace DoubleDoubleStatistic {
 
             sigma_sq = sigma * sigma;
             pdf_norm = Sqrt2 / (sigma * Sqrt(PI));
-            exp_scale = -1d / (2 * sigma_sq);
+            exp_scale = -1d / (2d * sigma_sq);
             erf_scale = 1d / (Sqrt2 * sigma);
         }
 
@@ -89,11 +89,11 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Variance => sigma_sq * (1d - 2 * RcpPI);
 
-        public override ddouble Skewness => Sqrt2 * (4d - PI) / Cube(Sqrt(PI - 2d));
+        public override ddouble Skewness => Sqrt2 * (4d - PI) / ExMath.Pow3d2(PI - 2d);
 
-        public override ddouble Kurtosis => 8 * (PI - 3d) / Square(PI - 2d);
+        public override ddouble Kurtosis => 8d * (PI - 3d) / Square(PI - 2d);
 
-        public override ddouble Entropy => (Log(PI / 2) + 1d) / 2 + Log(Sigma);
+        public override ddouble Entropy => (Log(PI / 2) + 1d) * 0.5d + Log(Sigma);
 
         public static HalfNormalDistribution operator *(HalfNormalDistribution dist, ddouble k) {
             return new(dist.Sigma * k);

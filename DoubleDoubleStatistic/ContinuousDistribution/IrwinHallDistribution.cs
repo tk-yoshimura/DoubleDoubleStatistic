@@ -41,7 +41,7 @@ namespace DoubleDoubleStatistic {
                 intway.Add(quantile_norm - intway[^1]);
             }
             else {
-                intway.Add(quantile_norm / 2);
+                intway.Add(quantile_norm / 2d);
             }
 
             cdf_intway = Array.AsReadOnly(intway.ToArray());
@@ -56,7 +56,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            if (x * 2 > N) {
+            if (x * 2d > N) {
                 x = N - x;
             }
 
@@ -90,7 +90,7 @@ namespace DoubleDoubleStatistic {
                 x = N - x;
             }
 
-            if (x * 2 > N) {
+            if (x * 2d > N) {
                 return 1d - CDF(x: N - x, interval: Interval.Lower);
             }
 
@@ -171,7 +171,7 @@ namespace DoubleDoubleStatistic {
                     c -= dc;
                     c = Clamp(c, 0d, 1d);
 
-                    if (Abs(dc) < 1e-30) {
+                    if (Abs(dc) < 1e-29) {
                         break;
                     }
                 }

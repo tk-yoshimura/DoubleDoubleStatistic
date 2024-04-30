@@ -14,6 +14,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble alpha, beta, c, range;
 
+        public UQuadraticDistribution() : this(0d, 1d) { }
+
         public UQuadraticDistribution(ddouble a, ddouble b) {
             ValidateLocation(a);
             ValidateLocation(b);
@@ -27,8 +29,8 @@ namespace DoubleDoubleStatistic {
             range = b - a;
 
             alpha = 12d / Cube(range);
-            beta = Ldexp(A + B, -1);
-            c = Cube(beta - A);
+            beta = (a + b) * 0.5d;
+            c = Cube(beta - a);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -95,9 +97,9 @@ namespace DoubleDoubleStatistic {
 
         public override (ddouble min, ddouble max) Support => (A, B);
 
-        public override ddouble Mean => Ldexp(A + B, -1);
+        public override ddouble Mean => (A + B) * 0.5d;
 
-        public override ddouble Median => Ldexp(A + B, -1);
+        public override ddouble Median => (A + B) * 0.5d;
 
         public override ddouble Mode => NaN;
 
@@ -111,9 +113,9 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Entropy {
             get {
-                ddouble r = 3 * Log(3 / range);
+                ddouble r = 3d * Log(3d / range);
 
-                return -(Cube(Sqrt(range)) * Exp(r / 2) * (r - 2)) / (3 * Cube(Sqrt(3)));
+                return -(ExMath.Pow3d2(range) * Exp(r * 0.5d) * (r - 2d)) / (3d * ExMath.Pow3d2(3d));
             }
         }
 

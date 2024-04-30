@@ -12,6 +12,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble sigma_inv, gamma_inv, c;
 
+        public LogLogisticDistribution(ddouble gamma) : this(gamma, sigma: 1d) { }
         public LogLogisticDistribution(ddouble gamma, ddouble sigma) {
             ValidateScale(sigma);
             ValidateShape(gamma, IsFinite);
@@ -120,7 +121,7 @@ namespace DoubleDoubleStatistic {
             : 0d;
 
         public override ddouble Variance => Gamma > 2d
-            ? Square(Sigma) * PI * (2 / (Gamma * SinPI(2 * gamma_inv)) - PI / Square(Gamma * SinPI(gamma_inv)))
+            ? Square(Sigma) * PI * (2d / (Gamma * SinPI(2d * gamma_inv)) - PI / Square(Gamma * SinPI(gamma_inv)))
             : NaN;
 
         public override ddouble Skewness {
@@ -129,10 +130,10 @@ namespace DoubleDoubleStatistic {
                     return NaN;
                 }
 
-                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2 * gamma_inv), csc3 = 1d / SinPI(3 * gamma_inv);
+                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2d * gamma_inv), csc3 = 1d / SinPI(3d * gamma_inv);
 
-                return (3 * Square(Gamma) * csc3 + 2 * Square(PI) * Cube(csc1) - 6 * PI * Gamma * csc1 * csc2) /
-                    (Sqrt(PI) * ExMath.Pow3d2(2 * Gamma * csc2 - PI * Square(csc1)));
+                return (3d * Square(Gamma) * csc3 + 2d * Square(PI) * Cube(csc1) - 6d * PI * Gamma * csc1 * csc2) /
+                    (Sqrt(PI) * ExMath.Pow3d2(2d * Gamma * csc2 - PI * Square(csc1)));
             }
         }
 
@@ -142,15 +143,15 @@ namespace DoubleDoubleStatistic {
                     return NaN;
                 }
 
-                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2 * gamma_inv);
-                ddouble csc3 = 1d / SinPI(3 * gamma_inv), csc4 = 1d / SinPI(4 * gamma_inv);
+                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2d * gamma_inv);
+                ddouble csc3 = 1d / SinPI(3d * gamma_inv), csc4 = 1d / SinPI(4d * gamma_inv);
 
-                return (4 * Cube(Gamma) * csc4 - 3 * PI * csc1 * (4 * Square(Gamma) * csc3 + Square(PI) * Cube(csc1) - 4 * PI * Gamma * csc1 * csc2)) /
-                    (PI * Square(2 * Gamma * csc2 - PI * Square(csc1))) - 3d;
+                return (4d * Cube(Gamma) * csc4 - 3d * PI * csc1 * (4d * Square(Gamma) * csc3 + Square(PI) * Cube(csc1) - 4d * PI * Gamma * csc1 * csc2)) /
+                    (PI * Square(2d * Gamma * csc2 - PI * Square(csc1))) - 3d;
             }
         }
 
-        public override ddouble Entropy => Log(Sigma / Gamma) + 2;
+        public override ddouble Entropy => Log(Sigma / Gamma) + 2d;
 
         public static LogLogisticDistribution operator *(LogLogisticDistribution dist, ddouble k) {
             return new(dist.Gamma, dist.Sigma * k);

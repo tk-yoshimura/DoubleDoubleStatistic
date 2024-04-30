@@ -13,6 +13,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble radius_inv, radius_sq;
 
+        public WignerSemicircleDistribution() : this(r: 1d) { }
         public WignerSemicircleDistribution(ddouble r) {
             ValidateScale(r);
 
@@ -29,7 +30,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = 2 * RcpPI * Sqrt(1d - u * u) * radius_inv;
+            ddouble pdf = 2d * RcpPI * Sqrt(1d - u * u) * radius_inv;
 
             return pdf;
         }
@@ -64,7 +65,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble u = Sqrt(2 * p);
+            ddouble u = Sqrt(2d * p);
 
             ddouble x = R * QuantilePade.Value(u);
             x = interval != Interval.Lower ? x : -x;
@@ -82,7 +83,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mean => 0d;
 
-        public override ddouble Variance => radius_sq / 4;
+        public override ddouble Variance => radius_sq * 0.25d;
 
         public override ddouble Skewness => 0d;
 

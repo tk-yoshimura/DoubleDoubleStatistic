@@ -82,7 +82,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mode => A;
 
         public override ddouble Variance =>
-            (B * B - A * A) * pdf_norm / 2 - Square(Mean);
+            (B * B - A * A) * pdf_norm / 2d - Square(Mean);
 
         public override ddouble Skewness {
             get {
@@ -92,7 +92,7 @@ namespace DoubleDoubleStatistic {
                         mu * (9d * (A * A - B * B) +
                         mu * (-18d * (A - B) +
                         mu * (-6d * logba)))) /
-                        (6d * logba * Cube(Sqrt(Variance)));
+                        (6d * logba * ExMath.Pow3d2(Variance));
             }
         }
 
@@ -113,7 +113,7 @@ namespace DoubleDoubleStatistic {
             get {
                 ddouble logba = Log(B / A);
 
-                return -(Square(Log(A * logba)) - Square(Log(B * logba))) / (2 * logba);
+                return -(Square(Log(A * logba)) - Square(Log(B * logba))) / (2d * logba);
             }
         }
 

@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic {
             N = n;
             M = m;
 
-            pdf_lognorm = M * Log2(M) * 0.5d - LogBeta(n * 0.5d, m * 0.5d) * LbE;
+            pdf_lognorm = m * Log2(m) * 0.5d - LogBeta(n * 0.5d, m * 0.5d) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {

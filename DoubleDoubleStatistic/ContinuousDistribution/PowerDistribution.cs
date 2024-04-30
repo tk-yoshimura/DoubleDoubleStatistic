@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic {
 
             K = k;
             Alpha = alpha;
-            pdf_norm = Alpha * Pow(K, Alpha);
+            pdf_norm = alpha * Pow(K, alpha);
             pdf_lognorm = Log2(alpha) + Log2(k) * alpha;
             k_inv = 1d / k;
             alpha_inv = 1d / alpha;
@@ -97,7 +97,7 @@ namespace DoubleDoubleStatistic {
             Alpha / (Square(K * (Alpha + 1d)) * (Alpha + 2d));
 
         public override ddouble Skewness =>
-            2 * (1d - Alpha) * Sqrt((Alpha + 2) * alpha_inv) / (Alpha + 3d);
+            2d * (1d - Alpha) * Sqrt((Alpha + 2d) * alpha_inv) / (Alpha + 3d);
 
         public override ddouble Kurtosis =>
             6d * (2d + Alpha * (-6d + Alpha * (-1d + Alpha))) / (Alpha * (Alpha + 3d) * (Alpha + 4d));

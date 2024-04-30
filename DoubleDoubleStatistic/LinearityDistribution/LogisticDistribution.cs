@@ -14,7 +14,9 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble sigma_inv;
 
-        public LogisticDistribution() : this(mu: 0, sigma: 1) { }
+        public LogisticDistribution() : this(mu: 0d, sigma: 1d) { }
+
+        public LogisticDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public LogisticDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);

@@ -19,9 +19,8 @@ namespace DoubleDoubleStatistic {
 
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
-        public SkewNormalDistribution() : this(alpha: 0, mu: 0, sigma: 1) { }
-
-        public SkewNormalDistribution(ddouble alpha) : this(alpha, mu: 0, sigma: 1) { }
+        public SkewNormalDistribution(ddouble alpha) : this(alpha, mu: 0d, sigma: 1d) { }
+        public SkewNormalDistribution(ddouble alpha, ddouble sigma) : this(alpha, mu: 0d, sigma: sigma) { }
 
         public SkewNormalDistribution(ddouble alpha, ddouble mu, ddouble sigma) {
             ValidateShape(alpha, alpha => Abs(alpha) <= 256d);
@@ -34,10 +33,10 @@ namespace DoubleDoubleStatistic {
 
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
             cdf_norm = 1d / Sqrt(2d * PI);
-            erfc_scale = Alpha / Sqrt2;
+            erfc_scale = alpha / Sqrt2;
             sigma_inv = 1d / sigma;
 
-            s = Alpha / Hypot(1, alpha);
+            s = alpha / Hypot(1, alpha);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -70,7 +69,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
+                ddouble cdf = Erfc(-u / Sqrt2) * 0.5d - 2d * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
                     ddouble eps = Ldexp(f(u), -94);
@@ -92,7 +91,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
+                ddouble cdf = Erfc(u / Sqrt2) * 0.5d + 2d * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
                     ddouble eps = Ldexp(f(u), -94);
@@ -131,7 +130,7 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble f(ddouble u) {
-                    ddouble y = Erfc(-u / Sqrt2) / 2 - 2 * OwenT(u, Alpha);
+                    ddouble y = Erfc(-u / Sqrt2) * 0.5d - 2d * OwenT(u, Alpha);
 
                     if (y < 1e-5) {
                         ddouble eps = Ldexp(df(u), -94);
@@ -175,7 +174,7 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble f(ddouble u) {
-                    ddouble y = Erfc(u / Sqrt2) / 2 + 2 * OwenT(u, Alpha);
+                    ddouble y = Erfc(u / Sqrt2) * 0.5d + 2d * OwenT(u, Alpha);
 
                     if (y < 1e-5) {
                         ddouble eps = Ldexp(df(u), -94);
@@ -216,19 +215,19 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble Mean =>
-            Mu + Sigma * s * Sqrt(2d / PI);
+            Mu + Sigma * s * Sqrt(2d * RcpPI);
         public override ddouble Mode => ModePade.Value(Alpha) * Sigma + Mu;
 
         public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Variance =>
-            Sigma * Sigma * (1d - 2d * s * s / PI);
+            Sigma * Sigma * (1d - 2d * s * s * RcpPI);
 
         public override ddouble Skewness =>
-            (4d - PI) / 2 * Cube(s * Sqrt(2 / PI)) / Cube(Sqrt(1 - 2 * s * s / PI));
+            (4d - PI) * 0.5d * Cube(s * Sqrt(2d * RcpPI)) / ExMath.Pow3d2(1d - 2d * s * s * RcpPI);
 
         public override ddouble Kurtosis =>
-            2 * (PI - 3d) * Square(Square(s * Sqrt(2 / PI))) / Square(1 - 2 * s * s / PI);
+            2d * (PI - 3d) * Square(Square(s * Sqrt(2d * RcpPI))) / Square(1d - 2d * s * s * RcpPI);
 
         public override ddouble Entropy {
             get {

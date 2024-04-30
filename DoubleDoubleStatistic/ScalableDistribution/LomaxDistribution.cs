@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, alpha_inv, theta_inv;
 
+        public LomaxDistribution(ddouble alpha) : this(alpha, theta: 1d) { }
+
         public LomaxDistribution(ddouble alpha, ddouble theta) {
             Alpha = alpha;
             Theta = theta;
@@ -107,11 +109,11 @@ namespace DoubleDoubleStatistic {
             : (Alpha > 1d) ? PositiveInfinity : NaN;
 
         public override ddouble Skewness => (Alpha > 3d)
-            ? 2 * (Alpha + 1d) / (Alpha - 3d) * Sqrt((Alpha - 2d) / Alpha)
+            ? 2d * (Alpha + 1d) / (Alpha - 3d) * Sqrt((Alpha - 2d) / Alpha)
             : NaN;
 
         public override ddouble Kurtosis => (Alpha > 4d)
-            ? 6d * (-2d + Alpha * (-6 + Alpha * (1d + Alpha))) / (Alpha * (Alpha - 3d) * (Alpha - 4d))
+            ? 6d * (-2d + Alpha * (-6d + Alpha * (1d + Alpha))) / (Alpha * (Alpha - 3d) * (Alpha - 4d))
             : NaN;
 
         public override ddouble Entropy => 1d + Log(Theta / Alpha) + 1d / Alpha;

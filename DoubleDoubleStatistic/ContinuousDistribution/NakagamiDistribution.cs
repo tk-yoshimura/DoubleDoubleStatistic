@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = Pow2(Log2(x) * (2 * M - 1d) - momega * x * x * LbE + pdf_lognorm);
+            ddouble pdf = Pow2(Log2(x) * (2d * M - 1d) - momega * x * x * LbE + pdf_lognorm);
 
             return pdf;
         }
@@ -87,7 +87,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode =>
-            Sqrt((2 * M - 1d) * Omega / (2 * M));
+            Sqrt((2d * M - 1d) * Omega / (2d * M));
 
         public override ddouble Variance =>
             Omega * (1d - Square(Exp(LogGamma(M + 0.5d) - LogGamma(M))) / M);
@@ -95,17 +95,18 @@ namespace DoubleDoubleStatistic {
         public override ddouble Skewness {
             get {
                 ddouble mp5 = Exp(LogGamma(M + 0.5d) - LogGamma(M));
-                ddouble w = M - mp5 * mp5;
+                ddouble variance = M - mp5 * mp5;
 
-                return mp5 * (0.5d - 2 * w) / Cube(Sqrt(w));
+                return mp5 * (0.5d - 2d * variance) / ExMath.Pow3d2(variance);
             }
         }
 
         public override ddouble Kurtosis {
             get {
                 ddouble mp5 = Exp(LogGamma(M + 0.5d) - LogGamma(M));
+                ddouble variance = M - mp5 * mp5;
 
-                return (M * (4 * M + 1d) - 2d * (2 * M + 1) * mp5 * mp5) / Square(M - mp5 * mp5) - 6d;
+                return (M * (4d * M + 1d) - 2d * (2d * M + 1d) * mp5 * mp5) / Square(variance) - 6d;
             }
         }
 

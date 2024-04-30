@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic {
 
             Nu = nu;
 
-            c = Nu * 0.5d - 1d;
+            c = nu * 0.5d - 1d;
             pdf_lognorm = nu * 0.5d + LogGamma(nu * 0.5d) * LbE;
         }
 
@@ -28,10 +28,10 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
             if (IsZero(x)) {
-                return Nu <= 1 ? PositiveInfinity : Nu <= 2 ? 0.5d : 0d;
+                return Nu <= 1d ? PositiveInfinity : Nu <= 2d ? 0.5d : 0d;
             }
 
-            ddouble pdf = Pow2(c * Log2(x) - Ldexp(x, -1) * LbE - pdf_lognorm);
+            ddouble pdf = Pow2(c * Log2(x) - x * LbE * 0.5d - pdf_lognorm);
 
             return pdf;
         }
@@ -42,7 +42,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x, -1));
+                ddouble cdf = LowerIncompleteGammaRegularized(Nu * 0.5d, x * 0.5d);
 
                 return cdf;
             }
@@ -51,7 +51,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, Ldexp(x, -1));
+                ddouble cdf = UpperIncompleteGammaRegularized(Nu * 0.5d, x * 0.5d);
 
                 return cdf;
             }
@@ -63,12 +63,12 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = InverseLowerIncompleteGamma(Nu * 0.5d, p) * 2;
+                ddouble x = InverseLowerIncompleteGamma(Nu * 0.5d, p) * 2d;
 
                 return x;
             }
             else {
-                ddouble x = InverseUpperIncompleteGamma(Nu * 0.5d, p) * 2;
+                ddouble x = InverseUpperIncompleteGamma(Nu * 0.5d, p) * 2d;
 
                 return x;
             }
@@ -80,11 +80,11 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mean => Nu;
 
-        public override ddouble Median => Quantile(0.5);
+        public override ddouble Median => Quantile(0.5d);
 
-        public override ddouble Mode => Max(Nu - 2d, 0);
+        public override ddouble Mode => Max(Nu - 2d, 0d);
 
-        public override ddouble Variance => Ldexp(Nu, 1);
+        public override ddouble Variance => Nu * 2d;
 
         public override ddouble Skewness => Sqrt(8d / Nu);
 
@@ -92,9 +92,9 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Entropy {
             get {
-                ddouble nu_half = Ldexp(Nu, -1);
+                ddouble nu_half = Nu * 0.5d;
 
-                return nu_half + Log(2 * Gamma(nu_half)) + (1 - nu_half) * Digamma(nu_half);
+                return nu_half + Log(2d * Gamma(nu_half)) + (1d - nu_half) * Digamma(nu_half);
             }
         }
 

@@ -14,7 +14,9 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble sigma_inv;
 
-        public CosineDistribution() : this(mu: 0, sigma: 1) { }
+        public CosineDistribution() : this(mu: 0d, sigma: 1d) { }
+
+        public CosineDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public CosineDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
@@ -33,7 +35,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = (1 + CosPI(u)) * sigma_inv / 2;
+            ddouble pdf = (1d + CosPI(u)) * sigma_inv * 0.5d;
 
             return pdf;
         }
@@ -49,7 +51,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = (1 + u + SinPI(u) / PI) / 2;
+                ddouble cdf = (1d + u + SinPI(u) * RcpPI) * 0.5d;
 
                 return cdf;
             }
@@ -61,7 +63,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = (1 - u - SinPI(u) / PI) / 2;
+                ddouble cdf = (1d - u - SinPI(u) / PI) * 0.5d;
 
                 return cdf;
             }
@@ -82,7 +84,7 @@ namespace DoubleDoubleStatistic {
                 return Mu;
             }
 
-            ddouble u = KeplerE(PI * p * 2, 1d) * RcpPI - 1d;
+            ddouble u = KeplerE(PI * p * 2d, 1d) * RcpPI - 1d;
 
             ddouble x = (interval == Interval.Lower) ? (Mu + Sigma * u) : (Mu - Sigma * u);
 

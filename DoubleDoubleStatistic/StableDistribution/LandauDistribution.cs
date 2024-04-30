@@ -23,7 +23,9 @@ namespace DoubleDoubleStatistic {
         private static readonly ddouble median_base = "0.86311662299158754170254190531890461851";
         private static readonly ddouble entropy_base = "2.3726364400044818244844049010588577710";
 
-        public LandauDistribution() : this(mu: 0, c: 1) { }
+        public LandauDistribution() : this(mu: 0d, c: 1d) { }
+
+        public LandauDistribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public LandauDistribution(ddouble mu, ddouble c) {
             ValidateLocation(mu);
@@ -72,9 +74,9 @@ namespace DoubleDoubleStatistic {
             return x;
         }
 
-        public override ddouble Median => median_base * C + Mu;
+        public override ddouble Median => Mu + median_base * C;
 
-        public override ddouble Mode => mode_base * C + Mu;
+        public override ddouble Mode => Mu + mode_base * C;
 
         public override ddouble Mean => NaN;
 

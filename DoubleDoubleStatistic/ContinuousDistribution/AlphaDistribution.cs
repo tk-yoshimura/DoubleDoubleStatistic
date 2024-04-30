@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic {
 
             Alpha = alpha;
             cdf_norm = 1d / Erfc(-alpha * phi_scale);
-            pdf_norm = cdf_norm * Sqrt(2d / PI);
+            pdf_norm = cdf_norm * Sqrt(2d * RcpPI);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic {
 
             ddouble u = Alpha - 1d / x;
 
-            ddouble pdf = pdf_norm / (x * x) * Exp(-u * u / 2);
+            ddouble pdf = pdf_norm / (x * x) * Exp(-u * u * 0.5d);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -100,11 +100,11 @@ namespace DoubleDoubleStatistic {
             return x;
         }
 
-        public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Median => Quantile(0.5);
+        public override ddouble Median => Quantile(0.5d);
 
-        public override ddouble Mode => (Sqrt(Alpha * Alpha + 8d) - Alpha) / 4;
+        public override ddouble Mode => (Sqrt(Alpha * Alpha + 8d) - Alpha) * 0.25d;
 
         public override ddouble Mean => NaN;
 

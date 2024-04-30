@@ -6,10 +6,11 @@ namespace DoubleDoubleStatistic {
 
         public ddouble C { get; }
 
-        private readonly ddouble pdf_norm;
+        private readonly ddouble pdf_norm, c_inv;
 
         public BradfordDistribution(ddouble c) {
             C = c;
+            c_inv = 1d / c;
             pdf_norm = c / Log1p(c);
         }
 
@@ -41,7 +42,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = Log1p(C * x) * pdf_norm / C;
+                ddouble cdf = Log1p(C * x) * pdf_norm * c_inv;
 
                 return cdf;
             }
@@ -54,7 +55,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = 1d - Log1p(C * x) * pdf_norm / C;
+                ddouble cdf = 1d - Log1p(C * x) * pdf_norm * c_inv;
 
                 return cdf;
             }
@@ -69,7 +70,7 @@ namespace DoubleDoubleStatistic {
                 return Quantile(1d - p);
             }
 
-            ddouble x = Expm1(p * C / pdf_norm) / C;
+            ddouble x = Expm1(p * C / pdf_norm) * c_inv;
 
             x = Clamp(x, 0d, 1d);
 
@@ -85,7 +86,7 @@ namespace DoubleDoubleStatistic {
             }
         }
 
-        public override ddouble Median => Expm1(C / (pdf_norm * 2)) / C;
+        public override ddouble Median => Expm1(C / (pdf_norm * 2d)) * c_inv;
 
         public override ddouble Mode => 0d;
 
@@ -100,7 +101,7 @@ namespace DoubleDoubleStatistic {
             get {
                 ddouble k = Log1p(C);
                 return Sqrt2 * (2d * k * k * (3d + C * (3d + C)) - 9d * C * k * (C + 2d) + 12d * C * C) /
-                    (Sqrt(C * (2 * k + C * (k - 2d))) * (6 * k + 3d * C * (k - 2d)));
+                    (Sqrt(C * (2d * k + C * (k - 2d))) * (6d * k + 3d * C * (k - 2d)));
             }
         }
 
@@ -111,14 +112,14 @@ namespace DoubleDoubleStatistic {
                     + 6d * C * k * k * (3d * k - 14d)
                     + 12d * C * C * k * (k - 4d) * (k - 3d)
                     + C * C * C * (k - 3d) * (3d * k * k - 16d * k + 24d))
-                    / (3 * C * Square(2d * k + C * (k - 2d)));
+                    / (3d * C * Square(2d * k + C * (k - 2d)));
             }
         }
 
         public override ddouble Entropy {
             get {
                 ddouble k = Log1p(C);
-                return k / 2 - Log(C / k);
+                return k * 0.5d - Log(C / k);
             }
         }
 

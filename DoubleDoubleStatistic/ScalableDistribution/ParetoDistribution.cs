@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm;
 
+        public ParetoDistribution(ddouble alpha) : this(k: 1d, alpha: alpha) { }
+
         public ParetoDistribution(ddouble k, ddouble alpha) {
             K = k;
             Alpha = alpha;
@@ -89,21 +91,21 @@ namespace DoubleDoubleStatistic {
             : PositiveInfinity;
 
         public override ddouble Skewness => (Alpha > 3d)
-            ? 2 * (Alpha + 1d) / (Alpha - 3d) * Sqrt((Alpha - 2d) / Alpha)
+            ? 2d * (Alpha + 1d) / (Alpha - 3d) * Sqrt((Alpha - 2d) / Alpha)
             : NaN;
 
         public override ddouble Kurtosis => (Alpha > 4d)
-            ? 6d * (-2d + Alpha * (-6 + Alpha * (1d + Alpha))) / (Alpha * (Alpha - 3d) * (Alpha - 4d))
+            ? 6d * (-2d + Alpha * (-6d + Alpha * (1d + Alpha))) / (Alpha * (Alpha - 3d) * (Alpha - 4d))
             : NaN;
 
         public override ddouble Entropy => 1d + Log(K / Alpha) + 1d / Alpha;
 
         public static ParetoDistribution operator *(ParetoDistribution dist, ddouble k) {
-            return new(dist.Alpha, dist.K * k);
+            return new(dist.K * k, dist.Alpha);
         }
 
         public static ParetoDistribution operator /(ParetoDistribution dist, ddouble k) {
-            return new(dist.Alpha, dist.K / k);
+            return new(dist.K / k, dist.Alpha);
         }
 
         public override string ToString() {

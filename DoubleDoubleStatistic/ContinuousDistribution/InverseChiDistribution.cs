@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic {
 
             Nu = nu;
 
-            c = Nu + 1d;
+            c = nu + 1d;
             pdf_lognorm = nu * 0.5d - 1d + LogGamma(nu * 0.5d) * LbE;
         }
 
@@ -26,7 +26,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = Pow2(-c * Log2(x) - LbE / (2 * x * x) - pdf_lognorm);
+            ddouble pdf = Pow2(-c * Log2(x) - LbE / (2d * x * x) - pdf_lognorm);
 
             return pdf;
         }
@@ -36,7 +36,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble u = 1d / (2 * x * x);
+            ddouble u = 1d / (2d * x * x);
 
             if (interval == Interval.Lower) {
                 if (x <= 0d) {
@@ -85,7 +85,7 @@ namespace DoubleDoubleStatistic {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Median => Quantile(0.5);
+        public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => 1d / Sqrt(Nu + 1d);
 

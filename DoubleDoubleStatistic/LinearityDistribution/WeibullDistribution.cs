@@ -13,7 +13,9 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Theta { get; }
 
-        private readonly ddouble pdf_norm, theta_inv;
+        private readonly ddouble pdf_norm, alpha_inv, theta_inv;
+
+        public WeibullDistribution(ddouble alpha) : this(alpha: alpha, mu: 0d, theta: 1d) { }
 
         public WeibullDistribution(ddouble alpha, ddouble theta) : this(alpha: alpha, mu: 0d, theta: theta) { }
 
@@ -26,7 +28,8 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Theta = theta;
 
-            pdf_norm = Alpha / Theta;
+            pdf_norm = alpha / theta;
+            alpha_inv = 1d / alpha;
             theta_inv = 1d / theta;
         }
 
@@ -91,7 +94,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble u = Pow(-Log1p(-p), 1d / Alpha);
+                ddouble u = Pow(-Log1p(-p), alpha_inv);
                 ddouble x = Mu + u * Theta;
 
                 return x;
@@ -101,7 +104,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble u = Pow(-Log(p), 1d / Alpha);
+                ddouble u = Pow(-Log(p), alpha_inv);
                 ddouble x = Mu + u * Theta;
 
                 if (IsNegative(x)) {
@@ -115,39 +118,39 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (Mu, PositiveInfinity);
 
         public override ddouble Mean =>
-            Mu + Theta * Gamma(1d + 1d / Alpha);
+            Mu + Theta * Gamma(1d + alpha_inv);
 
         public override ddouble Median =>
-            Mu + Theta * Pow(Ln2, 1d / Alpha);
+            Mu + Theta * Pow(Ln2, alpha_inv);
 
         public override ddouble Mode => Alpha <= 1d
             ? Mu
-            : Mu + Theta * Pow((Alpha - 1d) / Alpha, 1d / Alpha);
+            : Mu + Theta * Pow((Alpha - 1d) * alpha_inv, alpha_inv);
 
         public override ddouble Variance =>
-            Theta * Theta * (Gamma(1d + 2d / Alpha) - Square(Gamma(1d + 1d / Alpha)));
+            Theta * Theta * (Gamma(1d + 2d * alpha_inv) - Square(Gamma(1d + alpha_inv)));
 
         public override ddouble Skewness {
             get {
-                ddouble mu = Gamma(1d + 1d / Alpha), var = Gamma(1d + 2d / Alpha) - Square(mu);
+                ddouble mu = Gamma(1d + alpha_inv), var = Gamma(1d + 2d * alpha_inv) - Square(mu);
 
-                return (Gamma(1d + 3d / Alpha) - 3d * mu * var - Cube(mu)) / ExMath.Pow3d2(var);
+                return (Gamma(1d + 3d * alpha_inv) - 3d * mu * var - Cube(mu)) / ExMath.Pow3d2(var);
             }
         }
 
         public override ddouble Kurtosis {
             get {
-                ddouble mu = Gamma(1d + 1d / Alpha), var = Gamma(1d + 2d / Alpha) - Square(mu);
+                ddouble mu = Gamma(1d + alpha_inv), var = Gamma(1d + 2d * alpha_inv) - Square(mu);
 
-                return (Gamma(1d + 4d / Alpha)
-                    - 4d * mu * (Gamma(1d + 3d / Alpha) - 3d * mu * var - Cube(mu))
+                return (Gamma(1d + 4d * alpha_inv)
+                    - 4d * mu * (Gamma(1d + 3d * alpha_inv) - 3d * mu * var - Cube(mu))
                     - 6d * Square(mu) * var
                     - Square(Square(mu))) /
                     Square(var) - 3d;
             }
         }
 
-        public override ddouble Entropy => 1d + EulerGamma * (1d - 1d / Alpha) + Log(Theta / Alpha);
+        public override ddouble Entropy => 1d + EulerGamma * (1d - alpha_inv) + Log(Theta * alpha_inv);
 
         public static WeibullDistribution operator +(WeibullDistribution dist, ddouble s) {
             return new(dist.Alpha, dist.Mu + s, dist.Theta);

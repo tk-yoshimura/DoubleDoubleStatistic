@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble sigma_inv, pdf_norm;
 
-        public HyperbolicSecantDistribution() : this(sigma: 1) { }
+        public HyperbolicSecantDistribution() : this(sigma: 1d) { }
 
         public HyperbolicSecantDistribution(ddouble sigma) {
             Sigma = sigma;
@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = x * sigma_inv;
 
-            ddouble cdf = 2 * RcpPI * Atan(Exp(-Abs(u) * PI * 0.5d));
+            ddouble cdf = 2d * RcpPI * Atan(Exp(-Abs(u) * PI * 0.5d));
             cdf = Max(cdf, 0d);
 
             cdf = interval != Interval.Lower ^ IsNegative(x) ? cdf : 1d - cdf;

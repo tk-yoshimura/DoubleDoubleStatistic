@@ -19,7 +19,7 @@ namespace DoubleDoubleStatistic {
             Sigma = sigma;
             sigma_inv = 1d / sigma;
             sigma_sq = sigma * sigma;
-            pdf_norm = Sqrt(2 * RcpPI) * sigma_inv;
+            pdf_norm = Sqrt(2d * RcpPI) * sigma_inv;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -88,23 +88,23 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Sqrt(InverseLowerIncompleteGamma(1.5d, p) * 2) * Sigma;
+                ddouble x = Sqrt(InverseLowerIncompleteGamma(1.5d, p) * 2d) * Sigma;
 
                 return x;
             }
             else {
-                ddouble x = Sqrt(InverseUpperIncompleteGamma(1.5d, p) * 2) * Sigma;
+                ddouble x = Sqrt(InverseUpperIncompleteGamma(1.5d, p) * 2d) * Sigma;
 
                 return x;
             }
         }
 
-        public override (ddouble min, ddouble max) Support => (Zero, PositiveInfinity);
+        public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
-            2 * Sigma * Sqrt(2 * RcpPI);
+            2d * Sigma * Sqrt(2d * RcpPI);
 
-        public override ddouble Median => Quantile(0.5);
+        public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => Sqrt2 * Sigma;
 
@@ -112,7 +112,7 @@ namespace DoubleDoubleStatistic {
             sigma_sq * (3d - 8d * RcpPI);
 
         public override ddouble Skewness =>
-            2 * Sqrt2 * (16d - PI * 5) / ExMath.Pow3d2(3d * PI - 8d);
+            2 * Sqrt2 * (16d - PI * 5d) / ExMath.Pow3d2(3d * PI - 8d);
 
         public override ddouble Kurtosis =>
             (-384d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);

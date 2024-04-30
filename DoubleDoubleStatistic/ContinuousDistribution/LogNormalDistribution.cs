@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
 
-        public LogNormalDistribution() : this(mu: 0, sigma: 1) { }
+        public LogNormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
         public LogNormalDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic {
             Sigma = sigma;
 
             sigma_sq = sigma * sigma;
-            pdf_norm = 1d / (sigma * Sqrt(2 * PI));
+            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
             exp_scale = -LbE / (2 * sigma_sq);
             erf_scale = -1d / (Sqrt2 * sigma);
         }
@@ -48,7 +48,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Ldexp(Erfc((Log(x) - Mu) * erf_scale), -1);
+                ddouble cdf = Erfc((Log(x) - Mu) * erf_scale) * 0.5d;
 
                 return cdf;
             }
@@ -57,7 +57,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = Ldexp(Erfc((Mu - Log(x)) * erf_scale), -1);
+                ddouble cdf = Erfc((Mu - Log(x)) * erf_scale) * 0.5d;
 
                 return cdf;
             }
@@ -69,12 +69,12 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Exp(Mu - Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1)));
+                ddouble x = Exp(Mu - Sigma * Sqrt2 * InverseErfc(2d * p));
 
                 return x;
             }
             else {
-                ddouble x = Exp(Mu + Sigma * Sqrt2 * InverseErfc(Ldexp(p, 1)));
+                ddouble x = Exp(Mu + Sigma * Sqrt2 * InverseErfc(2d * p));
 
                 return x;
             }
@@ -84,23 +84,23 @@ namespace DoubleDoubleStatistic {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => Exp(Mu + Ldexp(sigma_sq, -1));
+        public override ddouble Mean => Exp(Mu + sigma_sq * 0.5d);
 
         public override ddouble Median => Exp(Mu);
 
         public override ddouble Mode => Exp(Mu - sigma_sq);
 
         public override ddouble Variance =>
-            Exp(2 * Mu + sigma_sq) * (Exp(sigma_sq) - 1);
+            Exp(2d * Mu + sigma_sq) * (Exp(sigma_sq) - 1d);
 
         public override ddouble Skewness =>
-            Sqrt(Exp(sigma_sq) - 1) * (Exp(sigma_sq) + 2);
+            Sqrt(Exp(sigma_sq) - 1d) * (Exp(sigma_sq) + 2d);
 
         public override ddouble Kurtosis =>
-            Exp(4 * sigma_sq) + 2 * Exp(3 * sigma_sq) + 3 * Exp(2 * sigma_sq) - 6d;
+            Exp(4d * sigma_sq) + 2d * Exp(3d * sigma_sq) + 3d * Exp(2d * sigma_sq) - 6d;
 
         public override ddouble Entropy =>
-            (1d + Log(2 * PI * sigma_sq)) / 2 + Mu;
+            (1d + Log(2d * PI * sigma_sq)) / 2d + Mu;
 
         public static LogNormalDistribution operator *(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));

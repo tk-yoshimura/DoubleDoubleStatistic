@@ -18,7 +18,7 @@ namespace DoubleDoubleStatistic {
             Alpha = alpha;
             Beta = beta;
 
-            pdf_lognorm = Alpha * Log2(Beta) - LogGamma(Alpha) * LbE;
+            pdf_lognorm = alpha * Log2(beta) - LogGamma(alpha) * LbE;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -93,7 +93,7 @@ namespace DoubleDoubleStatistic {
             : NaN;
 
         public override ddouble Skewness => (Alpha > 3d)
-            ? (4 * Sqrt(Alpha - 2d) / (Alpha - 3d))
+            ? (4d * Sqrt(Alpha - 2d) / (Alpha - 3d))
             : NaN;
 
         public override ddouble Kurtosis => (Alpha > 4d)

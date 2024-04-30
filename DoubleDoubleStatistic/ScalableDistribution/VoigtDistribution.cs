@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, z_scale, zr, cdf_limit;
 
-        public VoigtDistribution() : this(gamma: 1, sigma: 1) { }
+        public VoigtDistribution() : this(gamma: 1d, sigma: 1d) { }
 
         private const int cache_samples = 512;
         private CDFSegmentCache cdf_cache;

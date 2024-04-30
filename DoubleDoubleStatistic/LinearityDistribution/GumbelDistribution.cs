@@ -14,6 +14,10 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble sigma_inv;
 
+        public GumbelDistribution() : this(mu: 0d, sigma: 1d) { }
+
+        public GumbelDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
+
         public GumbelDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
             ValidateShape(sigma, beta => beta > 0d);
@@ -82,7 +86,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mean =>
             Mu + EulerGamma * Sigma;
 
-        public override ddouble Median => Quantile(0.5);
+        public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => Mu;
 

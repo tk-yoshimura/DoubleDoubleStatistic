@@ -14,6 +14,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, range;
 
+        public UniformDistribution() : this(0d, 1d) { }
+
         public UniformDistribution(ddouble a, ddouble b) {
             ValidateLocation(a);
             ValidateLocation(b);
@@ -95,9 +97,9 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode => NaN;
 
-        public override ddouble Mean => Ldexp(A + B, -1);
+        public override ddouble Mean => (A + B) * 0.5d;
 
-        public override ddouble Median => Ldexp(A + B, -1);
+        public override ddouble Median => (A + B) * 0.5d;
 
         public override ddouble Variance => Square(range) / 12d;
 

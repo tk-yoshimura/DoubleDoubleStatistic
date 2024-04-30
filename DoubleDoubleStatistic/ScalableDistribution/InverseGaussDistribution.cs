@@ -23,8 +23,8 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Lambda = lambda;
 
-            c = Lambda / Mu;
-            r = Exp(2 * c);
+            c = lambda / mu;
+            r = Exp(2d * c);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -35,7 +35,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = Sqrt(Lambda / (2 * PI * Cube(x))) * Exp(-Lambda * Square(x - Mu) / (2 * Square(Mu) * x));
+            ddouble pdf = Sqrt(Lambda / (2d * PI * Cube(x))) * Exp(-Lambda * Square(x - Mu) / (2d * Square(Mu) * x));
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -46,7 +46,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble u = Sqrt(Lambda / (x * 2)) / Mu;
+            ddouble u = Sqrt(Lambda / (x * 2d)) / Mu;
             ddouble un = u * (Mu - x), up = u * (Mu + x);
 
             if (interval == Interval.Lower) {
@@ -57,7 +57,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = (Erfc(un) + r * Erfc(up)) / 2;
+                ddouble cdf = (Erfc(un) + r * Erfc(up)) * 0.5d;
                 cdf = Min(cdf, 1d);
 
                 return cdf;
@@ -70,7 +70,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = (Erfc(-un) - r * Erfc(up)) / 2;
+                ddouble cdf = (Erfc(-un) - r * Erfc(up)) * 0.5d;
                 cdf = Max(cdf, 0d);
 
                 return cdf;
@@ -87,14 +87,14 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble df(ddouble x) {
-                ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2 * c * PI / x) * x * x);
+                ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2d * c * PI / x) * x * x);
                 return y;
             }
 
             if (interval == Interval.Lower) {
                 ddouble f(ddouble x) {
                     ddouble u = Sqrt(c / (x * 2d));
-                    ddouble y = (r * Erfc(u * (x + 1d)) + Erfc(u * (1d - x))) / 2;
+                    ddouble y = (r * Erfc(u * (x + 1d)) + Erfc(u * (1d - x))) * 0.5d;
                     return Min(1d, y);
                 }
 
@@ -127,7 +127,7 @@ namespace DoubleDoubleStatistic {
 
                 ddouble f(ddouble x) {
                     ddouble u = Sqrt(c / (x * 2d));
-                    ddouble y = (-r * Erfc(u * (x + 1d)) + Erfc(u * (x - 1d))) / 2;
+                    ddouble y = (-r * Erfc(u * (x + 1d)) + Erfc(u * (x - 1d))) * 0.5d;
                     return Max(0d, y);
                 }
 
@@ -171,7 +171,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mode {
             get {
                 ddouble c = (3d * Mu) / (2d * Lambda);
-                return Mu * (Sqrt(1 + Square(c)) - c);
+                return Mu * (Sqrt(1d + Square(c)) - c);
             }
         }
 

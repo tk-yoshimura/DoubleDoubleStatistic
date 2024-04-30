@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_lognorm, theta_inv;
 
+        public GammaDistribution(ddouble k) : this(k, theta: 1d) { }
+
         public GammaDistribution(ddouble k, ddouble theta) {
             ValidateShape(k, k => k > 0d);
             ValidateScale(theta);
@@ -19,7 +21,7 @@ namespace DoubleDoubleStatistic {
             K = k;
             Theta = theta;
 
-            pdf_lognorm = LogGamma(K) * LbE;
+            pdf_lognorm = LogGamma(k) * LbE;
             theta_inv = 1d / theta;
         }
 

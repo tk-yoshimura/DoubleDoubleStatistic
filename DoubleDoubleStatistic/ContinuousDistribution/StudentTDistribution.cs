@@ -19,18 +19,18 @@ namespace DoubleDoubleStatistic {
             ddouble c = Sqrt(nu * PI);
 
             pdf_norm = nu < 70d
-                ? Gamma((nu + 1) / 2) / (Gamma(nu / 2) * c)
-                : Exp(LogGamma((nu + 1) / 2) - LogGamma(nu / 2)) / c;
+                ? Gamma((nu + 1d) / 2) / (Gamma(nu / 2d) * c)
+                : Exp(LogGamma((nu + 1d) / 2) - LogGamma(nu / 2d)) / c;
             nu_inv = 1d / nu;
-            nu_half = nu / 2;
-            power = -(nu + 1) / 2;
-            is_integer_nu = nu <= 1024 && IsInteger(nu);
+            nu_half = nu / 2d;
+            power = -(nu + 1d) / 2d;
+            is_integer_nu = nu <= 1024d && IsInteger(nu);
             n = is_integer_nu ? (int)nu : 0;
 
             const int zero_thr_log = 710;
             zero_thr = nu < 0.5
                 ? double.PositiveInfinity
-                : double.Exp((double)(((nu + 1) * Log(nu) + 2 * zero_thr_log) / (2 * nu + 2)));
+                : double.Exp((double)(((nu + 1d) * Log(nu) + 2d * zero_thr_log) / (2d * nu + 2d)));
         }
 
         public override ddouble PDF(ddouble x) {
@@ -42,7 +42,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble u = 1 + x * x * nu_inv;
+            ddouble u = 1d + x * x * nu_inv;
             ddouble v = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
             ddouble pdf = pdf_norm * v;
 
@@ -61,7 +61,7 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble v = Sqrt(x * x + Nu);
-            ddouble t = (x + v) / (2 * v);
+            ddouble t = (x + v) / (2d * v);
 
             if (IsNaN(t)) {
                 return x < 0d ? 0d : 1d;
@@ -83,29 +83,29 @@ namespace DoubleDoubleStatistic {
 
             ddouble x;
 
-            if (p == 0) {
+            if (p == 0d) {
                 x = NegativeInfinity;
             }
-            else if (p == 1) {
+            else if (p == 1d) {
                 x = PositiveInfinity;
             }
-            else if (Nu == 1) {
+            else if (Nu == 1d) {
                 x = Tan(PI * (p - 0.5d));
             }
-            else if (Nu == 2) {
-                x = 2 * (p - 0.5d) * Sqrt(1d / (2 * p * (1d - p)));
+            else if (Nu == 2d) {
+                x = 2d * (p - 0.5d) * Sqrt(1d / (2d * p * (1d - p)));
             }
-            else if (Nu == 4) {
-                ddouble a = 4 * p * (1d - p);
+            else if (Nu == 4d) {
+                ddouble a = 4d * p * (1d - p);
                 ddouble q = Cos(Acos(Sqrt(a)) / 3d) / Sqrt(a);
 
-                x = Sign(p - 0.5d) * 2 * Sqrt(q - 1d);
+                x = Sign(p - 0.5d) * 2d * Sqrt(q - 1d);
             }
             else {
                 ddouble t = InverseIncompleteBeta(p, nu_half, nu_half);
-                ddouble u = Sqrt(Nu / (t * (1 - t)));
+                ddouble u = Sqrt(Nu / (t * (1d - t)));
 
-                x = u * (2 * t - 1) / 2;
+                x = u * (2d * t - 1d) * 0.5d;
             }
 
             return interval == Interval.Lower ? x : -x;

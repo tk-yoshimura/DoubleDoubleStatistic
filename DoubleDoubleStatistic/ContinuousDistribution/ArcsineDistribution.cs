@@ -33,7 +33,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = 2 * RcpPI * Asin(Sqrt(x));
+                ddouble cdf = 2d * RcpPI * Asin(Sqrt(x));
 
                 return cdf;
             }
@@ -46,7 +46,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = 2 * RcpPI * Asin(Sqrt(1d - x));
+                ddouble cdf = 2d * RcpPI * Asin(Sqrt(1d - x));
 
                 return cdf;
             }
@@ -61,7 +61,7 @@ namespace DoubleDoubleStatistic {
                 return Quantile(1d - p);
             }
 
-            ddouble x = Square(Sin(PI * p / 2));
+            ddouble x = Square(Sin(PI * p * 0.5d));
 
             return x;
         }
@@ -76,13 +76,13 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode => NaN;
 
-        public override ddouble Variance => 1 / 8d;
+        public override ddouble Variance => 0.125d;
 
         public override ddouble Skewness => 0;
 
         public override ddouble Kurtosis => -1.5d;
 
-        public override ddouble Entropy => Log(PI / 4);
+        public override ddouble Entropy => Log(PI * 0.25d);
 
         public override string ToString() {
             return $"{typeof(ArcsineDistribution).Name}[]";

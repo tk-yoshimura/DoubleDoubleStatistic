@@ -11,6 +11,8 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble theta_inv;
 
+        public ExponentialDistribution() : this(theta: 1d) { }
+
         public ExponentialDistribution(ddouble theta) {
             ValidateScale(theta);
 

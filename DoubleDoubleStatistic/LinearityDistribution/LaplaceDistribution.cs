@@ -16,19 +16,21 @@ namespace DoubleDoubleStatistic {
 
         public LaplaceDistribution() : this(mu: 0d, sigma: 1d) { }
 
+        public LaplaceDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
+
         public LaplaceDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
             ValidateScale(sigma);
 
             Mu = mu;
             Sigma = sigma;
-            sigma_inv = 1d / Sigma;
+            sigma_inv = 1d / sigma;
         }
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * sigma_inv;
 
-            ddouble pdf = Exp(-Abs(u)) * sigma_inv / 2;
+            ddouble pdf = Exp(-Abs(u)) * sigma_inv * 0.5d;
 
             return pdf;
         }
@@ -37,12 +39,12 @@ namespace DoubleDoubleStatistic {
             ddouble u = x - Mu;
 
             if (interval == Interval.Lower) {
-                ddouble cdf = IsNegative(u) ? Exp(u * sigma_inv) / 2 : 1d - Exp(-u * sigma_inv) / 2;
+                ddouble cdf = IsNegative(u) ? Exp(u * sigma_inv) * 0.5d : 1d - Exp(-u * sigma_inv) * 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = IsPositive(u) ? Exp(-u * sigma_inv) / 2 : 1d - Exp(u * sigma_inv) / 2;
+                ddouble cdf = IsPositive(u) ? Exp(-u * sigma_inv) * 0.5d : 1d - Exp(u * sigma_inv) * 0.5d;
 
                 return cdf;
             }
@@ -80,7 +82,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode => Mu;
 
-        public override ddouble Variance => 2 * Sigma * Sigma;
+        public override ddouble Variance => 2d * Sigma * Sigma;
 
         public override ddouble Skewness => 0d;
 

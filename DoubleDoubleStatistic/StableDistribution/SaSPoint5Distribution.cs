@@ -21,7 +21,9 @@ namespace DoubleDoubleStatistic {
 
         private static readonly ddouble entropy_base = "3.6399244456803064957308496039071853510";
 
-        public SaSPoint5Distribution() : this(mu: 0, c: 1) { }
+        public SaSPoint5Distribution() : this(mu: 0d, c: 1d) { }
+
+        public SaSPoint5Distribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public SaSPoint5Distribution(ddouble mu, ddouble c) {
             ValidateLocation(mu);

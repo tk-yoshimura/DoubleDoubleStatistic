@@ -23,7 +23,9 @@ namespace DoubleDoubleStatistic {
         private static readonly ddouble median_base = "-0.71671068545502205331700196278067230944440";
         private static readonly ddouble entropy_base = "2.0072768184106563460003025875575283708";
 
-        public MapAiryDistribution() : this(mu: 0, c: 1) { }
+        public MapAiryDistribution() : this(mu: 0d, c: 1d) { }
+
+        public MapAiryDistribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public MapAiryDistribution(ddouble mu, ddouble c) {
             ValidateLocation(mu);
@@ -72,9 +74,9 @@ namespace DoubleDoubleStatistic {
             return x;
         }
 
-        public override ddouble Median => median_base * C + Mu;
+        public override ddouble Median => Mu + median_base * C;
 
-        public override ddouble Mode => mode_base * C + Mu;
+        public override ddouble Mode => Mu + mode_base * C;
 
         public override ddouble Mean => Mu;
 

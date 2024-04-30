@@ -16,6 +16,10 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, sigma_inv;
 
+        public JohnsonSBDistribution(ddouble gamma, ddouble delta) : this(gamma, delta, mu: 0d, sigma: 1d) { }
+
+        public JohnsonSBDistribution(ddouble gamma, ddouble delta, ddouble sigma) : this(gamma, delta, mu: 0d, sigma: sigma) { }
+
         public JohnsonSBDistribution(ddouble gamma, ddouble delta, ddouble mu, ddouble sigma) {
             ValidateShape(gamma, IsFinite);
             ValidateScale(delta);
@@ -27,7 +31,7 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Sigma = sigma;
 
-            pdf_norm = Delta / (Sigma * Sqrt(2 * PI));
+            pdf_norm = delta / (sigma * Sqrt(2d * PI));
             sigma_inv = 1d / sigma;
         }
 
@@ -65,12 +69,12 @@ namespace DoubleDoubleStatistic {
             ddouble v = Gamma + Delta * Log(u / (1d - u));
 
             if (interval == Interval.Lower) {
-                ddouble cdf = Erfc(-v / Sqrt2) / 2;
+                ddouble cdf = Erfc(-v / Sqrt2) * 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Erfc(v / Sqrt2) / 2;
+                ddouble cdf = Erfc(v / Sqrt2) * 0.5d;
 
                 return cdf;
             }
@@ -82,10 +86,10 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble v = interval == Interval.Lower
-                ? -InverseErfc(p * 2) * Sqrt2
-                : InverseErfc(p * 2) * Sqrt2;
+                ? -InverseErfc(p * 2d) * Sqrt2
+                : InverseErfc(p * 2d) * Sqrt2;
 
-            ddouble u = 1d / (Exp((Gamma - v) / Delta) + 1);
+            ddouble u = 1d / (Exp((Gamma - v) / Delta) + 1d);
             ddouble x = Mu + Sigma * u;
 
             return x;
@@ -118,7 +122,7 @@ namespace DoubleDoubleStatistic {
 
                     u = Clamp(u - du, u / 16d, (u + 15d) / 16d);
 
-                    if (Abs(du / u) < 1e-30 || Abs(du) < Epsilon) {
+                    if (Abs(du / u) < 1e-29 || Abs(du) < Epsilon) {
                         break;
                     }
                 }
