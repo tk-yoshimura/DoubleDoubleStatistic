@@ -138,7 +138,6 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 
 ### Not Implemented Distributions
 
-- dagum
 - davis
 - non central chi sq
 - non central f
