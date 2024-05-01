@@ -68,7 +68,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = Max(0d, 1d - Pow(xcp1, -P));
+                ddouble cdf = Min(1d, Pow(xcp1, -P));
 
                 return cdf;
             }
@@ -80,7 +80,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Min(1d, Pow(xcp1, -P));
+                ddouble cdf = Max(0d, 1d - Pow(xcp1, -P));
 
                 return cdf;
             }
@@ -99,7 +99,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Pow(Pow(1d / (1d - p), 1d / P) - 1d, -a_inv);
+                ddouble x = Pow(Pow(1d / p, 1d / P) - 1d, -a_inv);
 
                 return x;
             }
@@ -111,7 +111,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = Pow(Pow(1d / p, 1d / P) - 1d, -a_inv);
+                ddouble x = Pow(Pow(1d / (1d - p), 1d / P) - 1d, -a_inv);
 
                 return x;
             }
