@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic {
         private readonly ddouble pdf_norm, cdf_norm, quantile_norm;
 
         public IrwinHallDistribution(int n) {
-            ValidateShape(n, n => n > 0 && n <= 256);
+            ValidateShape(n, n => n > 0 && n <= 128);
 
             N = n;
 
@@ -171,7 +171,7 @@ namespace DoubleDoubleStatistic {
                     c -= dc;
                     c = Clamp(c, 0d, 1d);
 
-                    if (Abs(dc) < 1e-29) {
+                    if (Abs(dc) < 1e-29 || Abs(dc) < Epsilon) {
                         break;
                     }
                 }

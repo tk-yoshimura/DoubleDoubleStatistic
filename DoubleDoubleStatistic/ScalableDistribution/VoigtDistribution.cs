@@ -132,7 +132,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x - dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-29) {
+                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
                         break;
                     }
                 }
@@ -172,7 +172,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x + dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-29) {
+                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
                         break;
                     }
                 }
