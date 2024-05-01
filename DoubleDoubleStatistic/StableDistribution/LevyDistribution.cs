@@ -90,6 +90,8 @@ namespace DoubleDoubleStatistic {
             }
         }
 
+        public override (ddouble min, ddouble max) Support => (Mu, PositiveInfinity);
+
         public override ddouble Mean => PositiveInfinity;
 
         public override ddouble Median => Mu + C / (2d * Square(InverseErfc(0.5d)));

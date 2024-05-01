@@ -97,7 +97,7 @@ namespace DoubleDoubleStatistic {
 
             if (interval == Interval.Lower) {
                 if (p <= 0d) {
-                    return 0d;
+                    return Mu;
                 }
                 if (p >= 1d) {
                     return PositiveInfinity;
@@ -119,7 +119,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
                 if (p >= 1d) {
-                    return 0d;
+                    return Mu;
                 }
 
                 ddouble v = 1d / -Log1p(-p);

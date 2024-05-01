@@ -109,7 +109,7 @@ namespace DoubleDoubleStatistic {
 
             if (interval == Interval.Lower) {
                 if (p <= 0d) {
-                    return 0d;
+                    return Mu;
                 }
 
                 ddouble f(ddouble u) {
