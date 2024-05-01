@@ -17,6 +17,7 @@
 | continuous | alpha             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | argus             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
+|            | benktander        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | beta prime        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
@@ -33,6 +34,7 @@
 |            | gompertz          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | fisher z          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | fisk              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
+|            | folded normal     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | frechet           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | half normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
 |            | holtsmark         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |      |
@@ -135,13 +137,11 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 
 ### Not Implemented Distributions
 
-- benktander
 - dagum
 - davis
 - non central chi sq
 - non central f
 - non central t
-- suzuki
 
 ### Not Implemented Functions
 

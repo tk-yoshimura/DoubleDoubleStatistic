@@ -79,9 +79,9 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Variance => sigma_sq;
 
-        public override ddouble Skewness => 0;
+        public override ddouble Skewness => 0d;
 
-        public override ddouble Kurtosis => 0;
+        public override ddouble Kurtosis => 0d;
 
         public override ddouble Entropy => Log(Sigma * Sqrt(2d * PI * E));
 

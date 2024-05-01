@@ -114,10 +114,10 @@ namespace DoubleDoubleStatistic {
             Alpha * Beta / (Square(Alpha + Beta) * (Alpha + Beta + 1d));
 
         public override ddouble Skewness =>
-            2 * (Beta - Alpha) * Sqrt(Alpha + Beta + 1d) / ((Alpha + Beta + 2d) * Sqrt(Alpha * Beta));
+            2d * (Beta - Alpha) * Sqrt(Alpha + Beta + 1d) / ((Alpha + Beta + 2d) * Sqrt(Alpha * Beta));
 
         public override ddouble Kurtosis =>
-            6 * (Square(Alpha - Beta) * (Alpha + Beta + 1d) - Alpha * Beta * (Alpha + Beta + 2d)) / (Alpha * Beta * (Alpha + Beta + 2d) * (Alpha + Beta + 3d));
+            6d * (Square(Alpha - Beta) * (Alpha + Beta + 1d) - Alpha * Beta * (Alpha + Beta + 2d)) / (Alpha * Beta * (Alpha + Beta + 2d) * (Alpha + Beta + 3d));
 
         public override ddouble Entropy =>
             LogBeta(Alpha, Beta) - (Alpha - 1d) * Digamma(Alpha) - (Beta - 1d) * Digamma(Beta) + (Alpha + Beta - 2d) * Digamma(Alpha + Beta);
