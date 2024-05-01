@@ -1,0 +1,440 @@
+﻿using DoubleDouble;
+using DoubleDoubleStatistic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace DoubleDoubleStatisticTest.ContinuousDistribution {
+    [TestClass()]
+    public class BenktanderDistributionTests {
+        readonly BenktanderDistribution dist_a1b1 = new(alpha: 1, beta: 1);
+        readonly BenktanderDistribution dist_a2b1 = new(alpha: 2, beta: 1);
+        readonly BenktanderDistribution dist_a2b2 = new(alpha: 2, beta: 2);
+        readonly BenktanderDistribution dist_a3b4 = new(alpha: 3, beta: 4);
+
+        BenktanderDistribution[] Dists => [
+            dist_a1b1,
+            dist_a2b1,
+            dist_a2b2,
+            dist_a3b4,
+        ];
+
+        [TestMethod()]
+        public void InfoTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+                Console.WriteLine($"Support={dist.Support}");
+                Console.WriteLine($"Alpha={dist.Alpha}");
+                Console.WriteLine($"Beta={dist.Beta}");
+                Console.WriteLine($"Mean={dist.Mean}");
+                Console.WriteLine($"Median={dist.Median}");
+                Console.WriteLine($"Mode={dist.Mode}");
+                Console.WriteLine($"Variance={dist.Variance}");
+                Console.WriteLine($"Skewness={dist.Skewness}");
+                Console.WriteLine($"Kurtosis={dist.Kurtosis}");
+                Console.WriteLine($"Entropy={dist.Entropy}");
+                Console.WriteLine(dist.Formula);
+            }
+        }
+
+        [TestMethod()]
+        public void MeanTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Mean;
+                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void ModeTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                if (ddouble.IsNaN(dist.Mode)) {
+                    continue;
+                }
+
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+            }
+        }
+
+        [TestMethod()]
+        public void MedianTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
+            }
+        }
+
+        [TestMethod()]
+        public void VarianceTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Variance;
+                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void SkewnessTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Skewness;
+                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void KurtosisTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Kurtosis;
+                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void EntropyTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                ddouble actual = dist.Entropy;
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
+            }
+        }
+
+        [TestMethod()]
+        public void PDFTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+                for (ddouble x = 0; x <= 8; x += 0.125) {
+                    ddouble pdf = dist.PDF(x);
+
+                    Console.WriteLine($"pdf({x})={pdf}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void CDFLowerTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+                for (ddouble x = 0; x <= 8; x += 0.125) {
+                    ddouble cdf = dist.CDF(x, Interval.Lower);
+
+                    Console.WriteLine($"cdf({x})={cdf}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void CDFUpperTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+                for (ddouble x = 0; x <= 8; x += 0.125) {
+                    ddouble cdf = dist.CDF(x, Interval.Lower);
+                    ddouble ccdf = dist.CDF(x, Interval.Upper);
+
+                    Console.WriteLine($"ccdf({x})={ccdf}");
+
+                    Assert.IsTrue(ddouble.Abs(cdf + ccdf - 1) < 1e-28);
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void QuantileLowerTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+                for (int i = 0; i <= 1000; i++) {
+                    ddouble p = (ddouble)i / 1000;
+                    ddouble x = dist.Quantile(p, Interval.Lower);
+                    ddouble cdf = dist.CDF(x, Interval.Lower);
+
+                    Console.WriteLine($"quantile({p})={x}, cdf({x})={cdf}");
+
+                    if (ddouble.IsFinite(x)) {
+                        Assert.IsTrue(ddouble.Abs(p - cdf) < 1e-28);
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void QuantileUpperTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+                for (int i = 0; i <= 1000; i++) {
+                    ddouble p = (ddouble)i / 1000;
+                    ddouble x = dist.Quantile(p, Interval.Upper);
+                    ddouble ccdf = dist.CDF(x, Interval.Upper);
+
+                    Console.WriteLine($"cquantile({p})={x}, ccdf({x})={ccdf}");
+
+                    if (ddouble.IsFinite(x)) {
+                        Assert.IsTrue(ddouble.Abs(p - ccdf) < 1e-28);
+                    }
+                }
+            }
+        }
+
+
+        [TestMethod()]
+        public void IrregularValueTest() {
+            foreach (BenktanderDistribution dist in Dists) {
+                Console.WriteLine(dist);
+
+                Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.NegativeInfinity)) && dist.PDF(ddouble.NegativeInfinity) >= 0d, "pdf(-inf)");
+                Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.MinValue)) && dist.PDF(ddouble.MinValue) >= 0d, "pdf(-lval)");
+                Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.MinValue / 2)) && dist.PDF(ddouble.MinValue / 2) >= 0d, "pdf(-lval / 2)");
+
+                Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.PositiveInfinity)) && dist.PDF(ddouble.PositiveInfinity) >= 0d, "pdf(+inf)");
+                Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.MaxValue)) && dist.PDF(ddouble.MaxValue) >= 0d, "pdf(+lval)");
+                Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.MaxValue / 2)) && dist.PDF(ddouble.MaxValue / 2) >= 0d, "pdf(+lval / 2)");
+
+                Assert.IsTrue(ddouble.IsNaN(dist.PDF(ddouble.NaN)), "pdf(NaN)");
+
+                Assert.IsTrue(dist.CDF(ddouble.NegativeInfinity, Interval.Lower) == 0d, "cdf(-inf)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MinValue, Interval.Lower)) && dist.CDF(ddouble.MinValue, Interval.Lower) >= 0d, "cdf(-lval)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MinValue / 2, Interval.Lower)) && dist.CDF(ddouble.MinValue / 2, Interval.Lower) >= 0d, "cdf(-lval / 2)");
+
+                Assert.IsTrue(dist.CDF(ddouble.PositiveInfinity, Interval.Lower) == 1d, "cdf(+inf)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MaxValue, Interval.Lower)) && dist.CDF(ddouble.MaxValue, Interval.Lower) <= 1d, "cdf(+lval)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MaxValue / 2, Interval.Lower)) && dist.CDF(ddouble.MaxValue / 2, Interval.Lower) <= 1d, "cdf(+lval / 2)");
+
+                Assert.IsTrue(ddouble.IsNaN(dist.CDF(ddouble.NaN, Interval.Lower)), "cdf(NaN)");
+
+                Assert.IsTrue(dist.CDF(ddouble.NegativeInfinity, Interval.Upper) == 1d, "ccdf(-inf)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MinValue, Interval.Upper)) && dist.CDF(ddouble.MinValue, Interval.Upper) <= 1d, "ccdf(-lval)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MinValue / 2, Interval.Upper)) && dist.CDF(ddouble.MinValue / 2, Interval.Upper) <= 1d, "ccdf(-lval / 2)");
+
+                Assert.IsTrue(dist.CDF(ddouble.PositiveInfinity, Interval.Upper) == 0d, "cdf(+inf)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MaxValue, Interval.Upper)) && dist.CDF(ddouble.MaxValue, Interval.Upper) >= 0d, "ccdf(+lval)");
+                Assert.IsTrue(ddouble.IsFinite(dist.CDF(ddouble.MaxValue / 2, Interval.Upper)) && dist.CDF(ddouble.MaxValue / 2, Interval.Upper) >= 0d, "ccdf(+lval / 2)");
+
+                Assert.IsTrue(ddouble.IsNaN(dist.CDF(ddouble.NaN, Interval.Upper)), "ccdf(NaN)");
+
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(0d, Interval.Lower)) || ddouble.IsNegativeInfinity(dist.Quantile(0d, Interval.Lower)), "quantile(0)");
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(1d, Interval.Lower)) || ddouble.IsPositiveInfinity(dist.Quantile(1d, Interval.Lower)), "quantile(1)");
+
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(0d, Interval.Upper)) || ddouble.IsPositiveInfinity(dist.Quantile(0d, Interval.Upper)), "cquantile(0)");
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(1d, Interval.Upper)) || ddouble.IsNegativeInfinity(dist.Quantile(1d, Interval.Upper)), "cquantile(1)");
+
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(ddouble.Epsilon, Interval.Lower)) || ddouble.IsNegativeInfinity(dist.Quantile(ddouble.Epsilon, Interval.Lower)), "quantile(0+eps)");
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(ddouble.One - ddouble.Epsilon, Interval.Lower)) || ddouble.IsPositiveInfinity(dist.Quantile(ddouble.One - ddouble.Epsilon, Interval.Lower)), "quantile(1-eps)");
+
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(ddouble.Epsilon, Interval.Upper)) || ddouble.IsPositiveInfinity(dist.Quantile(ddouble.Epsilon, Interval.Upper)), "cquantile(0+eps)");
+                Assert.IsTrue(ddouble.IsFinite(dist.Quantile(ddouble.One - ddouble.Epsilon, Interval.Upper)) || ddouble.IsNegativeInfinity(dist.Quantile(ddouble.One - ddouble.Epsilon, Interval.Upper)), "cquantile(1-eps)");
+            }
+        }
+
+        [TestMethod()]
+        public void PDFExpectedTest() {
+            ddouble[] expected_dist_a1b1 = [
+                0.0,
+                0.527935109400371,
+                0.7492226660119179,
+                0.8051141944648212,
+                0.7768583547908648,
+                0.7098993281332316,
+                0.6289470533161791,
+                0.5469169653977595,
+                0.4701161279382973,
+                0.4012167745178745,
+                0.3409473393163515,
+                0.2890457455580052,
+                0.2447900186317338,
+                0.2072875769631228,
+                0.1756274518742331,
+                0.1489553469161867,
+                0.1265059330076899,
+                0.1076120692056761,
+                0.09170214834402787,
+                0.07829186231420654,
+                0.06697385298818576,
+                0.05740709064012241,
+                0.04930689767854474,
+                0.04243601813882314,
+                0.03659685151139837,
+                0.03162482301186688,
+                0.02738279281109533,
+                0.02375637988848176,
+                0.02065007223055612,
+                0.01798400268241064,
+                0.01569128243671761,
+                0.01371579837876193,
+                0.01201039444321453,
+            ];
+            ddouble[] expected_dist_a2b1 = [
+                2.0,
+                1.611062726660252,
+                1.253017462289316,
+                0.959331619053212,
+                0.7300235650649433,
+                0.5550355283186131,
+                0.4228565601719388,
+                0.3233577365207783,
+                0.2484311374766015,
+                0.1918610296975989,
+                0.1489821081793818,
+                0.1163278095256574,
+                0.0913323116651013,
+                0.0720970058205608,
+                0.05721427931755407,
+                0.04563709610061779,
+                0.03658340198362015,
+                0.02946634289634588,
+                0.02384336303898903,
+                0.01937902305458611,
+                0.01581776525591041,
+                0.0129638922997455,
+                0.01066678697462909,
+                0.008809951513662722,
+                0.007302840799469102,
+                0.006074747790967127,
+                0.005070203133217545,
+                0.004245497159992087,
+                0.003566037807205997,
+                0.003004334036105571,
+                0.002538449539195614,
+                0.002150811679368316,
+                0.001827289996254191,
+            ];
+            ddouble[] expected_dist_a2b2 = [
+                1.0,
+                1.389794033203485,
+                1.345831059131862,
+                1.141068372356057,
+                0.9056650030245392,
+                0.6928379096247764,
+                0.5187351876645658,
+                0.3835094850635507,
+                0.2815323369200114,
+                0.2059523910782962,
+                0.150501483826436,
+                0.1100443696686589,
+                0.0806018609448777,
+                0.05918593981540956,
+                0.04359418735973387,
+                0.03222108897509605,
+                0.02390364326501894,
+                0.01780209992321863,
+                0.01331077775891655,
+                0.009992655696103102,
+                0.007531958820859629,
+                0.005700025965958773,
+                0.004330830690009089,
+                0.003303453546756722,
+                0.002529532787392908,
+                0.001944270543995673,
+                0.001499975727940043,
+                0.001161417320656689,
+                9.024712801212231e-4,
+                7.03693559044272e-4,
+                5.505577254751596e-4,
+                4.321708367252325e-4,
+                3.403345091746621e-4,
+
+            ];
+            ddouble[] expected_dist_a3b4 = [
+                1.333333333333333,
+                2.009550049277416,
+                1.761635459122323,
+                1.280398460487352,
+                0.8466307523781363,
+                0.5302353696921698,
+                0.3213811119059761,
+                0.1909553176231714,
+                0.1121421872866319,
+                0.06545048073805115,
+                0.0381066423220927,
+                0.02219125179268764,
+                0.01295010553085571,
+                0.007583333852250254,
+                0.004460275040305798,
+                0.002636796283775047,
+                0.001567527890240154,
+                9.373938658473222e-4,
+                5.640167239485485e-4,
+                3.414935222072014e-4,
+                2.080764013969504e-4,
+                1.275912221072229e-4,
+                7.873498820643093e-5,
+                4.889255468892458e-5,
+                3.055028959464566e-5,
+                1.920649976643374e-5,
+                1.214783586646449e-5,
+                7.728962286290448e-6,
+                4.94613808302185e-6,
+                3.183343768651895e-6,
+                2.060257756469235e-6,
+                1.340689676847106e-6,
+                8.771049913097381e-7,
+            ];
+
+            foreach ((BenktanderDistribution dist, ddouble[] expecteds) in new[]{
+                (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
+                (dist_a2b2, expected_dist_a2b2), (dist_a3b4, expected_dist_a3b4),
+            }) {
+                for ((ddouble x, int i) = (1, 0); i < expecteds.Length; x += 1d / 8, i++) {
+                    ddouble expected = expecteds[i];
+                    ddouble actual = dist.PDF(x);
+
+                    Console.WriteLine($"{dist} pdf({x})");
+                    Console.WriteLine(expected);
+                    Console.WriteLine(actual);
+
+                    if (expected > 0) {
+                        Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-10, $"{dist} pdf({x})\n{expected}\n{actual}");
+                    }
+                    else {
+                        Assert.AreEqual(0, actual);
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void CDFExpectedTest() {
+            ddouble[] expected_dist_a1b1 = [
+            ];
+            ddouble[] expected_dist_a2b1 = [
+            ];
+            ddouble[] expected_dist_a2b2 = [
+            ];
+            ddouble[] expected_dist_a3b4 = [
+            ];
+
+            foreach ((BenktanderDistribution dist, ddouble[] expecteds) in new[]{
+                (dist_a1b1, expected_dist_a1b1), (dist_a2b1, expected_dist_a2b1),
+                (dist_a2b2, expected_dist_a2b2), (dist_a3b4, expected_dist_a3b4),
+            }) {
+                for ((ddouble x, int i) = (1, 0); i < expecteds.Length; x += 1d / 8, i++) {
+                    ddouble expected = expecteds[i];
+                    ddouble actual = dist.CDF(x);
+
+                    Console.WriteLine($"{dist} cdf({x})");
+                    Console.WriteLine(expected);
+                    Console.WriteLine(actual);
+
+                    if (expected > 0) {
+                        Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-10, $"{dist} cdf({x})\n{expected}\n{actual}");
+                    }
+                    else {
+                        Assert.AreEqual(0, actual);
+                    }
+                }
+            }
+        }
+    }
+}
