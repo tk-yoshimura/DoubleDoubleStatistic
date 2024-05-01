@@ -99,7 +99,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Pow(Pow(1d / (1d - p), 1d / K) - 1d, 1d * c_inv);
+                ddouble x = Pow(Pow(1d / (1d - p), 1d / K) - 1d, c_inv);
 
                 return x;
             }
@@ -111,7 +111,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = Pow(Pow(1d / p, 1d / K) - 1d, 1d * c_inv);
+                ddouble x = Pow(Pow(1d / p, 1d / K) - 1d, c_inv);
 
                 return x;
             }
@@ -120,17 +120,17 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
-            K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+            K * Beta(K - c_inv, 1d + c_inv);
 
         public override ddouble Median =>
-            Pow(Pow2(1d / K) - 1d, 1d * c_inv);
+            Pow(Pow2(1d / K) - 1d, c_inv);
 
         public override ddouble Mode =>
-            Pow((C - 1d) / (K * C + 1d), 1d * c_inv);
+            Pow((C - 1d) / (K * C + 1d), c_inv);
 
         public override ddouble Variance {
             get {
-                ddouble mu1 = K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+                ddouble mu1 = K * Beta(K - c_inv, 1d + c_inv);
                 ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
 
                 return mu2 - mu1 * mu1;
@@ -138,7 +138,7 @@ namespace DoubleDoubleStatistic {
         }
         public override ddouble Skewness {
             get {
-                ddouble mu1 = K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+                ddouble mu1 = K * Beta(K - c_inv, 1d + c_inv);
                 ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
                 ddouble mu3 = K * Beta((C * K - 3d) * c_inv, (C + 3d) * c_inv);
 
@@ -148,7 +148,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Kurtosis {
             get {
-                ddouble mu1 = K * Beta(K - 1d * c_inv, 1d + 1d * c_inv);
+                ddouble mu1 = K * Beta(K - c_inv, 1d + c_inv);
                 ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
                 ddouble mu3 = K * Beta((C * K - 3d) * c_inv, (C + 3d) * c_inv);
                 ddouble mu4 = K * Beta((C * K - 4d) * c_inv, (C + 4d) * c_inv);
