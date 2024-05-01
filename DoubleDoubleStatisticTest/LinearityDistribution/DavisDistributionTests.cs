@@ -282,15 +282,82 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
         [TestMethod()]
         public void PDFExpectedTest() {
             ddouble[] expected_dist_alpha2mu1sigma1 = [
+                0,0,0,0,0,0,0,0,
+                0,
+                0.1044506927623685,
+                0.725908160908502,
+                0.8608252198364962,
+                0.761210535566625,
+                0.6299137325126085,
+                0.515813777407975,
+                0.4248974220280987,
+                0.35379941275362,
+                0.2980724984128881,
+                0.2539765657048593,
+                0.2186711307949863,
+                0.1900602288138109,
+                0.1666036175176603,
+                0.1471629540322707,
+                0.1308886689149809,
+                0.1171395037652159,
+                0.1054257593672665,
+                0.09536917136599854,
+                0.0866743316099886,
+                0.07910813488068492,
+                0.07248483929848737,
+                0.06665508834570077,
+                0.06149775679479745,
+                0.05691383070763381,
+                0.05282176799851544,
+                0.04915394777799348,
+                0.04585392834337024,
+                0.04287431149692462,
+                0.04017506563868764,
+                0.03772219900188462,
+                0.03548670232594128,
+                0.03344370048724283,
             ];
             ddouble[] expected_dist_alpha3mu0sigma4 = [
+                0,
+                1.380897611825045e-9,
+                7.669256360675213e-4,
+                0.03137874212146496,
+                0.1429337516211626,
+                0.2903637544217854,
+                0.4081732044602545,
+                0.4746373510647807,
+                0.4966782604645985,
+                0.4887009474394511,
+                0.4633575829950173,
+                0.4294989500250113,
+                0.3926604822087937,
+                0.3560425936134714,
+                0.3213504620365988,
+                0.2893836521350081,
+                0.2604163618848003,
+                0.2344317550623334,
+                0.2112621694316273,
+                0.1906709526192555,
+                0.1723989197286681,
+                0.1561897101038947,
+                0.141802740249749,
+                0.1290189897301708,
+                0.1176427466921943,
+                0.1075011642496464,
+                0.09844271213645675,
+                0.0903351488363839,
+                0.08306336563279658,
+                0.07652729186931213,
+                0.07063995565344645,
+                0.06532573943315279,
+                0.06051883913935425,
             ];
 
             foreach ((DavisDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_alpha2mu1sigma1, expected_dist_alpha2mu1sigma1),
                 (dist_alpha3mu0sigma4, expected_dist_alpha3mu0sigma4),
             }) {
-                for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 1d / 64, i++) {
+                for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 1d / 8, i++) {
                     ddouble expected = expecteds[i];
                     ddouble actual = dist.PDF(x);
 
@@ -310,17 +377,12 @@ namespace DoubleDoubleStatisticTest.LinearityDistribution {
 
         [TestMethod()]
         public void CDFExpectedTest() {
-            ddouble[] expected_dist_alpha2mu1sigma1 = [
-            ];
-            ddouble[] expected_dist_alpha3mu0sigma4 = [
-            ];
-
-            foreach ((DavisDistribution dist, ddouble[] expecteds) in new[]{
-                (dist_alpha2mu1sigma1, expected_dist_alpha2mu1sigma1),
-                (dist_alpha3mu0sigma4, expected_dist_alpha3mu0sigma4),
+            foreach (DavisDistribution dist in new[]{
+                dist_alpha2mu1sigma1,
+                dist_alpha3mu0sigma4,
             }) {
-                for ((ddouble x, int i) = (0, 0); i < expecteds.Length; x += 1d / 64, i++) {
-                    ddouble expected = expecteds[i];
+                for (ddouble x = 0d; x < 8; x += 1d / 64) {
+                    ddouble expected = GaussKronrodIntegral.AdaptiveIntegrate(dist.PDF, 0, x, 1e-31, 4096).value;
                     ddouble actual = dist.CDF(x);
 
                     Console.WriteLine($"{dist} cdf({x})");
