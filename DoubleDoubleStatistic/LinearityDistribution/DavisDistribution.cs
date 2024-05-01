@@ -207,7 +207,7 @@ namespace DoubleDoubleStatistic {
 
             ddouble y = pdf * t_inv * t_inv;
 
-            y = IsFinite(y) ? y: 0d;
+            y = IsFinite(y) ? y : 0d;
 
             return y;
         }
