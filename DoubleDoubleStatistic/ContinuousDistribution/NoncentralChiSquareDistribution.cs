@@ -144,7 +144,7 @@ namespace DoubleDoubleStatistic {
                 ddouble x0 = (1d - t0) / t0;
                 ddouble x1 = (1d - t1) / t1;
 
-                for (int i = 0; i < 32; i++) {
+                for (int i = 0; i < 64; i++) {
                     ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
 
                     if (!IsFinite(dx)) {
@@ -182,7 +182,7 @@ namespace DoubleDoubleStatistic {
                 ddouble x0 = (1d - t0) / t0;
                 ddouble x1 = (1d - t1) / t1;
 
-                for (int i = 0; i < 8; i++) {
+                for (int i = 0; i < 64; i++) {
                     ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
 
                     if (!IsFinite(dx)) {
