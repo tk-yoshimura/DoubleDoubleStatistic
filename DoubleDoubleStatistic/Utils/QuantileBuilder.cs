@@ -80,15 +80,20 @@ namespace DoubleDoubleStatistic {
                 ddouble ym = table[i - 1], y0 = table[i], yp = table[i + 1];
                 ddouble log2_ym = log2_table[i - 1], log2_yp = log2_table[i + 1];
 
-                ddouble yc = (ym + yp) / 2;
-                ddouble log2_yc = (log2_ym + log2_yp) / 2;
+                if (ddouble.IsFinite(log2_ym) && ddouble.IsFinite(log2_yp)) {
+                    ddouble yc = (ym + yp) / 2;
+                    ddouble log2_yc = (log2_ym + log2_yp) / 2;
 
-                ddouble err_linear = ddouble.Abs(y0 - yc);
-                ddouble err_log2 = ddouble.Abs(y0 - ddouble.Pow2(log2_yc));
+                    ddouble err_linear = ddouble.Abs(y0 - yc);
+                    ddouble err_log2 = ddouble.Abs(y0 - ddouble.Pow2(log2_yc));
 
-                ddouble weight = err_log2 / (err_linear + err_log2);
+                    ddouble weight = err_log2 / (err_linear + err_log2);
 
-                weights.Add(weight);
+                    weights.Add(weight);
+                }
+                else {
+                    weights.Add(1d);
+                }
             }
 
             weights[0] = weights[1];
@@ -133,8 +138,10 @@ namespace DoubleDoubleStatistic {
             ddouble weight = (weight_table[index] + weight_table[index + 1]) / 2;
 
             ddouble c =
-                weight * (p - cdf_table[index]) / (cdf_table[index + 1] - cdf_table[index]) +
-                (1d - weight) * (ddouble.Log2(p) - cdf_log2_table[index]) / (cdf_log2_table[index + 1] - cdf_log2_table[index]);
+                weight < 1d
+                ? (weight * (p - cdf_table[index]) / (cdf_table[index + 1] - cdf_table[index]) +
+                  (1d - weight) * (ddouble.Log2(p) - cdf_log2_table[index]) / (cdf_log2_table[index + 1] - cdf_log2_table[index]))
+                : (p - cdf_table[index]) / (cdf_table[index + 1] - cdf_table[index]);
 
             if (ddouble.IsNaN(c)) {
                 c = 0d;
