@@ -676,15 +676,12 @@ namespace DoubleDoubleStatisticTest.ContinuousDistribution {
                 4.272896555268299729e-02,
                 3.746197620093304204e-02,
             ];
-            ddouble[] expected_nu8mu16 = [
-            ];
 
             foreach ((NoncentralStudentTDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_nu1mu1, expected_nu1mu1),
                 (dist_nu2mum1, expected_nu2mum1),
                 (dist_nu4mu2, expected_nu4mu2),
                 (dist_nu5mu4, expected_nu5mu4),
-                (dist_nu8mu16,  expected_nu8mu16)
             }) {
                 for ((ddouble x, int i) = (-8, 0); i < expecteds.Length; x += 0.25, i++) {
                     ddouble expected = expecteds[i];
@@ -969,15 +966,12 @@ namespace DoubleDoubleStatisticTest.ContinuousDistribution {
                 9.102013942322757512e-01,
                 9.202100918423642417e-01,
             ];
-            ddouble[] expected_nu8mu16 = [
-            ];
 
             foreach ((NoncentralStudentTDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_nu1mu1, expected_nu1mu1),
                 (dist_nu2mum1, expected_nu2mum1),
                 (dist_nu4mu2, expected_nu4mu2),
                 (dist_nu5mu4, expected_nu5mu4),
-                (dist_nu8mu16,  expected_nu8mu16)
             }) {
                 for ((ddouble x, int i) = (-8, 0); i < expecteds.Length; x += 0.25, i++) {
                     ddouble expected = expecteds[i];
