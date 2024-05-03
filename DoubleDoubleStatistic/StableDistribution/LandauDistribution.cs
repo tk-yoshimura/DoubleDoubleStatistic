@@ -120,7 +120,7 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(LandauDistribution).Name}[mu={Mu},c={C}]";
         }
 
-        public override string Formula => "p(x; mu, c) := stable_distribution(alpha = 1, beta = 1, mu, c)";
+        public override string Formula => "p(x; mu, c) := stable_distribution(x; alpha = 1, beta = 1, mu, c)";
 
         private static class PDFPade {
             private static readonly ddouble pi_half = Ldexp(PI, -1);
