@@ -21,9 +21,15 @@
     <PackageReference Include="TYoshimura.DoubleDouble.Complex" Version="1.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <Reference Include="DoubleDoubleStatistic">
       <HintPath>..\DoubleDoubleStatistic\bin\Debug\net8.0\DoubleDoubleStatistic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+    <Reference Include="DoubleDoubleStatistic">
+      <HintPath>..\DoubleDoubleStatistic\bin\Release\net8.0\DoubleDoubleStatistic.dll</HintPath>
     </Reference>
   </ItemGroup>
 
