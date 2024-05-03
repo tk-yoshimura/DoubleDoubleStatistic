@@ -1,4 +1,6 @@
 ﻿using DoubleDouble;
+using System.Diagnostics;
+using System;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
@@ -103,8 +105,8 @@ namespace DoubleDoubleStatistic {
                 a += da;
                 b += db;
 
-                if ((Abs(da / a) < 1e-30 || da < Epsilon || !IsFinite(da)) &&
-                    (Abs(db / b) < 1e-30 || db < Epsilon || !IsFinite(db))) {
+                if ((da <= a * 1e-30 || !IsFinite(da)) &&
+                    (db <= b * 1e-30 || !IsFinite(db))) {
 
                     break;
                 }
@@ -116,7 +118,13 @@ namespace DoubleDoubleStatistic {
                 db *= u * ((Nu + 2d) * 0.5d + i) / ((i + 1) * (i + 1.5d));
             }
 
-            ddouble y = Exp(-Mu * Mu * 0.5d) * (a + mux * Sqrt(2d / x2nu) * pdf_b_scale * b);
+            ddouble s = a + mux * Sqrt(2d / x2nu) * pdf_b_scale * b;
+
+            if (s < a * 1e-29) {
+                return 0d;
+            }
+
+            ddouble y = Exp(-Mu * Mu * 0.5d) * s;
 
             y = Max(0d, y);
 
@@ -150,8 +158,8 @@ namespace DoubleDoubleStatistic {
 
                 s += ds;
 
-                if ((Abs(ds1 / s) < 1e-30 || ds1 < Epsilon || !IsFinite(ds1)) &&
-                    (Abs(ds2 / s) < 1e-30 || ds2 < Epsilon || !IsFinite(ds2))) {
+                if ((Abs(ds1) <= Abs(s) * 1e-30 || !IsFinite(ds1)) &&
+                    (Abs(ds2) <= Abs(s) * 1e-30 || !IsFinite(ds2))) {
 
                     break;
                 }
@@ -164,11 +172,36 @@ namespace DoubleDoubleStatistic {
                 c1 += 1d;
                 c2 += 1d;
 
-                (beta1_1, beta1_0) = (((a1 + c1 * v) * beta1_1 - c1 * v * beta1_0) / a1, beta1_1);
-                (beta2_1, beta2_0) = (((a2 + c2 * v) * beta2_1 - c2 * v * beta2_0) / a2, beta2_1);
+                if (beta1_1 > 1e-12) {
+                    (beta1_1, beta1_0) = (((a1 + c1 * v) * beta1_1 - c1 * v * beta1_0) / a1, beta1_1);
+                }
+                else { 
+                    Debug.WriteLine(
+                        "reset recurr incomp.beta: \n" +
+                        $"{((a1 + c1 * v) * beta1_1 - c1 * v * beta1_0) / a1} -> {IncompleteBetaRegularized(v, i + 2.5d, nu_half)}"
+                    );
+
+                    (beta1_1, beta1_0) = (IncompleteBetaRegularized(v, i + 2.5d, nu_half), beta1_1);
+                }
+
+                if (beta2_1 > 1e-12) {
+                    (beta2_1, beta2_0) = (((a2 + c2 * v) * beta2_1 - c2 * v * beta2_0) / a2, beta2_1);
+                }
+                else { 
+                    Debug.WriteLine(
+                        "reset recurr incomp.beta: \n" +
+                        $"{((a2 + c2 * v) * beta2_1 - c2 * v * beta2_0) / a2} -> {IncompleteBetaRegularized(v, i + 3d, nu_half)}"
+                    );
+
+                    (beta2_1, beta2_0) = (IncompleteBetaRegularized(v, i + 3d, nu_half), beta2_1);
+                }
             }
 
             ddouble y = (Erfc(mu / Sqrt2) + Exp(-u) * s) * 0.5d;
+
+            if (1d - y < 1e-29) {
+                y = 1d;
+            }
 
             return y;
         }

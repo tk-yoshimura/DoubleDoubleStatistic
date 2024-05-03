@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
@@ -102,7 +103,17 @@ namespace DoubleDoubleStatistic {
                     a += 1d;
                     c += 1d;
 
-                    (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
+                    if (beta1 > 1e-12) {
+                        (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
+                    }
+                    else { 
+                        Debug.WriteLine(
+                            "reset recurr incomp.beta: \n" +
+                            $"{((a + c * u) * beta1 - c * u * beta0) / a} -> {IncompleteBetaRegularized(u, n_half + (i + 1), m_half)}"
+                        );
+
+                        (beta1, beta0) = (IncompleteBetaRegularized(u, n_half + (i + 1), m_half), beta1);
+                    }
                 }
 
                 ddouble cdf = Min(1d, Exp(-lambda_half) * s);
@@ -140,7 +151,17 @@ namespace DoubleDoubleStatistic {
                     b += 1d;
                     c += 1d;
 
-                    (beta1, beta0) = (((b + c * v) * beta1 - c * v * beta0) / b, beta1);
+                    if (beta1 > 1e-12) {
+                        (beta1, beta0) = (((b + c * v) * beta1 - c * v * beta0) / b, beta1);
+                    }
+                    else {
+                        Debug.WriteLine(
+                            "reset recurr incomp.beta: \n" +
+                            $"{((b + c * v) * beta1 - c * v * beta0) / b} -> {IncompleteBetaRegularized(u, m_half, n_half + (i + 1))}"
+                        );
+
+                        (beta1, beta0) = (IncompleteBetaRegularized(u, m_half, n_half + (i + 1)), beta1);
+                    }
                 }
 
                 ddouble cdf = Min(1d, Exp(-lambda_half) * s);
