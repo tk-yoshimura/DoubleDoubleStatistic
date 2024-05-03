@@ -68,7 +68,7 @@ namespace DoubleDoubleStatistic {
 
                     s += ds;
 
-                    if (Abs(ds / s) < 1e-30 || ds < Epsilon || !IsFinite(ds)) {
+                    if (ds <= s * 1e-30 || !IsFinite(ds)) {
                         break;
                     }
 
@@ -100,7 +100,7 @@ namespace DoubleDoubleStatistic {
 
                     s += ds;
 
-                    if (Abs(ds / s) < 1e-30 || ds < Epsilon || !IsFinite(ds)) {
+                    if (ds <= s * 1e-30 || !IsFinite(ds)) {
                         break;
                     }
 

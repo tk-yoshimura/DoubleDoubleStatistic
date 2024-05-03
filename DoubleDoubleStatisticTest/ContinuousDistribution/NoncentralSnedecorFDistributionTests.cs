@@ -142,7 +142,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistribution {
                 Console.WriteLine(dist);
 
                 ddouble actual = dist.Entropy;
-                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536 * 2);
+                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 65536);
                 Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
             }
         }

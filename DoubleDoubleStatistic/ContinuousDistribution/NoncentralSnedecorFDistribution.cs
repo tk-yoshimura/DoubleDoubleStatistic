@@ -27,15 +27,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            if (IsNegative(x)) {
-                return 0d;
-            }
-
-            if (x <= 0d) {
-                return 0d;
-            }
-
-            if (IsPositiveInfinity(x)) {
+            if (x <= 0d || IsPositiveInfinity(x)) {
                 return 0d;
             }
 
@@ -50,7 +42,7 @@ namespace DoubleDoubleStatistic {
 
                 u += du;
 
-                if (Abs(du / u) < 1e-30 || du < Epsilon || !IsFinite(du)) {
+                if (Abs(du) <= Abs(u) * 1e-30 || !IsFinite(du)) {
                     break;
                 }
 
@@ -63,7 +55,7 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble pdf = Exp(-Lambda * 0.5d) * u;
-            pdf = IsFinite(pdf) ? pdf : 0d;
+            pdf = IsFinite(pdf) ? Max(pdf, 0d) : 0d;
 
             return pdf;
         }
@@ -99,7 +91,7 @@ namespace DoubleDoubleStatistic {
 
                     s += ds;
 
-                    if (Abs(ds / s) < 1e-30 || ds < Epsilon || !IsFinite(ds)) {
+                    if (Abs(ds) <= Abs(s) * 1e-30 || !IsFinite(ds)) {
                         break;
                     }
 
@@ -137,7 +129,7 @@ namespace DoubleDoubleStatistic {
 
                     s += ds;
 
-                    if (Abs(ds / s) < 1e-30 || ds < Epsilon || !IsFinite(ds)) {
+                    if (Abs(ds) <= Abs(s) * 1e-30 || !IsFinite(ds)) {
                         break;
                     }
 
@@ -263,12 +255,13 @@ namespace DoubleDoubleStatistic {
 
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
-            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 65536);
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 32768);
 
         public override string ToString() {
             return $"{typeof(NoncentralSnedecorFDistribution).Name}[n={N},m={M},lambda={Lambda}]";
         }
 
-        public override string Formula => "p(x; n, m) := x^(n / 2 - 1) * (m + n * x)^((- m - n) / 2) * m^(m / 2) * n^(n / 2) / beta(n / 2, m / 2)";
+        public override string Formula => 
+            "p(x; n, m, lambda) := exp(-lambda / 2) * sum((lambda / 2)^k / (beta(m / 2, n / 2 + k) * k!) * (n / m)^(n / 2 + k) * (m / (n * x + m))^((n + m) / 2 + k) * x^(n / 2 - 1 + k), k, 0, inf)";
     }
 }
