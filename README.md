@@ -17,7 +17,7 @@
 | continuous | alpha             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | argus             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | benktander        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | benktander        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Quantile take longer to calculate.               |
 |            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | beta prime        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
@@ -28,7 +28,7 @@
 |            | chi square        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | cosine            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | dagum             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | davis             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | davis             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | CDF and Quantile take longer to calculate.       |
 |            | delta             | &#x2714; | &#x2714; | N/A      | &#x2714;  |                                                  |
 |            | exponential       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | gamma             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
@@ -38,11 +38,11 @@
 |            | fisk              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | folded normal     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | frechet           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | half normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | half normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Quantile take longer to calculate.               |
 |            | holtsmark         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | hyperbolic secant | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | inverse gamma     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | inverse gauss     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | inverse gauss     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Quantile take longer to calculate.               |
 |            | inverse chi       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | inverse chi sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | irwin hall        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | n &leq; 128                                      |
@@ -67,15 +67,15 @@
 |            | power             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | reciprocal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | rice              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | rice              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | CDF and Quantile take longer to calculate.       |
 |            | sas point5        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | skew normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | skew normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | Quantile take longer to calculate.               |
 |            | snedecor f        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | student t         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | triangular        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | uniform           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | u quadratic       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | voigt             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
+|            | voigt             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | CDF and Quantile take longer to calculate.       |
 |            | weibull           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | wigner semicircle | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 
