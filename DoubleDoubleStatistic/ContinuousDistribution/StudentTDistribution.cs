@@ -19,8 +19,8 @@ namespace DoubleDoubleStatistic {
             ddouble c = Sqrt(nu * PI);
 
             pdf_norm = nu < 70d
-                ? Gamma((nu + 1d) / 2) / (Gamma(nu / 2d) * c)
-                : Exp(LogGamma((nu + 1d) / 2) - LogGamma(nu / 2d)) / c;
+                ? Gamma((nu + 1d) / 2d) / (Gamma(nu / 2d) * c)
+                : Exp(LogGamma((nu + 1d) / 2d) - LogGamma(nu / 2d)) / c;
             nu_inv = 1d / nu;
             nu_half = nu / 2d;
             power = -(nu + 1d) / 2d;
@@ -38,7 +38,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            if (Abs(x) >= zero_thr || IsInfinity(x)) {
+            if (Abs(x) >= zero_thr) {
                 return 0d;
             }
 
@@ -60,11 +60,15 @@ namespace DoubleDoubleStatistic {
                 return CDF(-x, Interval.Lower);
             }
 
+            if (Abs(x) >= zero_thr) {
+                return IsNegative(x) ? 0d : 1d;
+            }
+
             ddouble v = Sqrt(x * x + Nu);
             ddouble t = (x + v) / (2d * v);
 
             if (IsNaN(t)) {
-                return x < 0d ? 0d : 1d;
+                return IsNegative(x) ? 0d : 1d;
             }
 
             ddouble cdf = IncompleteBetaRegularized(t, nu_half, nu_half);
@@ -113,7 +117,7 @@ namespace DoubleDoubleStatistic {
 
         public override bool Symmetric => true;
 
-        public override ddouble Mean => Nu > 1d ? 0 : NaN;
+        public override ddouble Mean => Nu > 1d ? 0d : NaN;
 
         public override ddouble Median => 0d;
 

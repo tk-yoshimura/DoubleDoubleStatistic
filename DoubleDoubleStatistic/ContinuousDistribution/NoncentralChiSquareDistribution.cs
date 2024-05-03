@@ -64,9 +64,6 @@ namespace DoubleDoubleStatistic {
                     f *= lambda_half / i;
                     g -= Exp(lnx_half * u - x_half) / (u * v);
 
-                    v *= u;
-                    u += 1d;
-
                     ddouble ds = f * g;
 
                     s += ds;
@@ -78,6 +75,9 @@ namespace DoubleDoubleStatistic {
                     if (i >= series_maxiter) {
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
+
+                    v *= u;
+                    u += 1d;
                 }
 
                 ddouble cdf = Min(1d, Exp(-lambda_half) * s);
@@ -96,9 +96,6 @@ namespace DoubleDoubleStatistic {
                     f *= lambda_half / i;
                     g += Exp(lnx_half * u - x_half) / (u * v);
 
-                    v *= u;
-                    u += 1d;
-
                     ddouble ds = f * g;
 
                     s += ds;
@@ -110,6 +107,9 @@ namespace DoubleDoubleStatistic {
                     if (i >= series_maxiter) {
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
+
+                    v *= u;
+                    u += 1d;
                 }
 
                 ddouble cdf = Min(1d, Exp(-lambda_half) * s);

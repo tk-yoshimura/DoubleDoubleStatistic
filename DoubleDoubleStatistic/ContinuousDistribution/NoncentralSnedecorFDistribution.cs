@@ -54,12 +54,12 @@ namespace DoubleDoubleStatistic {
                     break;
                 }
 
-                v *= r / (i + 1);
-                beta *= (N * 0.5 + i) / ((M + N) * 0.5d + i);
-
                 if (i >= series_maxiter) {
                     throw new ArithmeticException($"{this}: pdf calculation not convergence.");
                 }
+
+                v *= r / (i + 1);
+                beta *= (N * 0.5 + i) / ((M + N) * 0.5d + i);
             }
 
             ddouble pdf = Exp(-Lambda * 0.5d) * u;
@@ -84,23 +84,18 @@ namespace DoubleDoubleStatistic {
             ddouble lambda_half = Lambda * 0.5d, n_half = N * 0.5d, m_half = M * 0.5d;
 
             if (x < Mean) {
-                ddouble f = 1d;
+                ddouble r = 1d;
                 ddouble u = N * x / (N * x + M);
 
                 ddouble beta0 = IncompleteBetaRegularized(u, n_half, m_half);
                 ddouble beta1 = IncompleteBetaRegularized(u, n_half + 1d, m_half);
 
                 ddouble s = beta0;
-                ddouble a = n_half, b = m_half, c = a + b - 1d;
+                ddouble a = n_half, c = a + m_half - 1d;
 
                 for (int i = 1; i <= series_maxiter; i++) {
-                    f *= lambda_half / i;
-                    ddouble ds = f * beta1;
-
-                    a += 1d;
-                    c += 1d;
-
-                    (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
+                    r *= lambda_half / i;
+                    ddouble ds = r * beta1;
 
                     s += ds;
 
@@ -111,6 +106,11 @@ namespace DoubleDoubleStatistic {
                     if (i >= series_maxiter) {
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
+
+                    a += 1d;
+                    c += 1d;
+
+                    (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
                 }
 
                 ddouble cdf = Min(1d, Exp(-lambda_half) * s);
@@ -122,23 +122,18 @@ namespace DoubleDoubleStatistic {
                 return cdf;
             }
             else {
+                ddouble r = 1d;
                 ddouble u = M / (N * x + M), v = N * x / (N * x + M);
-                ddouble f = 1d;
 
                 ddouble beta0 = IncompleteBetaRegularized(u, m_half, n_half);
                 ddouble beta1 = IncompleteBetaRegularized(u, m_half, n_half + 1d);
 
                 ddouble s = beta0;
-                ddouble a = m_half, b = n_half, c = a + b - 1d;
+                ddouble b = n_half, c = m_half + b - 1d;
 
                 for (int i = 1; i <= series_maxiter; i++) {
-                    f *= lambda_half / i;
-                    ddouble ds = f * beta1;
-
-                    b += 1d;
-                    c += 1d;
-
-                    (beta1, beta0) = (((b + c * v) * beta1 - c * v * beta0) / b, beta1);
+                    r *= lambda_half / i;
+                    ddouble ds = r * beta1;
 
                     s += ds;
 
@@ -149,6 +144,11 @@ namespace DoubleDoubleStatistic {
                     if (i >= series_maxiter) {
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
+
+                    b += 1d;
+                    c += 1d;
+
+                    (beta1, beta0) = (((b + c * v) * beta1 - c * v * beta0) / b, beta1);
                 }
 
                 ddouble cdf = Min(1d, Exp(-lambda_half) * s);
