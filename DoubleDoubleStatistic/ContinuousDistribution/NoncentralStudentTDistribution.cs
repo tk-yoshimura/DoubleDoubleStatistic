@@ -300,6 +300,10 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Median => Quantile(0.5d);
 
+        private ddouble? mode = null;
+        public override ddouble Mode => mode ??=
+            MaximumFinder.BisectionFind(Mu * Sqrt(Nu / (Nu + 2.5d)), Mu * Sqrt(Nu / (Nu + 1d)), PDF);
+
         public override ddouble Variance => (Nu > 2d)
             ? Nu * (1d + Mu * Mu) / (Nu - 2d) - Mu * Mu * Nu * 0.5d * Square(gc)
             : NaN;

@@ -108,7 +108,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistribution {
                 Console.WriteLine($"K={dist.Nu}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");
-                //Console.WriteLine($"Mode={dist.Mode}");
+                Console.WriteLine($"Mode={dist.Mode}");
                 Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
@@ -134,8 +134,6 @@ namespace DoubleDoubleStatisticTest.ContinuousDistribution {
 
         [TestMethod()]
         public void ModeTest() {
-            Assert.Inconclusive();
-
             foreach (NoncentralChiSquareDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
@@ -143,8 +141,10 @@ namespace DoubleDoubleStatisticTest.ContinuousDistribution {
                     continue;
                 }
 
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+                Console.WriteLine(dist.Mode);
+
+                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode - 1e-10), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode + 1e-10), $"{dist}\n{dist.Mode}");
             }
         }
 

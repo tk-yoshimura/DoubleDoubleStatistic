@@ -60,9 +60,9 @@
 |            | maxwell           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | nakagami          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | normal            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
-|            | noncentral chi sq | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
-|            | noncentral f      | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
-|            | noncentral t      | &#x2714; | &#x2714; | &#x2714; | &#x26A0;  | Not implemented: mode |
+|            | noncentral chi sq | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | noncentral f      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
+|            | noncentral t      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | pareto            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | power             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |
 |            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                       |

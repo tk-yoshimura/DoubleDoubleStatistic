@@ -262,6 +262,25 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Median => Quantile(0.5d);
 
+        private ddouble? mode = null;
+        public override ddouble Mode {
+            get {
+                if (mode is not null) {
+                    return mode.Value;
+                }
+
+                ddouble t = MaximumFinder.BisectionFind(0d, 0.875d, t => PDF((1d - t) / t));
+                ddouble xp = (1d - t) / t;
+                ddouble xn = MaximumFinder.BisectionFind(0d, 0.15d, PDF);
+
+                ddouble vp = PDF(xp), vn = PDF(xn);
+
+                mode ??= (vp >= vn) ? xp : xn;
+
+                return mode.Value;
+            }
+        }
+
         public override ddouble Variance => (M > 4d)
             ? 2d * M * M * ((M - 2d) * (2d * Lambda + N) + Square(Lambda + N)) / ((M - 4d) * Square(N * (M - 2d)))
             : NaN;
