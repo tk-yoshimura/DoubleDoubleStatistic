@@ -1,5 +1,5 @@
 # DoubleDoubleStatistic
- Double-Double Statistic Implements 
+ Double-Double Statistic Implements
 
 ## Requirement
 .NET 8.0  
@@ -120,23 +120,25 @@ Console.WriteLine($"Entropy={dist.Entropy}");
 ```
 
 ## Typical parameter symbols
-| category            | symbol       | note                        |
-| ------------------- | ------------ | --------------------------- |
-| support parameter   | k            |                             |
-|                     | a, b         | uniform                     |
-|                     | a, b, c      | triangular                  |
-| shape parameter     | alpha        |                             |
-|                     | alpha, beta  | beta, beta prime            |
-|                     | gamma, delta | johnson sb, su              |
-|                     | eta          | gompertz                    |
-|                     | nu           | chi, chisq, student t       |
-|                     | n            | irwin hall                  |
-|                     | n, m         | fisher z, snedecor f        |
-|                     | c            | stable distributions        |
-| location  parameter | mu           |                             |
-| scale parameter     | sigma        | error-related distributions |
-|                     | theta        | time-related distributions  |
-|                     | s, r         | otherwise                   |
+| category                 | symbol       | note                        |
+| ------------------------ | ------------ | --------------------------- |
+| support parameter        | k            |                             |
+|                          | a, b         | uniform                     |
+|                          | a, b, c      | triangular                  |
+| shape parameter          | alpha        |                             |
+|                          | alpha, beta  | beta, beta prime            |
+|                          | gamma, delta | johnson sb, su              |
+|                          | eta          | gompertz                    |
+|                          | nu           | chi, chisq, student t       |
+|                          | n            | irwin hall                  |
+|                          | n, m         | fisher z, snedecor f        |
+|                          | c            | stable distributions        |
+| location parameter       | mu           |                             |
+| scale parameter          | sigma        | error-related distributions |
+|                          | theta        | time-related distributions  |
+|                          | s, r         | otherwise                   |
+| non-centricity parameter | lambda       |                             |
+|                          | mu           | non-central student t       |
 
 ## To Be Updated
 
