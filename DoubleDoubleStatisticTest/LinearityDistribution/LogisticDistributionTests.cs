@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic;
+using DoubleDoubleStatistic.InternalUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.LinearityDistribution {

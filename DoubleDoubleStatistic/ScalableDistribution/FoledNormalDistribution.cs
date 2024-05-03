@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;

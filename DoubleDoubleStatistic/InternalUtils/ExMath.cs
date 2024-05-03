@@ -1,6 +1,6 @@
 ﻿using DoubleDouble;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     internal static class ExMath {
 
         public static ddouble Pow3d2(ddouble x) {

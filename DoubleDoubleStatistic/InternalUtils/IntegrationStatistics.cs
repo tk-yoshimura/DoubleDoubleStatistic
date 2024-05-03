@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     public static class IntegrationStatistics {
         public static ddouble Mean(ContinuousDistribution dist, ddouble eps, long discontinue_eval_points) {
             ddouble f(ddouble x) {

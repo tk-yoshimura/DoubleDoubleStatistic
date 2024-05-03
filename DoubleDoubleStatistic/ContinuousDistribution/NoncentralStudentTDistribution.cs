@@ -1,6 +1,6 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
 using System.Diagnostics;
-using System;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
@@ -175,7 +175,7 @@ namespace DoubleDoubleStatistic {
                 if (beta1_1 > 1e-12) {
                     (beta1_1, beta1_0) = (((a1 + c1 * v) * beta1_1 - c1 * v * beta1_0) / a1, beta1_1);
                 }
-                else { 
+                else {
                     Debug.WriteLine(
                         "reset recurr incomp.beta: \n" +
                         $"{((a1 + c1 * v) * beta1_1 - c1 * v * beta1_0) / a1} -> {IncompleteBetaRegularized(v, i + 2.5d, nu_half)}"
@@ -187,7 +187,7 @@ namespace DoubleDoubleStatistic {
                 if (beta2_1 > 1e-12) {
                     (beta2_1, beta2_0) = (((a2 + c2 * v) * beta2_1 - c2 * v * beta2_0) / a2, beta2_1);
                 }
-                else { 
+                else {
                     Debug.WriteLine(
                         "reset recurr incomp.beta: \n" +
                         $"{((a2 + c2 * v) * beta2_1 - c2 * v * beta2_0) / a2} -> {IncompleteBetaRegularized(v, i + 3d, nu_half)}"

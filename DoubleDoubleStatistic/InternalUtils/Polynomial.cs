@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Numerics;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     internal class Polynomial {
         public ReadOnlyCollection<BigInteger> Coef { get; }
 

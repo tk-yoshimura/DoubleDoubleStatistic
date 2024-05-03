@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     internal class QuantileBuilder {
 
         private readonly ddouble xa, xb, xh;

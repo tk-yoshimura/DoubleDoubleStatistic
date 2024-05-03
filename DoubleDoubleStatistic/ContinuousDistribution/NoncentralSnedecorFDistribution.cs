@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -106,7 +107,7 @@ namespace DoubleDoubleStatistic {
                     if (beta1 > 1e-12) {
                         (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
                     }
-                    else { 
+                    else {
                         Debug.WriteLine(
                             "reset recurr incomp.beta: \n" +
                             $"{((a + c * u) * beta1 - c * u * beta0) / a} -> {IncompleteBetaRegularized(u, n_half + (i + 1), m_half)}"
@@ -282,7 +283,7 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(NoncentralSnedecorFDistribution).Name}[n={N},m={M},lambda={Lambda}]";
         }
 
-        public override string Formula => 
+        public override string Formula =>
             "p(x; n, m, lambda) := exp(-lambda / 2) * sum((lambda / 2)^k / (beta(m / 2, n / 2 + k) * k!) * (n / m)^(n / 2 + k) * (m / (n * x + m))^((n + m) / 2 + k) * x^(n / 2 - 1 + k), k, 0, inf)";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
 using System.Collections.ObjectModel;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -14,7 +15,7 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, c, alpha_inv, sigma_inv;
+        private readonly ddouble pdf_norm, c, sigma_inv;
 
         private const int cache_samples = 512;
         private CDFSegmentCache cdf_cache = null;
@@ -35,7 +36,6 @@ namespace DoubleDoubleStatistic {
 
             c = 1d / (Gamma(alpha) * RiemannZeta(alpha));
             pdf_norm = c / sigma;
-            alpha_inv = 1d / alpha;
             sigma_inv = 1d / sigma;
         }
 

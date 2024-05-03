@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     internal static class Binom {
         static readonly Dictionary<(int n, int k), BigInteger> table = [];
 

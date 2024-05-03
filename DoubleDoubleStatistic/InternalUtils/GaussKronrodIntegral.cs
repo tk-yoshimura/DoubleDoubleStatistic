@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     internal static class GaussKronrodIntegral {
         const long gk_points = 63;
 

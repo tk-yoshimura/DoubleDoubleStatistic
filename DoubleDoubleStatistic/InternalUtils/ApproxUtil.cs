@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace DoubleDoubleStatistic {
+namespace DoubleDoubleStatistic.InternalUtils {
     internal static class ApproxUtil {
 
         public static ddouble Pade(ddouble x, ReadOnlyCollection<(ddouble c, ddouble d)> table) {
