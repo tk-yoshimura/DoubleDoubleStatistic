@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using static DoubleDouble.ddouble;
 

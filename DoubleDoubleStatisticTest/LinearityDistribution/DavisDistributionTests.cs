@@ -2,6 +2,7 @@
 using DoubleDouble;
 using DoubleDoubleStatistic;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.LinearityDistribution {

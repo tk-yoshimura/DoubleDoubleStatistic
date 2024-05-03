@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Utils;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
