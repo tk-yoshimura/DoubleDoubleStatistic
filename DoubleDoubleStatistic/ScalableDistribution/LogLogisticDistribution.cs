@@ -27,14 +27,14 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNaN(x)) {
+            ddouble u = x * sigma_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
-            if (IsNegative(x)) {
+            if (IsNegative(u)) {
                 return 0d;
             }
-
-            ddouble u = x * sigma_inv;
 
             ddouble v = Pow(u, Gamma);
 

@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
+        private readonly ddouble pdf_norm, sigma_inv, exp_scale, sqrt2_inv;
 
         public NormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
@@ -27,26 +27,29 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Sigma = sigma;
 
-            sigma_sq = sigma * sigma;
+            sigma_inv = 1d / sigma;
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            exp_scale = -1d / (2 * sigma_sq);
-            erf_scale = -1d / (Sqrt2 * sigma);
+            sqrt2_inv = 1d / Sqrt2;
         }
 
         public override ddouble PDF(ddouble x) {
-            ddouble pdf = pdf_norm * Exp(Square(x - Mu) * exp_scale);
+            ddouble u = (x - Mu) * sigma_inv;
+
+            ddouble pdf = pdf_norm * Exp(u * u * -0.5d);
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
+            ddouble u = (x - Mu) * sigma_inv;
+
             if (interval == Interval.Lower) {
-                ddouble cdf = Erfc((x - Mu) * erf_scale) * 0.5d;
+                ddouble cdf = Erfc(-u * sqrt2_inv) * 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Erfc((Mu - x) * erf_scale) * 0.5d;
+                ddouble cdf = Erfc(u * sqrt2_inv) * 0.5d;
 
                 return cdf;
             }
@@ -77,7 +80,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode => Mu;
 
-        public override ddouble Variance => sigma_sq;
+        public override ddouble Variance => Sigma * Sigma;
 
         public override ddouble Skewness => 0d;
 

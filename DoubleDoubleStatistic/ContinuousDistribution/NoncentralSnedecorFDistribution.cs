@@ -57,7 +57,7 @@ namespace DoubleDoubleStatistic {
                 beta *= (N * 0.5 + i) / ((M + N) * 0.5d + i);
             }
 
-            ddouble pdf = Exp(-Lambda * 0.5d) * u;
+            ddouble pdf = Exp(Lambda * -0.5d) * u;
             pdf = IsFinite(pdf) ? Max(pdf, 0d) : 0d;
 
             return pdf;

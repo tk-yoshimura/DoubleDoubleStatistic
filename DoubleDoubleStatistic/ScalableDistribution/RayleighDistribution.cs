@@ -32,7 +32,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble pdf = u * Exp(-u * u * 0.5d) * sigma_inv;
+            ddouble pdf = u * Exp(u * u * -0.5d) * sigma_inv;
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -54,7 +54,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = -Expm1(-u2 * 0.5d);
+                ddouble cdf = -Expm1(u2 * -0.5d);
 
                 if (IsNaN(cdf)) {
                     return 1d;
@@ -70,7 +70,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Exp(-u2 * 0.5d);
+                ddouble cdf = Exp(u2 * -0.5d);
 
                 if (IsNaN(cdf)) {
                     return 0d;

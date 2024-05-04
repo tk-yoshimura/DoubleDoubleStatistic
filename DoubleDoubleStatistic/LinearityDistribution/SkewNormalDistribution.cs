@@ -47,7 +47,7 @@ namespace DoubleDoubleStatistic {
 
             ddouble u = (x - Mu) * sigma_inv;
 
-            ddouble pdf = pdf_norm * Exp(-u * u * 0.5d) * Erfc(-u * erfc_scale);
+            ddouble pdf = pdf_norm * Exp(u * u * -0.5d) * Erfc(-u * erfc_scale);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -61,7 +61,7 @@ namespace DoubleDoubleStatistic {
             ddouble u = (x - Mu) * sigma_inv;
 
             ddouble f(ddouble u) {
-                ddouble c = Exp(-u * u * 0.5d) * Erfc(-u * erfc_scale);
+                ddouble c = Exp(u * u * -0.5d) * Erfc(-u * erfc_scale);
                 return c;
             }
 
@@ -121,7 +121,7 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble df(ddouble u) {
-                ddouble c = Exp(-u * u * 0.5d) * Erfc(-u * erfc_scale);
+                ddouble c = Exp(u * u * -0.5d) * Erfc(-u * erfc_scale);
                 return c;
             }
 
@@ -235,7 +235,7 @@ namespace DoubleDoubleStatistic {
                 ddouble c = 1d / Sqrt(2d * PI);
 
                 ddouble f(ddouble x) {
-                    ddouble pdf = c * Exp(-x * x * 0.5d) * Erfc(-x * erfc_scale);
+                    ddouble pdf = c * Exp(x * x * -0.5d) * Erfc(-x * erfc_scale);
 
                     if (pdf == 0d) {
                         return 0d;

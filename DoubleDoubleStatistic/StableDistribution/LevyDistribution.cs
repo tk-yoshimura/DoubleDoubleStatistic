@@ -34,6 +34,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * c_inv;
+
             if (IsNaN(u)) {
                 return NaN;
             }

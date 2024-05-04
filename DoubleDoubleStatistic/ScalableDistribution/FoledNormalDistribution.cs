@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
+        private readonly ddouble pdf_norm, sigma_inv, sqrt2_inv;
 
         private readonly bool needs_fold;
 
@@ -33,12 +33,11 @@ namespace DoubleDoubleStatistic {
             Mu = mu;
             Sigma = sigma;
 
-            sigma_sq = sigma * sigma;
+            sigma_inv = 1d / sigma;
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            exp_scale = -1d / (2 * sigma_sq);
-            erf_scale = 1d / (Sqrt2 * sigma);
+            sqrt2_inv = 1d / Sqrt2;
 
-            needs_fold = Exp(Square(mu) * exp_scale) > 0d;
+            needs_fold = Exp(Square(mu / sigma) * -0.5d) > 0d;
 
             Debug.WriteLine($"{nameof(needs_fold)} : {needs_fold}");
         }
@@ -53,12 +52,16 @@ namespace DoubleDoubleStatistic {
             }
 
             if (needs_fold) {
-                ddouble pdf = pdf_norm * (Exp(Square(x - Mu) * exp_scale) + Exp(Square(x + Mu) * exp_scale));
+                ddouble um = (x - Mu) * sigma_inv, up = (x + Mu) * sigma_inv;
+
+                ddouble pdf = pdf_norm * (Exp(um * um * -0.5d) + Exp(up * up * -0.5d));
 
                 return pdf;
             }
             else {
-                ddouble pdf = pdf_norm * Exp(Square(x - Mu) * exp_scale);
+                ddouble u = (x - Mu) * sigma_inv;
+
+                ddouble pdf = pdf_norm * Exp(u * u * -0.5d);
 
                 return pdf;
             }
@@ -75,12 +78,16 @@ namespace DoubleDoubleStatistic {
                 }
 
                 if (needs_fold) {
-                    ddouble cdf = (Erf((x - Mu) * erf_scale) + Erf((x + Mu) * erf_scale)) * 0.5d;
+                    ddouble um = (x - Mu) * sigma_inv, up = (x + Mu) * sigma_inv;
+
+                    ddouble cdf = (Erf(um * sqrt2_inv) + Erf(up * sqrt2_inv)) * 0.5d;
 
                     return cdf;
                 }
                 else {
-                    ddouble cdf = Erfc((Mu - x) * erf_scale) * 0.5d;
+                    ddouble u = (x - Mu) * sigma_inv;
+
+                    ddouble cdf = Erfc(-u * sqrt2_inv) * 0.5d;
 
                     return cdf;
                 }
@@ -91,12 +98,16 @@ namespace DoubleDoubleStatistic {
                 }
 
                 if (needs_fold) {
-                    ddouble cdf = (Erfc((x - Mu) * erf_scale) + Erfc((Mu + x) * erf_scale)) * 0.5d;
+                    ddouble um = (x - Mu) * sigma_inv, up = (x + Mu) * sigma_inv;
+
+                    ddouble cdf = (Erfc(um * sqrt2_inv) + Erfc(up * sqrt2_inv)) * 0.5d;
 
                     return cdf;
                 }
                 else {
-                    ddouble cdf = Erfc((x - Mu) * erf_scale) * 0.5d;
+                    ddouble u = (x - Mu) * sigma_inv;
+
+                    ddouble cdf = Erfc(u * sqrt2_inv) * 0.5d;
 
                     return cdf;
                 }
@@ -223,8 +234,8 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble Variance => needs_fold
-            ? Square(Mu) + Square(Sigma) - Square(Mean)
-            : sigma_sq;
+            ? Square(Sigma) + (Square(Mu) - Square(Mean))
+            : Square(Sigma);
 
         private ddouble? skewness = null;
         public override ddouble Skewness => needs_fold

@@ -125,7 +125,7 @@ namespace DoubleDoubleStatistic {
                 return 0d;
             }
 
-            ddouble y = Exp(-Mu * Mu * 0.5d) * s;
+            ddouble y = Exp(Mu * Mu * -0.5d) * s;
 
             y = Max(0d, y);
 

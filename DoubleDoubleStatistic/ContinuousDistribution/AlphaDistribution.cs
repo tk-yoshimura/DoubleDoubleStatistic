@@ -31,7 +31,7 @@ namespace DoubleDoubleStatistic {
 
             ddouble u = Alpha - 1d / x;
 
-            ddouble pdf = pdf_norm / (x * x) * Exp(-u * u * 0.5d);
+            ddouble pdf = pdf_norm / (x * x) * Exp(u * u * -0.5d);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;

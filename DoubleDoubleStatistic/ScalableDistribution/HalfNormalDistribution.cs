@@ -10,7 +10,7 @@ namespace DoubleDoubleStatistic {
 
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, sigma_sq, exp_scale, erf_scale;
+        private readonly ddouble pdf_norm, sigma_inv, sqrt2_inv;
 
         public HalfNormalDistribution() : this(sigma: 1d) { }
 
@@ -19,45 +19,48 @@ namespace DoubleDoubleStatistic {
 
             Sigma = sigma;
 
-            sigma_sq = sigma * sigma;
+            sigma_inv = 1d / sigma;
             pdf_norm = Sqrt2 / (sigma * Sqrt(PI));
-            exp_scale = -1d / (2d * sigma_sq);
-            erf_scale = 1d / (Sqrt2 * sigma);
+            sqrt2_inv = 1d / Sqrt2;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNaN(x)) {
+            ddouble u = x * sigma_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
-            if (IsNegative(x)) {
+            if (IsNegative(u)) {
                 return 0d;
             }
 
-            ddouble pdf = pdf_norm * Exp(Square(x) * exp_scale);
+            ddouble pdf = pdf_norm * Exp(u * u * -0.5d);
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (IsNaN(x)) {
+            ddouble u = x * sigma_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
 
             if (interval == Interval.Lower) {
-                if (IsNegative(x)) {
+                if (IsNegative(u)) {
                     return 0d;
                 }
 
-                ddouble cdf = Erf(x * erf_scale);
+                ddouble cdf = Erf(u * sqrt2_inv);
 
                 return cdf;
             }
             else {
-                if (IsNegative(x)) {
+                if (IsNegative(u)) {
                     return 1d;
                 }
 
-                ddouble cdf = Erfc(x * erf_scale);
+                ddouble cdf = Erfc(u * sqrt2_inv);
 
                 return cdf;
             }
@@ -88,7 +91,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => sigma_sq * (1d - 2 * RcpPI);
+        public override ddouble Variance => Sigma * Sigma * (1d - 2 * RcpPI);
 
         public override ddouble Skewness => Sqrt2 * (4d - PI) / ExMath.Pow3d2(PI - 2d);
 
