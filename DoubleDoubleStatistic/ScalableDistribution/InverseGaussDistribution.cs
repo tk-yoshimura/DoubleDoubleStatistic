@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Lambda { get; }
 
-        private readonly ddouble r, c;
+        private readonly ddouble r, c, inv_mu;
 
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
@@ -27,52 +27,57 @@ namespace DoubleDoubleStatistic {
 
             c = lambda / mu;
             r = Exp(2d * c);
+            inv_mu = 1d / mu;
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNaN(x)) {
+            ddouble u = x * inv_mu;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
-            if (IsNegative(x)) {
+            if (IsNegative(u)) {
                 return 0d;
             }
 
-            ddouble pdf = Sqrt(Lambda / (2d * PI * Cube(x))) * Exp(-Lambda * Square(x - Mu) / (2d * Square(Mu) * x));
+            ddouble pdf = Sqrt(c / (2d * PI * u)) * Exp(c * Square(u - 1d) / (-2d * u)) / u * inv_mu;
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (IsNaN(x)) {
+            ddouble u = x * inv_mu;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
 
-            ddouble u = Sqrt(Lambda / (x * 2d)) / Mu;
-            ddouble un = u * (Mu - x), up = u * (Mu + x);
+            ddouble v = Sqrt(c / (u * 2d));
+            ddouble vn = v * (1d - u), vp = v * (1d + u);
 
             if (interval == Interval.Lower) {
-                if (IsNegative(x)) {
+                if (IsNegative(u)) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(u)) {
                     return 1d;
                 }
 
-                ddouble cdf = (Erfc(un) + r * Erfc(up)) * 0.5d;
+                ddouble cdf = (Erfc(vn) + r * Erfc(vp)) * 0.5d;
                 cdf = Min(cdf, 1d);
 
                 return cdf;
             }
             else {
-                if (IsNegative(x)) {
+                if (IsNegative(u)) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x)) {
+                if (IsPositiveInfinity(u)) {
                     return 0d;
                 }
 
-                ddouble cdf = (Erfc(-un) - r * Erfc(up)) * 0.5d;
+                ddouble cdf = (Erfc(-vn) - r * Erfc(vp)) * 0.5d;
                 cdf = Max(cdf, 0d);
 
                 return cdf;
@@ -89,7 +94,7 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble df(ddouble x) {
-                ddouble y = c * Exp(-(c * Square(x - 1d)) / (2d * x)) / (Sqrt(2d * c * PI / x) * x * x);
+                ddouble y = Sqrt(c / (2d * PI * x)) * Exp(c * Square(x - 1d) / (-2d * x)) / x;
                 return y;
             }
 
@@ -199,6 +204,6 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(InverseGaussDistribution).Name}[mu={Mu},lambda={Lambda}]";
         }
 
-        public override string Formula => "p(x; mu, lambda) := sqrt(lambda / (2 * pi * x^3)) * exp(-lambda * (x - mu)^2 / (2 * mu^2 * x))";
+        public override string Formula => "p(x; mu, lambda) := sqrt(c / (2 * pi * u^3)) * exp(-c * (u - 1)^2 / (2 * u)), c = lambda / mu, u = x / mu";
     }
 }
