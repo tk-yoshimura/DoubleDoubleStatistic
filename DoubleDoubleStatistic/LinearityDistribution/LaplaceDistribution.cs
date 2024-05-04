@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class LaplaceDistribution : LinearityDistribution<LaplaceDistribution>,
         IAdditionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         ISubtractionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,

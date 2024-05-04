@@ -1,9 +1,11 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class RayleighDistribution : ScalableDistribution<RayleighDistribution>,
         IMultiplyOperators<RayleighDistribution, ddouble, RayleighDistribution>,
         IDivisionOperators<RayleighDistribution, ddouble, RayleighDistribution> {

@@ -2,9 +2,11 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class RiceDistribution : ContinuousDistribution {
 
         public ddouble Nu { get; }

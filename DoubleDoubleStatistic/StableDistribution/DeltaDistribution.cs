@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class DeltaDistribution : StableDistribution<DeltaDistribution>,
         IAdditionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,
         ISubtractionOperators<DeltaDistribution, DeltaDistribution, DeltaDistribution>,

@@ -1,7 +1,9 @@
 ﻿using DoubleDouble;
+using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class ArcsineDistribution : ContinuousDistribution {
 
         public ArcsineDistribution() { }

@@ -6,6 +6,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class MapAiryDistribution : StableDistribution<MapAiryDistribution>,
         IAdditionOperators<MapAiryDistribution, MapAiryDistribution, MapAiryDistribution>,
         ISubtractionOperators<MapAiryDistribution, MapAiryDistribution, MapAiryDistribution>,

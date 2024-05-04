@@ -2,11 +2,13 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 using Complex = DoubleDoubleComplex.Complex;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class VoigtDistribution : ScalableDistribution<VoigtDistribution>,
         IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
         IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution>,

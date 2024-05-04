@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.Utils;
+using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class FisherZDistribution : ContinuousDistribution {
 
         public ddouble N { get; }

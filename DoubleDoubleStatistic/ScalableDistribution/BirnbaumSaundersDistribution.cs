@@ -1,10 +1,12 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Utils;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class BirnbaumSaundersDistribution : ScalableDistribution<BirnbaumSaundersDistribution>,
         IMultiplyOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution>,
         IDivisionOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution> {

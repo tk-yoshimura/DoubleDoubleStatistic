@@ -6,6 +6,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class HoltsmarkDistribution : StableDistribution<HoltsmarkDistribution>,
         IAdditionOperators<HoltsmarkDistribution, HoltsmarkDistribution, HoltsmarkDistribution>,
         ISubtractionOperators<HoltsmarkDistribution, HoltsmarkDistribution, HoltsmarkDistribution>,

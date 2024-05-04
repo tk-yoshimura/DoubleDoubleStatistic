@@ -1,8 +1,10 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class KumaraswamyDistribution : ContinuousDistribution {
 
         public ddouble Alpha { get; }

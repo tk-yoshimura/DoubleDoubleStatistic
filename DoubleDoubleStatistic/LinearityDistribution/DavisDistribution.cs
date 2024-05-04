@@ -2,10 +2,12 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class DavisDistribution : LinearityDistribution<DavisDistribution>,
         IAdditionOperators<DavisDistribution, ddouble, DavisDistribution>,
         ISubtractionOperators<DavisDistribution, ddouble, DavisDistribution>,

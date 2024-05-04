@@ -6,6 +6,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class WignerSemicircleDistribution : ScalableDistribution<WignerSemicircleDistribution>,
         IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution>,
         IDivisionOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution> {

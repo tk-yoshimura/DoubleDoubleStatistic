@@ -1,9 +1,11 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class UQuadraticDistribution : LinearityDistribution<UQuadraticDistribution>,
         IAdditionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
         ISubtractionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,

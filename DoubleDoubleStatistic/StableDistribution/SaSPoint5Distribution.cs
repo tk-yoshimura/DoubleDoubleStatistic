@@ -6,6 +6,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class SaSPoint5Distribution : StableDistribution<SaSPoint5Distribution>,
         IAdditionOperators<SaSPoint5Distribution, SaSPoint5Distribution, SaSPoint5Distribution>,
         ISubtractionOperators<SaSPoint5Distribution, SaSPoint5Distribution, SaSPoint5Distribution>,

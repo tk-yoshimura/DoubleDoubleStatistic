@@ -1,9 +1,11 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.Utils;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class JohnsonSUDistribution : LinearityDistribution<JohnsonSUDistribution>,
         IMultiplyOperators<JohnsonSUDistribution, ddouble, JohnsonSUDistribution>,
         IDivisionOperators<JohnsonSUDistribution, ddouble, JohnsonSUDistribution>,

@@ -6,6 +6,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class SkewNormalDistribution : LinearityDistribution<SkewNormalDistribution>,
         IAdditionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
         ISubtractionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,

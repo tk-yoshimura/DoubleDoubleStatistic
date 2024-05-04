@@ -5,6 +5,7 @@ using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class NoncentralStudentTDistribution : ContinuousDistribution {
 
         public ddouble Nu { get; }

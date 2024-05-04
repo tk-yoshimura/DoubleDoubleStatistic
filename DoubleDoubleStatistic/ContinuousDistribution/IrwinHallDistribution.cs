@@ -7,6 +7,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class IrwinHallDistribution : ContinuousDistribution,
         IAdditionOperators<IrwinHallDistribution, IrwinHallDistribution, IrwinHallDistribution> {
 

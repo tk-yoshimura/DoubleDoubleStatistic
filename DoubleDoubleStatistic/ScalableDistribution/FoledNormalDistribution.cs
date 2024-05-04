@@ -7,6 +7,7 @@ using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class FoledNormalDistribution : ScalableDistribution<FoledNormalDistribution>,
         IMultiplyOperators<FoledNormalDistribution, ddouble, FoledNormalDistribution>,
         IDivisionOperators<FoledNormalDistribution, ddouble, FoledNormalDistribution> {

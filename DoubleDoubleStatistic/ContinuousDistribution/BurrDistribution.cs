@@ -1,9 +1,11 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Utils;
+using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class BurrDistribution : ContinuousDistribution {
 
         public ddouble C { get; }

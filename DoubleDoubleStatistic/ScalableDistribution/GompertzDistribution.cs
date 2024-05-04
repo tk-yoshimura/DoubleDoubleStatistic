@@ -1,9 +1,11 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.Utils;
+using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic {
+    [DebuggerDisplay("{ToString(),nq}")]
     public class GompertzDistribution : ScalableDistribution<GompertzDistribution>,
         IMultiplyOperators<GompertzDistribution, ddouble, GompertzDistribution>,
         IDivisionOperators<GompertzDistribution, ddouble, GompertzDistribution> {
