@@ -363,5 +363,25 @@ namespace DoubleDoubleStatisticTest.StableDistribution {
                 }
             }
         }
+
+        [TestMethod()]
+        public void DivergenceTest() {
+            NormalDistribution dist_p = new(2, 3);
+            NormalDistribution dist_q = new(1, 4);
+
+            Assert.AreEqual(0d, NormalDistribution.KLDivergence(dist_p, dist_p));
+            Assert.AreEqual(0d, NormalDistribution.JSDivergence(dist_p, dist_p));
+
+            Assert.AreEqual(
+                double.Log(4 / (double)3) / 2, 
+                (double)NormalDistribution.KLDivergence(dist_p, dist_q),
+                1e-14
+            );
+            Assert.AreEqual(
+                (double)(NormalDistribution.KLDivergence(dist_p, dist_q) + NormalDistribution.KLDivergence(dist_q, dist_p)) * 0.5d, 
+                (double)NormalDistribution.JSDivergence(dist_p, dist_q),
+                1e-14
+            );
+        }
     }
 }

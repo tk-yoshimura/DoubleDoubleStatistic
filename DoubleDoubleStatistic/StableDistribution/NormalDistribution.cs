@@ -121,6 +121,19 @@ namespace DoubleDoubleStatistic {
             return new(dist.Mu / k, dist.Sigma / k);
         }
 
+        public static ddouble KLDivergence(NormalDistribution dist_p, NormalDistribution dist_q) {
+            ddouble d = (Log(dist_q.Sigma / dist_p.Sigma) + (dist_p.Sigma + Square(dist_p.Mu - dist_q.Mu)) / dist_q.Sigma - 1d) * 0.5d;
+
+            return d;
+        }
+
+        public static ddouble JSDivergence(NormalDistribution dist_p, NormalDistribution dist_q) {
+            ddouble d = ((dist_p.Sigma + dist_q.Sigma) * Square(dist_p.Mu - dist_q.Mu) + Square(dist_p.Sigma - dist_q.Sigma)) 
+                / (4d * dist_p.Sigma * dist_q.Sigma);
+
+            return d;
+        }
+
         public override string ToString() {
             return $"{typeof(NormalDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
