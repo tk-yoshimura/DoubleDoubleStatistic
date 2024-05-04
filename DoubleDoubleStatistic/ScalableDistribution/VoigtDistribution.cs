@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic {
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, z_scale, zr, cdf_limit;
+        private readonly ddouble pdf_norm, c, sigma_inv, sqrt2_inv, zr, cdf_limit;
 
         public VoigtDistribution() : this(gamma: 1d, sigma: 1d) { }
 
@@ -30,10 +30,12 @@ namespace DoubleDoubleStatistic {
             Gamma = gamma;
             Sigma = sigma;
 
-            pdf_norm = 1d / (sigma * Sqrt(2 * PI));
-            z_scale = -1d / (Sqrt2 * sigma);
-            zr = -gamma * z_scale;
-            cdf_limit = gamma * sigma * Sqrt(2 * RcpPI);
+            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
+            c = 1d / Sqrt(2d * PI);
+            sigma_inv = 1d / sigma;
+            sqrt2_inv = 1d / Sqrt2;
+            zr = gamma / (Sqrt2 * sigma);
+            cdf_limit = gamma / sigma * RcpPI;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -44,7 +46,9 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            Complex z = (zr, x * z_scale);
+            ddouble u = x * sigma_inv;
+
+            Complex z = (zr, -u * sqrt2_inv);
 
             ddouble pdf = Complex.Erfcx(z).R * pdf_norm;
             pdf = IsFinite(pdf) ? pdf : 0d;
@@ -77,9 +81,11 @@ namespace DoubleDoubleStatistic {
                 samples: cache_samples
             );
 
-            ddouble t = 1d / (Abs(x) + 1d);
+            ddouble u = x * sigma_inv;
 
-            ddouble cdf = (interval == Interval.Lower) ^ (x < 0d)
+            ddouble t = 1d / (Abs(u) + 1d);
+
+            ddouble cdf = (interval == Interval.Lower) ^ (u < 0d)
                 ? Min(1d, 0.5d + cdf_cache.Upper(t))
                 : Min(0.5d, cdf_cache.Lower(t));
 
@@ -121,9 +127,9 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = (1d - t) / -t;
-                ddouble x0 = (1d - t0) / -t0;
-                ddouble x1 = (1d - t1) / -t1;
+                ddouble x = (1d - t) / -t * Sigma;
+                ddouble x0 = (1d - t0) / -t0 * Sigma;
+                ddouble x1 = (1d - t1) / -t1 * Sigma;
 
                 for (int i = 0; i < 8; i++) {
                     ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
@@ -161,9 +167,9 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = (1d - t) / t;
-                ddouble x0 = (1d - t0) / t0;
-                ddouble x1 = (1d - t1) / t1;
+                ddouble x = (1d - t) / t * Sigma;
+                ddouble x0 = (1d - t0) / t0 * Sigma;
+                ddouble x1 = (1d - t1) / t1 * Sigma;
 
                 for (int i = 0; i < 8; i++) {
                     ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
@@ -189,10 +195,10 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble t_inv = 1d / t;
-            ddouble x = (1d - t) * t_inv;
+            ddouble u = (1d - t) * t_inv;
 
-            Complex z = (zr, x * z_scale);
-            ddouble pdf = Complex.Erfcx(z).R * pdf_norm;
+            Complex z = (zr, -u * sqrt2_inv);
+            ddouble pdf = Complex.Erfcx(z).R * c;
 
             ddouble y = pdf * t_inv * t_inv;
 

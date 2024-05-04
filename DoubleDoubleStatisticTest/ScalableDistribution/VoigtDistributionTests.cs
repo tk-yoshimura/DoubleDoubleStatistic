@@ -33,7 +33,7 @@ namespace DoubleDoubleStatisticTest.ScalableDistribution {
                 Console.WriteLine($"Entropy={dist.Entropy}");
                 Console.WriteLine(dist.Formula);
 
-                for (ddouble t = 0; t <= 1d / 64; t += 1d / 256) {
+                for (ddouble t = 0; t <= 1d / 4096; t += 1d / 16384) {
                     ddouble y = dist.Integrand(t);
                     Console.WriteLine($"{t},{y}");
                 }

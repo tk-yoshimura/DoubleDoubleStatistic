@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, sigma_inv, exp_scale, sqrt2_inv;
+        private readonly ddouble pdf_norm, sigma_inv, sqrt2_inv;
 
         public NormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
