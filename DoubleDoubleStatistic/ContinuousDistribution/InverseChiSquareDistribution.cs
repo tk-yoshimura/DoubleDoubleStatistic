@@ -94,11 +94,11 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mode => 1d / (Nu + 2d);
 
         public override ddouble Variance => Nu > 4d
-            ? 2 / (Square(Nu - 2d) * (Nu - 4d))
+            ? 2d / (Square(Nu - 2d) * (Nu - 4d))
             : NaN;
 
         public override ddouble Skewness => Nu > 6d
-            ? 4 * Sqrt(2d * (Nu - 4d)) / (Nu - 6d)
+            ? 4d * Sqrt(2d * (Nu - 4d)) / (Nu - 6d)
             : NaN;
 
         public override ddouble Kurtosis => Nu > 8d

@@ -34,8 +34,8 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 ddouble ym = cdf_table[i - 1], y0 = cdf_table[i], yp = cdf_table[i + 1];
                 ddouble log2_ym = log2_table[i - 1], log2_yp = log2_table[i + 1];
 
-                ddouble yc = (ym + yp) / 2;
-                ddouble log2_yc = (log2_ym + log2_yp) / 2;
+                ddouble yc = (ym + yp) * 0.5d;
+                ddouble log2_yc = (log2_ym + log2_yp) * 0.5d;
 
                 ddouble err_linear = ddouble.Abs(y0 - yc);
                 ddouble err_log2 = ddouble.Abs(y0 - ddouble.Pow2(log2_yc));
@@ -81,8 +81,8 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 ddouble log2_ym = log2_table[i - 1], log2_yp = log2_table[i + 1];
 
                 if (ddouble.IsFinite(log2_ym) && ddouble.IsFinite(log2_yp)) {
-                    ddouble yc = (ym + yp) / 2;
-                    ddouble log2_yc = (log2_ym + log2_yp) / 2;
+                    ddouble yc = (ym + yp) * 0.5d;
+                    ddouble log2_yc = (log2_ym + log2_yp) * 0.5d;
 
                     ddouble err_linear = ddouble.Abs(y0 - yc);
                     ddouble err_log2 = ddouble.Abs(y0 - ddouble.Pow2(log2_yc));
@@ -135,7 +135,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
 
             Debug.Assert(index >= 0 && index < Samples);
 
-            ddouble weight = (weight_table[index] + weight_table[index + 1]) / 2;
+            ddouble weight = (weight_table[index] + weight_table[index + 1]) * 0.5d;
 
             ddouble c =
                 weight < 1d

@@ -93,15 +93,15 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mean => K * Theta;
 
         public override ddouble Median =>
-            InverseLowerIncompleteGamma(K, 0.5) * Theta;
+            InverseLowerIncompleteGamma(K, 0.5d) * Theta;
 
         public override ddouble Mode => K >= 1d ? (K - 1d) * Theta : 0d;
 
         public override ddouble Variance => K * Theta * Theta;
 
-        public override ddouble Skewness => 2 / Sqrt(K);
+        public override ddouble Skewness => 2d / Sqrt(K);
 
-        public override ddouble Kurtosis => 6 / K;
+        public override ddouble Kurtosis => 6d / K;
 
         public override ddouble Entropy =>
             K + Log(Theta) + LogGamma(K) - (K - 1d) * Digamma(K);

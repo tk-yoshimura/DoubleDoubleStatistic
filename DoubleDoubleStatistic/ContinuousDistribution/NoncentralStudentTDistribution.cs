@@ -10,6 +10,8 @@ namespace DoubleDoubleStatistic {
         public ddouble Nu { get; }
         public ddouble Mu { get; }
 
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
+
         private const int series_maxiter = 1024;
         private readonly ddouble gc, pdf_norm, pdf_b_scale, nu_inv, nu_half, power;
         private readonly double zero_thr;
@@ -198,7 +200,7 @@ namespace DoubleDoubleStatistic {
                 }
             }
 
-            ddouble y = (Erfc(mu / Sqrt2) + Exp(-u) * s) * 0.5d;
+            ddouble y = (Erfc(mu * sqrt2_inv) + Exp(-u) * s) * 0.5d;
 
             if (1d - y < 1e-29) {
                 y = 1d;
@@ -246,7 +248,7 @@ namespace DoubleDoubleStatistic {
                         x = Clamp(x - dx, x0, x1);
                     }
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }
@@ -283,7 +285,7 @@ namespace DoubleDoubleStatistic {
                         x = Clamp(x + dx, x1, x0);
                     }
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }
@@ -316,7 +318,7 @@ namespace DoubleDoubleStatistic {
 
                 ddouble variance = Variance;
 
-                return Mu * Sqrt(Nu * 0.5d) * gc * (Nu * (Mu * Mu + 2d * Nu - 3) / ((Nu - 3d) * (Nu - 2d)) - 2 * variance) / ExMath.Pow3d2(variance);
+                return Mu * Sqrt(Nu * 0.5d) * gc * (Nu * (Mu * Mu + 2d * Nu - 3d) / ((Nu - 3d) * (Nu - 2d)) - 2d * variance) / ExMath.Pow3d2(variance);
             }
         }
 
@@ -329,8 +331,8 @@ namespace DoubleDoubleStatistic {
                 ddouble variance = Variance;
                 ddouble mu2 = Mu * Mu;
 
-                return (Nu * Nu * (mu2 * mu2 + 6d * mu2 + 3) / ((Nu - 4d) * (Nu - 2d)) -
-                    mu2 * Nu * Square(gc) * 0.5d * (Nu * (mu2 * (Nu + 1d) + (9 * Nu - 15d)) / ((Nu - 3d) * (Nu - 2d)) - 3d * variance)) / Square(variance) - 3d;
+                return (Nu * Nu * (mu2 * mu2 + 6d * mu2 + 3d) / ((Nu - 4d) * (Nu - 2d)) -
+                    mu2 * Nu * Square(gc) * 0.5d * (Nu * (mu2 * (Nu + 1d) + (9d * Nu - 15d)) / ((Nu - 3d) * (Nu - 2d)) - 3d * variance)) / Square(variance) - 3d;
             }
         }
 

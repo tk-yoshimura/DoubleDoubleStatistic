@@ -41,7 +41,7 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            ddouble u = (x - Mu) * sigma_inv; 
+            ddouble u = (x - Mu) * sigma_inv;
 
             if (IsNaN(u)) {
                 return NaN;

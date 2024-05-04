@@ -15,7 +15,9 @@ namespace DoubleDoubleStatistic {
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, c, sigma_inv, sqrt2_inv, zr, cdf_limit;
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
+
+        private readonly ddouble pdf_norm, c, sigma_inv, zr, cdf_limit;
 
         public VoigtDistribution() : this(gamma: 1d, sigma: 1d) { }
 
@@ -33,7 +35,6 @@ namespace DoubleDoubleStatistic {
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
             c = 1d / Sqrt(2d * PI);
             sigma_inv = 1d / sigma;
-            sqrt2_inv = 1d / Sqrt2;
             zr = gamma / (Sqrt2 * sigma);
             cdf_limit = gamma / sigma * RcpPI;
         }
@@ -140,7 +141,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x - dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }
@@ -180,7 +181,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x + dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }

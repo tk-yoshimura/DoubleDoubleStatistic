@@ -173,7 +173,7 @@ namespace DoubleDoubleStatistic {
                     c -= dc;
                     c = Clamp(c, 0d, 1d);
 
-                    if (Abs(dc) < 1e-29 || Abs(dc) < Epsilon) {
+                    if (Abs(dc) <= Abs(c) * 1e-29) {
                         break;
                     }
                 }

@@ -63,7 +63,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = (1d - u - SinPI(u) / PI) * 0.5d;
+                ddouble cdf = (1d - u - SinPI(u) * RcpPI) * 0.5d;
 
                 return cdf;
             }

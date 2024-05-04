@@ -9,7 +9,7 @@ namespace DoubleDoubleStatistic {
 
         private readonly ddouble pdf_norm, cdf_norm;
 
-        private static readonly ddouble phi_scale = 1d / Sqrt2;
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
 
         public AlphaDistribution() : this(alpha: 1d) { }
 
@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic {
             ValidateScale(alpha);
 
             Alpha = alpha;
-            cdf_norm = 1d / Erfc(-alpha * phi_scale);
+            cdf_norm = 1d / Erfc(-alpha * sqrt2_inv);
             pdf_norm = cdf_norm * Sqrt(2d * RcpPI);
         }
 
@@ -52,7 +52,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = cdf_norm * Erfc(-u * phi_scale);
+                ddouble cdf = cdf_norm * Erfc(-u * sqrt2_inv);
 
                 if (IsNaN(cdf)) {
                     return 1d;
@@ -70,7 +70,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = 1d - cdf_norm * Erfc(-u * phi_scale);
+                ddouble cdf = 1d - cdf_norm * Erfc(-u * sqrt2_inv);
 
                 if (IsNaN(cdf)) {
                     return 0d;
@@ -95,7 +95,7 @@ namespace DoubleDoubleStatistic {
                 return PositiveInfinity;
             }
 
-            ddouble u = InverseErfc(p / cdf_norm) / phi_scale;
+            ddouble u = InverseErfc(p / cdf_norm) * Sqrt2;
             ddouble x = 1d / Max(0d, Alpha + u);
 
             return x;

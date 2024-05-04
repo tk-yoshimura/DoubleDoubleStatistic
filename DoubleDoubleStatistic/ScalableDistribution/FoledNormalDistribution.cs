@@ -14,7 +14,9 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, sigma_inv, sqrt2_inv;
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
+
+        private readonly ddouble pdf_norm, sigma_inv;
 
         private readonly bool needs_fold;
 
@@ -35,7 +37,6 @@ namespace DoubleDoubleStatistic {
 
             sigma_inv = 1d / sigma;
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            sqrt2_inv = 1d / Sqrt2;
 
             needs_fold = Exp(Square(mu / sigma) * -0.5d) > 0d;
 
@@ -134,7 +135,7 @@ namespace DoubleDoubleStatistic {
                 }
             }
             else {
-                ddouble bias = Mu / Sigma, c = 1d / Sqrt(2d * PI);
+                ddouble bias = Mu * sigma_inv, c = 1d / Sqrt(2d * PI);
 
                 ddouble df(ddouble u) {
                     return c * (Exp(-Square(u - bias) * 0.5d) + Exp(-Square(u + bias) * 0.5d));
@@ -149,7 +150,7 @@ namespace DoubleDoubleStatistic {
                     }
 
                     ddouble f(ddouble u) {
-                        return (Erf((u - bias) / Sqrt2) + Erf((u + bias) / Sqrt2)) * 0.5d;
+                        return (Erf((u - bias) * sqrt2_inv) + Erf((u + bias) * sqrt2_inv)) * 0.5d;
                     }
 
                     this.quantile_lower_builder ??= new QuantileBuilder(0d, 64d, f, samples: 256);
@@ -165,7 +166,7 @@ namespace DoubleDoubleStatistic {
 
                         x = Clamp(x - dx, x0, x1);
 
-                        if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                        if (Abs(dx) <= Abs(x) * 1e-29) {
                             break;
                         }
                     }
@@ -183,7 +184,7 @@ namespace DoubleDoubleStatistic {
                     }
 
                     ddouble f(ddouble u) {
-                        return (Erfc((u - bias) / Sqrt2) + Erfc((bias + u) / Sqrt2)) * 0.5d;
+                        return (Erfc((u - bias) * sqrt2_inv) + Erfc((bias + u) * sqrt2_inv)) * 0.5d;
                     }
 
                     this.quantile_upper_builder ??= new QuantileBuilder(64d, 0d, f, samples: 256);
@@ -199,7 +200,7 @@ namespace DoubleDoubleStatistic {
 
                         x = Clamp(x + dx, x1, x0);
 
-                        if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                        if (Abs(dx) <= Abs(x) * 1e-29) {
                             break;
                         }
                     }
@@ -214,7 +215,7 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => needs_fold
-            ? Sigma * Sqrt(2d * RcpPI) * Exp(-Square(Mu / Sigma) * 0.5d) + Mu * (1d - Erfc(Mu / (Sigma * Sqrt2)))
+            ? Sigma * Sqrt(2d * RcpPI) * Exp(-Square(Mu * sigma_inv) * 0.5d) + Mu * (1d - Erfc(Mu / (Sigma * Sqrt2)))
             : Mu;
 
         public override ddouble Median => needs_fold
@@ -227,7 +228,7 @@ namespace DoubleDoubleStatistic {
                     return Mu;
                 }
 
-                ddouble x = ModePade.Value(Mu / Sigma) * Sigma;
+                ddouble x = ModePade.Value(Mu * sigma_inv) * Sigma;
 
                 return x;
             }

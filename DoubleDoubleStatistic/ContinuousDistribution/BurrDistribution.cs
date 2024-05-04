@@ -9,7 +9,7 @@ namespace DoubleDoubleStatistic {
         public ddouble C { get; }
         public ddouble K { get; }
 
-        private readonly ddouble ck, c_inv;
+        private readonly ddouble ck, c_inv, k_inv;
 
         public BurrDistribution(ddouble c, ddouble k) {
             ValidateShape(c, c => c > 0d);
@@ -20,6 +20,7 @@ namespace DoubleDoubleStatistic {
 
             ck = c * k;
             c_inv = 1d / c;
+            k_inv = 1d / k;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -101,7 +102,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Pow(Pow(1d / (1d - p), 1d / K) - 1d, c_inv);
+                ddouble x = Pow(Pow(1d / (1d - p), k_inv) - 1d, c_inv);
 
                 return x;
             }
@@ -113,7 +114,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = Pow(Pow(1d / p, 1d / K) - 1d, c_inv);
+                ddouble x = Pow(Pow(1d / p, k_inv) - 1d, c_inv);
 
                 return x;
             }
@@ -125,7 +126,7 @@ namespace DoubleDoubleStatistic {
             K * Beta(K - c_inv, 1d + c_inv);
 
         public override ddouble Median =>
-            Pow(Pow2(1d / K) - 1d, c_inv);
+            Pow(Pow2(k_inv) - 1d, c_inv);
 
         public override ddouble Mode =>
             Pow((C - 1d) / (K * C + 1d), c_inv);
@@ -144,7 +145,7 @@ namespace DoubleDoubleStatistic {
                 ddouble mu2 = K * Beta((C * K - 2d) * c_inv, (C + 2d) * c_inv);
                 ddouble mu3 = K * Beta((C * K - 3d) * c_inv, (C + 3d) * c_inv);
 
-                return (2 * Cube(mu1) - 3d * mu1 * mu2 + mu3) / ExMath.Pow3d2(mu2 - mu1 * mu1);
+                return (2d * Cube(mu1) - 3d * mu1 * mu2 + mu3) / ExMath.Pow3d2(mu2 - mu1 * mu1);
             }
         }
 

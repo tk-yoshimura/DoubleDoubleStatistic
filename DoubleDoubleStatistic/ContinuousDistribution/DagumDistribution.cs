@@ -8,7 +8,7 @@ namespace DoubleDoubleStatistic {
         public ddouble A { get; }
         public ddouble P { get; }
 
-        private readonly ddouble ap, a_inv;
+        private readonly ddouble ap, a_inv, p_inv;
 
         public DagumDistribution(ddouble a, ddouble p) {
             ValidateShape(a, a => a > 0d);
@@ -19,6 +19,7 @@ namespace DoubleDoubleStatistic {
 
             ap = a * p;
             a_inv = 1d / a;
+            p_inv = 1d / p;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -100,7 +101,7 @@ namespace DoubleDoubleStatistic {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Pow(Pow(1d / p, 1d / P) - 1d, -a_inv);
+                ddouble x = Pow(Pow(1d / p, p_inv) - 1d, -a_inv);
 
                 return x;
             }
@@ -112,7 +113,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble x = Pow(Pow(1d / (1d - p), 1d / P) - 1d, -a_inv);
+                ddouble x = Pow(Pow(1d / (1d - p), p_inv) - 1d, -a_inv);
 
                 return x;
             }
@@ -127,7 +128,7 @@ namespace DoubleDoubleStatistic {
 
 
         public override ddouble Median =>
-            Pow(Pow2(1d / P) - 1d, -a_inv);
+            Pow(Pow2(p_inv) - 1d, -a_inv);
 
         public override ddouble Mode =>
             (P * A > 1d)

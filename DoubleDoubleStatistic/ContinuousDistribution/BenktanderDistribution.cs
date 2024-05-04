@@ -103,7 +103,7 @@ namespace DoubleDoubleStatistic {
 
                 x = Clamp(x + dx, x1, x0);
 
-                if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                if (Abs(dx) <= Abs(x) * 1e-29) {
                     break;
                 }
             }
@@ -123,7 +123,7 @@ namespace DoubleDoubleStatistic {
             Max(1d, Exp((-Alpha - 1d + Sqrt(6d * Beta + 1d)) / (2d * Beta)));
 
         public override ddouble Variance =>
-            Sqrt(PI) * Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2 * Sqrt(Beta))) / (Alpha * Sqrt(Beta)) - 1d / Square(Alpha);
+            Sqrt(PI) * Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta))) / (Alpha * Sqrt(Beta)) - 1d / Square(Alpha);
 
         private ddouble? skewness = null;
         public override ddouble Skewness => skewness ??=

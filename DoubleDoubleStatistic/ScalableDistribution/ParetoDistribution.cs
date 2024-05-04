@@ -10,7 +10,7 @@ namespace DoubleDoubleStatistic {
         public ddouble K { get; }
         public ddouble Alpha { get; }
 
-        private readonly ddouble pdf_norm;
+        private readonly ddouble pdf_norm, alpha_inv;
 
         public ParetoDistribution(ddouble alpha) : this(k: 1d, alpha: alpha) { }
 
@@ -19,6 +19,7 @@ namespace DoubleDoubleStatistic {
             Alpha = alpha;
 
             pdf_norm = alpha / k;
+            alpha_inv = 1d / alpha;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -73,7 +74,7 @@ namespace DoubleDoubleStatistic {
                 return Quantile(1d - p, Interval.Upper);
             }
 
-            ddouble x = K / Pow(p, 1d / Alpha);
+            ddouble x = K / Pow(p, alpha_inv);
 
             return x;
         }
@@ -82,7 +83,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Mean => (Alpha > 1d) ? (Alpha * K) / (Alpha - 1d) : PositiveInfinity;
 
-        public override ddouble Median => K * Pow(2d, 1d / Alpha);
+        public override ddouble Median => K * Pow(2d, alpha_inv);
 
         public override ddouble Mode => K;
 
@@ -91,14 +92,14 @@ namespace DoubleDoubleStatistic {
             : PositiveInfinity;
 
         public override ddouble Skewness => (Alpha > 3d)
-            ? 2d * (Alpha + 1d) / (Alpha - 3d) * Sqrt((Alpha - 2d) / Alpha)
+            ? 2d * (Alpha + 1d) / (Alpha - 3d) * Sqrt((Alpha - 2d) * alpha_inv)
             : NaN;
 
         public override ddouble Kurtosis => (Alpha > 4d)
             ? 6d * (-2d + Alpha * (-6d + Alpha * (1d + Alpha))) / (Alpha * (Alpha - 3d) * (Alpha - 4d))
             : NaN;
 
-        public override ddouble Entropy => 1d + Log(K / Alpha) + 1d / Alpha;
+        public override ddouble Entropy => 1d + Log(K * alpha_inv) + alpha_inv;
 
         public static ParetoDistribution operator *(ParetoDistribution dist, ddouble k) {
             return new(dist.K * k, dist.Alpha);

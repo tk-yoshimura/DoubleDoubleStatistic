@@ -93,7 +93,7 @@ namespace DoubleDoubleStatistic {
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean =>
-            Sqrt(PI / 8) * Alpha * Exp(-alpha_sq * 0.25d) * BesselI(1, alpha_sq * 0.25d) * psi_inv;
+            Sqrt(PI / 8d) * Alpha * Exp(-alpha_sq * 0.25d) * BesselI(1, alpha_sq * 0.25d) * psi_inv;
 
         public override ddouble Median => Quantile(0.5d);
 
@@ -117,6 +117,6 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(ArgusDistribution).Name}[alpha={Alpha}]";
         }
 
-        public override string Formula => "p(x; alpha) := x * sqrt(1 - x^2) * exp(-alpha^2 * (1 - x^2) / 2) * alpha^3 / (erf(alpha / sqrt2) * sqrt(pi / 2) - alpha * exp(-alpha^2 / 2))";
+        public override string Formula => "p(x; alpha) := x * sqrt(1 - x^2) * exp(-alpha^2 * (1 - x^2) / 2) * alpha^3 / (erf(alpha / sqrt(2)) * sqrt(pi / 2) - alpha * exp(-alpha^2 / 2))";
     }
 }

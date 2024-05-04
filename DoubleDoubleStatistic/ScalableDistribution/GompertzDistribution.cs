@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic {
         public ddouble Eta { get; }
         public ddouble Theta { get; }
 
-        private readonly ddouble theta_inv;
+        private readonly ddouble theta_inv, eta_inv;
 
         public GompertzDistribution(ddouble eta) : this(eta, theta: 1d) { }
 
@@ -23,6 +23,7 @@ namespace DoubleDoubleStatistic {
             Theta = theta;
 
             theta_inv = 1d / theta;
+            eta_inv = 1d / eta;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -74,12 +75,12 @@ namespace DoubleDoubleStatistic {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = Log1p(-Log1p(-p) / Eta) * Theta;
+                ddouble x = Log1p(-Log1p(-p) * eta_inv) * Theta;
 
                 return x;
             }
             else {
-                ddouble x = Log1p(-Log(p) / Eta) * Theta;
+                ddouble x = Log1p(-Log(p) * eta_inv) * Theta;
 
                 return x;
             }

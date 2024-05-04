@@ -56,7 +56,7 @@ namespace DoubleDoubleStatistic {
                     return 1d;
                 }
 
-                ddouble cdf = Erfc((1d - u) / (Sqrt2 * Alpha * Sqrt(u))) / 2;
+                ddouble cdf = Erfc((1d - u) / (Sqrt2 * Alpha * Sqrt(u))) * 0.5d;
 
                 return cdf;
             }
@@ -68,7 +68,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Erfc((u - 1d) / (Sqrt2 * Alpha * Sqrt(u))) / 2;
+                ddouble cdf = Erfc((u - 1d) / (Sqrt2 * Alpha * Sqrt(u))) * 0.5d;
 
                 return cdf;
             }
@@ -139,7 +139,7 @@ namespace DoubleDoubleStatistic {
 
                     u = Max(Epsilon, u);
 
-                    if (Abs(du / u) < 1e-29 || Abs(du) < Epsilon) {
+                    if (Abs(du) <= Abs(u) * 1e-29) {
                         break;
                     }
                 }

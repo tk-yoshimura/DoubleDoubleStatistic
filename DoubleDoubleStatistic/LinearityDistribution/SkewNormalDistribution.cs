@@ -16,6 +16,8 @@ namespace DoubleDoubleStatistic {
         public ddouble Sigma { get; }
         public ddouble Alpha { get; }
 
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
+
         private readonly ddouble pdf_norm, cdf_norm, erfc_scale, sigma_inv, s;
 
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
@@ -34,7 +36,7 @@ namespace DoubleDoubleStatistic {
 
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
             cdf_norm = 1d / Sqrt(2d * PI);
-            erfc_scale = alpha / Sqrt2;
+            erfc_scale = alpha * sqrt2_inv;
             sigma_inv = 1d / sigma;
 
             s = alpha / Hypot(1, alpha);
@@ -55,7 +57,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = (x - Mu) * sigma_inv;
-            
+
             if (IsNaN(u)) {
                 return NaN;
             }
@@ -70,7 +72,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Erfc(-u / Sqrt2) * 0.5d - 2d * OwenT(u, Alpha);
+                ddouble cdf = Erfc(-u * sqrt2_inv) * 0.5d - 2d * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
                     ddouble eps = Ldexp(f(u), -94);
@@ -92,7 +94,7 @@ namespace DoubleDoubleStatistic {
                     return 0d;
                 }
 
-                ddouble cdf = Erfc(u / Sqrt2) * 0.5d + 2d * OwenT(u, Alpha);
+                ddouble cdf = Erfc(u * sqrt2_inv) * 0.5d + 2d * OwenT(u, Alpha);
 
                 if (cdf < 1e-5) {
                     ddouble eps = Ldexp(f(u), -94);
@@ -131,7 +133,7 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble f(ddouble u) {
-                    ddouble y = Erfc(-u / Sqrt2) * 0.5d - 2d * OwenT(u, Alpha);
+                    ddouble y = Erfc(-u * sqrt2_inv) * 0.5d - 2d * OwenT(u, Alpha);
 
                     if (y < 1e-5) {
                         ddouble eps = Ldexp(df(u), -94);
@@ -160,7 +162,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x - dx, x0, x1);
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }
@@ -175,7 +177,7 @@ namespace DoubleDoubleStatistic {
                 }
 
                 ddouble f(ddouble u) {
-                    ddouble y = Erfc(u / Sqrt2) * 0.5d + 2d * OwenT(u, Alpha);
+                    ddouble y = Erfc(u * sqrt2_inv) * 0.5d + 2d * OwenT(u, Alpha);
 
                     if (y < 1e-5) {
                         ddouble eps = Ldexp(df(u), -94);
@@ -204,7 +206,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x + dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }

@@ -6,7 +6,7 @@ namespace DoubleDoubleStatistic {
 
         public ddouble Nu { get; }
 
-        private readonly ddouble pdf_norm, nu_inv, nu_half, power;
+        private readonly ddouble pdf_norm, nu_inv, nu_half, p;
         private readonly bool is_integer_nu;
         private readonly int n;
         private readonly double zero_thr;
@@ -23,7 +23,7 @@ namespace DoubleDoubleStatistic {
                 : Exp(LogGamma((nu + 1d) / 2d) - LogGamma(nu / 2d)) / c;
             nu_inv = 1d / nu;
             nu_half = nu / 2d;
-            power = -(nu + 1d) / 2d;
+            p = -(nu + 1d) / 2d;
             is_integer_nu = nu <= 1024d && IsInteger(nu);
             n = is_integer_nu ? (int)nu : 0;
 
@@ -43,7 +43,7 @@ namespace DoubleDoubleStatistic {
             }
 
             ddouble u = 1d + x * x * nu_inv;
-            ddouble v = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, power);
+            ddouble v = is_integer_nu ? Pow(Sqrt(u), -(n + 1)) : Pow(u, p);
             ddouble pdf = pdf_norm * v;
 
             pdf = IsFinite(pdf) ? pdf : 0d;

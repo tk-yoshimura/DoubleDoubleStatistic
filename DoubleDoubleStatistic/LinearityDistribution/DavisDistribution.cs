@@ -143,7 +143,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x - dx, x0, x1);
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }
@@ -186,7 +186,7 @@ namespace DoubleDoubleStatistic {
 
                     x = Clamp(x + dx, x1, x0);
 
-                    if (Abs(dx / x) < 1e-29 || Abs(dx) < Epsilon) {
+                    if (Abs(dx) <= Abs(x) * 1e-29) {
                         break;
                     }
                 }
@@ -238,7 +238,7 @@ namespace DoubleDoubleStatistic {
 
                     u = Max(u - du, u / 16d);
 
-                    if (Abs(du / u) < 1e-29 || Abs(du) < Epsilon) {
+                    if (Abs(du) <= Abs(u) * 1e-29) {
                         break;
                     }
                 }

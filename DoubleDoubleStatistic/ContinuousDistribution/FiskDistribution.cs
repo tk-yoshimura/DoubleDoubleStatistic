@@ -127,7 +127,7 @@ namespace DoubleDoubleStatistic {
                 ddouble mu2 = Beta((C - 2d) * c_inv, (C + 2d) * c_inv);
                 ddouble mu3 = Beta((C - 3d) * c_inv, (C + 3d) * c_inv);
 
-                return (2 * Cube(mu1) - 3d * mu1 * mu2 + mu3) / ExMath.Pow3d2(mu2 - mu1 * mu1);
+                return (2d * Cube(mu1) - 3d * mu1 * mu2 + mu3) / ExMath.Pow3d2(mu2 - mu1 * mu1);
             }
         }
 

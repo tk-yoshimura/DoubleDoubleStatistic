@@ -124,7 +124,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble Kurtosis => -(ddouble)3 / 5;
 
-        public override ddouble Entropy => 0.5d + Log(ab / 2);
+        public override ddouble Entropy => 0.5d + Log(ab * 0.5d);
 
         public static TriangularDistribution operator +(TriangularDistribution dist, ddouble s) {
             return new(dist.A + s, dist.B + s, dist.C + s);

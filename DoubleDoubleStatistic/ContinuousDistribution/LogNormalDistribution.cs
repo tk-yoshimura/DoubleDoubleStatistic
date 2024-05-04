@@ -22,7 +22,7 @@ namespace DoubleDoubleStatistic {
 
             sigma_sq = sigma * sigma;
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            exp_scale = -LbE / (2 * sigma_sq);
+            exp_scale = -LbE / (2d * sigma_sq);
             erf_scale = -1d / (Sqrt2 * sigma);
         }
 

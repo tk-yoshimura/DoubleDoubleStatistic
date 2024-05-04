@@ -53,7 +53,7 @@ namespace DoubleDoubleStatistic {
             ddouble v = Pow(u, -Gamma), vp1 = v + 1d;
 
             if (interval == Interval.Lower) {
-                if (x <= 0d || IsPositiveInfinity(vp1)) {
+                if (u <= 0d || IsPositiveInfinity(vp1)) {
                     return 0d;
                 }
                 if (IsPositiveInfinity(u)) {
@@ -65,7 +65,7 @@ namespace DoubleDoubleStatistic {
                 return cdf;
             }
             else {
-                if (x <= 0d || IsPositiveInfinity(vp1)) {
+                if (u <= 0d || IsPositiveInfinity(vp1)) {
                     return 1d;
                 }
                 if (IsPositiveInfinity(u)) {

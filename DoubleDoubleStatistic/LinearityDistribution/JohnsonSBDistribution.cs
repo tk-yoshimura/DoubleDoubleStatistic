@@ -15,6 +15,8 @@ namespace DoubleDoubleStatistic {
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
 
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
+
         private readonly ddouble pdf_norm, sigma_inv;
 
         public JohnsonSBDistribution(ddouble gamma, ddouble delta) : this(gamma, delta, mu: 0d, sigma: 1d) { }
@@ -70,12 +72,12 @@ namespace DoubleDoubleStatistic {
             ddouble v = Gamma + Delta * Log(u / (1d - u));
 
             if (interval == Interval.Lower) {
-                ddouble cdf = Erfc(-v / Sqrt2) * 0.5d;
+                ddouble cdf = Erfc(-v * sqrt2_inv) * 0.5d;
 
                 return cdf;
             }
             else {
-                ddouble cdf = Erfc(v / Sqrt2) * 0.5d;
+                ddouble cdf = Erfc(v * sqrt2_inv) * 0.5d;
 
                 return cdf;
             }
@@ -123,7 +125,7 @@ namespace DoubleDoubleStatistic {
 
                     u = Clamp(u - du, u / 16d, (u + 15d) / 16d);
 
-                    if (Abs(du / u) < 1e-29 || Abs(du) < Epsilon) {
+                    if (Abs(du) <= Abs(u) * 1e-29) {
                         break;
                     }
                 }

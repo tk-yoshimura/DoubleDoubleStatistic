@@ -14,7 +14,9 @@ namespace DoubleDoubleStatistic {
         public override ddouble Mu { get; }
         public ddouble Sigma { get; }
 
-        private readonly ddouble pdf_norm, sigma_inv, sqrt2_inv;
+        private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
+
+        private readonly ddouble pdf_norm, sigma_inv;
 
         public NormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
@@ -29,7 +31,6 @@ namespace DoubleDoubleStatistic {
 
             sigma_inv = 1d / sigma;
             pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            sqrt2_inv = 1d / Sqrt2;
         }
 
         public override ddouble PDF(ddouble x) {
