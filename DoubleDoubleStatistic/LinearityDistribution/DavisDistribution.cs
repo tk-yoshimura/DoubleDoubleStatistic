@@ -291,6 +291,6 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(DavisDistribution).Name}[alpha={Alpha},mu={Mu},theta={Sigma}]";
         }
 
-        public override string Formula => "p(x; alpha, mu, sigma) := x^(- alpha - 1) / (e^(1 / x) - 1) / (gamma(alpha) * zeta(alpha) * sigma), u = (x - mu) / sigma";
+        public override string Formula => "p(x; alpha, mu, sigma) := u^(- alpha - 1) / (e^(1 / u) - 1) / (gamma(alpha) * zeta(alpha) * sigma), u = (x - mu) / sigma";
     }
 }
