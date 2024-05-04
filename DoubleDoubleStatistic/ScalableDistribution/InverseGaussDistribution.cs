@@ -204,6 +204,6 @@ namespace DoubleDoubleStatistic {
             return $"{typeof(InverseGaussDistribution).Name}[mu={Mu},lambda={Lambda}]";
         }
 
-        public override string Formula => "p(x; mu, lambda) := sqrt(c / (2 * pi * u^3)) * exp(-c * (u - 1)^2 / (2 * u)), c = lambda / mu, u = x / mu";
+        public override string Formula => "p(x; mu, lambda) := sqrt(c / (2 * pi * u^3)) * exp(-c * (u - 1)^2 / (2 * u)) / mu, c = lambda / mu, u = x / mu";
     }
 }
