@@ -43,13 +43,14 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble x = Log(TanPI(p * 0.5d)) * RcpPI * Sigma * 2d;
+            ddouble u = Log(TanPI(p * 0.5d)) * RcpPI * 2d;
 
-            if (IsNaN(x)) {
-                x = p < 0.5d ? NegativeInfinity : PositiveInfinity;
+            if (IsNaN(u)) {
+                u = p < 0.5d ? NegativeInfinity : PositiveInfinity;
             }
 
-            x = interval == Interval.Lower ? x : -x;
+            u = interval == Interval.Lower ? u : -u;
+            ddouble x = u * Sigma;
 
             return x;
         }

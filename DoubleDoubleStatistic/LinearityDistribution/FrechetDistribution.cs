@@ -36,6 +36,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * theta_inv;
+
             if (u <= 0d) {
                 return 0d;
             }
@@ -53,11 +54,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (IsNaN(x)) {
+            ddouble u = (x - Mu) * theta_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
-
-            ddouble u = (x - Mu) * theta_inv;
 
             if (interval == Interval.Lower) {
                 if (u <= 0d) {

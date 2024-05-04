@@ -36,12 +36,14 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * theta_inv;
+
             if (IsNaN(u)) {
                 return NaN;
             }
             if (IsNegative(u)) {
                 return 0d;
             }
+
             if (u <= 0d) {
                 return Alpha < 1d ? PositiveInfinity : Alpha == 1d ? theta_inv : 0d;
             }

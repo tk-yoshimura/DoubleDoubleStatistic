@@ -37,11 +37,11 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble PDF(ddouble x) {
-            if (IsNaN(x)) {
+            ddouble u = (x - Mu) * sigma_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
-
-            ddouble u = (x - Mu) * sigma_inv;
 
             ddouble pdf = pdf_norm / Hypot(1d, u) * Exp(-0.5d * Square(Gamma + Delta * Arsinh(u)));
             pdf = IsFinite(pdf) ? pdf : 0d;
@@ -50,11 +50,12 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (IsNaN(x)) {
+            ddouble u = (x - Mu) * sigma_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
 
-            ddouble u = (x - Mu) * sigma_inv;
             ddouble v = Gamma + Delta * Arsinh(u);
 
             if (interval == Interval.Lower) {

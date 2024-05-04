@@ -42,6 +42,7 @@ namespace DoubleDoubleStatistic {
 
         public override ddouble PDF(ddouble x) {
             ddouble u = (x - Mu) * sigma_inv;
+
             if (u <= 0d) {
                 return 0d;
             }
@@ -57,7 +58,9 @@ namespace DoubleDoubleStatistic {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (IsNaN(x)) {
+            ddouble u = (x - Mu) * sigma_inv;
+
+            if (IsNaN(u)) {
                 return NaN;
             }
 
@@ -66,8 +69,6 @@ namespace DoubleDoubleStatistic {
                 Integrand,
                 samples: cache_samples
             );
-
-            ddouble u = (x - Mu) * sigma_inv;
 
             if (u <= 0d) {
                 return interval == Interval.Lower ? 0d : 1d;

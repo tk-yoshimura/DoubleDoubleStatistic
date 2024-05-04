@@ -55,7 +55,7 @@ namespace DoubleDoubleStatistic {
                 return NaN;
             }
 
-            ddouble u = 2 * p;
+            ddouble u = 2d * p;
 
             if (interval == Interval.Lower) {
                 ddouble x = p < 0.5d
