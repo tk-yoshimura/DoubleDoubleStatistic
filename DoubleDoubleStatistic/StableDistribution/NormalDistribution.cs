@@ -128,7 +128,7 @@ namespace DoubleDoubleStatistic {
         }
 
         public static ddouble JSDivergence(NormalDistribution dist_p, NormalDistribution dist_q) {
-            ddouble d = ((dist_p.Sigma + dist_q.Sigma) * Square(dist_p.Mu - dist_q.Mu) + Square(dist_p.Sigma - dist_q.Sigma)) 
+            ddouble d = ((dist_p.Sigma + dist_q.Sigma) * Square(dist_p.Mu - dist_q.Mu) + Square(dist_p.Sigma - dist_q.Sigma))
                 / (4d * dist_p.Sigma * dist_q.Sigma);
 
             return d;
