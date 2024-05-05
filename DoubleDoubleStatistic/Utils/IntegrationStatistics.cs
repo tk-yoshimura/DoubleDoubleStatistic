@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.InternalUtils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;

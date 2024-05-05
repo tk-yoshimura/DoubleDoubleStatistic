@@ -1,5 +1,5 @@
 ﻿using DoubleDouble;
-using DoubleDoubleStatistic;
+using DoubleDoubleStatistic.ContinuousDistributions;
 
 namespace DoubleDoubleStatisticSandbox {
     internal class Program {
