@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -183,6 +184,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = 0d;
+
+            for (int i = 0; i < N; i++) {
+                u += random.NextUniform();
+            }
+
+            return u;
         }
 
         public override bool AdditiveClosed => true;

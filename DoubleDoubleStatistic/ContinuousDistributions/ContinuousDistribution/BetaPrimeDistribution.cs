@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_lognorm;
 
+        private readonly BetaDistribution randam_gen_beta_dist;
+
         public BetaPrimeDistribution(ddouble alpha, ddouble beta) {
             ValidateShape(alpha, alpha => alpha > 0d);
             ValidateShape(beta, beta => beta > 0d);
@@ -20,6 +22,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Beta = beta;
 
             pdf_lognorm = LogBeta(alpha, beta) * LbE;
+
+            randam_gen_beta_dist = new(alpha, beta);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -101,6 +105,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = randam_gen_beta_dist.Sample(random);
+
+            double r = u / (1d - u);
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

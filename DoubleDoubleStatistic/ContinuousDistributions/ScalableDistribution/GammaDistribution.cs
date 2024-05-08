@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -9,21 +10,24 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IMultiplyOperators<GammaDistribution, ddouble, GammaDistribution>,
         IDivisionOperators<GammaDistribution, ddouble, GammaDistribution> {
 
-        public ddouble K { get; }
+        public ddouble Kappa { get; }
         public ddouble Theta { get; }
 
         private readonly ddouble pdf_lognorm, theta_inv;
 
-        public GammaDistribution(ddouble k) : this(k, theta: 1d) { }
+        private bool randam_gen_param_initialized = false;
+        private (double c1, double c2, double c3) randam_gen_param;
 
-        public GammaDistribution(ddouble k, ddouble theta) {
-            ValidateShape(k, k => k > 0d);
+        public GammaDistribution(ddouble kappa) : this(kappa, theta: 1d) { }
+
+        public GammaDistribution(ddouble kappa, ddouble theta) {
+            ValidateShape(kappa, k => k > 0d);
             ValidateScale(theta);
 
-            K = k;
+            Kappa = kappa;
             Theta = theta;
 
-            pdf_lognorm = LogGamma(k) * LbE;
+            pdf_lognorm = LogGamma(kappa) * LbE;
             theta_inv = 1d / theta;
         }
 
@@ -38,10 +42,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (IsZero(u)) {
-                return K < 1d ? PositiveInfinity : K == 1d ? theta_inv : 0d;
+                return Kappa < 1d ? PositiveInfinity : Kappa == 1d ? theta_inv : 0d;
             }
 
-            ddouble pdf = Pow2((K - 1d) * Log2(u) - u * LbE - pdf_lognorm) * theta_inv;
+            ddouble pdf = Pow2((Kappa - 1d) * Log2(u) - u * LbE - pdf_lognorm) * theta_inv;
 
             return pdf;
         }
@@ -58,7 +62,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble cdf = LowerIncompleteGammaRegularized(K, u);
+                ddouble cdf = LowerIncompleteGammaRegularized(Kappa, u);
 
                 return cdf;
             }
@@ -67,7 +71,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 1d;
                 }
 
-                ddouble cdf = UpperIncompleteGammaRegularized(K, u);
+                ddouble cdf = UpperIncompleteGammaRegularized(Kappa, u);
 
                 return cdf;
             }
@@ -79,47 +83,139 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = InverseLowerIncompleteGamma(K, p) * Theta;
+                ddouble x = InverseLowerIncompleteGamma(Kappa, p) * Theta;
 
                 return x;
             }
             else {
-                ddouble x = InverseUpperIncompleteGamma(K, p) * Theta;
+                ddouble x = InverseUpperIncompleteGamma(Kappa, p) * Theta;
 
                 return x;
+            }
+        }
+
+        public override double Sample(Random random) {
+            if (!randam_gen_param_initialized) {
+                SetupRandamGenParams();
+                randam_gen_param_initialized = true;
+            }
+
+            double kappa = (double)Kappa;
+
+            double r;
+
+            if (kappa < 1d) {
+                while (true) {
+                    double u1 = random.NextUniformOpenInterval01();
+                    double u2 = random.NextUniformOpenInterval01();
+
+                    double v = randam_gen_param.c2 * u1;
+
+                    if (v <= 1) {
+                        r = randam_gen_param.c1 * double.Pow(v, randam_gen_param.c3);
+
+                        if ((u2 <= (2d - r) / (2d + r)) ||
+                            (u2 <= double.Exp(-r))) {
+
+                            break;
+                        }
+                    }
+                    else {
+                        r = -double.Log(randam_gen_param.c1 * randam_gen_param.c3 * (randam_gen_param.c2 - v));
+                        double y = r / randam_gen_param.c1;
+
+                        if ((u2 * (kappa + y - kappa * y) <= 1d) ||
+                            (u2 <= double.Pow(y, kappa - 1d))) {
+
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                while (true) {
+                    double z = random.NextGaussian();
+
+                    if (randam_gen_param.c2 * z < -1) {
+                        continue;
+                    }
+
+                    double u = random.NextUniformOpenInterval01();
+
+                    double z2 = z * z;
+                    double v = 1d + randam_gen_param.c2 * z;
+                    double v3 = v * v * v;
+
+                    if ((u < 1d - 0.0331d * (z2 * z2)) ||
+                        (double.Log(u) < (0.5d * z2) + randam_gen_param.c1 * (1d - v3 + Math.Log(v3)))) {
+
+                        r = randam_gen_param.c1 * v3;
+                        break;
+                    }
+                }
+            }
+
+            double w = r * (double)Theta;
+
+            return w;
+        }
+
+        public void SetupRandamGenParams() {
+            if ((double)Kappa < 1d) {
+                ddouble t, dt, exp_t;
+
+                t = 0.07d + 0.75d * Sqrt(1d - Kappa);
+
+                for (int i = 0; i < 64; i++) {
+                    exp_t = Exp(t);
+                    dt = (1d - t * (exp_t - 1d) - Kappa) / (1d - (t + 1d) * exp_t);
+                    t -= dt;
+
+                    if (Abs(dt) < Abs(t) * 1e-16d) {
+                        break;
+                    }
+                }
+
+                randam_gen_param.c1 = (double)t;
+                randam_gen_param.c2 = (double)(1d + Kappa * Exp(-t) / t);
+                randam_gen_param.c3 = (double)(1d / Kappa);
+            }
+            else {
+                randam_gen_param.c1 = (double)(Kappa - 1d / 3d);
+                randam_gen_param.c2 = (double)(1d / (3d * Sqrt(Kappa - 1d / 3d)));
             }
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => K * Theta;
+        public override ddouble Mean => Kappa * Theta;
 
         public override ddouble Median =>
-            InverseLowerIncompleteGamma(K, 0.5d) * Theta;
+            InverseLowerIncompleteGamma(Kappa, 0.5d) * Theta;
 
-        public override ddouble Mode => K >= 1d ? (K - 1d) * Theta : 0d;
+        public override ddouble Mode => Kappa >= 1d ? (Kappa - 1d) * Theta : 0d;
 
-        public override ddouble Variance => K * Theta * Theta;
+        public override ddouble Variance => Kappa * Theta * Theta;
 
-        public override ddouble Skewness => 2d / Sqrt(K);
+        public override ddouble Skewness => 2d / Sqrt(Kappa);
 
-        public override ddouble Kurtosis => 6d / K;
+        public override ddouble Kurtosis => 6d / Kappa;
 
         public override ddouble Entropy =>
-            K + Log(Theta) + LogGamma(K) - (K - 1d) * Digamma(K);
+            Kappa + Log(Theta) + LogGamma(Kappa) - (Kappa - 1d) * Digamma(Kappa);
 
         public static GammaDistribution operator *(GammaDistribution dist, ddouble k) {
-            return new(dist.K, dist.Theta * k);
+            return new(dist.Kappa, dist.Theta * k);
         }
 
         public static GammaDistribution operator /(GammaDistribution dist, ddouble k) {
-            return new(dist.K, dist.Theta / k);
+            return new(dist.Kappa, dist.Theta / k);
         }
 
         public override string ToString() {
-            return $"{typeof(GammaDistribution).Name}[k={K},theta={Theta}]";
+            return $"{typeof(GammaDistribution).Name}[kappa={Kappa},theta={Theta}]";
         }
 
-        public override string Formula => "p(x; k, theta) := u^(k - 1) * exp(-u) / (gamma(k) * theta), u = x / theta";
+        public override string Formula => "p(x; kappa, theta) := u^(kappa - 1) * exp(-u) / (gamma(kappa) * theta), u = x / theta";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -82,6 +83,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+
+            double v = double.Log(-double.Log(1d - u));
+            double w = (double)Mu - v * (double)Sigma;
+
+            return w;
         }
 
         public override ddouble Mean =>

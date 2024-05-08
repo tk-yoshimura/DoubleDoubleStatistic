@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -91,6 +92,19 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = (interval == Interval.Lower) ? (Mu + Sigma * u) : (Mu - Sigma * u);
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double r, thr;
+
+            do {
+                r = random.NextUniform() * 2d - 1d;
+                thr = (double.CosPi(2d * r) + 1d) * 0.5d;
+            } while (random.NextUniform() > thr);
+
+            double v = r * (double)Sigma + (double)Mu;
+
+            return v;
         }
 
         public override (ddouble min, ddouble max) Support => (Mu - Sigma, Mu + Sigma);

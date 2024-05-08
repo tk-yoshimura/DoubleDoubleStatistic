@@ -11,6 +11,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_lognorm;
 
+        private readonly ChiSquareDistribution randam_gen_chisq_dist_n;
+        private readonly ChiSquareDistribution randam_gen_chisq_dist_m;
+
         public SnedecorFDistribution(ddouble n, ddouble m) {
             ValidateShape(n, n => n > 0d);
             ValidateShape(m, m => m > 0d);
@@ -19,6 +22,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             M = m;
 
             pdf_lognorm = m * Log2(m) * 0.5d - LogBeta(n * 0.5d, m * 0.5d) * LbE;
+
+            randam_gen_chisq_dist_n = new(n);
+            randam_gen_chisq_dist_m = new(m);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -91,6 +97,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double c1 = randam_gen_chisq_dist_n.Sample(random);
+            double c2 = randam_gen_chisq_dist_m.Sample(random);
+
+            return (c1 * (double)M) / Math.Max(c2 * (double)N, double.Epsilon);
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

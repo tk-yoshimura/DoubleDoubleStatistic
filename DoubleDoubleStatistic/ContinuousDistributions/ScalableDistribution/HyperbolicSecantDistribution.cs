@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -55,6 +56,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = u * Sigma;
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+
+            double v = (double)Sigma * double.Log(double.TanPi(u * 0.5d)) / double.Pi * 2d;
+
+            return v;
         }
 
         public override bool Symmetric => true;

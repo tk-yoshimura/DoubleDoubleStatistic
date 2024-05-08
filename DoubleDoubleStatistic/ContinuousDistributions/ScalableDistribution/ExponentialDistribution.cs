@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -84,6 +85,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval0();
+
+            double v = -double.Log(u) * (double)Theta;
+
+            return v;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

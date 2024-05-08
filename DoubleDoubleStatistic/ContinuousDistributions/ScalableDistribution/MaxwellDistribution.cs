@@ -14,6 +14,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble sigma_inv, sigma_sq, pdf_norm;
 
+        private readonly GammaDistribution randam_gen_gamma_dist;
+
         public MaxwellDistribution() : this(sigma: 1d) { }
 
         public MaxwellDistribution(ddouble sigma) {
@@ -23,6 +25,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             sigma_inv = 1d / sigma;
             sigma_sq = sigma * sigma;
             pdf_norm = Sqrt(2d * RcpPI) * sigma_inv;
+
+            randam_gen_gamma_dist = new(kappa: 1.5d, 2d * sigma_sq);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -100,6 +104,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            return double.Sqrt(randam_gen_gamma_dist.Sample(random));
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

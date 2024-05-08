@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -190,6 +191,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01() - 0.5d;
+            double r = double.TanPi(u) * (double)Sigma;
+            double v = random.NextGaussian() * (double)Gamma;
+
+            double w = r + v;
+
+            return w;
         }
 
         internal ddouble Integrand(ddouble t) {

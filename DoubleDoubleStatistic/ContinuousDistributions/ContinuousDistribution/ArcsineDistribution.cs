@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -63,9 +64,18 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return Quantile(1d - p);
             }
 
-            ddouble x = Square(Sin(PI * p * 0.5d));
+            ddouble x = Square(SinPI(p * 0.5d));
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+
+            double v = double.SinPi(u * 0.5d);
+            double w = v * v;
+
+            return w;
         }
 
         public override bool Symmetric => true;

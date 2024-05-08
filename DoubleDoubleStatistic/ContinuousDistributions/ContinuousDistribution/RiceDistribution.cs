@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -142,6 +143,18 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double theta = 2d * random.NextUniformOpenInterval1();
+            (double s, double c) = double.SinCosPi(theta);
+
+            double x = (c + random.NextGaussian()) * (double)Nu;
+            double y = (s + random.NextGaussian()) * (double)Nu;
+
+            double r = double.Hypot(x, y);
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

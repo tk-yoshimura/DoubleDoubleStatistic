@@ -11,6 +11,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_norm;
 
+        private readonly GammaDistribution randam_gen_gamma_dist_alpha;
+        private readonly GammaDistribution randam_gen_gamma_dist_beta;
+
         public BetaDistribution(ddouble alpha, ddouble beta) {
             ValidateShape(alpha, alpha => alpha > 0d);
             ValidateShape(beta, beta => beta > 0d);
@@ -19,6 +22,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Beta = beta;
 
             pdf_norm = 1d / Beta(alpha, beta);
+
+            randam_gen_gamma_dist_alpha = new GammaDistribution(kappa: alpha);
+            randam_gen_gamma_dist_beta = new GammaDistribution(kappa: beta);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -96,6 +102,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double r1 = randam_gen_gamma_dist_alpha.Sample(random);
+            double r2 = randam_gen_gamma_dist_beta.Sample(random);
+
+            return r1 / double.Max(r1 + r2, double.Epsilon);
         }
 
         public override bool Symmetric => Alpha == Beta;

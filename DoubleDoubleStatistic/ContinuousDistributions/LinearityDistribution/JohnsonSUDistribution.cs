@@ -1,4 +1,6 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -87,6 +89,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = Mu + Sigma * u;
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+            double v = ErrorFunction.InverseErfc(u * 2d) * double.Sqrt(2);
+            double w = (double)Mu + (double)Sigma * double.Sinh((v - (double)Gamma) / (double)Delta);
+
+            return w;
         }
 
         public override ddouble Mean =>

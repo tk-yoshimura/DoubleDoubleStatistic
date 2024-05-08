@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -13,8 +14,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public ddouble A { get; }
         public ddouble B { get; }
+        public ddouble Range { get; }
 
-        private readonly ddouble pdf_norm, range;
+        private readonly ddouble pdf_norm;
 
         public UniformDistribution() : this(0d, 1d) { }
 
@@ -29,8 +31,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             A = a;
             B = b;
 
-            range = b - a;
-            pdf_norm = 1d / range;
+            Range = b - a;
+            pdf_norm = 1d / Range;
         }
 
         public override ddouble PDF(ddouble x) {
@@ -82,15 +84,22 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = A + p * range;
+                ddouble x = A + p * Range;
 
                 return x;
             }
             else {
-                ddouble x = B - p * range;
+                ddouble x = B - p * Range;
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniform();
+            double v = u * (double)Range + (double)A;
+
+            return v;
         }
 
         public override bool Symmetric => true;
@@ -103,13 +112,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Median => (A + B) * 0.5d;
 
-        public override ddouble Variance => Square(range) / 12d;
+        public override ddouble Variance => Square(Range) / 12d;
 
         public override ddouble Skewness => 0d;
 
         public override ddouble Kurtosis => -(ddouble)6 / 5;
 
-        public override ddouble Entropy => Log(range);
+        public override ddouble Entropy => Log(Range);
 
         public static UniformDistribution operator +(UniformDistribution dist, ddouble s) {
             return new(dist.A + s, dist.B + s);

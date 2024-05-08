@@ -66,6 +66,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) => InRangeUnit(p) ? Mu : NaN;
 
+        public override double Sample(Random random) {
+            return (double)Mu;
+        }
+
         public override bool Symmetric => true;
 
         public override ddouble Mean => Mu;

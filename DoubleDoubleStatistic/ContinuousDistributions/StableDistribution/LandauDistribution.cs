@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -74,6 +75,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = Mu + C * QuantilePade.Value(p, interval != Interval.Lower);
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double z = random.NextUniformOpenInterval01(), u = z - 0.5d;
+            double w = random.NextUniformOpenInterval01();
+
+            double r = 2d * (z * double.TanPi(u) * double.Pi - double.Log(double.Log(w) * double.CosPi(u) / (-2d * z))) / double.Pi;
+            double v = r * (double)C + (double)Mu;
+
+            return v;
         }
 
         public override ddouble Median => Mu + median_base * C;

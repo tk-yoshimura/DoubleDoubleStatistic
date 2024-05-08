@@ -13,6 +13,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_lognorm, momega, omegam;
 
+        private readonly GammaDistribution randam_gen_gamma_dist;
+
         public NakagamiDistribution(ddouble m, ddouble omega) {
             ValidateShape(m, m => m >= 0.5d);
             ValidateScale(omega);
@@ -23,6 +25,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             momega = m / omega;
             omegam = omega / m;
             pdf_lognorm = -LogGamma(m) * LbE + m * Log2(momega) + 1d;
+
+            randam_gen_gamma_dist = new(kappa: m, theta: omegam);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -81,6 +85,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            return double.Sqrt(randam_gen_gamma_dist.Sample(random));
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

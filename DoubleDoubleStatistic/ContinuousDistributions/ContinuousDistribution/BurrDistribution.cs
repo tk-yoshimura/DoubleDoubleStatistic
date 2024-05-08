@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
@@ -120,6 +121,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+
+            double v = double.Pow(double.Pow(1d / u, (double)k_inv) - 1d, (double)c_inv);
+
+            return v;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

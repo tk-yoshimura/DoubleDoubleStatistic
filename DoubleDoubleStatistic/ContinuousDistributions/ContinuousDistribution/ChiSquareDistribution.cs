@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble c, pdf_lognorm;
 
+        private readonly GammaDistribution randam_gen_gamma_dist;
+
         public ChiSquareDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu > 0d);
 
@@ -19,6 +21,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             c = nu * 0.5d - 1d;
             pdf_lognorm = nu * 0.5d + LogGamma(nu * 0.5d) * LbE;
+
+            randam_gen_gamma_dist = new(kappa: nu * 0.5d, theta: 2d);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -74,6 +78,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            return randam_gen_gamma_dist.Sample(random);
         }
 
         public override bool AdditiveClosed => true;

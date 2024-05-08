@@ -1,15 +1,15 @@
-﻿using DoubleDouble;
-using DoubleDoubleStatistic.ContinuousDistributions;
+﻿using DoubleDoubleStatistic.ContinuousDistributions;
 
 namespace DoubleDoubleStatisticSandbox {
     internal class Program {
         static void Main() {
-            LandauDistribution dist = new(1);
+            Random random = new();
+            VoigtDistribution dist = new(1, 1);
 
-            for (ddouble x = -8; x <= 24; x += 1 / 32d) {
-                ddouble y = dist.PDF(x);
+            for (int i = 0; i < 1024; i++) {
+                double y = dist.Sample(random);
 
-                Console.WriteLine($"{x},{y}");
+                Console.WriteLine($"{y}");
             }
 
             Console.WriteLine("END");

@@ -16,6 +16,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private const int cache_samples = 512;
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
+        private readonly ChiSquareDistribution randam_gen_chisq_dist;
+        private readonly NoncentralChiSquareDistribution randam_gen_noncchisq_dist;
+
         public NoncentralSnedecorFDistribution(ddouble n, ddouble m, ddouble lambda) {
             ValidateShape(n, n => n > 0d);
             ValidateShape(m, m => m > 0d);
@@ -24,6 +27,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             N = n;
             M = m;
             Lambda = lambda;
+
+            randam_gen_chisq_dist = new(n);
+            randam_gen_noncchisq_dist = new(m, lambda);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -253,6 +259,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double t = randam_gen_noncchisq_dist.Sample(random) * (double)N;
+            double s = randam_gen_chisq_dist.Sample(random) * (double)M;
+
+            double r = t / s;
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

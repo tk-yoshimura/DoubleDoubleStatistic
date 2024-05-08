@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -80,6 +81,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextGaussian();
+            double v = double.Exp(u * (double)Sigma + (double)Mu);
+
+            return v;
         }
 
         public override bool MultiplyClosed => true;

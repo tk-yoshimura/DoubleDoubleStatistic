@@ -11,6 +11,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble c, pdf_lognorm;
 
+        private readonly ChiDistribution randam_gen_chi_dist;
+
         public InverseChiDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu > 0d);
 
@@ -18,6 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             c = nu + 1d;
             pdf_lognorm = nu * 0.5d - 1d + LogGamma(nu * 0.5d) * LbE;
+
+            randam_gen_chi_dist = new(nu);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -84,6 +88,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            return 1d / randam_gen_chi_dist.Sample(random);
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

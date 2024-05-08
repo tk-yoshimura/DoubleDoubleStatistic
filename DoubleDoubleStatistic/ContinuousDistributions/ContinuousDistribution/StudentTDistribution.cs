@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -12,6 +13,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly bool is_integer_nu;
         private readonly int n;
         private readonly double zero_thr;
+
+        private readonly ChiSquareDistribution randam_gen_chisq_dist;
 
         public StudentTDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu > 0d);
@@ -33,6 +36,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             zero_thr = nu < 0.5
                 ? double.PositiveInfinity
                 : double.Exp((double)(((nu + 1d) * Log(nu) + 2d * zero_thr_log) / (2d * nu + 2d)));
+
+            randam_gen_chisq_dist = new(nu);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -115,6 +120,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             return interval == Interval.Lower ? x : -x;
+        }
+
+        public override double Sample(Random random) {
+            double c = randam_gen_chisq_dist.Sample(random), z = random.NextGaussian();
+
+            double r = z / double.Max(double.Sqrt(c * (double)nu_inv), double.Epsilon);
+
+            return r;
         }
 
         public override bool Symmetric => true;

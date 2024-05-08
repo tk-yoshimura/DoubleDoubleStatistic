@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -94,6 +95,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniform();
+
+            double v = (double)beta + double.Cbrt(3d * u - (double)alpha * (double)c) / double.Cbrt((double)alpha);
+
+            return v;
         }
 
         public override bool Symmetric => true;

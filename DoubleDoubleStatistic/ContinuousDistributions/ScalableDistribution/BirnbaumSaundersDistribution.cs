@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -102,6 +103,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = u * Theta;
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval0();
+            double w = (double)Alpha * ErrorFunction.InverseErfc(u * 2d), w2 = w * w;
+
+            double v = w * (w - double.Sqrt(w2 + 2d)) + 1d;
+
+            return v;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

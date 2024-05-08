@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -73,6 +74,19 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             x = interval != Interval.Lower ? x : -x;
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double r, thr;
+
+            do {
+                r = random.NextUniform() * 2d - 1d;
+                thr = double.Sqrt(1d - r * r);
+            } while (random.NextUniform() > thr);
+
+            double v = r * (double)R;
+
+            return v;
         }
 
         public override bool Symmetric => true;

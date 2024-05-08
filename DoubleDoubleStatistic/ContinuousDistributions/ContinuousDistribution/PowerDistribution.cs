@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -85,6 +86,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = Pow(p, alpha_inv) * k_inv;
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+
+            double v = double.Pow((double)K * u, (double)Alpha);
+
+            return v;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, k_inv);

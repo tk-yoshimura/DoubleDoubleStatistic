@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -94,6 +95,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
         }
 
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+            double w = ErrorFunction.InverseErfc(u);
+
+            double r = 1d / (2d * w * w);
+            double v = r * (double)C + (double)Mu;
+
+            return v;
+        }
+
         public override (ddouble min, ddouble max) Support => (Mu, PositiveInfinity);
 
         public override ddouble Mean => PositiveInfinity;
@@ -143,6 +154,6 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             return $"{typeof(LevyDistribution).Name}[mu={Mu},c={C}]";
         }
 
-        public override string Formula => "p(x; mu, c) := exp(-1 / (2 * u)) / u^(3/2) / (sqrt(2 * pi) * c), u = (x - mu) / c";
+        public override string Formula => "p(x; mu, c) := exp(-1 / (2 * u)) / u^(3 / 2) / (sqrt(2 * pi) * c), u = (x - mu) / c";
     }
 }

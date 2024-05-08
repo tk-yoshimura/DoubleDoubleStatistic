@@ -1,10 +1,26 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     public abstract class ContinuousDistribution {
         public abstract ddouble PDF(ddouble x);
         public virtual ddouble CDF(ddouble x, Interval interval = Interval.Lower) => throw new NotImplementedException();
         public virtual ddouble Quantile(ddouble p, Interval interval = Interval.Lower) => throw new NotImplementedException();
+
+        public virtual double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+            double v = (double)Quantile(u);
+
+            return v;
+        }
+
+        public IEnumerable<double> Sample(Random random, int count) {
+            ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+
+            while (count > 0) {
+                yield return Sample(random);
+            }
+        }
 
         public virtual bool AdditiveClosed => false;
         public virtual bool SubtractiveClosed => false;

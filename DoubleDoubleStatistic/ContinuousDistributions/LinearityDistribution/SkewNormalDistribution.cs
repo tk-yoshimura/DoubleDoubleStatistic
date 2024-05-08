@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -19,7 +20,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
 
-        private readonly ddouble pdf_norm, cdf_norm, erfc_scale, sigma_inv, s;
+        private readonly ddouble pdf_norm, cdf_norm, erfc_scale, sigma_inv, s, t;
 
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
@@ -41,6 +42,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             sigma_inv = 1d / sigma;
 
             s = alpha / Hypot(1, alpha);
+            t = 1d / Sqrt(Hypot(1, alpha));
         }
 
         public override ddouble PDF(ddouble x) {
@@ -216,6 +218,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            (double u0, double u1) = random.NextGaussianX2();
+            double v = double.Sign(u0) * ((double)s * u0 + (double)t * u1);
+
+            return v;
         }
 
         public override ddouble Mean =>

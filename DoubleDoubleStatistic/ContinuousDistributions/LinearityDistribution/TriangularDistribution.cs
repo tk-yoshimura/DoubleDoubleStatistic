@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -106,6 +107,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniform();
+
+            double v = (u < (double)p_thr)
+                ? (double)A + double.Sqrt((double)abxac * u)
+                : (double)B - double.Sqrt((double)abxcb * (1d - u));
+
+            return v;
         }
 
         public override bool Symmetric => true;

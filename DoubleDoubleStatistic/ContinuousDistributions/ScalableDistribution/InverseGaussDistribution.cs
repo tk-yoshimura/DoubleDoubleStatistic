@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -169,6 +170,19 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double lambda = (double)Lambda, mu = (double)Mu;
+
+            double x = random.NextGaussian();
+            double y = x * x * mu;
+            double z = random.NextUniform();
+            double w = mu - (0.5 * mu / lambda) * (double.Sqrt(y * (y + 4d * lambda)) - y);
+
+            double r = (z < (mu / (mu + w))) ? w : (mu * mu / w);
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

@@ -7,11 +7,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution {
     [TestClass()]
     public class GammaDistributionTests {
-        readonly GammaDistribution dist_k1theta1 = new(k: 1, theta: 1);
-        readonly GammaDistribution dist_k2theta1 = new(k: 2, theta: 1);
-        readonly GammaDistribution dist_k1theta2 = new(k: 1, theta: 2);
-        readonly GammaDistribution dist_k2theta2 = new(k: 2, theta: 2);
-        readonly GammaDistribution dist_k3theta4 = new(k: 3, theta: 4);
+        readonly GammaDistribution dist_k1theta1 = new(kappa: 1, theta: 1);
+        readonly GammaDistribution dist_k2theta1 = new(kappa: 2, theta: 1);
+        readonly GammaDistribution dist_k1theta2 = new(kappa: 1, theta: 2);
+        readonly GammaDistribution dist_k2theta2 = new(kappa: 2, theta: 2);
+        readonly GammaDistribution dist_k3theta4 = new(kappa: 3, theta: 4);
 
         GammaDistribution[] Dists => [
             dist_k1theta1,
@@ -26,7 +26,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
             foreach (GammaDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
-                Console.WriteLine($"K={dist.K}");
+                Console.WriteLine($"Kappa={dist.Kappa}");
                 Console.WriteLine($"Theta={dist.Theta}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Median={dist.Median}");

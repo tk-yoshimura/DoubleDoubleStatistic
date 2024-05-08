@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -77,6 +78,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             x = Clamp(x, 0d, 1d);
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01();
+
+            double v = (double.Exp(u * (double)C / (double)pdf_norm) - 1d) * (double)c_inv;
+
+            return v;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, 1d);

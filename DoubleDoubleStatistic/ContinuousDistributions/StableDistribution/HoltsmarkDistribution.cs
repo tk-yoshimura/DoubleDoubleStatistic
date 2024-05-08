@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -79,6 +80,18 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextUniformOpenInterval01() - 0.5d;
+            double w = random.NextUniformOpenInterval0();
+
+            double cu = double.CosPi(u);
+
+            double r = double.SinPi(u * 1.5d) * double.Cbrt(double.Log(w) / (double.CosPi(u * 0.5) * cu * cu));
+            double v = r * (double)C + (double)Mu;
+
+            return v;
         }
 
         public override bool Symmetric => true;

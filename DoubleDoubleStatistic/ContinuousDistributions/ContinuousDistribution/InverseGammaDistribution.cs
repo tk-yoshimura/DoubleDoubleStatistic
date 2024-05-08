@@ -11,6 +11,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_lognorm;
 
+        private readonly GammaDistribution randam_gen_gamma_dist;
+
         public InverseGammaDistribution() : this(alpha: 1d, beta: 1d) { }
 
         public InverseGammaDistribution(ddouble alpha, ddouble beta) {
@@ -21,6 +23,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Beta = beta;
 
             pdf_lognorm = alpha * Log2(beta) - LogGamma(alpha) * LbE;
+
+            randam_gen_gamma_dist = new(kappa: alpha, theta: beta);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -77,6 +81,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            return 1d / randam_gen_gamma_dist.Sample(random);
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

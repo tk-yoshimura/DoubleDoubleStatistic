@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
@@ -19,6 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private const int cache_samples = 512;
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+
+        private readonly ChiSquareDistribution randam_gen_chisq_dist;
 
         public NoncentralStudentTDistribution(ddouble nu, ddouble mu) {
             ValidateShape(nu, nu => nu > 0d);
@@ -49,6 +52,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             zero_thr = nu < 0.5
                 ? double.ScaleB(1, 1000)
                 : double.Exp((double)(((nu + 1d) * Log(nu) + 2d * zero_thr_log) / (2d * nu + 2d)));
+
+            randam_gen_chisq_dist = new(nu);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -293,6 +298,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double u = random.NextGaussian();
+            double v = randam_gen_chisq_dist.Sample(random);
+
+            double r = (u + (double)Mu) / double.Sqrt(v * (double)nu_inv);
+
+            return r;
         }
 
         public override bool Symmetric => Mu == 0d;

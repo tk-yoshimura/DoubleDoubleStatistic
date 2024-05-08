@@ -12,6 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_lognorm;
 
+        private readonly SnedecorFDistribution randam_gen_f_dist;
+
         public FisherZDistribution(ddouble n, ddouble m) {
             ValidateShape(n, n => n > 0d);
             ValidateShape(m, m => m > 0d);
@@ -20,6 +22,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             M = m;
 
             pdf_lognorm = (Log2(n) * n + Log2(m) * m) * 0.5d - LogBeta(n * 0.5d, m * 0.5d) * LbE + 1d;
+
+            randam_gen_f_dist = new(n, m);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -79,6 +83,18 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
+        }
+
+        public override double Sample(Random random) {
+            double s;
+
+            do {
+                s = randam_gen_f_dist.Sample(random);
+            } while (s <= 0d);
+
+            double r = double.Log(s) * 0.5d;
+
+            return r;
         }
 
         public override bool Symmetric => N == M;
