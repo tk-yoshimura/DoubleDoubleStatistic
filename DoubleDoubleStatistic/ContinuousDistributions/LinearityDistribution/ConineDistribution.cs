@@ -99,7 +99,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             do {
                 r = random.NextUniform() * 2d - 1d;
-                thr = (double.CosPi(2d * r) + 1d) * 0.5d;
+                thr = (double.CosPi(r) + 1d) * 0.5d;
             } while (random.NextUniform() > thr);
 
             double v = r * (double)Sigma + (double)Mu;

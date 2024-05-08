@@ -28,8 +28,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             M = m;
             Lambda = lambda;
 
-            randam_gen_chisq_dist = new(n);
-            randam_gen_noncchisq_dist = new(m, lambda);
+            randam_gen_chisq_dist = new(m);
+            randam_gen_noncchisq_dist = new(n, lambda);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -262,8 +262,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override double Sample(Random random) {
-            double t = randam_gen_noncchisq_dist.Sample(random) * (double)N;
-            double s = randam_gen_chisq_dist.Sample(random) * (double)M;
+            double t = randam_gen_noncchisq_dist.Sample(random) * (double)M;
+            double s = randam_gen_chisq_dist.Sample(random) * (double)N;
 
             double r = t / s;
 

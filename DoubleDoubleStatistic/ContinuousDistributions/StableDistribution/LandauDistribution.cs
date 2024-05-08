@@ -34,7 +34,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ValidateLocation(mu);
             ValidateScale(c);
 
-            Mu = mu;
+            Mu = mu - Log(2d * RcpPI * c);
             C = c;
 
             c_inv = 1d / c;
@@ -81,7 +81,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             double z = random.NextUniformOpenInterval01(), u = z - 0.5d;
             double w = random.NextUniformOpenInterval01();
 
-            double r = 2d * (z * double.TanPi(u) * double.Pi - double.Log(double.Log(w) * double.CosPi(u) / (-2d * z))) / double.Pi;
+            double r = 2d / double.Pi * (z * double.TanPi(u) * double.Pi - double.Log(double.Log(w) * double.CosPi(u) / (-2d * z * (double)C)));
             double v = r * (double)C + (double)Mu;
 
             return v;

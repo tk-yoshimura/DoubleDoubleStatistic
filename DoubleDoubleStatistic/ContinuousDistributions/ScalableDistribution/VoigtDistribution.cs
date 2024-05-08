@@ -195,8 +195,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override double Sample(Random random) {
             double u = random.NextUniformOpenInterval01() - 0.5d;
-            double r = double.TanPi(u) * (double)Sigma;
-            double v = random.NextGaussian() * (double)Gamma;
+            double r = double.TanPi(u) * (double)Gamma;
+            double v = random.NextGaussian() * (double)Sigma;
 
             double w = r + v;
 

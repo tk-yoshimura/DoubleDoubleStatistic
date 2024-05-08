@@ -4,7 +4,7 @@ namespace DoubleDoubleStatisticSandbox {
     internal class Program {
         static void Main() {
             Random random = new();
-            VoigtDistribution dist = new(1, 1);
+            LandauDistribution dist = new(1, 3);
 
             for (int i = 0; i < 1024; i++) {
                 double y = dist.Sample(random);

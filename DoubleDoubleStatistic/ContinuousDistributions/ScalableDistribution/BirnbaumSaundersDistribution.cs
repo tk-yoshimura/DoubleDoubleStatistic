@@ -109,7 +109,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             double u = random.NextUniformOpenInterval0();
             double w = (double)Alpha * ErrorFunction.InverseErfc(u * 2d), w2 = w * w;
 
-            double v = w * (w - double.Sqrt(w2 + 2d)) + 1d;
+            double v = (w * (w - double.Sqrt(w2 + 2d)) + 1d) * (double)Theta;
 
             return v;
         }

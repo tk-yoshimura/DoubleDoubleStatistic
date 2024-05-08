@@ -149,8 +149,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             double theta = 2d * random.NextUniformOpenInterval1();
             (double s, double c) = double.SinCosPi(theta);
 
-            double x = (c + random.NextGaussian()) * (double)Nu;
-            double y = (s + random.NextGaussian()) * (double)Nu;
+            (double u0, double u1) = random.NextGaussianX2();
+
+            double x = c * (double)Nu + u0;
+            double y = s * (double)Nu + u1;
 
             double r = double.Hypot(x, y);
 

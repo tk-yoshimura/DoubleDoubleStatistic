@@ -24,7 +24,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             pdf_lognorm = alpha * Log2(beta) - LogGamma(alpha) * LbE;
 
-            randam_gen_gamma_dist = new(kappa: alpha, theta: beta);
+            randam_gen_gamma_dist = new(kappa: alpha, theta: 1d / beta);
         }
 
         public override ddouble PDF(ddouble x) {

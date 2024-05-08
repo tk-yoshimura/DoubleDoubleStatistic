@@ -83,7 +83,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             double cu = double.CosPi(u);
 
-            double r = -2d * double.SinPi(u * 1.5d - 0.25d) * double.Cbrt(double.Log(w) / (double.CosPi(u * 0.5d - 0.25d) * cu * cu));
+            double r = -double.SinPi(u * 1.5d - 0.25d) * double.Cbrt(2d * double.Log(w) / (double.CosPi(u * 0.5d - 0.25d) * cu * cu));
             double v = r * (double)C + (double)Mu;
 
             return v;

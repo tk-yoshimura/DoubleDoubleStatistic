@@ -103,7 +103,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             double c1 = randam_gen_chisq_dist_n.Sample(random);
             double c2 = randam_gen_chisq_dist_m.Sample(random);
 
-            return (c1 * (double)M) / Math.Max(c2 * (double)N, double.Epsilon);
+            return (c1 * (double)M) / double.Max(c2 * (double)N, double.Epsilon);
         }
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);

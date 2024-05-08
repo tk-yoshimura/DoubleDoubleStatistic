@@ -42,7 +42,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             sigma_inv = 1d / sigma;
 
             s = alpha / Hypot(1, alpha);
-            t = 1d / Sqrt(Hypot(1, alpha));
+            t = 1d / Hypot(1, alpha);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -224,7 +224,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             (double u0, double u1) = random.NextGaussianX2();
             double v = double.Sign(u0) * ((double)s * u0 + (double)t * u1);
 
-            return v;
+            double w = (double)Mu + v * (double)Sigma;
+
+            return w;
         }
 
         public override ddouble Mean =>

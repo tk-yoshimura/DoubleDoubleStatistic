@@ -19,6 +19,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             while (count > 0) {
                 yield return Sample(random);
+                count--;
             }
         }
 

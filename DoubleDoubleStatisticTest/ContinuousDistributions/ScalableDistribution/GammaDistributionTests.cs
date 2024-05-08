@@ -1,12 +1,16 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic;
 using DoubleDoubleStatistic.ContinuousDistributions;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution {
     [TestClass()]
     public class GammaDistributionTests {
+        readonly GammaDistribution dist_kp25theta1 = new(kappa: 0.25, theta: 1);
+        readonly GammaDistribution dist_kp50theta1 = new(kappa: 0.5, theta: 1);
+        readonly GammaDistribution dist_kp75theta1 = new(kappa: 0.75, theta: 1);
         readonly GammaDistribution dist_k1theta1 = new(kappa: 1, theta: 1);
         readonly GammaDistribution dist_k2theta1 = new(kappa: 2, theta: 1);
         readonly GammaDistribution dist_k1theta2 = new(kappa: 1, theta: 2);
@@ -14,6 +18,9 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
         readonly GammaDistribution dist_k3theta4 = new(kappa: 3, theta: 4);
 
         GammaDistribution[] Dists => [
+            dist_kp25theta1,
+            dist_kp50theta1,
+            dist_kp75theta1,
             dist_k1theta1,
             dist_k2theta1,
             dist_k1theta2,
@@ -205,6 +212,32 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
                         Assert.IsTrue(ddouble.Abs(p - ccdf) < 1e-28);
                     }
                 }
+            }
+        }
+
+        [TestMethod()]
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (GammaDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 100000).ToArray();
+
+                double max_error = 0d;
+
+                for (int i = 5; i <= 90; i++) {
+                    double p = (double)i / 100;
+                    double expected = (double)dist.Quantile(p, Interval.Lower);
+                    double actual = xs.Quantile((double)p);
+
+                    max_error = double.Max(max_error, double.Abs(expected - actual));
+
+                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 5) * 0.1, $"{p}\n{expected}\n{actual}");
+                }
+
+                Console.WriteLine(max_error);
             }
         }
 

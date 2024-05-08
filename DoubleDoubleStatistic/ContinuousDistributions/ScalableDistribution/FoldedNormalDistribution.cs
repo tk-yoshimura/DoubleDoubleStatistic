@@ -9,9 +9,9 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class FoledNormalDistribution : ScalableDistribution<FoledNormalDistribution>,
-        IMultiplyOperators<FoledNormalDistribution, ddouble, FoledNormalDistribution>,
-        IDivisionOperators<FoledNormalDistribution, ddouble, FoledNormalDistribution> {
+    public class FoldedNormalDistribution : ScalableDistribution<FoldedNormalDistribution>,
+        IMultiplyOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution>,
+        IDivisionOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -24,11 +24,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
 
-        public FoledNormalDistribution() : this(mu: 0d, sigma: 1d) { }
+        public FoldedNormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
-        public FoledNormalDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
+        public FoldedNormalDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
-        public FoledNormalDistribution(ddouble mu, ddouble sigma) {
+        public FoldedNormalDistribution(ddouble mu, ddouble sigma) {
             ValidateLocation(mu);
             ValidateScale(sigma);
 
@@ -262,16 +262,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ? entropy ??= IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384)
             : Log(Sigma * Sqrt(2d * PI * E));
 
-        public static FoledNormalDistribution operator *(FoledNormalDistribution dist, ddouble k) {
+        public static FoldedNormalDistribution operator *(FoldedNormalDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
         }
 
-        public static FoledNormalDistribution operator /(FoledNormalDistribution dist, ddouble k) {
+        public static FoldedNormalDistribution operator /(FoldedNormalDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Sigma / k);
         }
 
         public override string ToString() {
-            return $"{typeof(FoledNormalDistribution).Name}[mu={Mu},sigma={Sigma}]";
+            return $"{typeof(FoldedNormalDistribution).Name}[mu={Mu},sigma={Sigma}]";
         }
 
         public override string Formula => "p(x; mu, sigma) := (exp(-(x - mu)^2) + exp(-(x + mu)^2)) / (sqrt(2 * pi) * sigma)";

@@ -1,6 +1,7 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic;
 using DoubleDoubleStatistic.ContinuousDistributions;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -225,6 +226,32 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.Abs("9.960043892185942044437912059971983108507e-2" - dist_a3b4.Skewness) < 1e-26);
             Assert.IsTrue(ddouble.Abs("-1.189134564437105737117615891768726318608" - dist_a3b4.Kurtosis) < 1e-26);
             Assert.IsTrue(ddouble.Abs("-3.445998813238043265926062980199643557012e-3" - dist_a3b4.Entropy) < 1e-26);
+        }
+
+        [TestMethod()]
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (ReciprocalDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                double max_error = 0d;
+
+                for (int i = 5; i <= 95; i++) {
+                    double p = (double)i / 100;
+                    double expected = (double)dist.Quantile(p, Interval.Lower);
+                    double actual = xs.Quantile((double)p);
+
+                    max_error = double.Max(max_error, double.Abs(expected - actual));
+
+                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 5) * 0.1, $"{p}\n{expected}\n{actual}");
+                }
+
+                Console.WriteLine(max_error);
+            }
         }
 
         [TestMethod()]

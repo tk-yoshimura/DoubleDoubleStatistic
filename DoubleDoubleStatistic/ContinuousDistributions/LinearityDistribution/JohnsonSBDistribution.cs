@@ -104,7 +104,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override double Sample(Random random) {
             double u = random.NextUniformOpenInterval01();
-            double v = ErrorFunction.InverseErfc(u * 2d) * double.Sqrt(2);
+            double v = ErrorFunction.InverseErfc(u * 2d) * double.Sqrt(2d);
             double w = (double)Mu + (double)Sigma / (double.Exp(((double)Gamma - v) / (double)Delta) + 1d);
 
             return w;

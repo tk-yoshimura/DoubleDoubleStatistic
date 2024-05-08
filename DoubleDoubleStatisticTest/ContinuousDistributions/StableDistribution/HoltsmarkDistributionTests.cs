@@ -1,6 +1,7 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic;
 using DoubleDoubleStatistic.ContinuousDistributions;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -139,6 +140,32 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
                         Assert.IsTrue(ddouble.Abs(p - ccdf) < 1e-28);
                     }
                 }
+            }
+        }
+
+        [TestMethod()]
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (HoltsmarkDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 100000).ToArray();
+
+                double max_error = 0d;
+
+                for (int i = 5; i <= 90; i++) {
+                    double p = (double)i / 100;
+                    double expected = (double)dist.Quantile(p, Interval.Lower);
+                    double actual = xs.Quantile((double)p);
+
+                    max_error = double.Max(max_error, double.Abs(expected - actual));
+
+                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 5) * 0.1, $"{p}\n{expected}\n{actual}");
+                }
+
+                Console.WriteLine(max_error);
             }
         }
 

@@ -1,25 +1,26 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic;
 using DoubleDoubleStatistic.ContinuousDistributions;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution {
     [TestClass()]
     public class FoledNormalDistributionTests {
-        readonly FoledNormalDistribution dist1 = new();
-        readonly FoledNormalDistribution dist2 = new(mu: 1, sigma: 3);
-        readonly FoledNormalDistribution dist3 = new(mu: 2, sigma: 3);
-        readonly FoledNormalDistribution dist4 = new(mu: 4, sigma: 2);
-        readonly FoledNormalDistribution dist5 = new(mu: 8, sigma: 3);
-        readonly FoledNormalDistribution dist6 = new(mu: 16, sigma: 3);
-        readonly FoledNormalDistribution dist7 = new(mu: 24, sigma: 3);
-        readonly FoledNormalDistribution dist8 = new(mu: 32, sigma: 3);
-        readonly FoledNormalDistribution dist9 = new(mu: 64, sigma: 3);
-        readonly FoledNormalDistribution dist10 = new(mu: 96, sigma: 3);
-        readonly FoledNormalDistribution dist11 = new(mu: 128, sigma: 3);
+        readonly FoldedNormalDistribution dist1 = new();
+        readonly FoldedNormalDistribution dist2 = new(mu: 1, sigma: 3);
+        readonly FoldedNormalDistribution dist3 = new(mu: 2, sigma: 3);
+        readonly FoldedNormalDistribution dist4 = new(mu: 4, sigma: 2);
+        readonly FoldedNormalDistribution dist5 = new(mu: 8, sigma: 3);
+        readonly FoldedNormalDistribution dist6 = new(mu: 16, sigma: 3);
+        readonly FoldedNormalDistribution dist7 = new(mu: 24, sigma: 3);
+        readonly FoldedNormalDistribution dist8 = new(mu: 32, sigma: 3);
+        readonly FoldedNormalDistribution dist9 = new(mu: 64, sigma: 3);
+        readonly FoldedNormalDistribution dist10 = new(mu: 96, sigma: 3);
+        readonly FoldedNormalDistribution dist11 = new(mu: 128, sigma: 3);
 
-        FoledNormalDistribution[] Dists => [
+        FoldedNormalDistribution[] Dists => [
             dist1,
             dist2,
             dist3,
@@ -35,7 +36,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void InfoTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 Console.WriteLine($"Support={dist.Support}");
                 Console.WriteLine($"Mu={dist.Mu}");
@@ -53,7 +54,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void MeanTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 if (ddouble.IsNaN(dist.Mean)) {
@@ -68,7 +69,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void ModeTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 if (ddouble.IsNaN(dist.Mode)) {
@@ -532,7 +533,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
             ];
 
             for ((ddouble mu, int i) = (1, 0); mu <= 8; mu += 1d / 64, i++) {
-                FoledNormalDistribution dist = new(mu, sigma: 1d);
+                FoldedNormalDistribution dist = new(mu, sigma: 1d);
 
                 ddouble expected = expecteds[i];
                 ddouble actual = dist.Mode;
@@ -543,7 +544,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void MedianTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 Assert.IsTrue(ddouble.Abs(dist.CDF(dist.Median) - 0.5) < 1e-20, $"{dist}\n{dist.Median}");
@@ -552,7 +553,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void VarianceTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 if (!ddouble.IsFinite(dist.Variance)) {
@@ -567,7 +568,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void SkewnessTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 if (!ddouble.IsFinite(dist.Skewness)) {
@@ -582,7 +583,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void KurtosisTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 if (!ddouble.IsFinite(dist.Kurtosis)) {
@@ -597,7 +598,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void EntropyTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 ddouble actual = dist.Entropy;
@@ -608,7 +609,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void PDFTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = -4; x <= 4; x += 0.125) {
                     ddouble pdf = dist.PDF(x);
@@ -620,7 +621,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void CDFLowerTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = -4; x <= 4; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
@@ -632,7 +633,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void CDFUpperTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (ddouble x = -4; x <= 4; x += 0.125) {
                     ddouble cdf = dist.CDF(x, Interval.Lower);
@@ -647,7 +648,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void QuantileLowerTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 1000; i++) {
                     ddouble p = (ddouble)i / 1000;
@@ -676,7 +677,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
 
         [TestMethod()]
         public void QuantileUpperTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int i = 0; i <= 1000; i++) {
                     ddouble p = (ddouble)i / 1000;
@@ -704,8 +705,34 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
         }
 
         [TestMethod()]
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (FoldedNormalDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 100000).ToArray();
+
+                double max_error = 0d;
+
+                for (int i = 5; i <= 90; i++) {
+                    double p = (double)i / 100;
+                    double expected = (double)dist.Quantile(p, Interval.Lower);
+                    double actual = xs.Quantile((double)p);
+
+                    max_error = double.Max(max_error, double.Abs(expected - actual));
+
+                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 5) * 0.1, $"{p}\n{expected}\n{actual}");
+                }
+
+                Console.WriteLine(max_error);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
-            foreach (FoledNormalDistribution dist in Dists) {
+            foreach (FoldedNormalDistribution dist in Dists) {
                 Console.WriteLine(dist);
 
                 Assert.IsTrue(ddouble.IsFinite(dist.PDF(ddouble.NegativeInfinity)) && dist.PDF(ddouble.NegativeInfinity) >= 0d, "pdf(-inf)");
@@ -891,7 +918,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
                 1.991676813990406747e-01,
             ];
 
-            foreach ((FoledNormalDistribution dist, ddouble[] expecteds) in new[]{
+            foreach ((FoldedNormalDistribution dist, ddouble[] expecteds) in new[]{
                 (dist1, expected_dist1), (dist2, expected_dist2),
                 (dist3, expected_dist3), (dist4, expected_dist4)
             }) {
@@ -1047,7 +1074,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
                 4.750411635047810943e-01,
             ];
 
-            foreach ((FoledNormalDistribution dist, ddouble[] expecteds) in new[]{
+            foreach ((FoldedNormalDistribution dist, ddouble[] expecteds) in new[]{
                 (dist1, expected_dist1), (dist2, expected_dist2),
                 (dist3, expected_dist3), (dist4, expected_dist4)
             }) {
