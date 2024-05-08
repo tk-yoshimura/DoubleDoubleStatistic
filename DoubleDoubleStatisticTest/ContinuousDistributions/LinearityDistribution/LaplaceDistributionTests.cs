@@ -222,7 +222,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.LinearityDistributio
 
                     max_error = double.Max(max_error, double.Abs(expected - actual));
 
-                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 5) * 0.1, $"{p}\n{expected}\n{actual}");
+                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 2) * 0.02, $"{p}\n{expected}\n{actual}");
                 }
 
                 Console.WriteLine(max_error);

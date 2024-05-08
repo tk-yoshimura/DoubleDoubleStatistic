@@ -82,14 +82,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (interval == Interval.Lower) {
-                ddouble x = beta + Cbrt(3d * p - alpha * c) / Cbrt(alpha);
+                ddouble x = beta + Cbrt(3d * p / alpha - c);
 
                 x = Clamp(x, A, B);
 
                 return x;
             }
             else {
-                ddouble x = beta - Cbrt(3d * p - alpha * c) / Cbrt(alpha);
+                ddouble x = beta - Cbrt(3d * p / alpha - c);
 
                 x = Clamp(x, A, B);
 
@@ -100,7 +100,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override double Sample(Random random) {
             double u = random.NextUniform();
 
-            double v = (double)beta + double.Cbrt(3d * u - (double)alpha * (double)c) / double.Cbrt((double)alpha);
+            double v = (double)beta + double.Cbrt(3d * u / (double)alpha - (double)c);
 
             return v;
         }

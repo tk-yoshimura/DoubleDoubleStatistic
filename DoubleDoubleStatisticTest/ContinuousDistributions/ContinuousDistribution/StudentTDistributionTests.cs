@@ -239,7 +239,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
                 Console.WriteLine(dist);
 
-                double[] xs = dist.Sample(random, 10000).ToArray();
+                double[] xs = dist.Sample(random, 40000).ToArray();
 
                 double max_error = 0d;
 
@@ -250,7 +250,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
                     max_error = double.Max(max_error, double.Abs(expected - actual));
 
-                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 5) * 0.1, $"{p}\n{expected}\n{actual}");
+                    Assert.AreEqual(expected, actual, (double.Abs(expected) + 1) * 0.08, $"{p}\n{expected}\n{actual}");
                 }
 
                 Console.WriteLine(max_error);

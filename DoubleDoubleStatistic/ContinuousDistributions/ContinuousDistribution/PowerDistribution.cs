@@ -91,7 +91,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override double Sample(Random random) {
             double u = random.NextUniformOpenInterval01();
 
-            double v = double.Pow(u, (double)Alpha) * (double)k_inv;
+            double v = double.Pow(u, (double)alpha_inv) * (double)k_inv;
 
             return v;
         }
