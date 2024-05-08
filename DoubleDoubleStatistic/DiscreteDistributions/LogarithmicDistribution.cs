@@ -21,11 +21,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             lnq = Log(q);
         }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k >= 1 ? -Pow(p, k) / (lnq * k) : 0d;
         }
 
-        public override (long min, long max) Support => (1, long.MaxValue);
+        public override (int min, int max) Support => (1, int.MaxValue);
 
         public override ddouble Mean => -p / (lnq * q);
 

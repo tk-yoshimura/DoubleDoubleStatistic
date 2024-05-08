@@ -23,8 +23,8 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             p_pown = Pow(p, N);
         }
 
-        public override ddouble PMF(long k) {
-            return k >= 0 ? Binomial((int)k + N - 1, (int)k) * p_pown * Pow(q, k) : 0d;
+        public override ddouble PMF(int k) {
+            return k >= 0 ? Binomial(k + N - 1, k) * p_pown * Pow(q, k) : 0d;
         }
 
         public override ddouble Mean => N * q / p;

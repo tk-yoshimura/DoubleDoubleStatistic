@@ -22,11 +22,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             q = 1d - p;
         }
 
-        public override ddouble PMF(long k) {
-            return (k >= 0 && k <= N) ? Binomial(N, (int)k) * Pow(p, k) * Pow(q, N - k) : 0d;
+        public override ddouble PMF(int k) {
+            return (k >= 0 && k <= N) ? Binomial(N, k) * Pow(p, k) * Pow(q, N - k) : 0d;
         }
 
-        public override (long min, long max) Support => (0, N);
+        public override (int min, int max) Support => (0, N);
 
         public override ddouble Mean => N * p;
 

@@ -8,11 +8,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public BinaryDistribution() { }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k == 0 || k == 1 ? 0.5d : 0d;
         }
 
-        public override (long min, long max) Support => (0, 1);
+        public override (int min, int max) Support => (0, 1);
 
         public override ddouble Mean => 0.5d;
 

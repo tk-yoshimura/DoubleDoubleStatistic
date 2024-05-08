@@ -25,11 +25,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             binom_nr_inv = 1d / Binomial(n, r);
         }
 
-        public override ddouble PMF(long k) {
-            return k >= Support.min && k <= Support.max ? Binomial(M, (int)k) * Binomial(N - M, R - (int)k) * binom_nr_inv : 0d;
+        public override ddouble PMF(int k) {
+            return k >= Support.min && k <= Support.max ? Binomial(M, k) * Binomial(N - M, R - k) * binom_nr_inv : 0d;
         }
 
-        public override (long min, long max) Support => (int.Max(0, checked(R + M - N)), int.Min(R, M));
+        public override (int min, int max) Support => (int.Max(0, checked(R + M - N)), int.Min(R, M));
 
         public override ddouble Mean => R * M / (ddouble)N;
 
@@ -48,7 +48,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
-            DiscreteEntropy.Sum(this, (int)Support.min, (int)Support.max);
+            DiscreteEntropy.Sum(this, Support.min, Support.max);
 
         public override string Formula => "f(k; n, m, r) := binom(m, k) * binom(n - m, r - k) / binom(n, r)";
 

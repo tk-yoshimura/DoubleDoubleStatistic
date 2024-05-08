@@ -22,11 +22,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             inv_r = 1d / r;
         }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k >= A && k < B ? inv_r : 0d;
         }
 
-        public override (long min, long max) Support => (A, B - 1);
+        public override (int min, int max) Support => (A, B - 1);
 
         public override ddouble Mean => (A + B - 1) * 0.5d;
 

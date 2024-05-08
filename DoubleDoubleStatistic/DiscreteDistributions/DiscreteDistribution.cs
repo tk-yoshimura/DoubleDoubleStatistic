@@ -2,10 +2,10 @@
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     public abstract class DiscreteDistribution {
-        public abstract ddouble PMF(long k);
+        public abstract ddouble PMF(int k);
 
-        public virtual (long min, long max) Support =>
-            (0, long.MaxValue);
+        public virtual (int min, int max) Support =>
+            (0, int.MaxValue);
 
         public virtual ddouble Mean => throw new NotImplementedException();
         public virtual ddouble Variance => throw new NotImplementedException();

@@ -18,7 +18,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             lnlambda = Log(lambda);
         }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k >= 0 ? Exp(-LogGamma(k + 1) + lnlambda * k - Lambda) : 0d;
         }
 

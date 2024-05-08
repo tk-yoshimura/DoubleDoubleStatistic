@@ -18,11 +18,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             q = 1d - p;
         }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k == 0 ? q : k == 1 ? p : 0d;
         }
 
-        public override (long min, long max) Support => (0, 1);
+        public override (int min, int max) Support => (0, 1);
 
         public override ddouble Mean => p;
 

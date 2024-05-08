@@ -15,11 +15,11 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             Rho = rho;
         }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k >= 1 ? Rho * Beta(k, Rho + 1d) : 0d;
         }
 
-        public override (long min, long max) Support => (1, long.MaxValue);
+        public override (int min, int max) Support => (1, int.MaxValue);
 
         public override ddouble Mean => Rho > 1d
             ? Rho / (Rho - 1d)

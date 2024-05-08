@@ -20,7 +20,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             q = 1d - p;
         }
 
-        public override ddouble PMF(long k) {
+        public override ddouble PMF(int k) {
             return k >= 0 ? p * Pow(q, k) : 0d;
         }
 
