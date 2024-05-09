@@ -115,8 +115,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
         public void QuantileLowerTest() {
             foreach (LandauDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (int i = 0; i <= 1000; i++) {
-                    ddouble p = (ddouble)i / 1000;
+                for (int i = 0; i <= 100000; i++) {
+                    ddouble p = (ddouble)i / 100000;
                     ddouble x = dist.Quantile(p, Interval.Lower);
                     ddouble cdf = dist.CDF(x, Interval.Lower);
 
@@ -133,8 +133,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
         public void QuantileUpperTest() {
             foreach (LandauDistribution dist in Dists) {
                 Console.WriteLine(dist);
-                for (int i = 0; i <= 1000; i++) {
-                    ddouble p = (ddouble)i / 1000;
+                for (int i = 0; i <= 100000; i++) {
+                    ddouble p = (ddouble)i / 100000;
                     ddouble x = dist.Quantile(p, Interval.Upper);
                     ddouble ccdf = dist.CDF(x, Interval.Upper);
 
