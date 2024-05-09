@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -17,6 +18,17 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public override ddouble PMF(int k) {
             return k >= 1 ? Rho * Beta(k, Rho + 1d) : 0d;
+        }
+
+        public override int Sample(Random random) {
+            double r1 = double.Log(random.NextUniformOpenInterval1());
+            double r2 = double.Log(random.NextUniformOpenInterval1());
+
+            double u = r1 / double.Log(1d - double.Exp(r2 / (double)Rho));
+
+            int n = u < int.MaxValue ? int.Max(1, (int)double.Ceiling(u)) : int.MaxValue;
+
+            return n;
         }
 
         public override (int min, int max) Support => (1, int.MaxValue);
