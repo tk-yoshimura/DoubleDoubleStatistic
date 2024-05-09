@@ -4,6 +4,17 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
     public abstract class DiscreteDistribution {
         public abstract ddouble PMF(int k);
 
+        public virtual int Sample(Random random) => throw new NotImplementedException();
+
+        public IEnumerable<int> Sample(Random random, int count) {
+            ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+
+            while (count > 0) {
+                yield return Sample(random);
+                count--;
+            }
+        }
+
         public virtual (int min, int max) Support =>
             (0, int.MaxValue);
 

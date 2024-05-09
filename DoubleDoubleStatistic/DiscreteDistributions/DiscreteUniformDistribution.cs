@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -8,6 +9,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public int A { get; }
         public int B { get; }
+        public int N { get; }
 
         private readonly ddouble r, inv_r;
 
@@ -15,15 +17,21 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public DiscreteUniformDistribution(int a, int b) {
             ValidateShape(a, a => a < b);
+            ValidateShape(b, b => b - a >= 0);
 
             A = a;
             B = b;
+            N = b - a;
             r = B - A;
             inv_r = 1d / r;
         }
 
         public override ddouble PMF(int k) {
             return k >= A && k < B ? inv_r : 0d;
+        }
+
+        public override int Sample(Random random) {
+            return random.Next(N);
         }
 
         public override (int min, int max) Support => (A, B - 1);

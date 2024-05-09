@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -10,6 +11,10 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public override ddouble PMF(int k) {
             return k == 0 || k == 1 ? 0.5d : 0d;
+        }
+
+        public override int Sample(Random random) {
+            return (int)unchecked(random.NextInt64() & 1L);
         }
 
         public override (int min, int max) Support => (0, 1);
