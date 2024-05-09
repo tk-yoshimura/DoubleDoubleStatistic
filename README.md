@@ -169,7 +169,6 @@ double[] xs = dist.Sample(random, 100000).ToArray();
 
 ### Not Implemented Functions
 
-- Random Generation
 - Fitting
 - Statistic Test
 
