@@ -1,6 +1,5 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.DiscreteDistributions;
-using DoubleDoubleStatistic.RandomGeneration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.DiscreteDistributions {

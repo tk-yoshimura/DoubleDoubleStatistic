@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly ddouble p, q;
 
         private const int random_gen_batches = 32;
-        private readonly Roulette roulette_x32 = null, roulette_r32 = null; 
+        private readonly Roulette roulette_x32 = null, roulette_r32 = null;
 
         public BinomialDistribution(int n, ddouble p) {
             ValidateShape(n, n => n > 0);

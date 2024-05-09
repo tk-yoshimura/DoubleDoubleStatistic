@@ -35,7 +35,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             int k = 1;
             double p = (double)P, f = fr, r = random.NextUniformOpenInterval1();
 
-            while(true) {
+            while (true) {
                 r -= f;
                 if (r <= 0 || k >= random_gen_max_index || f < double.Epsilon) {
                     return k;

@@ -1,5 +1,4 @@
 ﻿using DoubleDoubleStatistic.RandomGeneration;
-using DoubleDoubleStatistic.SampleStatistic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.RandomGeneration {

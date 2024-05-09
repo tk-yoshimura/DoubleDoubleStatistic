@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic.RandomGeneration {
             if (probs.Count < 1 || !probs.All(p => p >= 0d && double.IsFinite(p)) || !double.IsFinite(probs.Sum())) {
                 throw new ArgumentException($"Invalid array: '{nameof(probs)}'", nameof(probs));
             }
-            
+
             List<double> table = [0];
 
             ddouble s = 0d;

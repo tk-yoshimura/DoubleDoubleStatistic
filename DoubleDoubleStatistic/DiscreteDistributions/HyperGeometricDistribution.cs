@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public int M { get; }
         public int R { get; }
 
-        private readonly ddouble binom_nr_inv;        
+        private readonly ddouble binom_nr_inv;
         private readonly int min_k;
         private readonly Roulette roulette;
 
