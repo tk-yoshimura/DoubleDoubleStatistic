@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -11,7 +12,9 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public int M { get; }
         public int R { get; }
 
-        private readonly ddouble binom_nr_inv;
+        private readonly ddouble binom_nr_inv;        
+        private readonly int min_k;
+        private readonly Roulette roulette;
 
         public HyperGeometricDistribution(int n, int m, int r) {
             ValidateShape(n, n => n > 0);
@@ -23,10 +26,22 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             R = r;
 
             binom_nr_inv = 1d / Binomial(n, r);
+            min_k = Support.min;
+
+            double[] probs = new double[Support.max - Support.min + 1];
+            for (int i = 0; i < probs.Length; i++) {
+                probs[i] = (double)PMF(i + min_k);
+            }
+
+            roulette = new(probs);
         }
 
         public override ddouble PMF(int k) {
             return k >= Support.min && k <= Support.max ? Binomial(M, k) * Binomial(N - M, R - k) * binom_nr_inv : 0d;
+        }
+
+        public override int Sample(Random random) {
+            return roulette.NextIndex(random) + min_k;
         }
 
         public override (int min, int max) Support => (int.Max(0, checked(R + M - N)), int.Min(R, M));
