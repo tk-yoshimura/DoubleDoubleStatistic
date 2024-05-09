@@ -18,7 +18,7 @@
 | ---------- | ----------------- | -------- | -------- | -------- | --------- | ------------------------------------------------ |
 | stable     | delta             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | holtsmark         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
-|            | landau            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | **Critical bug found and being fixed.**          |
+|            | landau            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | levy              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | map-airy          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
 |            | normal            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |                                                  |
@@ -134,6 +134,10 @@ Console.WriteLine($"Variance={dist.Variance}");
 Console.WriteLine($"Skewness={dist.Skewness}");
 Console.WriteLine($"Kurtosis={dist.Kurtosis}");
 Console.WriteLine($"Entropy={dist.Entropy}");
+
+// Random Sampling
+Random random = new(1234);
+double[] xs = dist.Sample(random, 100000).ToArray();
 ```
 
 ## Typical parameter symbols
