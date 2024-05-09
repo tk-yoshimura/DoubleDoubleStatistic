@@ -8,11 +8,19 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         readonly BinomialDistribution dist_n8p25 = new(n: 8, p: 0.25);
         readonly BinomialDistribution dist_n6p50 = new(n: 6, p: 0.50);
         readonly BinomialDistribution dist_n10p875 = new(n: 10, p: 0.875);
+        readonly BinomialDistribution dist_n32p875 = new(n: 32, p: 0.875);
+        readonly BinomialDistribution dist_n45p875 = new(n: 45, p: 0.875);
+        readonly BinomialDistribution dist_n64p875 = new(n: 64, p: 0.875);
+        readonly BinomialDistribution dist_n80p875 = new(n: 80, p: 0.875);
 
         BinomialDistribution[] Dists => [
             dist_n8p25,
             dist_n6p50,
             dist_n10p875,
+            dist_n32p875,
+            dist_n45p875,
+            dist_n64p875,
+            dist_n80p875,
         ];
 
         [TestMethod()]
@@ -66,7 +74,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFTest() {
+        public void PMFTest() {
             foreach (BinomialDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int x = -1; x <= 5; x++) {
@@ -78,7 +86,20 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFExpectedTest() {
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (BinomialDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 1000000).ToArray();
+
+                for (int i = -1; i <= dist.N + 1; i++) {
+                    Assert.AreEqual((double)dist.PMF(i), samples.Count(c => c == i) / (double)samples.Length, (double)dist.PMF(i) * 0.1 + 1e-5, $"{dist},{i}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void PMFExpectedTest() {
             ddouble[] expected_dist_n8p25 = [
                 0.000000000000000000e+00,
                 1.001129150390625139e-01,

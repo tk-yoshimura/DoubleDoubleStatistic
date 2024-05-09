@@ -75,7 +75,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFTest() {
+        public void PMFTest() {
             foreach (HyperGeometricDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int x = -1; x <= 5; x++) {
@@ -87,7 +87,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFExpectedTest() {
+        public void PMFExpectedTest() {
             ddouble[] expected_dist_n50m5r10 = [
                 0.000000000000000000e+00,
                 3.105627820045686049e-01,

@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.DiscreteDistributions;
+using DoubleDoubleStatistic.RandomGeneration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.DiscreteDistributions {
@@ -66,7 +67,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFTest() {
+        public void PMFTest() {
             foreach (BernoulliDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int x = -1; x <= 5; x++) {
@@ -78,7 +79,20 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFExpectedTest() {
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (BernoulliDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 100000).ToArray();
+
+                for (int i = -1; i < 5; i++) {
+                    Assert.AreEqual((double)dist.PMF(i), samples.Count(c => c == i) / (double)samples.Length, 0.01, $"{dist},{i}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void PMFExpectedTest() {
             ddouble[] expected_dist_p25 = [
                 0.000000000000000000e+00,
                 7.500000000000000000e-01,

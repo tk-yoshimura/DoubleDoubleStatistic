@@ -8,11 +8,15 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         readonly GeometricDistribution dist_p25 = new(p: 0.25);
         readonly GeometricDistribution dist_p50 = new(p: 0.50);
         readonly GeometricDistribution dist_p875 = new(p: 0.875);
+        readonly GeometricDistribution dist_p999 = new(p: 0.999);
+        readonly GeometricDistribution dist_p001 = new(p: 0.001);
 
         GeometricDistribution[] Dists => [
             dist_p25,
             dist_p50,
             dist_p875,
+            dist_p999,
+            dist_p001,
         ];
 
         [TestMethod()]
@@ -66,7 +70,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFTest() {
+        public void PMFTest() {
             foreach (GeometricDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int x = -1; x <= 5; x++) {
@@ -78,7 +82,20 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFExpectedTest() {
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (GeometricDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 1000000).ToArray();
+
+                for (int i = -1; i <= 50; i++) {
+                    Assert.AreEqual((double)dist.PMF(i), samples.Count(c => c == i) / (double)samples.Length, (double)dist.PMF(i) * 0.2 + 1e-5, $"{dist},{i}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void PMFExpectedTest() {
             ddouble[] expected_dist_p25 = [
                 0.000000000000000000e+00,
                 2.500000000000000000e-01,

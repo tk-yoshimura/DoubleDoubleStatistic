@@ -66,7 +66,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFTest() {
+        public void PMFTest() {
             foreach (NegativeBinomialDistribution dist in Dists) {
                 Console.WriteLine(dist);
                 for (int x = -1; x <= 5; x++) {
@@ -78,7 +78,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
-        public void PDFExpectedTest() {
+        public void PMFExpectedTest() {
             ddouble[] expected_dist_n8p25 = [
                 0.000000000000000000e+00,
                 1.525878906249999831e-05,
