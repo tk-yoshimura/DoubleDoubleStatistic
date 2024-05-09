@@ -78,6 +78,19 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
+        public void RandomGenerateTest() {
+            Random random = new(1234);
+
+            foreach (NegativeBinomialDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 1000000).ToArray();
+
+                for (int i = -1; i <= 50; i++) {
+                    Assert.AreEqual((double)dist.PMF(i), samples.Count(c => c == i) / (double)samples.Length, (double)dist.PMF(i) * 0.2 + 1e-5, $"{dist},{i}");
+                }
+            }
+        }
+
+        [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_n8p25 = [
                 0.000000000000000000e+00,

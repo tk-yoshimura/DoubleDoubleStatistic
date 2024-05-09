@@ -1,15 +1,19 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class PoissonDistribution : DiscreteDistribution {
+        const int random_gen_max_index = 65536;
 
         public ddouble Lambda { get; }
 
         private readonly ddouble lnlambda;
+
+        private Roulette roulette = null;
 
         public PoissonDistribution(ddouble lambda) {
             ValidateScale(lambda);
@@ -20,6 +24,27 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public override ddouble PMF(int k) {
             return k >= 0 ? Exp(-LogGamma(k + 1) + lnlambda * k - Lambda) : 0d;
+        }
+
+        public override int Sample(Random random) {
+            if (roulette is null) {
+                SetupRoulette();
+            }
+
+            return roulette.NextIndex(random);
+        }
+
+        public void SetupRoulette() {
+            List<double> probs = [];
+            ddouble ps = 0d;
+            for (int k = 0; k <= random_gen_max_index && (double)ps < 1d; k++) {
+                ddouble p = PMF(k);
+                ps += p;
+
+                probs.Add((double)p);
+            }
+
+            roulette = new(probs);
         }
 
         public override ddouble Mean => Lambda;
