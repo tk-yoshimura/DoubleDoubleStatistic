@@ -94,6 +94,7 @@
 |          | logarithmic       | &#x2714; | &#x2714;  |      |
 |          | negative binomial | &#x2714; | &#x2714;  |      |
 |          | poisson           | &#x2714; | &#x2714;  |      |
+|          | skellam           | &#x2714; | &#x2714;  |      |
 |          | yule simon        | &#x2714; | &#x2714;  |      |
 
 ## Usage
