@@ -87,6 +87,8 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
                 for (int i = -1; i < 5; i++) {
                     Assert.AreEqual((double)dist.PMF(i), samples.Count(c => c == i) / (double)samples.Length, 0.01, $"{dist},{i}");
                 }
+
+                Assert.AreEqual((double)dist.Mean, samples.Average(), 0.05, $"{dist},mean");
             }
         }
 
