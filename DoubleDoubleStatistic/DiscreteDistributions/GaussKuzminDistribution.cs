@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.RandomGeneration;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;

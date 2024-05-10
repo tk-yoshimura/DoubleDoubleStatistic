@@ -1,7 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.RandomGeneration;
-using DoubleDoubleStatistic.SampleStatistic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;

@@ -27,7 +27,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                     }
                 }
             }
-            else { 
+            else {
                 for (int k = min; k >= max; k--) {
                     ddouble p = dist.PMF(k);
 
