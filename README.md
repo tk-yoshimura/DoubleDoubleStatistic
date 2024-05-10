@@ -89,6 +89,7 @@
 |          | binary            | &#x2714; | &#x2714;  |      |
 |          | binomial          | &#x2714; | &#x2714;  |      |
 |          | discrete uniform  | &#x2714; | &#x2714;  |      |
+|          | gausskuzmin       | &#x2714; | &#x2714;  |      |
 |          | geometric         | &#x2714; | &#x2714;  |      |
 |          | hyper geometric   | &#x2714; | &#x2714;  |      |
 |          | logarithmic       | &#x2714; | &#x2714;  |      |
@@ -96,6 +97,7 @@
 |          | poisson           | &#x2714; | &#x2714;  |      |
 |          | skellam           | &#x2714; | &#x2714;  |      |
 |          | yule simon        | &#x2714; | &#x2714;  |      |
+|          | zipf              | &#x2714; | &#x2714;  |      |
 
 ## Usage
 
