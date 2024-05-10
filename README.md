@@ -88,6 +88,7 @@
 | discrete | bernoulli         | &#x2714; | &#x2714;  |      |
 |          | binary            | &#x2714; | &#x2714;  |      |
 |          | binomial          | &#x2714; | &#x2714;  |      |
+|          | categorical       | &#x2714; | &#x2714;  |      |
 |          | discrete uniform  | &#x2714; | &#x2714;  |      |
 |          | gausskuzmin       | &#x2714; | &#x2714;  |      |
 |          | geometric         | &#x2714; | &#x2714;  |      |
