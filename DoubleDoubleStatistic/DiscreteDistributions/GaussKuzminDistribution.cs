@@ -49,7 +49,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public override ddouble Kurtosis => NaN;
 
-        public override ddouble Entropy => "2.37924676906123957";
+        public override ddouble Entropy => "2.379246769061239570532";
 
         public override string Formula => "f(k) := -log2(1 - 1 / (k + 1)^2)";
 
