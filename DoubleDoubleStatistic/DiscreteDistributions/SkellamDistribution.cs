@@ -59,6 +59,8 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             return n;
         }
 
+        public override (int min, int max) Support => (int.MinValue, int.MaxValue);
+
         public override ddouble Mean => Mu1 - Mu2;
 
         public override ddouble Variance => Mu1 + Mu2;
