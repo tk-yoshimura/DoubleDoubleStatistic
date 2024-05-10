@@ -7,8 +7,6 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class SkellamDistribution : DiscreteDistribution {
-        const int random_gen_max_index = 1024;
-
         public ddouble Mu1 { get; }
         public ddouble Mu2 { get; }
 
@@ -18,7 +16,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         private readonly ReadOnlyCollection<ddouble> besseli_table;
 
-        private PoissonDistribution randam_gen_poisson_dist_mu1 = null, randam_gen_poisson_dist_mu2 = null;
+        private readonly PoissonDistribution randam_gen_poisson_dist_mu1 = null, randam_gen_poisson_dist_mu2 = null;
 
         public SkellamDistribution(ddouble mu1, ddouble mu2) {
             ValidateShape(mu1, mu => mu > 0d && mu <= 256d);
