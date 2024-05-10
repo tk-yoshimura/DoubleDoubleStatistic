@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         }
 
         public override int Sample(Random random) {
-            return random.Next(N);
+            return random.Next(A, B);
         }
 
         public override (int min, int max) Support => (A, B - 1);
