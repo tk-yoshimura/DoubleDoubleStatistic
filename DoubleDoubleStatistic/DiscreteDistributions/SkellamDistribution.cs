@@ -34,7 +34,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
             ddouble x = 2d * Sqrt(mu1 * mu2);
 
-            besseli_table = ExMath.GenerateBesselIIntegerNuTable(x);
+            besseli_table = ExMath.BesselIIntegerNuTable(x);
 
             randam_gen_poisson_dist_mu1 = new(mu1);
             randam_gen_poisson_dist_mu2 = new(mu2);

@@ -23,7 +23,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
             }
         }
 
-        public static ReadOnlyCollection<ddouble> GenerateBesselIIntegerNuTable(ddouble x) {
+        public static ReadOnlyCollection<ddouble> BesselIIntegerNuTable(ddouble x) {
             if (!IsFinite(x) || x > 256d) {
                 throw new ArgumentOutOfRangeException(nameof(x));
             }
