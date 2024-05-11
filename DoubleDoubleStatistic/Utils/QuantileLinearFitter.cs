@@ -1,6 +1,7 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.SampleStatistic;
+using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
 
@@ -48,9 +49,9 @@ namespace DoubleDoubleStatistic.Utils {
             Distribution dist_base,
             ReadOnlyCollection<ddouble> sorted_samples,
             (ddouble min, ddouble max) fitting_quantile_range) {
+            if (!(fitting_quantile_range.min < fitting_quantile_range.max && fitting_quantile_range.min >= 0d && fitting_quantile_range.max <= 1d)) {
 
-            if (!(ddouble.IsFinite(fitting_quantile_range.min) && ddouble.IsFinite(fitting_quantile_range.max) && fitting_quantile_range.min < fitting_quantile_range.max)) {
-                throw new ArgumentException("invalid range: min < max", nameof(fitting_quantile_range));
+                throw new ArgumentException("Invalid range: min < max", nameof(fitting_quantile_range));
             }
 
             ddouble q_inv = 1d / (ddouble)(sorted_samples.Count - 1);

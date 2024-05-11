@@ -47,8 +47,8 @@ namespace DoubleDoubleStatistic.Utils {
             ReadOnlyCollection<ddouble> sorted_samples,
             (ddouble min, ddouble max) fitting_quantile_range) {
 
-            if (!(ddouble.IsFinite(fitting_quantile_range.min) && ddouble.IsFinite(fitting_quantile_range.max) && fitting_quantile_range.min < fitting_quantile_range.max)) {
-                throw new ArgumentException("invalid range: min < max", nameof(fitting_quantile_range));
+            if (!(fitting_quantile_range.min < fitting_quantile_range.max && fitting_quantile_range.min >= 0d && fitting_quantile_range.max <= 1d)) {
+                throw new ArgumentException("Invalid range: min < max", nameof(fitting_quantile_range));
             }
 
             ddouble q_inv = 1d / (ddouble)(sorted_samples.Count - 1);
