@@ -1,6 +1,5 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
-using System;
 using System.Collections.ObjectModel;
 
 namespace DoubleDoubleStatistic.Utils {
@@ -56,27 +55,27 @@ namespace DoubleDoubleStatistic.Utils {
 
         public Histogram(IEnumerable<double> samples, IEnumerable<double> bins_edge)
             : this(
-                  new ReadOnlyCollection<ddouble>(samples.Select(v => (ddouble)v).ToArray()), 
+                  new ReadOnlyCollection<ddouble>(samples.Select(v => (ddouble)v).ToArray()),
                   new ReadOnlyCollection<ddouble>(bins_edge.Select(v => (ddouble)v).ToArray())
-            ) {}
+            ) { }
 
         public Histogram(IEnumerable<double> samples, ReadOnlyCollection<double> bins_edge)
-            : this(samples, (IEnumerable<double>)bins_edge) {}
+            : this(samples, (IEnumerable<double>)bins_edge) { }
 
         public Histogram(ReadOnlyCollection<double> samples, IEnumerable<double> bins_edge)
-            : this((IEnumerable<double>)samples, bins_edge) {}
+            : this((IEnumerable<double>)samples, bins_edge) { }
 
         public Histogram(ReadOnlyCollection<double> samples, ReadOnlyCollection<double> bins_edge)
-            : this((IEnumerable<double>)samples, (IEnumerable<double>)bins_edge) {}
+            : this((IEnumerable<double>)samples, (IEnumerable<double>)bins_edge) { }
 
         public Histogram(IEnumerable<ddouble> samples, IEnumerable<ddouble> bins_edge)
-            : this(new ReadOnlyCollection<ddouble>(samples.ToArray()), new ReadOnlyCollection<ddouble>(bins_edge.ToArray())) {}
+            : this(new ReadOnlyCollection<ddouble>(samples.ToArray()), new ReadOnlyCollection<ddouble>(bins_edge.ToArray())) { }
 
         public Histogram(IEnumerable<ddouble> samples, ReadOnlyCollection<ddouble> bins_edge)
-            : this(new ReadOnlyCollection<ddouble>(samples.ToArray()), bins_edge) {}
+            : this(new ReadOnlyCollection<ddouble>(samples.ToArray()), bins_edge) { }
 
         public Histogram(ReadOnlyCollection<ddouble> samples, IEnumerable<ddouble> bins_edge)
-            : this(samples, new ReadOnlyCollection<ddouble>(bins_edge.ToArray())) {}
+            : this(samples, new ReadOnlyCollection<ddouble>(bins_edge.ToArray())) { }
 
         public Histogram(ReadOnlyCollection<ddouble> samples, ReadOnlyCollection<ddouble> bins_edge) {
             ArgumentOutOfRangeException.ThrowIfLessThan(bins_edge.Count, 2, nameof(bins_edge));
@@ -85,7 +84,7 @@ namespace DoubleDoubleStatistic.Utils {
                     throw new ArgumentException("Invalid bins: sequential", nameof(bins_edge));
                 }
             }
-            if (!bins_edge.All(ddouble.IsFinite)) { 
+            if (!bins_edge.All(ddouble.IsFinite)) {
                 throw new ArgumentException("Invalid bins: finite", nameof(bins_edge));
             }
 

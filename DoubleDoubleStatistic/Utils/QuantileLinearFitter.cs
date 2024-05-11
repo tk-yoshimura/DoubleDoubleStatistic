@@ -1,7 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.SampleStatistic;
-using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
 
