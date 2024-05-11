@@ -27,7 +27,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
 
         [TestMethod()]
         public void EntropyTest() {
-            Assert.AreEqual(2.379246769061239570532, (double)dist.Entropy, 1e-10);
+            Assert.AreEqual("2.379246769061239570532528674", dist.Entropy);
         }
 
         [TestMethod()]
