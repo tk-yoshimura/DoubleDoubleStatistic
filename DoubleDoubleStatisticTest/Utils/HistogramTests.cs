@@ -18,11 +18,11 @@ namespace DoubleDoubleStatisticTest.Utils {
             }
 
             for (int i = 0; i < hist.Bins; i++) {
-                Assert.AreEqual(-3.875 + i * 0.25, hist.BinsCentroid[i]);
+                Assert.AreEqual(-3.875 + i * 0.25, hist.BinsCentor[i]);
             }
 
             for (int i = 0; i < hist.Bins; i++) {
-                Assert.AreEqual((double)dist.PDF(hist.BinsCentroid[i]), (double)hist.Density[i], 0.01);
+                Assert.AreEqual((double)dist.PDF(hist.BinsCentor[i]), (double)hist.Density[i], 0.01);
             }
         }
 
@@ -35,7 +35,20 @@ namespace DoubleDoubleStatisticTest.Utils {
             Histogram hist = new(samples, 64, (1, 9));
 
             for (int i = 0; i < hist.Bins; i++) {
-                Assert.AreEqual((double)dist.PDF(hist.BinsCentroid[i]), (double)hist.Density[i], 0.01);
+                Assert.AreEqual((double)dist.PDF(hist.BinsCentor[i]), (double)hist.Density[i], 0.01);
+            }
+        }
+
+        [TestMethod()]
+        public void HistogramTest3() {
+            NormalDistribution dist = new();
+
+            double[] samples = dist.Sample(new Random(1234), 1000000).ToArray();
+
+            Histogram hist = new(samples, new double[] { -1, 0, 2, 4, 8 });
+
+            for (int i = 0; i < hist.Bins; i++) {
+                Assert.AreEqual((double)dist.PDF(hist.BinsCentor[i]), (double)hist.Density[i], 0.02);
             }
         }
     }
