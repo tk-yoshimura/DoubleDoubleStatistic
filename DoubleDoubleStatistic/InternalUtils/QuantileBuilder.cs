@@ -122,16 +122,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 }
             }
 
-            int index = 0;
-
-            for (int h = Samples / 2; h >= 1; h /= 2) {
-                for (int i = index; i <= Samples - h; i += h) {
-                    if (cdf_table[i + h] > p) {
-                        index = i;
-                        break;
-                    }
-                }
-            }
+            int index = Indexer.BisectionSearch(p, cdf_table);
 
             Debug.Assert(index >= 0 && index < Samples);
 

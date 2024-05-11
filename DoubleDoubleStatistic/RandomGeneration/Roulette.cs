@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
 using System.Collections.ObjectModel;
 
 namespace DoubleDoubleStatistic.RandomGeneration {
@@ -28,16 +29,7 @@ namespace DoubleDoubleStatistic.RandomGeneration {
         public int NextIndex(Random random) {
             double p = random.NextUniformOpenInterval1() * prob_sum;
 
-            int index = 0;
-
-            for (int h = table.Count / 2; h >= 1; h /= 2) {
-                for (int i = index; i < table.Count - h; i += h) {
-                    if (table[i + h] > p) {
-                        index = i;
-                        break;
-                    }
-                }
-            }
+            int index = Indexer.BisectionSearch(p, table);
 
             return index;
         }
