@@ -52,7 +52,7 @@
 |            | voigt             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | CDF and Quantile take longer to calculate.       |
 |            | wigner semicircle | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 | continuous | alpha             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |          | &#x2714;          |                                                  |
+|            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | -        | &#x2714;          |                                                  |
 |            | argus             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          |                                                  |
 |            | benktander        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | Quantile take longer to calculate.               |
 |            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
@@ -67,13 +67,13 @@
 |            | inverse gamma     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | inverse chi       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | inverse chi sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | irwin hall        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |          | &#x2714;          | n &leq; 128                                      |
+|            | irwin hall        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | -        | &#x2714;          | n &leq; 128                                      |
 |            | kumaraswamy       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | log normal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | nakagami          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | noncentral chi sq | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |          | &#x2714;          | Accuracy decreases when non-centricity is large. |
-|            | noncentral f      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |          | &#x2714;          | Accuracy decreases when non-centricity is large. |
-|            | noncentral t      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  |          | &#x2714;          | Accuracy decreases when non-centricity is large. |
+|            | noncentral chi sq | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
+|            | noncentral f      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
+|            | noncentral t      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
 |            | power             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | reciprocal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | rice              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | CDF and Quantile take longer to calculate.       |
