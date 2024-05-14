@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
         IMultiplyOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
         IDivisionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
-        IFittableDistribution<HoltsmarkDistribution> {
+        IFittableContinuousDistribution<HoltsmarkDistribution> {
 
         public override ddouble Mu { get; }
 

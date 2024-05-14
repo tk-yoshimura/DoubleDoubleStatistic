@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class ExponentialDistribution : ScalableDistribution<ExponentialDistribution>,
         IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution>,
         IDivisionOperators<ExponentialDistribution, ddouble, ExponentialDistribution>,
-        IFittableDistribution<ExponentialDistribution> {
+        IFittableContinuousDistribution<ExponentialDistribution> {
 
         public ddouble Theta { get; }
 

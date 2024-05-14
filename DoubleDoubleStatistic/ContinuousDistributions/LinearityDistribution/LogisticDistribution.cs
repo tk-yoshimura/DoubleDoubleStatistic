@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
         IMultiplyOperators<LogisticDistribution, ddouble, LogisticDistribution>,
         IDivisionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
-        IFittableDistribution<LogisticDistribution> {
+        IFittableContinuousDistribution<LogisticDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }

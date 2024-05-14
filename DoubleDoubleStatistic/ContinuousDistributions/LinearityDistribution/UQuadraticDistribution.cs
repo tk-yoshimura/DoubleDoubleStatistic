@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
         IMultiplyOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
         IDivisionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
-        IFittableDistribution<UQuadraticDistribution> {
+        IFittableContinuousDistribution<UQuadraticDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }

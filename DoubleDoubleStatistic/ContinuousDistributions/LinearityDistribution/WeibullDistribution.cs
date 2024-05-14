@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<WeibullDistribution, ddouble, WeibullDistribution>,
         IMultiplyOperators<WeibullDistribution, ddouble, WeibullDistribution>,
         IDivisionOperators<WeibullDistribution, ddouble, WeibullDistribution>,
-        IFittableDistribution<WeibullDistribution> {
+        IFittableContinuousDistribution<WeibullDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }

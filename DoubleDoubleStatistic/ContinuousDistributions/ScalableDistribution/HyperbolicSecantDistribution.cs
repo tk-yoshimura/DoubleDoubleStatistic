@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class HyperbolicSecantDistribution : ScalableDistribution<HyperbolicSecantDistribution>,
         IMultiplyOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution>,
         IDivisionOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution>,
-        IFittableDistribution<HyperbolicSecantDistribution> {
+        IFittableContinuousDistribution<HyperbolicSecantDistribution> {
 
         public ddouble Sigma { get; }
 

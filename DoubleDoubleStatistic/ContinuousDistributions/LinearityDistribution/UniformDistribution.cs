@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<UniformDistribution, ddouble, UniformDistribution>,
         IMultiplyOperators<UniformDistribution, ddouble, UniformDistribution>,
         IDivisionOperators<UniformDistribution, ddouble, UniformDistribution>,
-        IFittableDistribution<UniformDistribution> {
+        IFittableContinuousDistribution<UniformDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }

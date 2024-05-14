@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
         IMultiplyOperators<FrechetDistribution, ddouble, FrechetDistribution>,
         IDivisionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
-        IFittableDistribution<FrechetDistribution> {
+        IFittableContinuousDistribution<FrechetDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }

@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class MaxwellDistribution : ScalableDistribution<MaxwellDistribution>,
         IMultiplyOperators<MaxwellDistribution, ddouble, MaxwellDistribution>,
         IDivisionOperators<MaxwellDistribution, ddouble, MaxwellDistribution>,
-        IFittableDistribution<MaxwellDistribution> {
+        IFittableContinuousDistribution<MaxwellDistribution> {
 
         public ddouble Sigma { get; }
 

@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class InverseGaussDistribution : ScalableDistribution<InverseGaussDistribution>,
         IMultiplyOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution>,
         IDivisionOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution>,
-        IFittableDistribution<InverseGaussDistribution> {
+        IFittableContinuousDistribution<InverseGaussDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Lambda { get; }

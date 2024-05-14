@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class GompertzDistribution : ScalableDistribution<GompertzDistribution>,
         IMultiplyOperators<GompertzDistribution, ddouble, GompertzDistribution>,
         IDivisionOperators<GompertzDistribution, ddouble, GompertzDistribution>,
-        IFittableDistribution<GompertzDistribution> {
+        IFittableContinuousDistribution<GompertzDistribution> {
 
         public ddouble Eta { get; }
         public ddouble Theta { get; }

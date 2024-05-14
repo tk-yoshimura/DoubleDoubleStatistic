@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
         IMultiplyOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
         IDivisionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
-        IFittableDistribution<SaSPoint5Distribution> {
+        IFittableContinuousDistribution<SaSPoint5Distribution> {
 
         public override ddouble Mu { get; }
 

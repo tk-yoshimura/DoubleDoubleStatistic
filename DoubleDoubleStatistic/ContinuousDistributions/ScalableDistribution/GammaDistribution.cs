@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class GammaDistribution : ScalableDistribution<GammaDistribution>,
         IMultiplyOperators<GammaDistribution, ddouble, GammaDistribution>,
         IDivisionOperators<GammaDistribution, ddouble, GammaDistribution>,
-        IFittableDistribution<GammaDistribution> {
+        IFittableContinuousDistribution<GammaDistribution> {
 
         public ddouble Kappa { get; }
         public ddouble Theta { get; }

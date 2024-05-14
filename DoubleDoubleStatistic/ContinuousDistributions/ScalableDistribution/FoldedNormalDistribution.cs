@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class FoldedNormalDistribution : ScalableDistribution<FoldedNormalDistribution>,
         IMultiplyOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution>,
         IDivisionOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution>,
-        IFittableDistribution<FoldedNormalDistribution> {
+        IFittableContinuousDistribution<FoldedNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }

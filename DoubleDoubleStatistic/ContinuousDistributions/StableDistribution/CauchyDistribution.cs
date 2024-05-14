@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         IDivisionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
-        IFittableDistribution<CauchyDistribution> {
+        IFittableContinuousDistribution<CauchyDistribution> {
 
         public override ddouble Mu { get; }
         public ddouble Gamma { get; }

@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
         IMultiplyOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
         IDivisionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
-        IFittableDistribution<SkewNormalDistribution> {
+        IFittableContinuousDistribution<SkewNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }

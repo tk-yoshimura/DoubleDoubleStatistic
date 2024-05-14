@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class RayleighDistribution : ScalableDistribution<RayleighDistribution>,
         IMultiplyOperators<RayleighDistribution, ddouble, RayleighDistribution>,
         IDivisionOperators<RayleighDistribution, ddouble, RayleighDistribution>,
-        IFittableDistribution<RayleighDistribution> {
+        IFittableContinuousDistribution<RayleighDistribution> {
 
         public ddouble Sigma { get; }
 

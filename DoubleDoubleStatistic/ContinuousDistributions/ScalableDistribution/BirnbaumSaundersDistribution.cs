@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class BirnbaumSaundersDistribution : ScalableDistribution<BirnbaumSaundersDistribution>,
         IMultiplyOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution>,
         IDivisionOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution>,
-        IFittableDistribution<BirnbaumSaundersDistribution> {
+        IFittableContinuousDistribution<BirnbaumSaundersDistribution> {
 
         public ddouble Theta { get; }
         public ddouble Alpha { get; }

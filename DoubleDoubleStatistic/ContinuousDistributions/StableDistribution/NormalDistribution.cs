@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<NormalDistribution, ddouble, NormalDistribution>,
         IMultiplyOperators<NormalDistribution, ddouble, NormalDistribution>,
         IDivisionOperators<NormalDistribution, ddouble, NormalDistribution>,
-        IFittableDistribution<NormalDistribution> {
+        IFittableContinuousDistribution<NormalDistribution> {
 
         public override ddouble Mu { get; }
         public ddouble Sigma { get; }

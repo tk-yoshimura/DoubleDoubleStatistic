@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<LandauDistribution, ddouble, LandauDistribution>,
         IMultiplyOperators<LandauDistribution, ddouble, LandauDistribution>,
         IDivisionOperators<LandauDistribution, ddouble, LandauDistribution>,
-        IFittableDistribution<LandauDistribution> {
+        IFittableContinuousDistribution<LandauDistribution> {
 
         public override ddouble Mu { get; }
 

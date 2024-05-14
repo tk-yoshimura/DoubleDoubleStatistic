@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
         IMultiplyOperators<GumbelDistribution, ddouble, GumbelDistribution>,
         IDivisionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
-        IFittableDistribution<GumbelDistribution> {
+        IFittableContinuousDistribution<GumbelDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }

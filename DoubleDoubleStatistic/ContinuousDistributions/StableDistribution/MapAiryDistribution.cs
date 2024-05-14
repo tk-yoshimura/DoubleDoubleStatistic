@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
         IMultiplyOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
         IDivisionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
-        IFittableDistribution<MapAiryDistribution> {
+        IFittableContinuousDistribution<MapAiryDistribution> {
 
         public override ddouble Mu { get; }
 

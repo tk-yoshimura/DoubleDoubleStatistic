@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
         IMultiplyOperators<TriangularDistribution, ddouble, TriangularDistribution>,
         IDivisionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
-        IFittableDistribution<TriangularDistribution> {
+        IFittableContinuousDistribution<TriangularDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }

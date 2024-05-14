@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class HalfNormalDistribution : ScalableDistribution<HalfNormalDistribution>,
         IMultiplyOperators<HalfNormalDistribution, ddouble, HalfNormalDistribution>,
         IDivisionOperators<HalfNormalDistribution, ddouble, HalfNormalDistribution>,
-        IFittableDistribution<HalfNormalDistribution> {
+        IFittableContinuousDistribution<HalfNormalDistribution> {
 
         public ddouble Sigma { get; }
 

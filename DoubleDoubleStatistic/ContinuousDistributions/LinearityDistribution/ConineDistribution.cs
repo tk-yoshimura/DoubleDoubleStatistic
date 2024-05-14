@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<CosineDistribution, ddouble, CosineDistribution>,
         IMultiplyOperators<CosineDistribution, ddouble, CosineDistribution>,
         IDivisionOperators<CosineDistribution, ddouble, CosineDistribution>,
-        IFittableDistribution<CosineDistribution> {
+        IFittableContinuousDistribution<CosineDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }

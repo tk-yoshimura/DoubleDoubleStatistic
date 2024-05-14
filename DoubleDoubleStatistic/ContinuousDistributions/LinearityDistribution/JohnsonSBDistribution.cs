@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
         ISubtractionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
         IDivisionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
-        IFittableDistribution<JohnsonSBDistribution> {
+        IFittableContinuousDistribution<JohnsonSBDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Delta { get; }

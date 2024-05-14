@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         IMultiplyOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         IDivisionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
-        IFittableDistribution<LaplaceDistribution> {
+        IFittableContinuousDistribution<LaplaceDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }

@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<LevyDistribution, ddouble, LevyDistribution>,
         IMultiplyOperators<LevyDistribution, ddouble, LevyDistribution>,
         IDivisionOperators<LevyDistribution, ddouble, LevyDistribution>,
-        IFittableDistribution<LevyDistribution> {
+        IFittableContinuousDistribution<LevyDistribution> {
 
         public override ddouble Mu { get; }
         public override ddouble C { get; }

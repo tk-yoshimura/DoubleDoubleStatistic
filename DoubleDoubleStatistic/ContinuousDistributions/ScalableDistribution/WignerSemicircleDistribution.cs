@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class WignerSemicircleDistribution : ScalableDistribution<WignerSemicircleDistribution>,
         IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution>,
         IDivisionOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution>,
-        IFittableDistribution<WignerSemicircleDistribution> {
+        IFittableContinuousDistribution<WignerSemicircleDistribution> {
 
         public ddouble R { get; }
 

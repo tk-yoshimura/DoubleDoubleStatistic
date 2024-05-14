@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
         IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution>,
         IDivisionOperators<VoigtDistribution, ddouble, VoigtDistribution>,
-        IFittableDistribution<VoigtDistribution> {
+        IFittableContinuousDistribution<VoigtDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }

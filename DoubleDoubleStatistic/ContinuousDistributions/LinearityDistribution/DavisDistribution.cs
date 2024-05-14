@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         ISubtractionOperators<DavisDistribution, ddouble, DavisDistribution>,
         IMultiplyOperators<DavisDistribution, ddouble, DavisDistribution>,
         IDivisionOperators<DavisDistribution, ddouble, DavisDistribution>,
-        IFittableDistribution<DavisDistribution> {
+        IFittableContinuousDistribution<DavisDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }
