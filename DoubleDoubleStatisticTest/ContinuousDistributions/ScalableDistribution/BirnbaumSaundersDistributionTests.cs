@@ -242,6 +242,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (BirnbaumSaundersDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 100000).ToArray();
+
+                (BirnbaumSaundersDistribution? dist_fit, ddouble error) = BirnbaumSaundersDistribution.Fit(xs, (0.15, 0.85));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-1);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (BirnbaumSaundersDistribution dist in Dists) {
                 Console.WriteLine(dist);

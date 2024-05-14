@@ -189,6 +189,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (VoigtDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 20000).ToArray();
+
+                (VoigtDistribution? dist_fit, ddouble error) = VoigtDistribution.Fit(xs, (0.1, 0.9));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (VoigtDistribution dist in Dists) {
                 Console.WriteLine(dist);

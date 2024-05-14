@@ -240,6 +240,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (InverseGammaDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 20000).ToArray();
+
+                (InverseGammaDistribution? dist_fit, ddouble error) = InverseGammaDistribution.Fit(xs, (0.05, 0.90));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (InverseGammaDistribution dist in Dists) {
                 Console.WriteLine(dist);

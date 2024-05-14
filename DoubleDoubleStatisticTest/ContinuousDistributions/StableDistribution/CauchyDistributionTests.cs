@@ -170,6 +170,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (CauchyDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                (CauchyDistribution? dist_fit, ddouble error) = CauchyDistribution.Fit(xs, (0.1, 0.9));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (CauchyDistribution dist in Dists) {
                 Console.WriteLine(dist);

@@ -165,6 +165,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (AlphaDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                (AlphaDistribution? dist_fit, ddouble error) = AlphaDistribution.Fit(xs, (0.05, 0.95));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-3);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (AlphaDistribution dist in Dists) {
                 Console.WriteLine(dist);

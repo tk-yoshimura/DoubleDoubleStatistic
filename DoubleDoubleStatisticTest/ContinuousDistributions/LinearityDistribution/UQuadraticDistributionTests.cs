@@ -218,6 +218,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.LinearityDistributio
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (UQuadraticDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                (UQuadraticDistribution? dist_fit, ddouble error) = UQuadraticDistribution.Fit(xs, (0.1, 0.9));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (UQuadraticDistribution dist in Dists) {
                 Console.WriteLine(dist);

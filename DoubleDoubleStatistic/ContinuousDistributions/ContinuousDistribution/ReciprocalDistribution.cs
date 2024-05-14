@@ -153,7 +153,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         return NaN;
                     }
 
-                }, ((1e-10d, 1e-10d), (100d / 101d, 100d / 101d)), iter: 64
+                }, ((1e-2d, 1e-2d), (100d / 101d, 100d / 101d)), iter: 64
             );
 
             try {

@@ -237,7 +237,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         return NaN;
                     }
 
-                }, (1e-4d, 1000d / 1001d), iter: 32
+                }, (0d, 1000d / 1001d), iter: 32
             );
 
             try {

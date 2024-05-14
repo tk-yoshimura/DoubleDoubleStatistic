@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble theta_inv, pdf_norm, alpha_sq;
 
-        public BirnbaumSaundersDistribution(ddouble alpha) : this(alpha, theta: 0d) { }
+        public BirnbaumSaundersDistribution(ddouble alpha) : this(alpha, theta: 1d) { }
 
         public BirnbaumSaundersDistribution(ddouble alpha, ddouble theta) {
             ValidateScale(theta);
@@ -196,10 +196,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble alpha = t / (1d - t);
-            BirnbaumSaundersDistribution dist = new(alpha);
+            try {
+                ddouble alpha = t / (1d - t);
+                BirnbaumSaundersDistribution dist = new(alpha);
 
-            return QuantileScaleFitter<BirnbaumSaundersDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<BirnbaumSaundersDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

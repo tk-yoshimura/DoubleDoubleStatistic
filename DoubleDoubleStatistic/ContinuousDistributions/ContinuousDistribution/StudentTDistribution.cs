@@ -19,7 +19,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly int n;
         private readonly double zero_thr;
 
-        private readonly StudentTDistribution randam_gen_chisq_dist;
+        private readonly ChiSquareDistribution randam_gen_chisq_dist;
 
         public StudentTDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu > 0d);
@@ -179,7 +179,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         return NaN;
                     }
 
-                }, (1e-4d, 1000d / 1001d), iter: 32
+                }, (1e-4d, 100d / 101d), iter: 32
             );
 
             try {

@@ -231,6 +231,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (FiskDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                (FiskDistribution? dist_fit, ddouble error) = FiskDistribution.Fit(xs, (0.05, 0.95));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (FiskDistribution dist in Dists) {
                 Console.WriteLine(dist);

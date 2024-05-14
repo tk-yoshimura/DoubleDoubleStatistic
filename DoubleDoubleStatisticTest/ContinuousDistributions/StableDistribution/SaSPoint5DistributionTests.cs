@@ -170,6 +170,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (SaSPoint5Distribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 40000).ToArray();
+
+                (SaSPoint5Distribution? dist_fit, ddouble error) = SaSPoint5Distribution.Fit(xs, (0.15, 0.85));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (SaSPoint5Distribution dist in Dists) {
                 Console.WriteLine(dist);

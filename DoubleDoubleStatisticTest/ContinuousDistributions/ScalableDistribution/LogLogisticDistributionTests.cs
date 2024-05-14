@@ -240,6 +240,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (LogLogisticDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                (LogLogisticDistribution? dist_fit, ddouble error) = LogLogisticDistribution.Fit(xs, (0.05, 0.95));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (LogLogisticDistribution dist in Dists) {
                 Console.WriteLine(dist);

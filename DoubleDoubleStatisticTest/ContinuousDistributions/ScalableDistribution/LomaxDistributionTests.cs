@@ -236,6 +236,27 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (LomaxDistribution dist in Dists) {
+
+                Console.WriteLine(dist);
+
+                double[] xs = dist.Sample(random, 10000).ToArray();
+
+                (LomaxDistribution? dist_fit, ddouble error) = LomaxDistribution.Fit(xs, (0.05, 0.95));
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+                Console.WriteLine(error);
+
+                Assert.IsTrue(error < 1e-2);
+            }
+        }
+
+        [TestMethod()]
         public void IrregularValueTest() {
             foreach (LomaxDistribution dist in Dists) {
                 Console.WriteLine(dist);
