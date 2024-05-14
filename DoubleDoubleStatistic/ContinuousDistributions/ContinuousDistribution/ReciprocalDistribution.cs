@@ -9,7 +9,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class ReciprocalDistribution : ContinuousDistribution, 
+    public class ReciprocalDistribution : ContinuousDistribution,
         IFittableContinuousDistribution<ReciprocalDistribution> {
 
         public ddouble A { get; }
