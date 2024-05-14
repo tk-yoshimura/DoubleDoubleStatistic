@@ -145,7 +145,7 @@ double[] xs = dist.Sample(random, 100000).ToArray();
 
 // Fitting
 // note: The distribution that minimizes the squared error 
-//       of the quantile function over the specified interval is obtained.
+//       of the quantile function over the specified interval is return.
 (NormalDistribution? dist_fit, ddouble error) = 
     NormalDistribution.Fit(xs, fitting_quantile_range: (0.1, 0.9));
 ```
