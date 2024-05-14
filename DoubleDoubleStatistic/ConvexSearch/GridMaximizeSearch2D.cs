@@ -63,66 +63,78 @@ namespace DoubleDoubleStatistic.Optimizer {
 
             (Int128 position_xmin, ddouble param_xmin) = next_xmin;
             (Int128 position_xmax, ddouble param_xmax) = next_xmax;
-            (Int128 position_xcenter, ddouble param_xcenter) = ((position_xmin + position_xmax) / 2, (param_xmin + param_xmax) * 0.5d);
+            (Int128 position_xcen, ddouble param_xcen) = ((position_xmin + position_xmax) / 2, (param_xmin + param_xmax) * 0.5d);
 
             (Int128 position_ymin, ddouble param_ymin) = next_ymin;
             (Int128 position_ymax, ddouble param_ymax) = next_ymax;
-            (Int128 position_ycenter, ddouble param_ycenter) = ((position_ymin + position_ymax) / 2, (param_ymin + param_ymax) * 0.5d);
+            (Int128 position_ycen, ddouble param_ycen) = ((position_ymin + position_ymax) / 2, (param_ymin + param_ymax) * 0.5d);
 
-            ddouble cost_xmin = CostCache((position_xmin, position_ycenter), (param_xmin, param_ycenter));
-            ddouble cost_xmax = CostCache((position_xmax, position_ycenter), (param_xmax, param_ycenter));
-            ddouble cost_ymin = CostCache((position_xcenter, position_ymin), (param_xcenter, param_ymin));
-            ddouble cost_ymax = CostCache((position_xcenter, position_ymax), (param_xcenter, param_ymax));
-            ddouble cost_center = CostCache((position_xcenter, position_ycenter), (param_xcenter, param_ycenter));
+            ddouble cost_xmin_ymin = CostCache((position_xmin, position_ymin), (param_xmin, param_ymin));
+            ddouble cost_xcen_ymin = CostCache((position_xcen, position_ymin), (param_xcen, param_ymin));
+            ddouble cost_xmax_ymin = CostCache((position_xmax, position_ymin), (param_xmax, param_ymin));
+            ddouble cost_xmin_ycen = CostCache((position_xmin, position_ycen), (param_xmin, param_ycen));
+            ddouble cost_xcen_ycen = CostCache((position_xcen, position_ycen), (param_xcen, param_ycen));
+            ddouble cost_xmax_ycen = CostCache((position_xmax, position_ycen), (param_xmax, param_ycen));
+            ddouble cost_xmin_ymax = CostCache((position_xmin, position_ymax), (param_xmin, param_ymax));
+            ddouble cost_xcen_ymax = CostCache((position_xcen, position_ymax), (param_xcen, param_ymax));
+            ddouble cost_xmax_ymax = CostCache((position_xmax, position_ymax), (param_xmax, param_ymax));
 
-            if ((ddouble.Abs(param_xmin - param_xmax) <= ddouble.Abs(param_xcenter) * 1e-30 &&
-                 ddouble.Abs(param_ymin - param_ymax) <= ddouble.Abs(param_ycenter) * 1e-30) ||
-                (cost_xmin == cost_center && cost_center == cost_xmax &&
-                 cost_ymin == cost_center && cost_center == cost_ymax && (param_xcenter, param_ycenter) == BestParam)) {
+            if ((ddouble.Abs(param_xmin - param_xmax) <= ddouble.Abs(param_xcen) * 1e-30 &&
+                 ddouble.Abs(param_ymin - param_ymax) <= ddouble.Abs(param_ycen) * 1e-30) ||
+                (cost_xmin_ycen == cost_xcen_ycen && cost_xcen_ycen == cost_xmax_ycen &&
+                 cost_xcen_ymin == cost_xcen_ycen && cost_xcen_ycen == cost_xcen_ymax && (param_xcen, param_ycen) == BestParam)) {
 
-                next_xmin = next_xmax = (position_xcenter, param_xcenter);
-                next_ymin = next_ymax = (position_ycenter, param_ycenter);
+                next_xmin = next_xmax = (position_xcen, param_xcen);
+                next_ymin = next_ymax = (position_ycen, param_ycen);
 
-                searched[(position_xcenter, position_ycenter)] = ((param_xcenter, param_ycenter), ddouble.BitIncrement(cost_center));
+                searched[(position_xcen, position_ycen)] = ((param_xcen, param_ycen), ddouble.BitIncrement(cost_xcen_ycen));
 
                 return;
             }
 
-            if (cost_xmin <= cost_center && cost_center >= cost_xmax) {
-                next_xmin = ((position_xmin + position_xcenter) / 2, (param_xmin + param_xcenter) * 0.5d);
-                next_xmax = ((position_xmax + position_xcenter) / 2, (param_xmax + param_xcenter) * 0.5d);
-            }
-            else if (cost_xmin > cost_xmax) {
-                next_xmin = (
-                    Int128.Max(range_xmin.position, 2 * position_xmin - position_xcenter),
-                    ddouble.Max(range_xmin.param, 2d * param_xmin - param_xcenter)
-                );
-                next_xmax = (position_xcenter, param_xcenter);
-            }
-            else {
-                next_xmin = (position_xcenter, param_xcenter);
-                next_xmax = (
-                    Int128.Min(range_xmax.position, 2 * position_xmax - position_xcenter),
-                    ddouble.Min(range_xmax.param, 2d * param_xmax - param_xcenter)
-                );
-            }
+            (ddouble cost, (int x, int y) index, (Int128 x, Int128 y) position)[] pts = [
+                (cost_xmin_ymin, (-1, -1), (position_xmin, position_ymin)),
+                (cost_xcen_ymin, ( 0, -1), (position_xcen, position_ymin)),
+                (cost_xmax_ymin, (+1, -1), (position_xmax, position_ymin)),
+                (cost_xmin_ycen, (-1,  0), (position_xmin, position_ycen)),
+                (cost_xcen_ycen, ( 0,  0), (position_xcen, position_ycen)),
+                (cost_xmax_ycen, (+1,  0), (position_xmax, position_ycen)),
+                (cost_xmin_ymax, (-1, +1), (position_xmin, position_ycen)),
+                (cost_xcen_ymax, ( 0, +1), (position_xcen, position_ycen)),
+                (cost_xmax_ymax, (+1, +1), (position_xmax, position_ycen)),
+            ];
 
-            if (cost_ymin <= cost_center && cost_center >= cost_ymax) {
-                next_ymin = ((position_ymin + position_ycenter) / 2, (param_ymin + param_ycenter) * 0.5d);
-                next_ymax = ((position_ymax + position_ycenter) / 2, (param_ymax + param_ycenter) * 0.5d);
-            }
-            else if (cost_ymin > cost_ymax) {
-                next_ymin = (
-                    Int128.Max(range_ymin.position, 2 * position_ymin - position_ycenter),
-                    ddouble.Max(range_ymin.param, 2d * param_ymin - param_ycenter)
-                );
-                next_ymax = (position_ycenter, param_ycenter);
+            (ddouble cost, (int x, int y) index, (Int128 x, Int128 y) position) pts_maxcost = pts.MaxBy(item => item.cost);
+
+            if (pts_maxcost.index == (0, 0)) {
+                next_xmin = ((position_xmin + position_xcen) / 2, (param_xmin + param_xcen) * 0.5d);
+                next_xmax = ((position_xmax + position_xcen) / 2, (param_xmax + param_xcen) * 0.5d);
+                next_ymin = ((position_ymin + position_ycen) / 2, (param_ymin + param_ycen) * 0.5d);
+                next_ymax = ((position_ymax + position_ycen) / 2, (param_ymax + param_ycen) * 0.5d);
             }
             else {
-                next_ymin = (position_ycenter, param_ycenter);
+                Int128 position_xsft = pts_maxcost.index.x * (position_xmax - position_xmin) / 2;
+                ddouble param_xsft = pts_maxcost.index.x * (param_xmax - param_xmin) * 0.5d;
+
+                Int128 position_ysft = pts_maxcost.index.y * (position_ymax - position_ymin) / 2;
+                ddouble param_ysft = pts_maxcost.index.y * (param_ymax - param_ymin) * 0.5d;
+
+                next_xmin = (
+                    Int128.Clamp(next_xmin.position + position_xsft, range_xmin.position, range_xmax.position),
+                    ddouble.Clamp(param_xmin + param_xsft, range_xmin.param, range_xmax.param)
+                );
+                next_xmax = (
+                    Int128.Clamp(next_xmax.position + position_xsft, range_xmin.position, range_xmax.position),
+                    ddouble.Clamp(param_xmax + param_xsft, range_xmin.param, range_xmax.param)
+                );
+
+                next_ymin = (
+                    Int128.Clamp(next_ymin.position + position_ysft, range_ymin.position, range_ymax.position),
+                    ddouble.Clamp(param_ymin + param_ysft, range_ymin.param, range_ymax.param)
+                );
                 next_ymax = (
-                    Int128.Min(range_ymax.position, 2 * position_ymax - position_ycenter),
-                    ddouble.Min(range_ymax.param, 2d * param_ymax - param_ycenter)
+                    Int128.Clamp(next_ymax.position + position_ysft, range_ymin.position, range_ymax.position),
+                    ddouble.Clamp(param_ymax + param_ysft, range_ymin.param, range_ymax.param)
                 );
             }
         }
