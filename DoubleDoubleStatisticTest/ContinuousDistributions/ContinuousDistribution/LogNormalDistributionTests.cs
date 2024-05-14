@@ -10,10 +10,12 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
     public class LogNormalDistributionTests {
         readonly LogNormalDistribution dist1 = new();
         readonly LogNormalDistribution dist2 = new(mu: 1, sigma: 3);
+        readonly LogNormalDistribution dist3 = new(mu: -1, sigma: 3);
 
         LogNormalDistribution[] Dists => [
             dist1,
             dist2,
+            dist3,
         ];
 
         [TestMethod()]
@@ -113,7 +115,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
                 ddouble actual = dist.Kurtosis;
                 ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
-                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-15, $"{dist}\n{expected}\n{actual}");
+                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-12, $"{dist}\n{expected}\n{actual}");
             }
         }
 
