@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
@@ -11,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class LomaxDistribution : ScalableDistribution<LomaxDistribution>,
         IMultiplyOperators<LomaxDistribution, ddouble, LomaxDistribution>,
-        IDivisionOperators<LomaxDistribution, ddouble, LomaxDistribution> {
+        IDivisionOperators<LomaxDistribution, ddouble, LomaxDistribution>,
+        IFittableContinuousDistribution<LomaxDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Theta { get; }

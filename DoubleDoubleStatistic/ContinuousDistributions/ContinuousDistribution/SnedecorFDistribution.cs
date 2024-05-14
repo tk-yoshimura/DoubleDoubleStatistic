@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
@@ -7,7 +8,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class SnedecorFDistribution : ContinuousDistribution {
+    public class SnedecorFDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<SnedecorFDistribution> {
 
         public ddouble N { get; }
         public ddouble M { get; }
@@ -137,6 +139,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             LogGamma(N * 0.5d) + LogGamma(M * 0.5d) - LogGamma((N + M) * 0.5d)
             + (1d - N * 0.5d) * Digamma(N * 0.5d) - (1d + M * 0.5d) * Digamma(M * 0.5d)
             + (N + M) * 0.5d * Digamma((N + M) * 0.5d) - Log(N / M);
+
+        public static (SnedecorFDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
 
         public static (SnedecorFDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();

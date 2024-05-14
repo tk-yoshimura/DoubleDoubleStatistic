@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
@@ -11,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class ParetoDistribution : ScalableDistribution<ParetoDistribution>,
         IMultiplyOperators<ParetoDistribution, ddouble, ParetoDistribution>,
-        IDivisionOperators<ParetoDistribution, ddouble, ParetoDistribution> {
+        IDivisionOperators<ParetoDistribution, ddouble, ParetoDistribution>, 
+        IFittableContinuousDistribution<ParetoDistribution> {
 
         public ddouble K { get; }
         public ddouble Alpha { get; }

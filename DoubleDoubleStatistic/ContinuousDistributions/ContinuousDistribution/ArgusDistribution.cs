@@ -12,14 +12,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class ArgusDistribution : ContinuousDistribution,
         IFittableContinuousDistribution<ArgusDistribution> {
 
-        public ddouble Argus { get; }
+        public ddouble Alpha { get; }
 
         private readonly ddouble pdf_norm, psi, psi_inv, alpha_sq;
 
         public ArgusDistribution(ddouble alpha) {
             ValidateShape(alpha, alpha => alpha > 0d);
 
-            Argus = alpha;
+            Alpha = alpha;
 
             psi = Psi(alpha);
             psi_inv = 1d / psi;
@@ -63,7 +63,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble cdf = psi_inv * Psi(Argus * Sqrt(1d - x * x));
+            ddouble cdf = psi_inv * Psi(Alpha * Sqrt(1d - x * x));
 
             return cdf;
         }
@@ -91,7 +91,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble x = Sqrt(v) / Argus;
+            ddouble x = Sqrt(v) / Alpha;
             x = Min(1d, x);
 
             return x;
@@ -100,13 +100,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean =>
-            Sqrt(PI / 8d) * Argus * Exp(-alpha_sq * 0.25d) * BesselI(1, alpha_sq * 0.25d) * psi_inv;
+            Sqrt(PI / 8d) * Alpha * Exp(-alpha_sq * 0.25d) * BesselI(1, alpha_sq * 0.25d) * psi_inv;
 
         public override ddouble Median => Quantile(0.5d);
 
-        public override ddouble Mode => Sqrt(alpha_sq - 2d + Sqrt(alpha_sq * alpha_sq + 4d)) / (Sqrt2 * Argus);
+        public override ddouble Mode => Sqrt(alpha_sq - 2d + Sqrt(alpha_sq * alpha_sq + 4d)) / (Sqrt2 * Alpha);
 
-        public override ddouble Variance => 1d - 3d / alpha_sq + Argus * Exp(alpha_sq * -0.5d) / Sqrt(2d * PI) * psi_inv - Square(Mean);
+        public override ddouble Variance => 1d - 3d / alpha_sq + Alpha * Exp(alpha_sq * -0.5d) / Sqrt(2d * PI) * psi_inv - Square(Mean);
 
         private ddouble? skewness = null;
         public override ddouble Skewness => skewness ??=
@@ -155,7 +155,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override string ToString() {
-            return $"{typeof(ArgusDistribution).Name}[alpha={Argus}]";
+            return $"{typeof(ArgusDistribution).Name}[alpha={Alpha}]";
         }
 
         public override string Formula => "p(x; alpha) := x * sqrt(1 - x^2) * exp(-alpha^2 * (1 - x^2) / 2) * alpha^3 / (erf(alpha / sqrt(2)) * sqrt(pi / 2) - alpha * exp(-alpha^2 / 2))";

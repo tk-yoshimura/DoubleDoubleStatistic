@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
@@ -12,7 +13,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class LogLogisticDistribution : ScalableDistribution<LogLogisticDistribution>,
         IMultiplyOperators<LogLogisticDistribution, ddouble, LogLogisticDistribution>,
-        IDivisionOperators<LogLogisticDistribution, ddouble, LogLogisticDistribution> {
+        IDivisionOperators<LogLogisticDistribution, ddouble, LogLogisticDistribution>,
+        IFittableContinuousDistribution<LogLogisticDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }

@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
@@ -8,7 +9,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class ReciprocalDistribution : ContinuousDistribution {
+    public class ReciprocalDistribution : ContinuousDistribution, 
+        IFittableContinuousDistribution<ReciprocalDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
