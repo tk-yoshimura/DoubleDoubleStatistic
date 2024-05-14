@@ -1,5 +1,9 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -7,7 +11,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class LogNormalDistribution : ContinuousDistribution,
-        IMultiplyOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution> {
+        IMultiplyOperators<LogNormalDistribution, LogNormalDistribution, LogNormalDistribution>,
+        IFittableContinuousDistribution<LogNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -114,6 +119,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static LogNormalDistribution operator *(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));
+        }
+
+        public static (LogNormalDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (LogNormalDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble mu = Log2(t.u / (1d - t.u));
+                    ddouble sigma = t.v / (1d - t.v);
+
+                    try {
+                        LogNormalDistribution dist = new(mu, sigma);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((0.0001, 1e-10d), (0.9999, 1000d / 1001d)), iter: 64
+            );
+
+            try {
+                ddouble mu = Log2(u / (1d - u));
+                ddouble sigma = v / (1d - v);
+                LogNormalDistribution dist = new(mu, sigma);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

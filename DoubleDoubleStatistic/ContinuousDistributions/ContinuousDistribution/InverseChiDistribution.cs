@@ -1,11 +1,16 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class InverseChiDistribution : ContinuousDistribution {
+    public class InverseChiDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<InverseChiDistribution> {
 
         public ddouble Nu { get; }
 
@@ -127,6 +132,40 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
+
+        public static (InverseChiDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (InverseChiDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble nu = t / (1d - t);
+
+                    try {
+                        InverseChiDistribution dist = new(nu);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            try {
+                ddouble nu = t / (1d - t);
+                InverseChiDistribution dist = new(nu);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(InverseChiDistribution).Name}[nu={Nu}]";

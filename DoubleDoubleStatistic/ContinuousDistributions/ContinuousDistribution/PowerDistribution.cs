@@ -1,11 +1,16 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class PowerDistribution : ContinuousDistribution {
+    public class PowerDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<PowerDistribution> {
 
         public ddouble K { get; }
         public ddouble Alpha { get; }
@@ -115,6 +120,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Entropy =>
             1d - Log(Alpha * K) - alpha_inv;
+
+        public static (PowerDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (PowerDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble k = t.u / (1d - t.u);
+                    ddouble alpha = t.v / (1d - t.v);
+
+                    try {
+                        PowerDistribution dist = new(k, alpha);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((1e-10d, 1e-10d), (100d / 101d, 100d / 101d)), iter: 64
+            );
+
+            try {
+                ddouble k = u / (1d - u);
+                ddouble alpha = v / (1d - v);
+                PowerDistribution dist = new(k, alpha);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(PowerDistribution).Name}[k={K},alpha={Alpha}]";

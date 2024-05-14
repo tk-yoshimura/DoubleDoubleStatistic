@@ -1,4 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -134,6 +137,39 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             LogGamma(N * 0.5d) + LogGamma(M * 0.5d) - LogGamma((N + M) * 0.5d)
             + (1d - N * 0.5d) * Digamma(N * 0.5d) - (1d + M * 0.5d) * Digamma(M * 0.5d)
             + (N + M) * 0.5d * Digamma((N + M) * 0.5d) - Log(N / M);
+
+        public static (SnedecorFDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble n = t.u / (1d - t.u);
+                    ddouble m = t.v / (1d - t.v);
+
+                    try {
+                        SnedecorFDistribution dist = new(n, m);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((1e-4d, 1e-4d), (1000d / 1001d, 1000d / 1001d)), iter: 64
+            );
+
+            try {
+                ddouble n = u / (1d - u);
+                ddouble m = v / (1d - v);
+                SnedecorFDistribution dist = new(n, m);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(SnedecorFDistribution).Name}[n={N},m={M}]";

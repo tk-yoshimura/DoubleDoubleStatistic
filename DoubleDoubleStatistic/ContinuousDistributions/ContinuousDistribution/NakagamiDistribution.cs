@@ -1,12 +1,16 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class NakagamiDistribution : ContinuousDistribution {
+    public class NakagamiDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<NakagamiDistribution> {
 
         public ddouble M { get; }
         public ddouble Omega { get; }
@@ -125,6 +129,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
+
+        public static (NakagamiDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (NakagamiDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble m = t.u / (1d - t.u);
+                    ddouble omega = t.v / (1d - t.v);
+
+                    try {
+                        NakagamiDistribution dist = new(m, omega);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((0.3334d, 1e-10d), (100d / 101d, 100d / 101d)), iter: 64
+            );
+
+            try {
+                ddouble m = u / (1d - u);
+                ddouble omega = v / (1d - v);
+                NakagamiDistribution dist = new(m, omega);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(NakagamiDistribution).Name}[m={M},omega={Omega}]";

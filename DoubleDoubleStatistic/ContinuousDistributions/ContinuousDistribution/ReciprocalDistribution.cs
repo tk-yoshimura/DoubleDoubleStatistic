@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -126,6 +128,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 ddouble logba = Log(B / A);
 
                 return -(Square(Log(A * logba)) - Square(Log(B * logba))) / (2d * logba);
+            }
+        }
+
+        public static (ReciprocalDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (ReciprocalDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble a = t.u / (1d - t.u);
+                    ddouble b = a + t.v / (1d - t.v);
+
+                    try {
+                        ReciprocalDistribution dist = new(a, b);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((1e-10d, 1e-10d), (100d / 101d, 100d / 101d)), iter: 64
+            );
+
+            try {
+                ddouble a = u / (1d - u);
+                ddouble b = a + v / (1d - v);
+                ReciprocalDistribution dist = new(a, b);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
             }
         }
 

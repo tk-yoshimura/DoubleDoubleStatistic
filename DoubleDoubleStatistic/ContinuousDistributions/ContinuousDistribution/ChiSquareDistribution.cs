@@ -1,4 +1,8 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -6,7 +10,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class ChiSquareDistribution : ContinuousDistribution,
-        IAdditionOperators<ChiSquareDistribution, ChiSquareDistribution, ChiSquareDistribution> {
+        IAdditionOperators<ChiSquareDistribution, ChiSquareDistribution, ChiSquareDistribution>,
+        IFittableContinuousDistribution<ChiSquareDistribution> {
 
         public ddouble Nu { get; }
 
@@ -110,6 +115,40 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static ChiSquareDistribution operator +(ChiSquareDistribution dist1, ChiSquareDistribution dist2) {
             return new(dist1.Nu + dist2.Nu);
+        }
+
+        public static (ChiSquareDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (ChiSquareDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble nu = t / (1d - t);
+
+                    try {
+                        ChiSquareDistribution dist = new(nu);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            try {
+                ddouble nu = t / (1d - t);
+                ChiSquareDistribution dist = new(nu);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

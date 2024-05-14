@@ -1,13 +1,17 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class BurrDistribution : ContinuousDistribution {
+    public class BurrDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<BurrDistribution> {
 
         public ddouble C { get; }
         public ddouble K { get; }
@@ -174,6 +178,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
+
+        public static (BurrDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (BurrDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble c = t.u / (1d - t.u);
+                    ddouble k = t.v / (1d - t.v);
+
+                    try {
+                        BurrDistribution dist = new(c, k);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((1e-10d, 1e-10d), (100d / 101d, 100d / 101d)), iter: 64
+            );
+
+            try {
+                ddouble c = u / (1d - u);
+                ddouble k = v / (1d - v);
+                BurrDistribution dist = new(c, k);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(BurrDistribution).Name}[c={C},k={K}]";

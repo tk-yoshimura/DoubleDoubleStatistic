@@ -1,10 +1,15 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class BetaDistribution : ContinuousDistribution {
+    public class BetaDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<BetaDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Beta { get; }
@@ -136,6 +141,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Entropy =>
             LogBeta(Alpha, Beta) - (Alpha - 1d) * Digamma(Alpha) - (Beta - 1d) * Digamma(Beta) + (Alpha + Beta - 2d) * Digamma(Alpha + Beta);
+
+        public static (BetaDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (BetaDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble alpha = t.u / (1d - t.u);
+                    ddouble beta = t.v / (1d - t.v);
+
+                    try {
+                        BetaDistribution dist = new(alpha, beta);
+                        return EvalFitness.MeanSquaredError(dist, qs, ys);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((1e-10d, 1e-10d), (100d / 101d, 100d / 101d)), iter: 64
+            );
+
+            try {
+                ddouble alpha = u / (1d - u);
+                ddouble beta = v / (1d - v);
+                BetaDistribution dist = new(alpha, beta);
+                ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
+
+                return (dist, error);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
+        }
 
         public override string ToString() {
             return $"{typeof(BetaDistribution).Name}[alpha={Alpha},beta={Beta}]";
