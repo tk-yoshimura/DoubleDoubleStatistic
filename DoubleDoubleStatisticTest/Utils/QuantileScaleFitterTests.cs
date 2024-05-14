@@ -1,4 +1,5 @@
-﻿using DoubleDoubleStatistic.ContinuousDistributions;
+﻿using DoubleDouble;
+using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,9 +12,12 @@ namespace DoubleDoubleStatisticTest.Utils {
 
             double[] samples = dist.Sample(new Random(1234), 1000000).ToArray();
 
-            NormalDistribution dist_fit = QuantileScaleFitter<NormalDistribution>.Fit(new NormalDistribution(), samples, (0.125, 0.875));
+            (NormalDistribution? dist_fit, ddouble error) = QuantileScaleFitter<NormalDistribution>.Fit(new NormalDistribution(), samples, (0.125, 0.875), 100);
+
+            Assert.IsNotNull(dist_fit);
 
             Console.WriteLine(dist_fit);
+            Console.WriteLine(error);
 
             Assert.AreEqual(0d, dist_fit.Mu);
             Assert.AreEqual((double)dist.Sigma, (double)dist_fit.Sigma, 0.01);
@@ -25,9 +29,12 @@ namespace DoubleDoubleStatisticTest.Utils {
 
             double[] samples = dist.Sample(new Random(1234), 1000000).ToArray();
 
-            ExponentialDistribution dist_fit = QuantileScaleFitter<ExponentialDistribution>.Fit(new ExponentialDistribution(), samples, (0.125, 0.875));
+            (ExponentialDistribution? dist_fit, ddouble error) = QuantileScaleFitter<ExponentialDistribution>.Fit(new ExponentialDistribution(), samples, (0.125, 0.875), 100);
+
+            Assert.IsNotNull(dist_fit);
 
             Console.WriteLine(dist_fit);
+            Console.WriteLine(error);
 
             Assert.AreEqual((double)dist.Theta, (double)dist_fit.Theta, 0.01);
         }

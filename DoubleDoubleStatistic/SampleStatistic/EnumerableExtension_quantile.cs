@@ -80,6 +80,22 @@ namespace DoubleDoubleStatistic.SampleStatistic {
             }
         }
 
+        public static IEnumerable<double> SortedQuantile(this IEnumerable<double> sorted_xs, params double[] qs) {
+            List<double> sorted_list = sorted_xs.ToList();
+
+            foreach (double q in qs) {
+                yield return QuantileIndexer(sorted_list, q);
+            }
+        }
+
+        public static IEnumerable<ddouble> SortedQuantile(this IEnumerable<ddouble> sorted_xs, params ddouble[] qs) {
+            List<ddouble> sorted_list = sorted_xs.ToList();
+
+            foreach (ddouble q in qs) {
+                yield return QuantileIndexer(sorted_list, q);
+            }
+        }
+
         public static (double x0, double x1) Quantile(this IEnumerable<double> xs, double q0, double q1) {
             double[] ys = xs.Quantile([q0, q1]).ToArray();
 

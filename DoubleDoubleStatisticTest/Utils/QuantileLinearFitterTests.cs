@@ -1,4 +1,5 @@
-﻿using DoubleDoubleStatistic.ContinuousDistributions;
+﻿using DoubleDouble;
+using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,9 +12,12 @@ namespace DoubleDoubleStatisticTest.Utils {
 
             double[] samples = dist.Sample(new Random(1234), 1000000).ToArray();
 
-            NormalDistribution dist_fit = QuantileLinearFitter<NormalDistribution>.Fit(new NormalDistribution(), samples, (0.125, 0.875));
+            (NormalDistribution? dist_fit, ddouble error) = QuantileLinearFitter<NormalDistribution>.Fit(new NormalDistribution(), samples, (0.125, 0.875), 100);
+
+            Assert.IsNotNull(dist_fit);
 
             Console.WriteLine(dist_fit);
+            Console.WriteLine(error);
 
             Assert.AreEqual((double)dist.Mu, (double)dist_fit.Mu, 0.01);
             Assert.AreEqual((double)dist.Sigma, (double)dist_fit.Sigma, 0.01);
@@ -25,9 +29,12 @@ namespace DoubleDoubleStatisticTest.Utils {
 
             double[] samples = dist.Sample(new Random(1234), 1000000).ToArray();
 
-            LandauDistribution dist_fit = QuantileLinearFitter<LandauDistribution>.Fit(new LandauDistribution(), samples, (0.125, 0.875));
+            (LandauDistribution? dist_fit, ddouble error) = QuantileLinearFitter<LandauDistribution>.Fit(new LandauDistribution(), samples, (0.125, 0.875), 100);
+
+            Assert.IsNotNull(dist_fit);
 
             Console.WriteLine(dist_fit);
+            Console.WriteLine(error);
 
             Assert.AreEqual((double)dist.Mu, (double)dist_fit.Mu, 0.01);
             Assert.AreEqual((double)dist.C, (double)dist_fit.C, 0.01);
