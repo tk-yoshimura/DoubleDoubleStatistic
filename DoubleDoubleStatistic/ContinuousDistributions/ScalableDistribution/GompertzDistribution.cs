@@ -1,5 +1,8 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -9,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class GompertzDistribution : ScalableDistribution<GompertzDistribution>,
         IMultiplyOperators<GompertzDistribution, ddouble, GompertzDistribution>,
-        IDivisionOperators<GompertzDistribution, ddouble, GompertzDistribution> {
+        IDivisionOperators<GompertzDistribution, ddouble, GompertzDistribution>,
+        IFittableDistribution<GompertzDistribution> {
 
         public ddouble Eta { get; }
         public ddouble Theta { get; }
@@ -127,6 +131,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static GompertzDistribution operator /(GompertzDistribution dist, ddouble k) {
             return new(dist.Eta, dist.Theta / k);
+        }
+
+        public static (GompertzDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (GompertzDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble eta = t / (1d - t);
+
+                    try {
+                        GompertzDistribution dist = new(eta, 1d);
+                        return QuantileScaleFitter<GompertzDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            ddouble eta = t / (1d - t);
+            GompertzDistribution dist = new(eta, 1d);
+
+            return QuantileScaleFitter<GompertzDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

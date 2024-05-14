@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -10,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<UniformDistribution, ddouble, UniformDistribution>,
         ISubtractionOperators<UniformDistribution, ddouble, UniformDistribution>,
         IMultiplyOperators<UniformDistribution, ddouble, UniformDistribution>,
-        IDivisionOperators<UniformDistribution, ddouble, UniformDistribution> {
+        IDivisionOperators<UniformDistribution, ddouble, UniformDistribution>,
+        IFittableDistribution<UniformDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -134,6 +137,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static UniformDistribution operator /(UniformDistribution dist, ddouble k) {
             return new(dist.A / k, dist.B / k);
+        }
+
+        public static (UniformDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (UniformDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<UniformDistribution>.Fit(new UniformDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

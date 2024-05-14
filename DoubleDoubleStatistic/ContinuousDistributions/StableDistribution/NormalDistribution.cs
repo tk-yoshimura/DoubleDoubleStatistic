@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -12,7 +14,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<NormalDistribution, ddouble, NormalDistribution>,
         ISubtractionOperators<NormalDistribution, ddouble, NormalDistribution>,
         IMultiplyOperators<NormalDistribution, ddouble, NormalDistribution>,
-        IDivisionOperators<NormalDistribution, ddouble, NormalDistribution> {
+        IDivisionOperators<NormalDistribution, ddouble, NormalDistribution>,
+        IFittableDistribution<NormalDistribution> {
 
         public override ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -140,6 +143,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 / (4d * dist_p.Sigma * dist_q.Sigma);
 
             return d;
+        }
+
+        public static (NormalDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (NormalDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<NormalDistribution>.Fit(new NormalDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

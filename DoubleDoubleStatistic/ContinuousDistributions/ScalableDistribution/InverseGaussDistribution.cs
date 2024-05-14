@@ -1,6 +1,9 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -10,14 +13,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class InverseGaussDistribution : ScalableDistribution<InverseGaussDistribution>,
         IMultiplyOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution>,
-        IDivisionOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution> {
+        IDivisionOperators<InverseGaussDistribution, ddouble, InverseGaussDistribution>,
+        IFittableDistribution<InverseGaussDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Lambda { get; }
 
         private readonly ddouble r, c, inv_mu;
 
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public InverseGaussDistribution() : this(mu: 1d, lambda: 1d) { }
 
@@ -214,6 +218,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static InverseGaussDistribution operator /(InverseGaussDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Lambda / k);
+        }
+
+        public static (InverseGaussDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (InverseGaussDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble mu = t / (1d - t);
+
+                    try {
+                        InverseGaussDistribution dist = new(mu, 1d);
+                        return QuantileScaleFitter<InverseGaussDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            ddouble mu = t / (1d - t);
+            InverseGaussDistribution dist = new(mu, 1d);
+
+            return QuantileScaleFitter<InverseGaussDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

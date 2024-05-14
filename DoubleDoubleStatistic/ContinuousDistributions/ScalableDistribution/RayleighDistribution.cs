@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -9,7 +11,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class RayleighDistribution : ScalableDistribution<RayleighDistribution>,
         IMultiplyOperators<RayleighDistribution, ddouble, RayleighDistribution>,
-        IDivisionOperators<RayleighDistribution, ddouble, RayleighDistribution> {
+        IDivisionOperators<RayleighDistribution, ddouble, RayleighDistribution>,
+        IFittableDistribution<RayleighDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -146,6 +149,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static RayleighDistribution operator /(RayleighDistribution dist, ddouble k) {
             return new(dist.Sigma / k);
+        }
+
+        public static (RayleighDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (RayleighDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileScaleFitter<RayleighDistribution>.Fit(new RayleighDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

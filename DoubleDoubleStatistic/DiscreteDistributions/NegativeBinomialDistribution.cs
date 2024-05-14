@@ -14,7 +14,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         private readonly ddouble p, q, p_pown;
 
-        private Roulette roulette = null;
+        private Roulette? roulette = null;
 
         public NegativeBinomialDistribution(int n, ddouble p) {
             ValidateShape(n, n => n > 0);
@@ -32,14 +32,12 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         }
 
         public override int Sample(Random random) {
-            if (roulette is null) {
-                SetupRoulette();
-            }
+            roulette ??= SetupRoulette();
 
             return roulette.NextIndex(random);
         }
 
-        public void SetupRoulette() {
+        public Roulette SetupRoulette() {
             List<double> probs = [];
             ddouble ps = 0d;
             for (int k = 0; k <= random_gen_max_index && (double)ps < 1d; k++) {
@@ -49,7 +47,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
                 probs.Add((double)p);
             }
 
-            roulette = new(probs);
+            return new(probs);
         }
 
         public override ddouble Mean => N * q / p;

@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -10,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         ISubtractionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
         IMultiplyOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
-        IDivisionOperators<LaplaceDistribution, ddouble, LaplaceDistribution> {
+        IDivisionOperators<LaplaceDistribution, ddouble, LaplaceDistribution>,
+        IFittableDistribution<LaplaceDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -116,6 +119,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static LaplaceDistribution operator /(LaplaceDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Sigma / k);
+        }
+
+        public static (LaplaceDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (LaplaceDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<LaplaceDistribution>.Fit(new LaplaceDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

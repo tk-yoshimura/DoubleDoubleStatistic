@@ -1,5 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -12,7 +15,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<DavisDistribution, ddouble, DavisDistribution>,
         ISubtractionOperators<DavisDistribution, ddouble, DavisDistribution>,
         IMultiplyOperators<DavisDistribution, ddouble, DavisDistribution>,
-        IDivisionOperators<DavisDistribution, ddouble, DavisDistribution> {
+        IDivisionOperators<DavisDistribution, ddouble, DavisDistribution>,
+        IFittableDistribution<DavisDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }
@@ -21,8 +25,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble pdf_norm, c, sigma_inv;
 
         private const int cache_samples = 512;
-        private CDFSegmentCache cdf_cache = null;
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private CDFSegmentCache? cdf_cache = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public DavisDistribution(ddouble alpha) : this(alpha: alpha, mu: 0d, sigma: 1d) { }
 
@@ -287,6 +291,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static DavisDistribution operator /(DavisDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Mu / k, dist.Sigma / k);
+        }
+
+        public static (DavisDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (DavisDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble alpha = t / (1d - t);
+
+                    try {
+                        DavisDistribution dist = new(alpha);
+                        return QuantileLinearFitter<DavisDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            ddouble alpha = t / (1d - t);
+            DavisDistribution dist = new(alpha);
+
+            return QuantileLinearFitter<DavisDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

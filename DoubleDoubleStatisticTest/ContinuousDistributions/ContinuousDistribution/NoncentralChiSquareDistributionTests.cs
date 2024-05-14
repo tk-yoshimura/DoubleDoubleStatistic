@@ -145,8 +145,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
                 Console.WriteLine(dist.Mode);
 
-                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode - 1e-10), $"{dist}\n{dist.Mode}");
-                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode + 1e-10), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode - 1e-15), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode + 1e-15), $"{dist}\n{dist.Mode}");
             }
         }
 

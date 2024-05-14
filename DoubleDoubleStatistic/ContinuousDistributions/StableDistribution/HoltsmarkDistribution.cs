@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -14,7 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
         ISubtractionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
         IMultiplyOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
-        IDivisionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution> {
+        IDivisionOperators<HoltsmarkDistribution, ddouble, HoltsmarkDistribution>,
+        IFittableDistribution<HoltsmarkDistribution> {
 
         public override ddouble Mu { get; }
 
@@ -136,6 +139,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static HoltsmarkDistribution operator /(HoltsmarkDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.C / k);
+        }
+
+        public static (HoltsmarkDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (HoltsmarkDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<HoltsmarkDistribution>.Fit(new HoltsmarkDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

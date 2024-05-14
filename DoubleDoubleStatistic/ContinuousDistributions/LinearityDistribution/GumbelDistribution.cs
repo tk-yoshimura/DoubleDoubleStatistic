@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -10,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
         ISubtractionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
         IMultiplyOperators<GumbelDistribution, ddouble, GumbelDistribution>,
-        IDivisionOperators<GumbelDistribution, ddouble, GumbelDistribution> {
+        IDivisionOperators<GumbelDistribution, ddouble, GumbelDistribution>,
+        IFittableDistribution<GumbelDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -125,6 +128,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static GumbelDistribution operator /(GumbelDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Sigma / k);
+        }
+
+        public static (GumbelDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (GumbelDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<GumbelDistribution>.Fit(new GumbelDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

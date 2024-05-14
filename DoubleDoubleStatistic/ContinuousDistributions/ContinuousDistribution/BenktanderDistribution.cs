@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble c;
 
-        private QuantileBuilder quantile_upper_builder = null;
+        private QuantileBuilder? quantile_upper_builder = null;
 
         public BenktanderDistribution(ddouble alpha, ddouble beta) {
             ValidateShape(alpha, alpha => alpha > 0d);

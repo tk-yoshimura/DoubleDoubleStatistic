@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly ddouble p, q;
 
         private const int random_gen_batches = 32, random_gen_max_iter = 65536;
-        private readonly Roulette roulette_x32 = null;
+        private readonly Roulette? roulette_x32 = null;
 
         public GeometricDistribution(ddouble p) {
             ValidateShape(p, p => p > 0d && p <= 1d);

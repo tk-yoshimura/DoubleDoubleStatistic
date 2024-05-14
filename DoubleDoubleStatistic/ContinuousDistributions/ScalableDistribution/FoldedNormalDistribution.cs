@@ -1,6 +1,9 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -11,7 +14,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class FoldedNormalDistribution : ScalableDistribution<FoldedNormalDistribution>,
         IMultiplyOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution>,
-        IDivisionOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution> {
+        IDivisionOperators<FoldedNormalDistribution, ddouble, FoldedNormalDistribution>,
+        IFittableDistribution<FoldedNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -22,7 +26,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly bool needs_fold;
 
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public FoldedNormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
@@ -268,6 +272,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static FoldedNormalDistribution operator /(FoldedNormalDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Sigma / k);
+        }
+
+        public static (FoldedNormalDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (FoldedNormalDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble mu = t / (1d - t);
+
+                    try {
+                        FoldedNormalDistribution dist = new(mu, 1d);
+                        return QuantileScaleFitter<FoldedNormalDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (0d, 100d / 101d), iter: 32
+            );
+
+            ddouble mu = t / (1d - t);
+            FoldedNormalDistribution dist = new(mu, 1d);
+
+            return QuantileScaleFitter<FoldedNormalDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

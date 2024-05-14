@@ -1,5 +1,8 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -135,6 +138,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static LomaxDistribution operator /(LomaxDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta / k);
+        }
+
+        public static (LomaxDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (LomaxDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble alpha = t / (1d - t);
+
+                    try {
+                        LomaxDistribution dist = new(alpha, 1d);
+                        return QuantileScaleFitter<LomaxDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            ddouble alpha = t / (1d - t);
+            LomaxDistribution dist = new(alpha, 1d);
+
+            return QuantileScaleFitter<LomaxDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

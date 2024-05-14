@@ -1,6 +1,9 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -13,7 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     public class VoigtDistribution : ScalableDistribution<VoigtDistribution>,
         IAdditionOperators<VoigtDistribution, VoigtDistribution, VoigtDistribution>,
         IMultiplyOperators<VoigtDistribution, ddouble, VoigtDistribution>,
-        IDivisionOperators<VoigtDistribution, ddouble, VoigtDistribution> {
+        IDivisionOperators<VoigtDistribution, ddouble, VoigtDistribution>,
+        IFittableDistribution<VoigtDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Sigma { get; }
@@ -25,8 +29,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public VoigtDistribution() : this(gamma: 1d, sigma: 1d) { }
 
         private const int cache_samples = 512;
-        private CDFSegmentCache cdf_cache;
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private CDFSegmentCache? cdf_cache;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public VoigtDistribution(ddouble gamma, ddouble sigma) {
             ValidateScale(gamma);
@@ -251,6 +255,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static VoigtDistribution operator /(VoigtDistribution dist, ddouble k) {
             return new(dist.Gamma / k, dist.Sigma / k);
+        }
+
+        public static (VoigtDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (VoigtDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble gamma = t / (1d - t);
+
+                    try {
+                        VoigtDistribution dist = new(gamma, 1d);
+                        return QuantileScaleFitter<VoigtDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10, 1000d / 1001d), iter: 32
+            );
+
+            ddouble gamma = t / (1d - t);
+            VoigtDistribution dist = new(gamma, 1d);
+
+            return QuantileScaleFitter<VoigtDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string Formula => "p(x; gamma, sigma) := Re[erfcx((x + i * gamma) / (sigma * sqrt(2)))] / (sigma * sqrt(2 * pi))";

@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -14,7 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<LandauDistribution, ddouble, LandauDistribution>,
         ISubtractionOperators<LandauDistribution, ddouble, LandauDistribution>,
         IMultiplyOperators<LandauDistribution, ddouble, LandauDistribution>,
-        IDivisionOperators<LandauDistribution, ddouble, LandauDistribution> {
+        IDivisionOperators<LandauDistribution, ddouble, LandauDistribution>,
+        IFittableDistribution<LandauDistribution> {
 
         public override ddouble Mu { get; }
 
@@ -128,6 +131,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static LandauDistribution operator /(LandauDistribution dist, ddouble k) {
             return new((dist.Mu + 2d * RcpPI * dist.C * Log(k)) / k, dist.C / k);
+        }
+
+        public static (LandauDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (LandauDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<LandauDistribution>.Fit(new LandauDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

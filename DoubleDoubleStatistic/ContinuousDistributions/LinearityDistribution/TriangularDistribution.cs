@@ -1,6 +1,10 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -11,7 +15,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
         ISubtractionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
         IMultiplyOperators<TriangularDistribution, ddouble, TriangularDistribution>,
-        IDivisionOperators<TriangularDistribution, ddouble, TriangularDistribution> {
+        IDivisionOperators<TriangularDistribution, ddouble, TriangularDistribution>,
+        IFittableDistribution<TriangularDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -153,6 +158,31 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static TriangularDistribution operator /(TriangularDistribution dist, ddouble k) {
             return new(dist.A / k, dist.B / k, dist.C / k);
+        }
+
+        public static (TriangularDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (TriangularDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble c = GridMinimizeSearch1D.Search(
+                c => {
+                    try {
+                        TriangularDistribution dist = new(0d, 1d, c);
+                        return QuantileLinearFitter<TriangularDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (0.0001d, 0.9999d), iter: 32
+            );
+
+            TriangularDistribution dist = new(0d, 1d, c);
+
+            return QuantileLinearFitter<TriangularDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

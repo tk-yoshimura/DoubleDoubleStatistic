@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -8,7 +10,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class ExponentialDistribution : ScalableDistribution<ExponentialDistribution>,
         IMultiplyOperators<ExponentialDistribution, ddouble, ExponentialDistribution>,
-        IDivisionOperators<ExponentialDistribution, ddouble, ExponentialDistribution> {
+        IDivisionOperators<ExponentialDistribution, ddouble, ExponentialDistribution>,
+        IFittableDistribution<ExponentialDistribution> {
 
         public ddouble Theta { get; }
 
@@ -117,6 +120,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static ExponentialDistribution operator /(ExponentialDistribution dist, ddouble k) {
             return new(dist.Theta / k);
+        }
+
+        public static (ExponentialDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (ExponentialDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileScaleFitter<ExponentialDistribution>.Fit(new ExponentialDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

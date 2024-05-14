@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -14,7 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
         ISubtractionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
         IMultiplyOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
-        IDivisionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution> {
+        IDivisionOperators<SaSPoint5Distribution, ddouble, SaSPoint5Distribution>,
+        IFittableDistribution<SaSPoint5Distribution> {
 
         public override ddouble Mu { get; }
 
@@ -137,6 +140,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static SaSPoint5Distribution operator /(SaSPoint5Distribution dist, ddouble k) {
             return new(dist.Mu / k, dist.C / k);
+        }
+
+        public static (SaSPoint5Distribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+             => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (SaSPoint5Distribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<SaSPoint5Distribution>.Fit(new SaSPoint5Distribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

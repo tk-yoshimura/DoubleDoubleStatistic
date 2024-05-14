@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -14,7 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
         ISubtractionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
         IMultiplyOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
-        IDivisionOperators<MapAiryDistribution, ddouble, MapAiryDistribution> {
+        IDivisionOperators<MapAiryDistribution, ddouble, MapAiryDistribution>,
+        IFittableDistribution<MapAiryDistribution> {
 
         public override ddouble Mu { get; }
 
@@ -129,6 +132,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static MapAiryDistribution operator /(MapAiryDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.C / k);
+        }
+
+        public static (MapAiryDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (MapAiryDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<MapAiryDistribution>.Fit(new MapAiryDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

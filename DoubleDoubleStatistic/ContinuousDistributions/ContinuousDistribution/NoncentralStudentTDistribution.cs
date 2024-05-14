@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly double zero_thr;
 
         private const int cache_samples = 512;
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         private readonly ChiSquareDistribution randam_gen_chisq_dist;
 
@@ -318,8 +319,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble Median => Quantile(0.5d);
 
         private ddouble? mode = null;
-        public override ddouble Mode => mode ??=
-            MaximumFinder.BisectionFind(Mu * Sqrt(Nu / (Nu + 2.5d)), Mu * Sqrt(Nu / (Nu + 1d)), PDF);
+        public override ddouble Mode =>
+            mode ??= GridMaximizeSearch1D.Search(PDF, (Mu * Sqrt(Nu / (Nu + 2.5d)), Mu * Sqrt(Nu / (Nu + 1d))), iter: 1024);
 
         public override ddouble Variance => Nu > 2d
             ? Nu * (1d + Mu * Mu) / (Nu - 2d) - Mu * Mu * Nu * 0.5d * Square(gc)

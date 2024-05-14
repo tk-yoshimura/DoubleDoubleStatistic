@@ -1,6 +1,10 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -11,7 +15,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
         ISubtractionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
         IMultiplyOperators<FrechetDistribution, ddouble, FrechetDistribution>,
-        IDivisionOperators<FrechetDistribution, ddouble, FrechetDistribution> {
+        IDivisionOperators<FrechetDistribution, ddouble, FrechetDistribution>,
+        IFittableDistribution<FrechetDistribution> {
 
         public ddouble Alpha { get; }
         public ddouble Mu { get; }
@@ -207,6 +212,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static FrechetDistribution operator /(FrechetDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Mu / k, dist.Theta / k);
+        }
+
+        public static (FrechetDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (FrechetDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble alpha = t / (1d - t);
+
+                    try {
+                        FrechetDistribution dist = new(alpha);
+                        return QuantileLinearFitter<FrechetDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            ddouble alpha = t / (1d - t);
+            FrechetDistribution dist = new(alpha);
+
+            return QuantileLinearFitter<FrechetDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

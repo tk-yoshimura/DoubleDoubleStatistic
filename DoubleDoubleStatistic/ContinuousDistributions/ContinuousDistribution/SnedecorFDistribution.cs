@@ -11,8 +11,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_lognorm;
 
-        private readonly ChiSquareDistribution randam_gen_chisq_dist_n;
-        private readonly ChiSquareDistribution randam_gen_chisq_dist_m;
+        private readonly ChiSquareDistribution randam_gen_chisq_dist_n, randam_gen_chisq_dist_m;
 
         public SnedecorFDistribution(ddouble n, ddouble m) {
             ValidateShape(n, n => n > 0d);

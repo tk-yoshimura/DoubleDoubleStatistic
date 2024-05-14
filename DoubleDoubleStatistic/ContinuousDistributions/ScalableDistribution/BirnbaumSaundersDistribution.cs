@@ -1,6 +1,9 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -10,7 +13,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class BirnbaumSaundersDistribution : ScalableDistribution<BirnbaumSaundersDistribution>,
         IMultiplyOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution>,
-        IDivisionOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution> {
+        IDivisionOperators<BirnbaumSaundersDistribution, ddouble, BirnbaumSaundersDistribution>,
+        IFittableDistribution<BirnbaumSaundersDistribution> {
 
         public ddouble Theta { get; }
         public ddouble Alpha { get; }
@@ -168,6 +172,34 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static BirnbaumSaundersDistribution operator /(BirnbaumSaundersDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Theta / k);
+        }
+
+        public static (BirnbaumSaundersDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (BirnbaumSaundersDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    ddouble alpha = t / (1d - t);
+
+                    try {
+                        BirnbaumSaundersDistribution dist = new(alpha);
+                        return QuantileScaleFitter<BirnbaumSaundersDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (1e-10d, 1000d / 1001d), iter: 32
+            );
+
+            ddouble alpha = t / (1d - t);
+            BirnbaumSaundersDistribution dist = new(alpha);
+
+            return QuantileScaleFitter<BirnbaumSaundersDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

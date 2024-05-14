@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -10,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class WignerSemicircleDistribution : ScalableDistribution<WignerSemicircleDistribution>,
         IMultiplyOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution>,
-        IDivisionOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution> {
+        IDivisionOperators<WignerSemicircleDistribution, ddouble, WignerSemicircleDistribution>,
+        IFittableDistribution<WignerSemicircleDistribution> {
 
         public ddouble R { get; }
 
@@ -113,6 +116,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static WignerSemicircleDistribution operator /(WignerSemicircleDistribution dist, ddouble k) {
             return new(dist.R / k);
+        }
+
+        public static (WignerSemicircleDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (WignerSemicircleDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileScaleFitter<WignerSemicircleDistribution>.Fit(new WignerSemicircleDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

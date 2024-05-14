@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -8,7 +10,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class HyperbolicSecantDistribution : ScalableDistribution<HyperbolicSecantDistribution>,
         IMultiplyOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution>,
-        IDivisionOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution> {
+        IDivisionOperators<HyperbolicSecantDistribution, ddouble, HyperbolicSecantDistribution>,
+        IFittableDistribution<HyperbolicSecantDistribution> {
 
         public ddouble Sigma { get; }
 
@@ -88,6 +91,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static HyperbolicSecantDistribution operator /(HyperbolicSecantDistribution dist, ddouble k) {
             return new(dist.Sigma / k);
+        }
+
+        public static (HyperbolicSecantDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (HyperbolicSecantDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileScaleFitter<HyperbolicSecantDistribution>.Fit(new HyperbolicSecantDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

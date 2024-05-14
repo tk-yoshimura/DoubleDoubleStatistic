@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -11,7 +13,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
         ISubtractionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
         IMultiplyOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
-        IDivisionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution> {
+        IDivisionOperators<UQuadraticDistribution, ddouble, UQuadraticDistribution>,
+        IFittableDistribution<UQuadraticDistribution> {
 
         public ddouble A { get; }
         public ddouble B { get; }
@@ -145,6 +148,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static UQuadraticDistribution operator /(UQuadraticDistribution dist, ddouble k) {
             return new(dist.A / k, dist.B / k);
+        }
+
+        public static (UQuadraticDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (UQuadraticDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<UQuadraticDistribution>.Fit(new UQuadraticDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

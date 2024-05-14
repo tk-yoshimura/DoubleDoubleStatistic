@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -12,7 +14,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         ISubtractionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
         IMultiplyOperators<CauchyDistribution, ddouble, CauchyDistribution>,
-        IDivisionOperators<CauchyDistribution, ddouble, CauchyDistribution> {
+        IDivisionOperators<CauchyDistribution, ddouble, CauchyDistribution>,
+        IFittableDistribution<CauchyDistribution> {
 
         public override ddouble Mu { get; }
         public ddouble Gamma { get; }
@@ -149,6 +152,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static CauchyDistribution operator /(CauchyDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Gamma / k);
+        }
+
+        public static (CauchyDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (CauchyDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<CauchyDistribution>.Fit(new CauchyDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

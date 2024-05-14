@@ -16,7 +16,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         private readonly ReadOnlyCollection<ddouble> besseli_table;
 
-        private readonly PoissonDistribution randam_gen_poisson_dist_mu1 = null, randam_gen_poisson_dist_mu2 = null;
+        private readonly PoissonDistribution randam_gen_poisson_dist_mu1, randam_gen_poisson_dist_mu2;
 
         public SkellamDistribution(ddouble mu1, ddouble mu2) {
             ValidateShape(mu1, mu => mu > 0d && mu <= 256d);

@@ -1,5 +1,6 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
@@ -16,9 +17,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private const int series_maxiter = 1024;
         private const int cache_samples = 512;
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
-        private readonly ChiSquareDistribution randam_gen_chisq_dist;
+        private readonly ChiSquareDistribution? randam_gen_chisq_dist;
 
         public NoncentralChiSquareDistribution(ddouble nu, ddouble lambda) {
             ValidateShape(nu, nu => nu > 0d);
@@ -234,9 +235,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return mode.Value;
                 }
 
-                ddouble t = MaximumFinder.BisectionFind(0d, 0.875d, t => PDF((1d - t) / t));
-                ddouble xp = (1d - t) / t;
-                ddouble xn = MaximumFinder.BisectionFind(0d, 0.15d, PDF);
+                ddouble t = GridMaximizeSearch1D.Search(t => PDF(t / (1d - t)), (0.125d, 1d), iter: 1024);
+                ddouble xp = t / (1d - t);
+
+                ddouble xn = GridMaximizeSearch1D.Search(PDF, (0d, 0.15d), iter: 1024);
 
                 ddouble vp = PDF(xp), vn = PDF(xn);
 

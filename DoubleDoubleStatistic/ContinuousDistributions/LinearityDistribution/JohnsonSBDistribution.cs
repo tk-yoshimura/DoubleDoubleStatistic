@@ -1,6 +1,9 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
@@ -12,7 +15,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IMultiplyOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
         IAdditionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
         ISubtractionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
-        IDivisionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution> {
+        IDivisionOperators<JohnsonSBDistribution, ddouble, JohnsonSBDistribution>,
+        IFittableDistribution<JohnsonSBDistribution> {
 
         public ddouble Gamma { get; }
         public ddouble Delta { get; }
@@ -167,19 +171,49 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 2048);
 
         public static JohnsonSBDistribution operator *(JohnsonSBDistribution dist, ddouble k) {
-            return new(dist.Gamma, dist.Sigma, dist.Mu * k, dist.Sigma * k);
+            return new(dist.Gamma, dist.Delta, dist.Mu * k, dist.Sigma * k);
         }
 
         public static JohnsonSBDistribution operator /(JohnsonSBDistribution dist, ddouble k) {
-            return new(dist.Gamma, dist.Sigma, dist.Mu / k, dist.Sigma / k);
+            return new(dist.Gamma, dist.Delta, dist.Mu / k, dist.Sigma / k);
         }
 
         public static JohnsonSBDistribution operator +(JohnsonSBDistribution dist, ddouble s) {
-            return new(dist.Gamma, dist.Sigma, dist.Mu + s, dist.Sigma);
+            return new(dist.Gamma, dist.Delta, dist.Mu + s, dist.Sigma);
         }
 
         public static JohnsonSBDistribution operator -(JohnsonSBDistribution dist, ddouble s) {
-            return new(dist.Gamma, dist.Sigma, dist.Mu - s, dist.Sigma);
+            return new(dist.Gamma, dist.Delta, dist.Mu - s, dist.Sigma);
+        }
+
+        public static (JohnsonSBDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (JohnsonSBDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+                ((ddouble u, ddouble v) t) => {
+                    ddouble gamma = t.u / (1d - t.u);
+                    ddouble delta = t.v / (1d - t.v);
+
+                    try {
+                        JohnsonSBDistribution dist = new(gamma, delta);
+                        return QuantileLinearFitter<JohnsonSBDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, ((1e-10d, 1e-10d), (10d / 11d, 10d / 11d)), iter: 64
+            );
+
+            ddouble gamma = u / (1d - u);
+            ddouble delta = v / (1d - v);
+            JohnsonSBDistribution dist = new(gamma, delta);
+
+            return QuantileLinearFitter<JohnsonSBDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

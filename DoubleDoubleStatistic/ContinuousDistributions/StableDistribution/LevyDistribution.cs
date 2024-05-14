@@ -1,6 +1,8 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -13,7 +15,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<LevyDistribution, ddouble, LevyDistribution>,
         ISubtractionOperators<LevyDistribution, ddouble, LevyDistribution>,
         IMultiplyOperators<LevyDistribution, ddouble, LevyDistribution>,
-        IDivisionOperators<LevyDistribution, ddouble, LevyDistribution> {
+        IDivisionOperators<LevyDistribution, ddouble, LevyDistribution>,
+        IFittableDistribution<LevyDistribution> {
 
         public override ddouble Mu { get; }
         public override ddouble C { get; }
@@ -148,6 +151,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static LevyDistribution operator /(LevyDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.C / k);
+        }
+
+        public static (LevyDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (LevyDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<LevyDistribution>.Fit(new LevyDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

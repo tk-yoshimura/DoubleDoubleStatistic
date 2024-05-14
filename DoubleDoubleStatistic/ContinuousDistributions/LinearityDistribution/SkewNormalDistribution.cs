@@ -1,6 +1,10 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -12,7 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
         ISubtractionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
         IMultiplyOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
-        IDivisionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution> {
+        IDivisionOperators<SkewNormalDistribution, ddouble, SkewNormalDistribution>,
+        IFittableDistribution<SkewNormalDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -22,7 +27,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_norm, cdf_norm, erfc_scale, sigma_inv, s, t;
 
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public SkewNormalDistribution(ddouble alpha) : this(alpha, mu: 0d, sigma: 1d) { }
         public SkewNormalDistribution(ddouble alpha, ddouble sigma) : this(alpha, mu: 0d, sigma: sigma) { }
@@ -287,6 +292,31 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static SkewNormalDistribution operator /(SkewNormalDistribution dist, ddouble k) {
             return new(dist.Alpha, dist.Mu / k, dist.Sigma / k);
+        }
+
+        public static (SkewNormalDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (SkewNormalDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
+            ddouble[] ys = samples.Quantile(qs).ToArray();
+
+            ddouble alpha = GridMinimizeSearch1D.Search(
+                alpha => {
+                    try {
+                        SkewNormalDistribution dist = new(alpha);
+                        return QuantileLinearFitter<SkewNormalDistribution>.FitForQuantiles(dist, qs, ys).error;
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (-256d, 256d), iter: 32
+            );
+
+            SkewNormalDistribution dist = new(alpha);
+
+            return QuantileLinearFitter<SkewNormalDistribution>.FitForQuantiles(dist, qs, ys);
         }
 
         public override string ToString() {

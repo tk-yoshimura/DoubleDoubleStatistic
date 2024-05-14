@@ -13,8 +13,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ddouble Nu { get; }
 
         private const int cache_samples = 512;
-        private CDFSegmentCache cdf_cache;
-        private QuantileBuilder quantile_lower_builder = null, quantile_upper_builder = null;
+        private CDFSegmentCache? cdf_cache;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public RiceDistribution(ddouble nu) {
             ValidateShape(nu, nu => nu >= 0d);

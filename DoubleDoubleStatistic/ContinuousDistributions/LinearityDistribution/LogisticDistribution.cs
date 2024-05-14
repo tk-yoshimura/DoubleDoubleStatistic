@@ -1,5 +1,7 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -10,7 +12,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         IAdditionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
         ISubtractionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
         IMultiplyOperators<LogisticDistribution, ddouble, LogisticDistribution>,
-        IDivisionOperators<LogisticDistribution, ddouble, LogisticDistribution> {
+        IDivisionOperators<LogisticDistribution, ddouble, LogisticDistribution>,
+        IFittableDistribution<LogisticDistribution> {
 
         public ddouble Mu { get; }
         public ddouble Sigma { get; }
@@ -120,6 +123,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public static LogisticDistribution operator /(LogisticDistribution dist, ddouble k) {
             return new(dist.Mu / k, dist.Sigma / k);
+        }
+
+        public static (LogisticDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
+            => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
+
+        public static (LogisticDistribution? dist, ddouble error) Fit(IEnumerable<ddouble> samples, (ddouble min, ddouble max) fitting_quantile_range, int quantile_partitions = 100) {
+            return QuantileLinearFitter<LogisticDistribution>.Fit(new LogisticDistribution(), samples, fitting_quantile_range, quantile_partitions);
         }
 
         public override string ToString() {

@@ -8,7 +8,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
     public class GaussKuzminDistribution : DiscreteDistribution {
         const int random_gen_max_index = 65536;
 
-        private Roulette roulette = null;
+        private Roulette? roulette = null;
 
         public GaussKuzminDistribution() {
         }
@@ -18,14 +18,12 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         }
 
         public override int Sample(Random random) {
-            if (roulette is null) {
-                SetupRoulette();
-            }
+            roulette ??= SetupRoulette();
 
             return roulette.NextIndex(random);
         }
 
-        public void SetupRoulette() {
+        public Roulette SetupRoulette() {
             List<double> probs = [];
             ddouble ps = 0d;
             for (int k = 0; k <= random_gen_max_index && (double)ps < 1d; k++) {
@@ -35,7 +33,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
                 probs.Add((double)p);
             }
 
-            roulette = new(probs);
+            return new(probs);
         }
 
         public override (int min, int max) Support => (1, int.MaxValue);
