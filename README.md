@@ -173,7 +173,7 @@ double[] xs = dist.Sample(random, 100000).ToArray();
 
 ### Not Implemented Functions
 
-- Fitting
+- Fitting (Discrete)
 - Statistic Test
 
 ## Licence
