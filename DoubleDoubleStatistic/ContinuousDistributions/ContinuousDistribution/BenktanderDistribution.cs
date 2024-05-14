@@ -150,11 +150,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
             ddouble[] ys = samples.Quantile(qs).ToArray();
 
-            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
-                ((ddouble u, ddouble v) t) => {
-                    ddouble alpha = t.u / (1d - t.u);
-                    ddouble beta = t.v * alpha * (alpha + 1d) * 0.5d;
+            ddouble mean = samples.Mean();
+            ddouble alpha = Max(1e-2, 1d / (mean - 1d));
 
+            ddouble beta_max = alpha * (alpha + 1d) * 0.5d;
+
+            ddouble beta = GridMinimizeSearch1D.Search(
+                beta => {
                     try {
                         BenktanderDistribution dist = new(alpha, beta);
                         return EvalFitness.MeanSquaredError(dist, qs, ys);
@@ -163,12 +165,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         return NaN;
                     }
 
-                }, ((1e-2d, 0.01d), (100d / 101d, 0.99d)), iter: 64
+                }, (1e-4 * beta_max, 0.9999d * beta_max), iter: 32
             );
 
             try {
-                ddouble alpha = u / (1d - u);
-                ddouble beta = v * alpha * (alpha + 1d) * 0.5d;
                 BenktanderDistribution dist = new(alpha, beta);
                 ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
 
