@@ -13,6 +13,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         public ddouble Kappa { get; }
 
         private readonly ddouble pdf_norm;
+
         private readonly double s;
 
         public VonMisesDistribution(ddouble mu, ddouble kappa) {
@@ -42,6 +43,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             Kappa = kappa;
 
             pdf_norm = 1d / (2d * PI * BesselI(0, Kappa));
+
             s = (double)((kappa > 1.3d) ? (1d / Sqrt(kappa)) : (PI * Exp(-kappa)));
         }
 
