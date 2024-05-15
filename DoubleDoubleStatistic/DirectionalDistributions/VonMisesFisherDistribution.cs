@@ -36,24 +36,24 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             /* setup random gen. */
             {
                 kappa_inv = (double)(1d / kappa);
-                exp_m2kappa = double.Exp(-2 * (double)kappa);
+                exp_m2kappa = (double)Exp(-2d * kappa);
 
-                double mx = (double)Mu.x, my = (double)Mu.y, mz = (double)Mu.z;
+                ddouble mx = Mu.x, my = Mu.y, mz = Mu.z;
 
-                double angle = double.Acos(mz);
-                (double s, double c) = double.SinCos(angle * 0.5);
-                double norm = double.Sqrt(mx * mx + my * my);
+                ddouble angle = Acos(mz);
+                (ddouble s, ddouble c) = (Sin(angle * 0.5d), Cos(angle * 0.5d));
+                ddouble norm = Hypot(mx, my);
 
-                (double qr, double qi, double qj) = (norm > 0)
+                (ddouble qr, ddouble qi, ddouble qj) = (norm > 0d)
                     ? (c, s * -my / norm, s * mx / norm)
-                    : (1, 0, 0);
+                    : (1d, 0d, 0d);
 
-                qri = qr * qi;
-                qij = qi * qj;
-                qrj = qr * qj;
-                qxx = qr * qr + qi * qi - qj * qj;
-                qyy = qr * qr - qi * qi + qj * qj;
-                qzz = qr * qr - qi * qi - qj * qj;
+                qri = (double)(qr * qi);
+                qij = (double)(qi * qj);
+                qrj = (double)(qr * qj);
+                qxx = (double)(qr * qr + qi * qi - qj * qj);
+                qyy = (double)(qr * qr - qi * qi + qj * qj);
+                qzz = (double)(qr * qr - qi * qi - qj * qj);
             }
         }
 
