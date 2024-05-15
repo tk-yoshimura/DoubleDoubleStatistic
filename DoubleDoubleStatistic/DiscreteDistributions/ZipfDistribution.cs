@@ -92,7 +92,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             DiscreteEntropy.Sum(this, 1, 65536);
 
         public static ZipfDistribution? Fit(IEnumerable<int> samples) {
-            if (samples.Count() < 1 || samples.Any(n => n < 1)) {
+            if (!samples.Any() || samples.Any(n => n < 1)) {
                 return null;
             }
 

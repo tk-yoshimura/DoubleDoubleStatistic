@@ -43,7 +43,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public override ddouble Entropy => -(q * Log(q) + p * Log(p));
 
         public static BernoulliDistribution? Fit(IEnumerable<int> samples) {
-            if (samples.Count() < 1 || samples.Any(n => n < 0 || n > 1)) {
+            if (!samples.Any() || samples.Any(n => n < 0 || n > 1)) {
                 return null;
             }
 

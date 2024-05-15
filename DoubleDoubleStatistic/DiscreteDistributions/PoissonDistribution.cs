@@ -62,7 +62,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             DiscreteEntropy.Sum(this, 0, 65535);
 
         public static PoissonDistribution? Fit(IEnumerable<int> samples) {
-            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+            if (!samples.Any() || samples.Any(n => n < 0)) {
                 return null;
             }
 

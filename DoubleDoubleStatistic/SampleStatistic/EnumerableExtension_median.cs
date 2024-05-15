@@ -3,7 +3,7 @@
 namespace DoubleDoubleStatistic.SampleStatistic {
     public static partial class EnumerableExtension {
         public static double Median(this IEnumerable<double> xs) {
-            if (xs.Count() < 1) {
+            if (!xs.Any()) {
                 return double.NaN;
             }
 
@@ -20,7 +20,7 @@ namespace DoubleDoubleStatistic.SampleStatistic {
         }
 
         public static ddouble Median(this IEnumerable<ddouble> xs) {
-            if (xs.Count() < 1) {
+            if (!xs.Any()) {
                 return double.NaN;
             }
 

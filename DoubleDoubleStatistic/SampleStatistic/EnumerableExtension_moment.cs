@@ -4,7 +4,7 @@ using DoubleDoubleStatistic.InternalUtils;
 namespace DoubleDoubleStatistic.SampleStatistic {
     public static partial class EnumerableExtension {
         public static double Mean(this IEnumerable<double> xs) {
-            if (xs.Count() < 1) {
+            if (!xs.Any()) {
                 return double.NaN;
             }
 
@@ -12,7 +12,7 @@ namespace DoubleDoubleStatistic.SampleStatistic {
         }
 
         public static ddouble Mean(this IEnumerable<ddouble> xs) {
-            if (xs.Count() < 1) {
+            if (!xs.Any()) {
                 return double.NaN;
             }
 

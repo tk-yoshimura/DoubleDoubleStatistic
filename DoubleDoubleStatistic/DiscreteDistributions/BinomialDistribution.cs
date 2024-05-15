@@ -78,7 +78,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             DiscreteEntropy.Sum(this, 0, N);
 
         public static BinomialDistribution? Fit(IEnumerable<int> samples) {
-            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+            if (!samples.Any() || samples.Any(n => n < 0)) {
                 return null;
             }
 

@@ -76,7 +76,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             DiscreteEntropy.Sum(this, mean_n, mean_n + 65535) + DiscreteEntropy.Sum(this, mean_n - 1, mean_n - 65536);
 
         public static SkellamDistribution? Fit(IEnumerable<int> samples) {
-            if (samples.Count() < 1) {
+            if (!samples.Any()) {
                 return null;
             }
 
