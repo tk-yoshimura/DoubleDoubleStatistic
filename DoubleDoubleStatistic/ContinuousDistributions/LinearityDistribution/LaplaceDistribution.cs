@@ -103,7 +103,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => 3d;
 
-        public override ddouble Entropy => Log(2d * Sigma * E);
+        public override ddouble Entropy => Log(2d * Sigma) + 1d;
 
         public static LaplaceDistribution operator +(LaplaceDistribution dist, ddouble s) {
             return new(dist.Mu + s, dist.Sigma);

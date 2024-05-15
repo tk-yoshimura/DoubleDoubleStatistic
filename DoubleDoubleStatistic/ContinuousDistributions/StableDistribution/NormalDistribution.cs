@@ -100,7 +100,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => 0d;
 
-        public override ddouble Entropy => Log(Sigma * Sqrt(2d * PI * E));
+        public override ddouble Entropy => Log(Sigma * Sqrt(2d * PI)) + 0.5d;
 
         public override ddouble Alpha => 2d;
 

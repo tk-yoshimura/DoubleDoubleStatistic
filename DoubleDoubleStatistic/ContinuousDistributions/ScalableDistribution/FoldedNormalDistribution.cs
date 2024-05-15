@@ -264,7 +264,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => needs_fold
             ? entropy ??= IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384)
-            : Log(Sigma * Sqrt(2d * PI * E));
+            : Log(Sigma * Sqrt(2d * PI)) + 0.5d;
 
         public static FoldedNormalDistribution operator *(FoldedNormalDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);
