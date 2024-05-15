@@ -20,7 +20,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             if (!IsFinite(mu)) {
                 throw new ArgumentOutOfRangeException(nameof(mu), "Invalid location parameter.");
             }
-            if (!(kappa > 0d && kappa <= 256d)) {
+            if (!(kappa >= 0d && kappa <= 256d)) {
                 throw new ArgumentOutOfRangeException(nameof(kappa), "Invalid shape parameter.");
             }
 
@@ -39,7 +39,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
                 return mu;
             }
 
-            Mu = round_mu(mu);
+            Mu = kappa > 0d ? round_mu(mu) : 0d;
             Kappa = kappa;
 
             pdf_norm = 1d / (2d * PI * BesselI(0, Kappa));
@@ -95,8 +95,6 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         public virtual (ddouble min, ddouble max) Support => (-PI, PI);
 
         public virtual ddouble Mean => Mu;
-
-        public virtual ddouble Median => Mu;
 
         public virtual ddouble Mode => Mu;
 

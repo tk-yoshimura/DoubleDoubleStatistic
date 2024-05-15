@@ -18,7 +18,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         private readonly double qri, qrj, qij, qxx, qyy, qzz;
 
         public VonMisesFisherDistribution((ddouble x, ddouble y, ddouble z) mu, ddouble kappa) {
-            if (!(kappa > 0d && kappa <= 256d)) {
+            if (!(kappa >= 0d && kappa <= 256d)) {
                 throw new ArgumentOutOfRangeException(nameof(kappa), "Invalid shape parameter.");
             }
 
@@ -28,7 +28,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
                 throw new ArgumentOutOfRangeException(nameof(mu), "Invalid location parameter.");
             }
 
-            Mu = (mu.x / r, mu.y / r, mu.z / r);
+            Mu = kappa > 0d ? (mu.x / r, mu.y / r, mu.z / r) : (1d, 0d, 0d);
             Kappa = kappa;
 
             pdf_norm = kappa / (4d * PI * Sinh(kappa));
@@ -38,22 +38,27 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
                 kappa_inv = (double)(1d / kappa);
                 exp_m2kappa = (double)Exp(-2d * kappa);
 
-                ddouble mx = Mu.x, my = Mu.y, mz = Mu.z;
+                if (kappa > 0d) {
+                    ddouble mx = Mu.x, my = Mu.y, mz = Mu.z;
 
-                ddouble angle = Acos(mz);
-                (ddouble s, ddouble c) = (Sin(angle * 0.5d), Cos(angle * 0.5d));
-                ddouble norm = Hypot(mx, my);
+                    ddouble angle = Acos(mz);
+                    (ddouble s, ddouble c) = (Sin(angle * 0.5d), Cos(angle * 0.5d));
+                    ddouble norm = Hypot(mx, my);
 
-                (ddouble qr, ddouble qi, ddouble qj) = (norm > 0d)
-                    ? (c, s * -my / norm, s * mx / norm)
-                    : (1d, 0d, 0d);
+                    (ddouble qr, ddouble qi, ddouble qj) = (norm > 1e-30)
+                        ? (c, s * -my / norm, s * mx / norm)
+                        : (1d, 0d, 0d);
 
-                qri = (double)(qr * qi);
-                qij = (double)(qi * qj);
-                qrj = (double)(qr * qj);
-                qxx = (double)(qr * qr + qi * qi - qj * qj);
-                qyy = (double)(qr * qr - qi * qi + qj * qj);
-                qzz = (double)(qr * qr - qi * qi - qj * qj);
+                    qri = (double)(qr * qi);
+                    qij = (double)(qi * qj);
+                    qrj = (double)(qr * qj);
+                    qxx = (double)(qr * qr + qi * qi - qj * qj);
+                    qyy = (double)(qr * qr - qi * qi + qj * qj);
+                    qzz = (double)(qr * qr - qi * qi - qj * qj);
+                }
+                else {
+                    (qri, qij, qrj, qxx, qyy, qzz) = (0d, 0d, 0.5d, 0d, 1d, 0d);
+                }
             }
         }
 
@@ -73,7 +78,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             double r = random.NextUniform();
             double theta = 2 * random.NextUniformOpenInterval1();
 
-            double w = 1 + double.Log(r + (1 - r) * exp_m2kappa) * kappa_inv;
+            double w = (Kappa > 0d) ? (1 + Math.Log(r + (1 - r) * exp_m2kappa) * kappa_inv) : (2 * r - 1);
             double t = double.Sqrt(1 - w * w);
 
             (double s, double c) = double.SinCosPi(theta);
@@ -82,7 +87,11 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             double y = t * s;
             double z = w;
 
-            (double, double, double) v = (x * qxx + 2 * (y * qij + z * qrj), y * qyy - 2 * (z * qri - x * qij), z * qzz - 2 * (x * qrj - y * qri));
+            (double, double, double) v = (
+                x * qxx + 2 * (y * qij + z * qrj), 
+                y * qyy - 2 * (z * qri - x * qij), 
+                z * qzz - 2 * (x * qrj - y * qri)
+            );
 
             return v;
         }
@@ -100,7 +109,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public virtual (ddouble x, ddouble y, ddouble z) Mode => Mu;
 
-        public virtual ddouble Entropy => -Log(pdf_norm) - Kappa * BesselI(1.5d, Kappa) / BesselI(0.5d, Kappa);
+        public virtual ddouble Entropy => Kappa > 1e-15d 
+            ? -Log(pdf_norm) - Kappa * BesselI(1.5d, Kappa) / BesselI(0.5d, Kappa)
+            : Log(4d * PI);
 
         public static VonMisesFisherDistribution? Fit(IEnumerable<(double x, double y, double z)> samples)
             => Fit(samples.Select(v => ((ddouble)v.x, (ddouble)v.y, (ddouble)v.z)));
