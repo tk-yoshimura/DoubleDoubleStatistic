@@ -296,10 +296,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (0d, 100d / 101d), iter: 32
             );
 
-            ddouble mu = t / (1d - t);
-            FoldedNormalDistribution dist = new(mu, 1d);
+            try {
+                ddouble mu = t / (1d - t);
+                FoldedNormalDistribution dist = new(mu, 1d);
 
-            return QuantileScaleFitter<FoldedNormalDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<FoldedNormalDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

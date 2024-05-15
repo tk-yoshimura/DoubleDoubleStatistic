@@ -147,10 +147,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble alpha = t / (1d - t);
-            ParetoDistribution dist = new(1d, alpha);
+            try {
+                ddouble alpha = t / (1d - t);
+                ParetoDistribution dist = new(1d, alpha);
 
-            return QuantileScaleFitter<ParetoDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<ParetoDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

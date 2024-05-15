@@ -314,9 +314,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (-256d, 256d), iter: 32
             );
 
-            SkewNormalDistribution dist = new(alpha);
+            try {
+                SkewNormalDistribution dist = new(alpha);
 
-            return QuantileLinearFitter<SkewNormalDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileLinearFitter<SkewNormalDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

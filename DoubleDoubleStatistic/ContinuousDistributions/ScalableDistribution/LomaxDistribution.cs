@@ -164,10 +164,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble alpha = t / (1d - t);
-            LomaxDistribution dist = new(alpha, 1d);
+            try {
+                ddouble alpha = t / (1d - t);
+                LomaxDistribution dist = new(alpha, 1d);
 
-            return QuantileScaleFitter<LomaxDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<LomaxDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

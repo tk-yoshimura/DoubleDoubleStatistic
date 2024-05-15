@@ -242,10 +242,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble mu = t / (1d - t);
-            InverseGaussDistribution dist = new(mu, 1d);
+            try {
+                ddouble mu = t / (1d - t);
+                InverseGaussDistribution dist = new(mu, 1d);
 
-            return QuantileScaleFitter<InverseGaussDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<InverseGaussDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

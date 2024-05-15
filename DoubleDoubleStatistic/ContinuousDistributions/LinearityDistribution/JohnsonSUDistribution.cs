@@ -207,11 +207,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, ((1e-10d, 1e-10d), (10d / 11d, 10d / 11d)), iter: 64
             );
 
-            ddouble gamma = u / (1d - u);
-            ddouble delta = v / (1d - v);
-            JohnsonSUDistribution dist = new(gamma, delta);
+            try {
+                ddouble gamma = u / (1d - u);
+                ddouble delta = v / (1d - v);
+                JohnsonSUDistribution dist = new(gamma, delta);
 
-            return QuantileLinearFitter<JohnsonSUDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileLinearFitter<JohnsonSUDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

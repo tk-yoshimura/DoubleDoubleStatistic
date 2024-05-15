@@ -210,10 +210,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble alpha = t / (1d - t);
-            WeibullDistribution dist = new(alpha);
+            try {
+                ddouble alpha = t / (1d - t);
+                WeibullDistribution dist = new(alpha);
 
-            return QuantileLinearFitter<WeibullDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileLinearFitter<WeibullDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

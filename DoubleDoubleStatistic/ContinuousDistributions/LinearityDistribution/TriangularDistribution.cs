@@ -180,9 +180,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (0.0001d, 0.9999d), iter: 32
             );
 
-            TriangularDistribution dist = new(0d, 1d, c);
+            try {
+                TriangularDistribution dist = new(0d, 1d, c);
 
-            return QuantileLinearFitter<TriangularDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileLinearFitter<TriangularDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

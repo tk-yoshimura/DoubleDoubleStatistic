@@ -239,10 +239,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble kappa = t / (1d - t);
-            GammaDistribution dist = new(kappa, 1d);
+            try {
+                ddouble kappa = t / (1d - t);
+                GammaDistribution dist = new(kappa, 1d);
 
-            return QuantileScaleFitter<GammaDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<GammaDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

@@ -155,10 +155,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble eta = t / (1d - t);
-            GompertzDistribution dist = new(eta, 1d);
+            try {
+                ddouble eta = t / (1d - t);
+                GompertzDistribution dist = new(eta, 1d);
 
-            return QuantileScaleFitter<GompertzDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<GompertzDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

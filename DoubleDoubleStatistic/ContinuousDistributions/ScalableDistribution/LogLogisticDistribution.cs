@@ -200,10 +200,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10d, 1000d / 1001d), iter: 32
             );
 
-            ddouble gamma = t / (1d - t);
-            LogLogisticDistribution dist = new(gamma, 1d);
+            try {
+                ddouble gamma = t / (1d - t);
+                LogLogisticDistribution dist = new(gamma, 1d);
 
-            return QuantileScaleFitter<LogLogisticDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<LogLogisticDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string ToString() {

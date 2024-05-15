@@ -279,10 +279,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }, (1e-10, 1000d / 1001d), iter: 32
             );
 
-            ddouble gamma = t / (1d - t);
-            VoigtDistribution dist = new(gamma, 1d);
+            try {
+                ddouble gamma = t / (1d - t);
+                VoigtDistribution dist = new(gamma, 1d);
 
-            return QuantileScaleFitter<VoigtDistribution>.FitForQuantiles(dist, qs, ys);
+                return QuantileScaleFitter<VoigtDistribution>.FitForQuantiles(dist, qs, ys);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return (null, NaN);
+            }
         }
 
         public override string Formula => "p(x; gamma, sigma) := Re[erfcx((x + i * gamma) / (sigma * sqrt(2)))] / (sigma * sqrt(2 * pi))";
