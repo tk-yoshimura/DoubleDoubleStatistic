@@ -320,7 +320,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private ddouble? mode = null;
         public override ddouble Mode =>
-            mode ??= GridMaximizeSearch1D.Search(PDF, (Mu * Sqrt(Nu / (Nu + 2.5d)), Mu * Sqrt(Nu / (Nu + 1d))), iter: 1024);
+            mode ??= GridMinimizeSearch1D.Search(t => -PDF(t), (Mu * Sqrt(Nu / (Nu + 2.5d)), Mu * Sqrt(Nu / (Nu + 1d))), iter: 1024);
 
         public override ddouble Variance => Nu > 2d
             ? Nu * (1d + Mu * Mu) / (Nu - 2d) - Mu * Mu * Nu * 0.5d * Square(gc)
