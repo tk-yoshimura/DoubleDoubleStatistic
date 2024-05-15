@@ -1,12 +1,17 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class ZipfDistribution : DiscreteDistribution {
+    public class ZipfDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<ZipfDistribution> {
+
         const int random_gen_max_index = 65536;
 
         private Roulette? roulette = null;
@@ -85,6 +90,39 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 1, 65536);
+
+        public static ZipfDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 1)) {
+                return null;
+            }
+
+            ddouble mean = samples.Select(n => (ddouble)n).Mean();
+
+            ddouble t = GridMinimizeSearch1D.Search(
+                t => {
+                    try {
+                        ddouble s = t / (1d - t);
+
+                        ZipfDistribution dist = new(s);
+                        return Square(mean - dist.Mean);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (0d, 100d / 101d), iter: 64
+            );
+
+            try {
+                ddouble s = t / (1d - t);
+                ZipfDistribution dist = new(s);
+
+                return dist;
+            }
+            catch (ArgumentOutOfRangeException) {
+                return null;
+            }
+        }
 
         public override string Formula => "f(k; s) := k^(- s - 1) / zeta(s + 1)";
 

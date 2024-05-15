@@ -1,12 +1,15 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class GeometricDistribution : DiscreteDistribution {
+    public class GeometricDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<GeometricDistribution> {
 
         public ddouble P { get; }
 
@@ -79,6 +82,18 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 0, 65535);
+
+        public static GeometricDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+                return null;
+            }
+
+            ddouble mean = samples.Select(n => (ddouble)n).Mean();
+
+            ddouble p = 1d / (mean + 1d);
+
+            return new GeometricDistribution(p);
+        }
 
         public override string Formula => "f(k; p) := p * (1 - p)^k";
 

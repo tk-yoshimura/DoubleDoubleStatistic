@@ -1,12 +1,16 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class PoissonDistribution : DiscreteDistribution {
+    public class PoissonDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<PoissonDistribution> {
+
         const int random_gen_max_index = 65536;
 
         public ddouble Lambda { get; }
@@ -56,6 +60,21 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 0, 65535);
+
+        public static PoissonDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+                return null;
+            }
+
+            ddouble mean = samples.Select(n => (ddouble)n).Mean();
+
+            try {
+                return new PoissonDistribution(mean);
+            }
+            catch {
+                return null;
+            }
+        }
 
         public override string Formula => "f(k; lambda) := lambda^k * exp(-lambda) / k!";
 

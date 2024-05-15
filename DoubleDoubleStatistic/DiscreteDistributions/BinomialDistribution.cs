@@ -1,12 +1,15 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class BinomialDistribution : DiscreteDistribution {
+    public class BinomialDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<BinomialDistribution> {
 
         public int N { get; }
         public ddouble P { get; }
@@ -73,6 +76,23 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 0, N);
+
+        public static BinomialDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+                return null;
+            }
+
+            (ddouble mean, ddouble variance) = samples.Select(n => (ddouble)n).MeanVariance();
+            int N = (int)Clamp(Round(mean * mean / (mean - variance)), samples.Max(), int.MaxValue);
+            ddouble p = mean / N;
+
+            try {
+                return new BinomialDistribution(N, p);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return null;
+            }
+        }
 
         public override string Formula => "f(k; n, p) := binom(n, k) * p^k * q^(n - k)";
 

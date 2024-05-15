@@ -1,12 +1,16 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class NegativeBinomialDistribution : DiscreteDistribution {
+    public class NegativeBinomialDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<NegativeBinomialDistribution> {
+
         const int random_gen_max_index = 65536;
 
         public int N { get; }
@@ -61,6 +65,23 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 0, 65535);
+
+        public static NegativeBinomialDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+                return null;
+            }
+
+            (ddouble mean, ddouble variance) = samples.Select(n => (ddouble)n).MeanVariance();
+            int N = (int)Clamp(Round(mean * mean / (variance - mean)), 1, int.MaxValue);
+            ddouble p = N / (N + mean);
+
+            try {
+                return new NegativeBinomialDistribution(N, p);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return null;
+            }
+        }
 
         public override string Formula => "f(k; n, p) := binom(k + n - 1, k) * p^N * q^k";
 

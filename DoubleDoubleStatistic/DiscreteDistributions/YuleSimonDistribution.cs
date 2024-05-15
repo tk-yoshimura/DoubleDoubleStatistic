@@ -1,12 +1,15 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class YuleSimonDistribution : DiscreteDistribution {
+    public class YuleSimonDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<YuleSimonDistribution> {
 
         public ddouble Rho { get; }
 
@@ -52,6 +55,22 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 1, 65536);
+
+        public static YuleSimonDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 1)) {
+                return null;
+            }
+
+            ddouble mean = samples.Select(n => (ddouble)n).Mean();
+            ddouble pho = mean / (mean - 1d);
+
+            try {
+                return new YuleSimonDistribution(pho);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return null;
+            }
+        }
 
         public override string Formula => "f(k; rho) := rho * beta(k, rho + 1)";
 

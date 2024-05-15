@@ -1,12 +1,16 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class SkellamDistribution : DiscreteDistribution {
+    public class SkellamDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<SkellamDistribution> {
+
         public ddouble Mu1 { get; }
         public ddouble Mu2 { get; }
 
@@ -71,10 +75,26 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, mean_n, mean_n + 65535) + DiscreteEntropy.Sum(this, mean_n - 1, mean_n - 65536);
 
+        public static SkellamDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1) {
+                return null;
+            }
+
+            (ddouble mean, ddouble variance) = samples.Select(n => (ddouble)n).MeanVariance();
+            ddouble mu1 = (variance + mean) * 0.5d, mu2 = (variance - mean) * 0.5d;
+
+            try {
+                return new SkellamDistribution(mu1, mu2);
+            }
+            catch (ArgumentOutOfRangeException) {
+                return null;
+            }
+        }
+
         public override string Formula => "f(k; mu1, mu2) := exp(- mu1 - mu2) * (mu1 / mu2)^(k / 2) * bessel_i(2 * sqrt(mu1 * mu2))";
 
         public override string ToString() {
-            return $"{typeof(SkellamDistribution).Name}[mu1={Mu1},mu2={Mu1}]";
+            return $"{typeof(SkellamDistribution).Name}[mu1={Mu1},mu2={Mu2}]";
         }
 
     }

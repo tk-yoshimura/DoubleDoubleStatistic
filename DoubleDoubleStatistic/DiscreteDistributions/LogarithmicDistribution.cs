@@ -1,12 +1,16 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
+using DoubleDoubleStatistic.Misc;
+using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.SampleStatistic;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class LogarithmicDistribution : DiscreteDistribution {
+    public class LogarithmicDistribution : DiscreteDistribution,
+        IFittableDiscreteDistribution<LogarithmicDistribution> {
         const int random_gen_max_index = 65536;
 
         public ddouble P { get; }
@@ -50,7 +54,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public override ddouble Mean => -p / (lnq * q);
 
-        public override ddouble Variance => -p * (p + lnq) / Square(q * lnq);
+        public override ddouble Variance => -p * (p + lnq) / Square(lnq * q);
 
         public override ddouble Skewness => -lnq * (p * (3d * lnq + 2d * p) + (1d + p) * lnq * lnq) / (lnq * (p + lnq) * Sqrt(-p * (p + lnq)));
 
@@ -59,6 +63,36 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
             DiscreteEntropy.Sum(this, 1, 65536);
+
+        public static LogarithmicDistribution? Fit(IEnumerable<int> samples) {
+            if (samples.Count() < 1 || samples.Any(n => n < 0)) {
+                return null;
+            }
+
+            ddouble mean = samples.Select(n => (ddouble)n).Mean();
+
+            ddouble p = GridMinimizeSearch1D.Search(
+                p => {
+                    try {
+                        LogarithmicDistribution dist = new(p);
+                        return Square(mean - dist.Mean);
+                    }
+                    catch (ArgumentOutOfRangeException) {
+                        return NaN;
+                    }
+
+                }, (0d, 1d), iter: 64
+            );
+
+            try {
+                LogarithmicDistribution dist = new(p);
+
+                return dist;
+            }
+            catch (ArgumentOutOfRangeException) {
+                return null;
+            }
+        }
 
         public override string Formula => "f(k; p) := -1 / log(1 - p) * p^k / k";
 
