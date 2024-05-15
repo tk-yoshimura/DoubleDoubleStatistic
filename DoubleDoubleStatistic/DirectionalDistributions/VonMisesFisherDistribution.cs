@@ -2,9 +2,7 @@
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
-using System;
 using System.Diagnostics;
-using System.Numerics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DirectionalDistributions {
