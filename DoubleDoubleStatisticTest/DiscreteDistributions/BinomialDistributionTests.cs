@@ -101,6 +101,24 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (BinomialDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 100000).ToArray();
+
+                BinomialDistribution? dist_fit = BinomialDistribution.Fit(samples);
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+
+                Assert.AreEqual(dist.N, dist_fit.N, $"{dist},N");
+                Assert.AreEqual((double)dist.P, (double)dist_fit.P, 0.05, $"{dist},p");
+            }
+        }
+
+        [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_n8p25 = [
                 0.000000000000000000e+00,

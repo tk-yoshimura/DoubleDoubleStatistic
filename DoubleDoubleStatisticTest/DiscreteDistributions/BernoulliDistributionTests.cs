@@ -93,6 +93,23 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (BernoulliDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 100000).ToArray();
+
+                BernoulliDistribution? dist_fit = BernoulliDistribution.Fit(samples);
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+
+                Assert.AreEqual((double)dist.P, (double)dist_fit.P, 0.05, $"{dist},p");
+            }
+        }
+
+        [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_p25 = [
                 0.000000000000000000e+00,

@@ -55,7 +55,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public override string Formula => "f(k; p) := if k = 0 then 1 - p else p";
 
         public override string ToString() {
-            return $"{typeof(BernoulliDistribution).Name}[c={P}]";
+            return $"{typeof(BernoulliDistribution).Name}[p={P}]";
         }
 
     }

@@ -124,6 +124,24 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (SkellamDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 100000).ToArray();
+
+                SkellamDistribution? dist_fit = SkellamDistribution.Fit(samples);
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+
+                Assert.AreEqual((double)dist.Mu1, (double)dist_fit.Mu1, 0.1, $"{dist},mu1");
+                Assert.AreEqual((double)dist.Mu2, (double)dist_fit.Mu2, 0.1, $"{dist},mu2");
+            }
+        }
+
+        [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_mu1mu1 = [
                 2.270198376317538691e-25,

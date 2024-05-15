@@ -89,6 +89,23 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (ZipfDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 100000).ToArray();
+
+                ZipfDistribution? dist_fit = ZipfDistribution.Fit(samples);
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+
+                Assert.AreEqual((double)dist.S, (double)dist_fit.S, 0.2, $"{dist},s");
+            }
+        }
+
+        [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_rho1 = [
                 0.000000000000000000e+00,

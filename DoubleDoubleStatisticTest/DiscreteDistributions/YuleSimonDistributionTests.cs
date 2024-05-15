@@ -93,6 +93,23 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         }
 
         [TestMethod()]
+        public void FitTest() {
+            Random random = new(1234);
+
+            foreach (YuleSimonDistribution dist in Dists) {
+                int[] samples = dist.Sample(random, count: 100000).ToArray();
+
+                YuleSimonDistribution? dist_fit = YuleSimonDistribution.Fit(samples);
+
+                Assert.IsNotNull(dist_fit);
+
+                Console.WriteLine(dist_fit);
+
+                Assert.AreEqual((double)dist.Rho, (double)dist_fit.Rho, 0.05, $"{dist},pho");
+            }
+        }
+
+        [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_rho5 = [
                 0.000000000000000000e+00,
