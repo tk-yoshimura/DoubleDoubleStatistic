@@ -100,6 +100,13 @@
 |          | yule simon        | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
 |          | zipf              | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
 
+### Directional
+
+| category    | distribution     | PDF      | statistic | fitting  | random generation | note |
+| ----------- | ---------------- | -------- | --------- | -------- | ----------------- | ---- |
+| directional | von mises        | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
+|             | von mises fisher | &#x2714; | &#x2714;  | -        | &#x2714;          |      |
+
 ## Usage
 
 ```cs
