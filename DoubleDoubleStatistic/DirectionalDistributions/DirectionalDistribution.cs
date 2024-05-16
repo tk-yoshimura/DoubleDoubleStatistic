@@ -17,9 +17,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public virtual DD Mean => throw new NotImplementedException();
         public virtual DD Mode => throw new NotImplementedException();
-        public virtual DD Variance => throw new NotImplementedException();
-        public virtual DD Skewness => throw new NotImplementedException();
-        public virtual DD Kurtosis => throw new NotImplementedException();
+        public virtual ddouble Variance => throw new NotImplementedException();
+        public virtual ddouble Skewness => throw new NotImplementedException();
+        public virtual ddouble Kurtosis => throw new NotImplementedException();
         public virtual ddouble Entropy => throw new NotImplementedException();
         public virtual string Formula => throw new NotFiniteNumberException();
     }

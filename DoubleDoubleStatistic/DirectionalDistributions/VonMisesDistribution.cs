@@ -91,7 +91,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public override ddouble Skewness => 0d;
 
-        public override ddouble Kurtosis => NaN;
+        public override ddouble Kurtosis => throw new NotImplementedException();
 
         public override ddouble Entropy =>
             -Log(pdf_norm) - Kappa * BesselI(1, Kappa) / BesselI(0, Kappa);

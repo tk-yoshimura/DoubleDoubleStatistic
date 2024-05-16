@@ -30,7 +30,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             Mu = kappa > 0d ? (mu.x / r, mu.y / r, mu.z / r) : (1d, 0d, 0d);
             Kappa = kappa;
 
-            pdf_norm = kappa / (4d * PI * Sinh(kappa));
+            pdf_norm = kappa > 1e-15d
+                ? kappa / (4d * PI * Sinh(kappa))
+                : (6d - kappa * kappa) / (24d * PI);
 
             /* setup random gen. */
             {
@@ -98,6 +100,8 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         public override (ddouble x, ddouble y, ddouble z) Mean => Mu;
 
         public override (ddouble x, ddouble y, ddouble z) Mode => Mu;
+
+        public override ddouble Skewness => 0d;
 
         public override ddouble Entropy => Kappa > 1e-15d
             ? -Log(pdf_norm) - Kappa * BesselI(1.5d, Kappa) / BesselI(0.5d, Kappa)
