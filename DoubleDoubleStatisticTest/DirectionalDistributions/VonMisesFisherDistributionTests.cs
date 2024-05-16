@@ -1,5 +1,4 @@
-﻿using Algebra;
-using DoubleDouble;
+﻿using DoubleDouble;
 using DoubleDoubleStatistic.DirectionalDistributions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -91,7 +90,7 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
                         for (int x = -4; x <= 4; x++) {
                             ddouble pdf = dist.PDF((x, y, z));
 
-                            Console.WriteLine($"pdf({x})={pdf}");
+                            Console.WriteLine($"pdf({x},{y},{z})={pdf}");
                         }
                     }
                 }

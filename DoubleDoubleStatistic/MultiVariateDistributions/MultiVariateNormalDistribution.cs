@@ -4,7 +4,6 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 

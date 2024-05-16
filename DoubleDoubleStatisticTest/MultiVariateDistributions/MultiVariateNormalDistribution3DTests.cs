@@ -1,6 +1,5 @@
 ﻿using Algebra;
 using DoubleDouble;
-using DoubleDoubleStatistic.DirectionalDistributions;
 using DoubleDoubleStatistic.MultiVariateDistributions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
