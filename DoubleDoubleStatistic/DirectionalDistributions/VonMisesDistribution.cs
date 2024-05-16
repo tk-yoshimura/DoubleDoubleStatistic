@@ -2,27 +2,25 @@
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DirectionalDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class VonMisesDistribution {
+    public class VonMisesDistribution : 
+        DirectionalDistribution<ddouble, double> {
 
-        public ddouble Mu { get; }
         public ddouble Kappa { get; }
+        public ddouble Mu { get; }
 
         private readonly ddouble pdf_norm;
 
         private readonly double s;
 
-        public VonMisesDistribution(ddouble mu, ddouble kappa) {
-            if (!IsFinite(mu)) {
-                throw new ArgumentOutOfRangeException(nameof(mu), "Invalid location parameter.");
-            }
-            if (!(kappa >= 0d && kappa <= 256d)) {
-                throw new ArgumentOutOfRangeException(nameof(kappa), "Invalid shape parameter.");
-            }
+        public VonMisesDistribution(ddouble kappa, ddouble mu) {
+            ParamAssert.ValidateShape(nameof(kappa), kappa >= 0d && kappa < 256d);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
 
             static ddouble round_mu(ddouble mu) {
                 mu += PI;
@@ -39,21 +37,21 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
                 return mu;
             }
 
-            Mu = kappa > 0d ? round_mu(mu) : 0d;
             Kappa = kappa;
+            Mu = kappa > 0d ? round_mu(mu) : 0d;
 
-            pdf_norm = 1d / (2d * PI * BesselI(0, Kappa));
+            pdf_norm = 1d / (2d * PI * BesselI(0, kappa));
 
             s = (double)((kappa > 1.3d) ? (1d / Sqrt(kappa)) : (PI * Exp(-kappa)));
         }
 
-        public ddouble PDF(ddouble x) {
+        public override ddouble PDF(ddouble x) {
             ddouble pdf = Exp(Kappa * Cos(x - Mu)) * pdf_norm;
 
             return pdf;
         }
 
-        public double Sample(Random random) {
+        public override double Sample(Random random) {
             double kappa = (double)Kappa;
 
             double t;
@@ -83,34 +81,18 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             return theta;
         }
 
-        public IEnumerable<double> Sample(Random random, int count) {
-            ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+        public override ddouble Mean => Mu;
 
-            while (count > 0) {
-                yield return Sample(random);
-                count--;
-            }
-        }
+        public override ddouble Mode => Mu;
 
-        public virtual (ddouble min, ddouble max) Support => (-PI, PI);
+        public override ddouble Variance => 1d - BesselI(1, Kappa) / BesselI(0, Kappa);
 
-        public virtual ddouble Mean => Mu;
+        public override ddouble Skewness => 0d;
 
-        public virtual ddouble Mode => Mu;
+        public override ddouble Kurtosis => NaN;
 
-        public virtual ddouble Variance => 1d - BesselI(1, Kappa) / BesselI(0, Kappa);
-
-        public virtual ddouble Skewness => 0d;
-
-        public virtual ddouble Kurtosis => NaN;
-
-        public virtual ddouble Entropy {
-            get {
-                ddouble b1 = BesselI(1, Kappa), b0 = BesselI(0, Kappa);
-
-                return Log(2d * PI * b0) - Kappa * b1 / b0;
-            }
-        }
+        public override ddouble Entropy =>
+            -Log(pdf_norm) - Kappa * BesselI(1, Kappa) / BesselI(0, Kappa);
 
         public static VonMisesDistribution? Fit(IEnumerable<double> samples)
             => Fit(samples.Select(v => (ddouble)v));
@@ -144,7 +126,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             ddouble mu = Atan2(y, x);
 
             try {
-                return new VonMisesDistribution(mu, kappa);
+                return new VonMisesDistribution(kappa, mu);
             }
             catch (ArgumentOutOfRangeException) {
                 return null;
@@ -152,9 +134,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         }
 
         public override string ToString() {
-            return $"{typeof(VonMisesDistribution).Name}[mu={Mu},kappa={Kappa}]";
+            return $"{typeof(VonMisesDistribution).Name}[kappa={Kappa},mu={Mu}]";
         }
 
-        public virtual string Formula => "p(x; mu, kappa) := exp(kappa * cos(x - mu)) / (2 * pi * bessel_i(0, kappa))";
+        public override string Formula => "p(x; kappa, mu) := exp(kappa * cos(x - mu)) / (2 * pi * bessel_i(0, kappa))";
     }
 }

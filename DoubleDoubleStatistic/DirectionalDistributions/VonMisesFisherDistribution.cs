@@ -2,12 +2,14 @@
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DirectionalDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class VonMisesFisherDistribution {
+    public class VonMisesFisherDistribution : 
+        DirectionalDistribution<(ddouble x, ddouble y, ddouble z), (double x, double y, double z)> {
 
         public (ddouble x, ddouble y, ddouble z) Mu { get; }
         public ddouble Kappa { get; }
@@ -17,16 +19,11 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         private readonly double kappa_inv, exp_m2kappa;
         private readonly double qri, qrj, qij, qxx, qyy, qzz;
 
-        public VonMisesFisherDistribution((ddouble x, ddouble y, ddouble z) mu, ddouble kappa) {
-            if (!(kappa >= 0d && kappa <= 256d)) {
-                throw new ArgumentOutOfRangeException(nameof(kappa), "Invalid shape parameter.");
-            }
-
+        public VonMisesFisherDistribution(ddouble kappa, (ddouble x, ddouble y, ddouble z) mu) {
             ddouble r = Hypot(mu.x, mu.y, mu.z);
-
-            if (!(IsFinite(r) && r > 0d)) {
-                throw new ArgumentOutOfRangeException(nameof(mu), "Invalid location parameter.");
-            }
+            
+            ParamAssert.ValidateShape(nameof(kappa), kappa >= 0d && kappa < 256d);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(r) && r > 0d);
 
             Mu = kappa > 0d ? (mu.x / r, mu.y / r, mu.z / r) : (1d, 0d, 0d);
             Kappa = kappa;
@@ -62,7 +59,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             }
         }
 
-        public ddouble PDF((ddouble x, ddouble y, ddouble z) v) {
+        public override ddouble PDF((ddouble x, ddouble y, ddouble z) v) {
             ddouble r = Hypot(v.x, v.y, v.z);
 
             if (!(IsFinite(r) && r > 0d)) {
@@ -74,7 +71,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             return pdf;
         }
 
-        public (double x, double y, double z) Sample(Random random) {
+        public override (double x, double y, double z) Sample(Random random) {
             double r = random.NextUniform();
             double theta = 2 * random.NextUniformOpenInterval1();
 
@@ -96,20 +93,11 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             return v;
         }
 
-        public IEnumerable<(double x, double y, double z)> Sample(Random random, int count) {
-            ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+        public override (ddouble x, ddouble y, ddouble z) Mean => Mu;
 
-            while (count > 0) {
-                yield return Sample(random);
-                count--;
-            }
-        }
+        public override (ddouble x, ddouble y, ddouble z) Mode => Mu;
 
-        public virtual (ddouble x, ddouble y, ddouble z) Mean => Mu;
-
-        public virtual (ddouble x, ddouble y, ddouble z) Mode => Mu;
-
-        public virtual ddouble Entropy => Kappa > 1e-15d 
+        public override ddouble Entropy => Kappa > 1e-15d 
             ? -Log(pdf_norm) - Kappa * BesselI(1.5d, Kappa) / BesselI(0.5d, Kappa)
             : Log(4d * PI);
 
@@ -144,7 +132,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             ddouble kappa = t / (1d - t);
 
             try {
-                return new VonMisesFisherDistribution((x, y, z), kappa);
+                return new VonMisesFisherDistribution(kappa, (x, y, z));
             }
             catch (ArgumentOutOfRangeException) {
                 return null;
@@ -152,9 +140,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         }
 
         public override string ToString() {
-            return $"{typeof(VonMisesFisherDistribution).Name}[mu={Mu},kappa={Kappa}]";
+            return $"{typeof(VonMisesFisherDistribution).Name}[kappa={Kappa},mu={Mu}]";
         }
 
-        public virtual string Formula => "p(x; mu, kappa) := exp(kappa * dot(mu, x)) / (kappa / (4 * pi * sinh(kappa)))";
+        public override string Formula => "p(x; kappa, mu) := exp(kappa * dot(mu, x)) / (kappa / (4 * pi * sinh(kappa)))";
     }
 }
