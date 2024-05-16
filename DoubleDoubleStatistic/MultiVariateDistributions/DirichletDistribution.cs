@@ -1,6 +1,7 @@
 ﻿using Algebra;
 using DoubleDouble;
 using DoubleDoubleStatistic.ContinuousDistributions;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
@@ -10,7 +11,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic.MultiVariateDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class DirichletDistribution :
-        MultiVariateDistribution {
+        MultiVariateDistribution,
+        IFittableMultiVariateDistribution<DirichletDistribution> {
 
         public int Dim { get; }
 
@@ -120,6 +122,9 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
             pdf_norm + (alpha_sum - Dim) * Digamma(alpha_sum) - Alpha.Select(a => (a - 1d) * Digamma(a)).Sum();
 
         public static DirichletDistribution? Fit(IEnumerable<double[]> samples)
+            => Fit(samples.Select(v => new Vector(v)));
+
+        public static DirichletDistribution? Fit(IEnumerable<ddouble[]> samples)
             => Fit(samples.Select(v => new Vector(v)));
 
         public static DirichletDistribution? Fit(IEnumerable<Vector> samples) {

@@ -1,5 +1,6 @@
 ﻿using Algebra;
 using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
@@ -10,7 +11,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic.MultiVariateDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class MultiVariateNormalDistribution :
-        MultiVariateDistribution {
+        MultiVariateDistribution,
+        IFittableMultiVariateDistribution<MultiVariateNormalDistribution> {
 
         public int Dim { get; }
         public Vector Mu => mu.Copy();
@@ -88,6 +90,9 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
         public override ddouble Entropy => -Log(pdf_norm) + Dim * 0.5d;
 
         public static MultiVariateNormalDistribution? Fit(IEnumerable<double[]> samples)
+            => Fit(samples.Select(v => new Vector(v)));
+
+        public static MultiVariateNormalDistribution? Fit(IEnumerable<ddouble[]> samples)
             => Fit(samples.Select(v => new Vector(v)));
 
         public static MultiVariateNormalDistribution? Fit(IEnumerable<Vector> samples) {

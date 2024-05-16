@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
@@ -9,7 +10,8 @@ using static DoubleDouble.ddouble;
 namespace DoubleDoubleStatistic.DirectionalDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
     public class VonMisesDistribution :
-        DirectionalDistribution<ddouble, double> {
+        DirectionalDistribution<ddouble, double>,
+        IFittableDirectionalDistribution<VonMisesDistribution, ddouble, double> {
 
         public ddouble Kappa { get; }
         public ddouble Mu { get; }
