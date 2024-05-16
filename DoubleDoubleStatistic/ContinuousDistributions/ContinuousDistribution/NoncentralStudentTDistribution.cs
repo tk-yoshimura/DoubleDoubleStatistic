@@ -26,7 +26,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public NoncentralStudentTDistribution(ddouble nu, ddouble mu) {
             ParamAssert.ValidateShape(nameof(nu), ParamAssert.IsFinitePositive(nu));
-            ParamAssert.ValidateNonCentricity(nameof(mu), ParamAssert.IsFinitePositive(mu));
+            ParamAssert.ValidateNonCentricity(nameof(mu), IsFinite(mu));
 
             Nu = nu;
             Mu = mu;
