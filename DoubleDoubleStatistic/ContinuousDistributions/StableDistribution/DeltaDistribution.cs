@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -18,7 +19,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public DeltaDistribution() : this(mu: 0d) { }
 
         public DeltaDistribution(ddouble mu) {
-            ValidateLocation(mu);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
 
             Mu = mu;
         }

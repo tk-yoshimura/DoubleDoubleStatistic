@@ -23,6 +23,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ParetoDistribution(ddouble alpha) : this(k: 1d, alpha: alpha) { }
 
         public ParetoDistribution(ddouble k, ddouble alpha) {
+            ParamAssert.ValidateShape(nameof(k), ParamAssert.IsFinitePositive(k));
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+
             K = k;
             Alpha = alpha;
 

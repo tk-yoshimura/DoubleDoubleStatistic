@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public WignerSemicircleDistribution() : this(r: 1d) { }
         public WignerSemicircleDistribution(ddouble r) {
-            ValidateScale(r);
+            ParamAssert.ValidateScale(nameof(r), ParamAssert.IsFinitePositive(r));
 
             R = r;
 

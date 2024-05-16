@@ -3,6 +3,7 @@ using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -20,8 +21,8 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly Roulette? roulette_x32 = null, roulette_r32 = null;
 
         public BinomialDistribution(int n, ddouble p) {
-            ValidateShape(n, n => n > 0);
-            ValidateShape(p, p => p >= 0d && p <= 1d);
+            ParamAssert.ValidateShape(nameof(n), n > 0);
+            ParamAssert.ValidateShape(nameof(p), p >= 0d && p <= 1d);
 
             N = n;
             P = p;

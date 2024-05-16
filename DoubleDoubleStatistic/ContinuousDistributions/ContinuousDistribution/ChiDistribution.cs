@@ -3,6 +3,7 @@ using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -18,7 +19,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly GammaDistribution randam_gen_gamma_dist;
 
         public ChiDistribution(ddouble nu) {
-            ValidateShape(nu, nu => nu > 0d);
+            ParamAssert.ValidateShape(nameof(nu), ParamAssert.IsFinitePositive(nu));
 
             Nu = nu;
 

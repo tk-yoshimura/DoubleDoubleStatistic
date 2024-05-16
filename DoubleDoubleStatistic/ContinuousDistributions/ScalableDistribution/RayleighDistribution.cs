@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public RayleighDistribution() : this(sigma: 1d) { }
 
         public RayleighDistribution(ddouble sigma) {
-            ValidateScale(sigma);
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Sigma = sigma;
             sigma_inv = 1d / sigma;

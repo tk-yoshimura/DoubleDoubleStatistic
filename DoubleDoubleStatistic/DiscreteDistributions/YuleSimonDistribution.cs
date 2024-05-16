@@ -3,6 +3,7 @@ using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -14,7 +15,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public ddouble Rho { get; }
 
         public YuleSimonDistribution(ddouble rho) {
-            ValidateShape(rho, rho => rho > 0d);
+            ParamAssert.ValidateShape(nameof(rho), ParamAssert.IsFinitePositive(rho));
 
             Rho = rho;
         }

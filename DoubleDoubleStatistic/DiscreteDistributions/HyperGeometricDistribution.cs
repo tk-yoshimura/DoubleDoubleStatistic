@@ -1,6 +1,7 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -17,9 +18,9 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly Roulette roulette;
 
         public HyperGeometricDistribution(int n, int m, int r) {
-            ValidateShape(n, n => n > 0);
-            ValidateShape(m, m => m >= 0 && m <= n);
-            ValidateShape(r, r => r >= 0 && r <= n);
+            ParamAssert.ValidateShape(nameof(n), n > 0);
+            ParamAssert.ValidateShape(nameof(m), m >= 0 && m <= n);
+            ParamAssert.ValidateShape(nameof(r), r >= 0 && r <= n);
 
             N = n;
             M = m;

@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public RiceDistribution(ddouble nu) {
-            ValidateShape(nu, nu => nu >= 0d);
+            ParamAssert.ValidateShape(nameof(nu), ParamAssert.IsFinitePositive(nu));
 
             Nu = nu;
         }

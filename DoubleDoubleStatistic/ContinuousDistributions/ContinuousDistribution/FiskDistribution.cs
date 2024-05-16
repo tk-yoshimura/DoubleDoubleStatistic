@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -17,7 +18,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble c_inv;
 
         public FiskDistribution(ddouble c) {
-            ValidateShape(c, c => c > 0d);
+            ParamAssert.ValidateShape(nameof(c), ParamAssert.IsFinitePositive(c));
 
             C = c;
             c_inv = 1d / c;

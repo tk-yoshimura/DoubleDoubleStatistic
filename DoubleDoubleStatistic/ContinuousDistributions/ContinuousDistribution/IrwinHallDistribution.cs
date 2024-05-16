@@ -19,7 +19,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble pdf_norm, cdf_norm, quantile_norm;
 
         public IrwinHallDistribution(int n) {
-            ValidateShape(n, n => n > 0 && n <= 128);
+            ParamAssert.ValidateShape(nameof(n), n > 0 && n <= 128);
 
             N = n;
 

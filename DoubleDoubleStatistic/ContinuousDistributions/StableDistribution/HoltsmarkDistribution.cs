@@ -32,8 +32,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public HoltsmarkDistribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public HoltsmarkDistribution(ddouble mu, ddouble c) {
-            ValidateLocation(mu);
-            ValidateScale(c);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(c), ParamAssert.IsFinitePositive(c));
 
             Mu = mu;
             C = c;

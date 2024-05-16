@@ -1,6 +1,7 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.RandomGeneration;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
@@ -22,6 +23,8 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public CategoricalDistribution(ReadOnlyCollection<ddouble> probs) {
             ddouble prob_sum = probs.Sum();
 
+            ParamAssert.ValidateShape(nameof(probs), probs.All(p => p >= 0d && IsFinite(p)) && IsFinite(prob_sum));
+        
             Probs = new ReadOnlyCollection<ddouble>(probs.Select(p => p / prob_sum).ToArray());
 
             roulette = new(probs.Select(p => (double)p));

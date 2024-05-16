@@ -20,8 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly BetaDistribution randam_gen_beta_dist;
 
         public BetaPrimeDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0d);
-            ValidateShape(beta, beta => beta > 0d);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+            ParamAssert.ValidateShape(nameof(beta), ParamAssert.IsFinitePositive(beta));
 
             Alpha = alpha;
             Beta = beta;

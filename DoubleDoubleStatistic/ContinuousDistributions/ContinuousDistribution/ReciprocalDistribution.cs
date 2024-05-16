@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -18,8 +19,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble pdf_norm;
 
         public ReciprocalDistribution(ddouble a, ddouble b) {
-            ValidateShape(a, a => a > 0d);
-            ValidateShape(b, b => b > a);
+            ParamAssert.ValidateShape(nameof(a), ParamAssert.IsFinitePositive(a));
+            ParamAssert.ValidateShape(nameof(b), b > a && IsFinite(b));
 
             A = a;
             B = b;

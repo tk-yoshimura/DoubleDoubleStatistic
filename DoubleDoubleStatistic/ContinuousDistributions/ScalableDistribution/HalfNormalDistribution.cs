@@ -23,7 +23,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public HalfNormalDistribution() : this(sigma: 1d) { }
 
         public HalfNormalDistribution(ddouble sigma) {
-            ValidateScale(sigma);
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Sigma = sigma;
 

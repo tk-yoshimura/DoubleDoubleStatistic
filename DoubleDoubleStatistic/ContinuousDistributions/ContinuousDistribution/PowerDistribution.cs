@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -18,8 +19,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble pdf_lognorm, pdf_norm, k_inv, alpha_inv;
 
         public PowerDistribution(ddouble k, ddouble alpha) {
-            ValidateShape(k, k => k > 0d);
-            ValidateShape(alpha, alpha => alpha > 0d);
+            ParamAssert.ValidateShape(nameof(k), ParamAssert.IsFinitePositive(k));
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
 
             K = k;
             Alpha = alpha;

@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -18,8 +19,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble ab, alpha_inv, beta_inv;
 
         public KumaraswamyDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0d);
-            ValidateShape(beta, beta => beta > 0d);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+            ParamAssert.ValidateShape(nameof(beta), ParamAssert.IsFinitePositive(beta));
 
             Alpha = alpha;
             Beta = beta;

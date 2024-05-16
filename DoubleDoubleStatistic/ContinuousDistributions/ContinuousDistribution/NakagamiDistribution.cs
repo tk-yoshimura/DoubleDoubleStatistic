@@ -20,8 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly GammaDistribution randam_gen_gamma_dist;
 
         public NakagamiDistribution(ddouble m, ddouble omega) {
-            ValidateShape(m, m => m >= 0.5d);
-            ValidateScale(omega);
+            ParamAssert.ValidateShape(nameof(m), m >= 0.5d && IsFinite(m));
+            ParamAssert.ValidateShape(nameof(omega), ParamAssert.IsFinitePositive(omega));
 
             M = m;
             Omega = omega;

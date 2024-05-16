@@ -19,8 +19,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble ck, c_inv, k_inv;
 
         public BurrDistribution(ddouble c, ddouble k) {
-            ValidateShape(c, c => c > 0d);
-            ValidateShape(k, k => k > 0d);
+            ParamAssert.ValidateShape(nameof(c), ParamAssert.IsFinitePositive(c));
+            ParamAssert.ValidateShape(nameof(k), ParamAssert.IsFinitePositive(k));
 
             C = c;
             K = k;

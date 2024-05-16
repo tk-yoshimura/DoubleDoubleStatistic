@@ -33,9 +33,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public DavisDistribution(ddouble alpha, ddouble sigma) : this(alpha: alpha, mu: 0d, sigma: sigma) { }
 
         public DavisDistribution(ddouble alpha, ddouble mu, ddouble sigma) {
-            ValidateShape(alpha, alpha => alpha > 1d);
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateShape(nameof(alpha), alpha > 1d && IsFinite(alpha));
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Alpha = alpha;
             Mu = mu;

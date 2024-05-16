@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -22,7 +23,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ChiSquareDistribution randam_gen_chisq_dist;
 
         public StudentTDistribution(ddouble nu) {
-            ValidateShape(nu, nu => nu > 0d);
+            ParamAssert.ValidateShape(nameof(nu), ParamAssert.IsFinitePositive(nu));
 
             Nu = nu;
 

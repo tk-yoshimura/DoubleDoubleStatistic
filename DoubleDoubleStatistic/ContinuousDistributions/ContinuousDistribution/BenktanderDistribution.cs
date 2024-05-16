@@ -20,8 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private QuantileBuilder? quantile_upper_builder = null;
 
         public BenktanderDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0d);
-            ValidateShape(beta, beta => beta > 0d && beta <= alpha * (alpha + 1d) * 0.5d);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+            ParamAssert.ValidateShape(nameof(beta), beta > 0d && beta <= alpha * (alpha + 1d) * 0.5d);
 
             Alpha = alpha;
             Beta = beta;

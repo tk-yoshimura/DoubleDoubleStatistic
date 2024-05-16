@@ -19,8 +19,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble ap, a_inv, p_inv;
 
         public DagumDistribution(ddouble a, ddouble p) {
-            ValidateShape(a, a => a > 0d);
-            ValidateShape(p, p => p > 0d);
+            ParamAssert.ValidateShape(nameof(a), ParamAssert.IsFinitePositive(a));
+            ParamAssert.ValidateShape(nameof(p), ParamAssert.IsFinitePositive(p));
 
             A = a;
             P = p;

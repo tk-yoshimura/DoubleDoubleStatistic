@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -22,8 +23,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public LogNormalDistribution() : this(mu: 0d, sigma: 1d) { }
 
         public LogNormalDistribution(ddouble mu, ddouble sigma) {
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Mu = mu;
             Sigma = sigma;

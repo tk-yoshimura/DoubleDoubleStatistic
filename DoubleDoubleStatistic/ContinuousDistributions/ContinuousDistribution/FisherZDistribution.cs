@@ -20,8 +20,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly SnedecorFDistribution randam_gen_f_dist;
 
         public FisherZDistribution(ddouble n, ddouble m) {
-            ValidateShape(n, n => n > 0d);
-            ValidateShape(m, m => m > 0d);
+            ParamAssert.ValidateShape(nameof(n), ParamAssert.IsFinitePositive(n));
+            ParamAssert.ValidateShape(nameof(m), ParamAssert.IsFinitePositive(m));
+
 
             N = n;
             M = m;

@@ -27,8 +27,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public CauchyDistribution(ddouble gamma) : this(mu: 0d, gamma: gamma) { }
 
         public CauchyDistribution(ddouble mu, ddouble gamma) {
-            ValidateLocation(mu);
-            ValidateScale(gamma);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(gamma), ParamAssert.IsFinitePositive(gamma));
 
             Mu = mu;
             Gamma = gamma;

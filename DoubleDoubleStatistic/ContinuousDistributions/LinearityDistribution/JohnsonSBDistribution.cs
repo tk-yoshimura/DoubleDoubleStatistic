@@ -32,10 +32,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public JohnsonSBDistribution(ddouble gamma, ddouble delta, ddouble sigma) : this(gamma, delta, mu: 0d, sigma: sigma) { }
 
         public JohnsonSBDistribution(ddouble gamma, ddouble delta, ddouble mu, ddouble sigma) {
-            ValidateShape(gamma, IsFinite);
-            ValidateScale(delta);
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateShape(nameof(gamma), IsFinite(gamma));
+            ParamAssert.ValidateShape(nameof(delta), IsFinite(delta));
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Gamma = gamma;
             Delta = delta;

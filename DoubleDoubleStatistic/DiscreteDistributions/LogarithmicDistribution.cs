@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -20,7 +21,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly double fr;
 
         public LogarithmicDistribution(ddouble p) {
-            ValidateShape(p, p => p > 0d && p < 1d);
+            ParamAssert.ValidateShape(nameof(p), p > 0d && p < 1d);
 
             P = p;
 

@@ -29,8 +29,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public NormalDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public NormalDistribution(ddouble mu, ddouble sigma) {
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Mu = mu;
             Sigma = sigma;

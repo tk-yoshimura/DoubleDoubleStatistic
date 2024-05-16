@@ -26,8 +26,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public InverseGaussDistribution() : this(mu: 1d, lambda: 1d) { }
 
         public InverseGaussDistribution(ddouble mu, ddouble lambda) {
-            ValidateShape(mu, mu => mu > 0d);
-            ValidateScale(lambda);
+            ParamAssert.ValidateShape(nameof(mu), ParamAssert.IsFinitePositive(mu));
+            ParamAssert.ValidateShape(nameof(lambda), ParamAssert.IsFinitePositive(lambda));
 
             Mu = mu;
             Lambda = lambda;

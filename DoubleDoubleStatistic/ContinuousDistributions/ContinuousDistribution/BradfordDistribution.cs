@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -17,6 +18,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble pdf_norm, c_inv;
 
         public BradfordDistribution(ddouble c) {
+            ParamAssert.ValidateShape(nameof(c), ParamAssert.IsFinitePositive(c));
+
             C = c;
             c_inv = 1d / c;
             pdf_norm = c / Log1p(c);

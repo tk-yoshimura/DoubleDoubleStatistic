@@ -1,4 +1,5 @@
 ﻿using DoubleDouble;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -15,8 +16,8 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         public DiscreteUniformDistribution(int n) : this(0, n) { }
 
         public DiscreteUniformDistribution(int a, int b) {
-            ValidateShape(a, a => a < b);
-            ValidateShape(b, b => b - a >= 0);
+            ParamAssert.ValidateShape(nameof(a), a < b);
+            ParamAssert.ValidateShape(nameof(b), b - a >= 0);
 
             A = a;
             B = b;

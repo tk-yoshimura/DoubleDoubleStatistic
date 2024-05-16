@@ -22,7 +22,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public AlphaDistribution() : this(alpha: 1d) { }
 
         public AlphaDistribution(ddouble alpha) {
-            ValidateScale(alpha);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
 
             Alpha = alpha;
             cdf_norm = 1d / Erfc(-alpha * sqrt2_inv);

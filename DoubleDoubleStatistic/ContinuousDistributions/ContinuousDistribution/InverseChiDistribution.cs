@@ -19,7 +19,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ChiDistribution randam_gen_chi_dist;
 
         public InverseChiDistribution(ddouble nu) {
-            ValidateShape(nu, nu => nu > 0d);
+            ParamAssert.ValidateShape(nameof(nu), ParamAssert.IsFinitePositive(nu));
 
             Nu = nu;
 

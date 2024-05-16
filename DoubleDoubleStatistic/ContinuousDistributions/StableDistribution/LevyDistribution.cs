@@ -28,8 +28,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public LevyDistribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public LevyDistribution(ddouble mu, ddouble c) {
-            ValidateLocation(mu);
-            ValidateScale(c);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(c), ParamAssert.IsFinitePositive(c));
 
             Mu = mu;
             C = c;

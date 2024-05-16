@@ -23,8 +23,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public LogLogisticDistribution(ddouble gamma) : this(gamma, sigma: 1d) { }
         public LogLogisticDistribution(ddouble gamma, ddouble sigma) {
-            ValidateScale(sigma);
-            ValidateShape(gamma, gamma => gamma > 0d);
+            ParamAssert.ValidateShape(nameof(gamma), ParamAssert.IsFinitePositive(gamma));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Sigma = sigma;
             Gamma = gamma;

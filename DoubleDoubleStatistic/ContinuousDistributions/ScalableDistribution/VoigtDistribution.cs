@@ -33,8 +33,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 
         public VoigtDistribution(ddouble gamma, ddouble sigma) {
-            ValidateScale(gamma);
-            ValidateScale(sigma);
+            ParamAssert.ValidateScale(nameof(gamma), ParamAssert.IsFinitePositive(gamma));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Gamma = gamma;
             Sigma = sigma;

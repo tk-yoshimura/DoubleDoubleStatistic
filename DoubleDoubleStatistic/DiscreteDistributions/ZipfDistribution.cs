@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -18,18 +19,18 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public ddouble S { get; }
 
-        private readonly ddouble pdfnorm;
+        private readonly ddouble pdf_norm;
 
         public ZipfDistribution(ddouble s) {
-            ValidateShape(s, s => s > 0d);
+            ParamAssert.ValidateShape(nameof(s), ParamAssert.IsFinitePositive(s));
 
             S = s;
 
-            pdfnorm = 1d / RiemannZeta(s + 1d);
+            pdf_norm = 1d / RiemannZeta(s + 1d);
         }
 
         public override ddouble PMF(int k) {
-            return k >= 1 ? pdfnorm / Pow(k, S + 1d) : 0d;
+            return k >= 1 ? pdf_norm / Pow(k, S + 1d) : 0d;
         }
 
         public override int Sample(Random random) {

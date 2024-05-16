@@ -3,6 +3,7 @@ using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -20,7 +21,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private Roulette? roulette = null;
 
         public PoissonDistribution(ddouble lambda) {
-            ValidateScale(lambda);
+            ParamAssert.ValidateScale(nameof(lambda), ParamAssert.IsFinitePositive(lambda));
 
             Lambda = lambda;
             lnlambda = Log(lambda);

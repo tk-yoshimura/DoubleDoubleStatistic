@@ -29,9 +29,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public FrechetDistribution(ddouble alpha, ddouble theta) : this(alpha: alpha, mu: 0d, theta: theta) { }
 
         public FrechetDistribution(ddouble alpha, ddouble mu, ddouble theta) {
-            ValidateShape(alpha, alpha => alpha > 0d);
-            ValidateLocation(mu);
-            ValidateScale(theta);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(theta), ParamAssert.IsFinitePositive(theta));
 
             Alpha = alpha;
             Mu = mu;

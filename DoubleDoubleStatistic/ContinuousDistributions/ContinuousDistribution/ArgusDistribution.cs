@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble pdf_norm, psi, psi_inv, alpha_sq;
 
         public ArgusDistribution(ddouble alpha) {
-            ValidateShape(alpha, alpha => alpha > 0d);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
 
             Alpha = alpha;
 

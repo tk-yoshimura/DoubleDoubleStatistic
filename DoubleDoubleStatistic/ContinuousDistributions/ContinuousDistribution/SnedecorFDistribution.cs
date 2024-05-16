@@ -3,6 +3,7 @@ using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -19,8 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ChiSquareDistribution randam_gen_chisq_dist_n, randam_gen_chisq_dist_m;
 
         public SnedecorFDistribution(ddouble n, ddouble m) {
-            ValidateShape(n, n => n > 0d);
-            ValidateShape(m, m => m > 0d);
+            ParamAssert.ValidateShape(nameof(n), ParamAssert.IsFinitePositive(n));
+            ParamAssert.ValidateShape(nameof(m), ParamAssert.IsFinitePositive(m));
 
             N = n;
             M = m;

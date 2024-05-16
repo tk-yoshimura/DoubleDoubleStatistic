@@ -23,8 +23,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public GompertzDistribution(ddouble eta) : this(eta, theta: 1d) { }
 
         public GompertzDistribution(ddouble eta, ddouble theta) {
-            ValidateShape(eta, eta => eta > 0d);
-            ValidateScale(theta);
+            ParamAssert.ValidateShape(nameof(eta), ParamAssert.IsFinitePositive(eta));
+            ParamAssert.ValidateScale(nameof(theta), ParamAssert.IsFinitePositive(theta));
 
             Eta = eta;
             Theta = theta;

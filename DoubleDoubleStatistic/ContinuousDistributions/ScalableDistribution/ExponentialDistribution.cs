@@ -20,7 +20,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ExponentialDistribution() : this(theta: 1d) { }
 
         public ExponentialDistribution(ddouble theta) {
-            ValidateScale(theta);
+            ParamAssert.ValidateScale(nameof(theta), ParamAssert.IsFinitePositive(theta));
 
             Theta = theta;
 

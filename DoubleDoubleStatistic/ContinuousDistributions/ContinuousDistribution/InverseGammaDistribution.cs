@@ -3,6 +3,7 @@ using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -21,8 +22,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public InverseGammaDistribution() : this(alpha: 1d, beta: 1d) { }
 
         public InverseGammaDistribution(ddouble alpha, ddouble beta) {
-            ValidateShape(alpha, alpha => alpha > 0d);
-            ValidateShape(beta, beta => beta > 0d);
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+            ParamAssert.ValidateShape(nameof(beta), ParamAssert.IsFinitePositive(beta));
 
             Alpha = alpha;
             Beta = beta;

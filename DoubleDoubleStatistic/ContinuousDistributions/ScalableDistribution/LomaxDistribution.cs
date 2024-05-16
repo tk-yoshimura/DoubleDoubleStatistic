@@ -23,6 +23,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public LomaxDistribution(ddouble alpha) : this(alpha, theta: 1d) { }
 
         public LomaxDistribution(ddouble alpha, ddouble theta) {
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
+            ParamAssert.ValidateScale(nameof(theta), ParamAssert.IsFinitePositive(theta));
+
             Alpha = alpha;
             Theta = theta;
 

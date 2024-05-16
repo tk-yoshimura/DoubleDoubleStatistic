@@ -33,9 +33,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public SkewNormalDistribution(ddouble alpha, ddouble sigma) : this(alpha, mu: 0d, sigma: sigma) { }
 
         public SkewNormalDistribution(ddouble alpha, ddouble mu, ddouble sigma) {
-            ValidateShape(alpha, alpha => Abs(alpha) <= 256d);
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateShape(nameof(alpha), Abs(alpha) <= 256d);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Mu = mu;
             Sigma = sigma;

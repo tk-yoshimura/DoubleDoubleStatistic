@@ -2,6 +2,7 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
@@ -23,8 +24,8 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly PoissonDistribution randam_gen_poisson_dist_mu1, randam_gen_poisson_dist_mu2;
 
         public SkellamDistribution(ddouble mu1, ddouble mu2) {
-            ValidateShape(mu1, mu => mu > 0d && mu <= 256d);
-            ValidateShape(mu2, mu => mu > 0d && mu <= 256d);
+            ParamAssert.ValidateShape(nameof(mu1), mu1 > 0d && mu1 <= 256d);
+            ParamAssert.ValidateShape(nameof(mu2), mu2 > 0d && mu2 <= 256d);
 
             Mu1 = mu1;
             Mu2 = mu2;

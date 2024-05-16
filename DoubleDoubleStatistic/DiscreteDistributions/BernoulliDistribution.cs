@@ -2,6 +2,7 @@
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
+using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
 using static DoubleDouble.ddouble;
 
@@ -15,7 +16,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
         private readonly ddouble p, q;
 
         public BernoulliDistribution(ddouble p) {
-            ValidateShape(p, p => p >= 0d && p <= 1d);
+            ParamAssert.ValidateShape(nameof(p), p >= 0d && p <= 1d);
 
             P = p;
             this.p = p;

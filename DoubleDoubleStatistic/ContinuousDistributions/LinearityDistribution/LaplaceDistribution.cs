@@ -25,8 +25,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public LaplaceDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public LaplaceDistribution(ddouble mu, ddouble sigma) {
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Mu = mu;
             Sigma = sigma;

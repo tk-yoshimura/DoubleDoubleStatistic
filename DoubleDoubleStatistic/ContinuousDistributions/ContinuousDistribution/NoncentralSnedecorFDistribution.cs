@@ -21,9 +21,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly NoncentralChiSquareDistribution randam_gen_noncchisq_dist;
 
         public NoncentralSnedecorFDistribution(ddouble n, ddouble m, ddouble lambda) {
-            ValidateShape(n, n => n > 0d);
-            ValidateShape(m, m => m > 0d);
-            ValidateShape(lambda, lambda => lambda > 0d);
+            ParamAssert.ValidateShape(nameof(n), ParamAssert.IsFinitePositive(n));
+            ParamAssert.ValidateShape(nameof(m), ParamAssert.IsFinitePositive(m));
+            ParamAssert.ValidateNonCentricity(nameof(lambda), ParamAssert.IsFinitePositive(lambda));
 
             N = n;
             M = m;

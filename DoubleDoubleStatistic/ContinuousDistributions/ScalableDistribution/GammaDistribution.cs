@@ -26,8 +26,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public GammaDistribution(ddouble kappa) : this(kappa, theta: 1d) { }
 
         public GammaDistribution(ddouble kappa, ddouble theta) {
-            ValidateShape(kappa, k => k > 0d);
-            ValidateScale(theta);
+            ParamAssert.ValidateShape(nameof(kappa), ParamAssert.IsFinitePositive(kappa));
+            ParamAssert.ValidateScale(nameof(theta), ParamAssert.IsFinitePositive(theta));
 
             Kappa = kappa;
             Theta = theta;

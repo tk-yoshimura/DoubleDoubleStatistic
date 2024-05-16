@@ -33,8 +33,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public FoldedNormalDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public FoldedNormalDistribution(ddouble mu, ddouble sigma) {
-            ValidateLocation(mu);
-            ValidateScale(sigma);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             mu = Abs(mu);
 

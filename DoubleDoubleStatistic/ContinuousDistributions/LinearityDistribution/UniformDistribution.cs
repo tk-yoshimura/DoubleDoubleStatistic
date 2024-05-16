@@ -24,12 +24,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public UniformDistribution() : this(0d, 1d) { }
 
         public UniformDistribution(ddouble a, ddouble b) {
-            ValidateLocation(a);
-            ValidateLocation(b);
-
-            if (!(a < b) || !IsFinite(b - a)) {
-                throw new ArgumentException($"Invalid location parameter. {nameof(a)} < {nameof(b)}");
-            }
+            ParamAssert.ValidateLocation(nameof(a), IsFinite(a));
+            ParamAssert.ValidateLocation(nameof(b), IsFinite(b));
+            ParamAssert.ValidateLocation($"{nameof(a)},{nameof(b)}", (a < b) && IsFinite(b - a));
 
             A = a;
             B = b;

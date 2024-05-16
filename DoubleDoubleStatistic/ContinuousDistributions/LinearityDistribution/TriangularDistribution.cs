@@ -29,13 +29,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public TriangularDistribution(ddouble a, ddouble b) : this(a, b, c: (a + b) * 0.5d) { }
 
         public TriangularDistribution(ddouble a, ddouble b, ddouble c) {
-            ValidateLocation(a);
-            ValidateLocation(b);
-            ValidateLocation(c);
-
-            if (!(a < c) || !(c < b) || !IsFinite(b - a)) {
-                throw new ArgumentException($"Invalid location parameter. {nameof(a)} < {nameof(c)} < {nameof(b)}");
-            }
+            ParamAssert.ValidateLocation(nameof(a), IsFinite(a));
+            ParamAssert.ValidateLocation(nameof(b), IsFinite(b));
+            ParamAssert.ValidateLocation(nameof(c), IsFinite(c));
+            ParamAssert.ValidateLocation($"{nameof(a)},{nameof(b)},{nameof(c)}", (a < c) && (c < b) && IsFinite(b - a));
 
             A = a;
             B = b;

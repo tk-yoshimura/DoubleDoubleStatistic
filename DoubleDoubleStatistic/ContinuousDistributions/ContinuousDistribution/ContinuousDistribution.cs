@@ -45,35 +45,5 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         protected static bool InRangeUnit(ddouble v) {
             return v >= 0d && v <= 1d;
         }
-
-        protected static void ValidateScale(ddouble scale) {
-            if (!(scale > 0d && ddouble.IsFinite(scale))) {
-                throw new ArgumentOutOfRangeException(nameof(scale), "Invalid scale parameter.");
-            }
-        }
-
-        protected static void ValidateLocation(ddouble location) {
-            if (!ddouble.IsFinite(location)) {
-                throw new ArgumentOutOfRangeException(nameof(location), "Invalid location parameter.");
-            }
-        }
-
-        protected static void ValidateLocation(ddouble location, Func<ddouble, bool> condition) {
-            if (!ddouble.IsFinite(location) || !condition(location)) {
-                throw new ArgumentOutOfRangeException(nameof(location), "Invalid location parameter.");
-            }
-        }
-
-        protected static void ValidateShape(ddouble shape, Func<ddouble, bool> condition) {
-            if (!condition(shape)) {
-                throw new ArgumentOutOfRangeException(nameof(shape), "Invalid shape parameter.");
-            }
-        }
-
-        protected static void ValidateShape(int shape, Func<int, bool> condition) {
-            if (!condition(shape)) {
-                throw new ArgumentOutOfRangeException(nameof(shape), "Invalid shape parameter.");
-            }
-        }
     }
 }

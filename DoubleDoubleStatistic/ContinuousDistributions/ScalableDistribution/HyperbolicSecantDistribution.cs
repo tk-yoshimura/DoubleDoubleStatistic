@@ -20,6 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public HyperbolicSecantDistribution() : this(sigma: 1d) { }
 
         public HyperbolicSecantDistribution(ddouble sigma) {
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
+
             Sigma = sigma;
             sigma_inv = 1d / sigma;
             pdf_norm = sigma_inv * 0.5d;

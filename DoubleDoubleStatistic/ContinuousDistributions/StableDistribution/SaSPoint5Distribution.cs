@@ -32,8 +32,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public SaSPoint5Distribution(ddouble c) : this(mu: 0d, c: c) { }
 
         public SaSPoint5Distribution(ddouble mu, ddouble c) {
-            ValidateLocation(mu);
-            ValidateScale(c);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(c), ParamAssert.IsFinitePositive(c));
 
             Mu = mu;
             C = c;

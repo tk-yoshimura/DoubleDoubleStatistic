@@ -25,8 +25,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ChiSquareDistribution randam_gen_chisq_dist;
 
         public NoncentralStudentTDistribution(ddouble nu, ddouble mu) {
-            ValidateShape(nu, nu => nu > 0d);
-            ValidateLocation(mu, IsFinite);
+            ParamAssert.ValidateShape(nameof(nu), ParamAssert.IsFinitePositive(nu));
+            ParamAssert.ValidateNonCentricity(nameof(mu), ParamAssert.IsFinitePositive(mu));
 
             Nu = nu;
             Mu = mu;

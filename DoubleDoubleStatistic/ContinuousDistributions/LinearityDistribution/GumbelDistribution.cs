@@ -25,8 +25,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public GumbelDistribution(ddouble sigma) : this(mu: 0d, sigma: sigma) { }
 
         public GumbelDistribution(ddouble mu, ddouble sigma) {
-            ValidateLocation(mu);
-            ValidateShape(sigma, beta => beta > 0d);
+            ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(sigma), ParamAssert.IsFinitePositive(sigma));
 
             Mu = mu;
             Sigma = sigma;
