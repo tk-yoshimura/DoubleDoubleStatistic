@@ -20,38 +20,26 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
 
         private readonly Vector mu;
         private readonly Matrix cov_matrix, cov_matrix_inv, random_gen_weight;
-        private readonly ReadOnlyCollection<int> random_gen_index;
         private readonly ddouble pdf_norm;
 
-        public MultiVariateNormalDistribution(Vector mu, Matrix covariance) {
-            ParamAssert.ValidateLocation(nameof(mu), mu.Dim >= 1 && Vector.IsFinite(mu));
-            ParamAssert.ValidateScale(nameof(covariance), Matrix.IsSquare(covariance) && Matrix.IsSymmetric(covariance));
-
+        public MultiVariateNormalDistribution(Vector mu, Matrix cov) {
             int dim = mu.Dim;
-            ddouble det = covariance.Det;
 
-            ParamAssert.ValidateScale(nameof(covariance), covariance.Shape == (dim, dim) && ParamAssert.IsFinitePositive(det));
+            ParamAssert.ValidateLocation(nameof(mu), mu.Dim >= 1 && Vector.IsFinite(mu));
+            ParamAssert.ValidateScale(nameof(cov), Matrix.IsSquare(cov) && cov.Shape == (dim, dim) && Matrix.IsSymmetric(cov));
+
+            ddouble det = cov.Det;
+
+            ParamAssert.ValidateScale($"{nameof(det)}({nameof(cov)})", ParamAssert.IsFinitePositive(det));
 
             Dim = dim;
             this.mu = mu;
-            this.cov_matrix = covariance;
-            this.cov_matrix_inv = covariance.Inverse;
+            this.cov_matrix = cov;
+            this.cov_matrix_inv = cov.Inverse;
             this.pdf_norm = 1d / Sqrt(Pow(2d * PI, dim) * det);
-            (Matrix p, Matrix lower, Matrix upper) = Matrix.LU(covariance);
 
-            random_gen_weight = lower * Matrix.FromDiagonals(Vector.Func(Sqrt, upper.Diagonals));
-
-            int[] generation_index = new int[dim];
-            for (int i = 0; i < dim; i++) {
-                for (int j = 0; j < dim; j++) {
-                    if (p[i, j] > 0) {
-                        generation_index[i] = j;
-                        break;
-                    }
-                }
-            }
-
-            this.random_gen_index = new ReadOnlyCollection<int>(generation_index);
+            (Matrix u, Vector s, _) = Matrix.SVD(cov);
+            random_gen_weight = u * Matrix.FromDiagonals(Vector.Func(x => IsPositive(x) ? Sqrt(x) : -Sqrt(-x), s));
         }
 
         public override ddouble PDF(Vector x) {
@@ -71,13 +59,16 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
 
             for (int i = 0; i < Dim; i++) {
                 z[i] = random.NextGaussian();
+            }
+
+            for (int i = 0; i < Dim; i++) {
                 double x = (double)mu[i];
 
-                for (int j = 0; j <= i; j++) {
+                for (int j = 0; j < Dim; j++) {
                     x += (double)random_gen_weight[i, j] * z[j];
                 }
 
-                v[random_gen_index[i]] = x;
+                v[i] = x;
             }
 
             return v;
