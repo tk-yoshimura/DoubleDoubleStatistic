@@ -8,7 +8,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DirectionalDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class VonMisesDistribution : 
+    public class VonMisesDistribution :
         DirectionalDistribution<ddouble, double> {
 
         public ddouble Kappa { get; }

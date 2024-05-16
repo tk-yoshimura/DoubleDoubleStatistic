@@ -8,7 +8,7 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DirectionalDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class VonMisesFisherDistribution : 
+    public class VonMisesFisherDistribution :
         DirectionalDistribution<(ddouble x, ddouble y, ddouble z), (double x, double y, double z)> {
 
         public (ddouble x, ddouble y, ddouble z) Mu { get; }
@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public VonMisesFisherDistribution(ddouble kappa, (ddouble x, ddouble y, ddouble z) mu) {
             ddouble r = Hypot(mu.x, mu.y, mu.z);
-            
+
             ParamAssert.ValidateShape(nameof(kappa), kappa >= 0d && kappa < 256d);
             ParamAssert.ValidateLocation(nameof(mu), IsFinite(r) && r > 0d);
 
@@ -85,8 +85,8 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             double z = w;
 
             (double, double, double) v = (
-                x * qxx + 2 * (y * qij + z * qrj), 
-                y * qyy - 2 * (z * qri - x * qij), 
+                x * qxx + 2 * (y * qij + z * qrj),
+                y * qyy - 2 * (z * qri - x * qij),
                 z * qzz - 2 * (x * qrj - y * qri)
             );
 
@@ -97,7 +97,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public override (ddouble x, ddouble y, ddouble z) Mode => Mu;
 
-        public override ddouble Entropy => Kappa > 1e-15d 
+        public override ddouble Entropy => Kappa > 1e-15d
             ? -Log(pdf_norm) - Kappa * BesselI(1.5d, Kappa) / BesselI(0.5d, Kappa)
             : Log(4d * PI);
 

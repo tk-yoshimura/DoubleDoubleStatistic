@@ -1,7 +1,6 @@
 ﻿using Algebra;
 using DoubleDouble;
 using DoubleDoubleStatistic.ContinuousDistributions;
-using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;

@@ -24,7 +24,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             ddouble prob_sum = probs.Sum();
 
             ParamAssert.ValidateShape(nameof(probs), probs.All(p => p >= 0d && IsFinite(p)) && IsFinite(prob_sum));
-        
+
             Probs = new ReadOnlyCollection<ddouble>(probs.Select(p => p / prob_sum).ToArray());
 
             roulette = new(probs.Select(p => (double)p));
