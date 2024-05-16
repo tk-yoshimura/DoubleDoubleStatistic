@@ -186,16 +186,6 @@ double[] xs = dist.Sample(random, 100000).ToArray();
 | non-centricity parameter | lambda       |                             |
 |                          | mu           | non-central student t       |
 
-## To Be Updated
-
-### Not Implemented Distributions
-
-(N/A)
-
-### Not Implemented Functions
-
-- Statistic Test
-
 ## Licence
 [MIT](https://github.com/tk-yoshimura/DoubleDoubleStatistic/blob/main/LICENSE)
 
