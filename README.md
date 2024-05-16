@@ -5,6 +5,7 @@
 .NET 8.0  
 [DoubleDouble](https://github.com/tk-yoshimura/DoubleDouble)  
 [DoubleDoubleComplex](https://github.com/tk-yoshimura/DoubleDoubleComplex)  
+[Algebra](https://github.com/tk-yoshimura/Algebra)  
 
 ## Install
 [Download DLL](https://github.com/tk-yoshimura/DoubleDoubleStatistic/releases)  
@@ -105,7 +106,14 @@
 | category    | distribution     | PDF      | statistic | fitting  | random generation | note |
 | ----------- | ---------------- | -------- | --------- | -------- | ----------------- | ---- |
 | directional | von mises        | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
-|             | von mises fisher | &#x2714; | &#x2714;  | -        | &#x2714;          |      |
+|             | von mises fisher | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
+
+### MultiVariate
+
+| category     | distribution | PDF      | statistic | fitting  | random generation | note |
+| ------------ | ------------ | -------- | --------- | -------- | ----------------- | ---- |
+| multivariate | dirichlet    | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
+|              | multi normal | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
 
 ## Usage
 
