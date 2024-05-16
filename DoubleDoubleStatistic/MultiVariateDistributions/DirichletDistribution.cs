@@ -66,7 +66,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
                 u += Log(x[i]) * ((double)Alpha[i] - 1d);
             }
 
-            ddouble pdf = Exp(u + pdf_norm);
+            ddouble pdf = Exp(u - pdf_norm);
 
             return pdf;
         }
