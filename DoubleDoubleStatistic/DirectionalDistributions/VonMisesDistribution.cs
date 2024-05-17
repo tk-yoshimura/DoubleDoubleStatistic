@@ -48,6 +48,10 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         }
 
         public override ddouble PDF(ddouble x) {
+            if (!IsFinite(x)) {
+                return NaN;
+            }
+
             ddouble pdf = Exp(Kappa * Cos(x - Mu)) * pdf_norm;
 
             return pdf;
