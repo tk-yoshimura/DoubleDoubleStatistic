@@ -2,6 +2,7 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
@@ -18,6 +19,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ddouble c;
 
         private QuantileBuilder? quantile_upper_builder = null;
+
+        private QuantileSampler? sampler = null;
 
         public BenktanderDistribution(ddouble alpha, ddouble beta) {
             ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
@@ -117,6 +120,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             x = Max(1d, x);
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            sampler ??= new QuantileSampler(this, samples: 4096);
+
+            double u = random.NextUniform();
+            double r = sampler.QuantileApprox(u);
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (1d, PositiveInfinity);

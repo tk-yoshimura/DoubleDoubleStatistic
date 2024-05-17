@@ -2,6 +2,7 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
@@ -15,6 +16,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ddouble Alpha { get; }
 
         private readonly ddouble pdf_norm, psi, psi_inv, alpha_sq;
+
+        private QuantileSampler? sampler = null;
 
         public ArgusDistribution(ddouble alpha) {
             ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
@@ -95,6 +98,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             x = Min(1d, x);
 
             return x;
+        }
+
+        public override double Sample(Random random) {
+            sampler ??= new QuantileSampler(this, samples: 4096);
+
+            double u = random.NextUniform();
+            double r = sampler.QuantileApprox(u);
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (0d, 1d);

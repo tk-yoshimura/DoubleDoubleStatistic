@@ -2,6 +2,7 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
+using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Collections.ObjectModel;
@@ -27,6 +28,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private const int cache_samples = 512;
         private CDFSegmentCache? cdf_cache = null;
         private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileSampler? sampler = null;
 
         public DavisDistribution(ddouble alpha) : this(alpha: alpha, mu: 0d, sigma: 1d) { }
 
@@ -218,6 +220,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             y = IsFinite(y) ? y : 0d;
 
             return y;
+        }
+
+        public override double Sample(Random random) {
+            sampler ??= new QuantileSampler(new DavisDistribution(Alpha), samples: 4096);
+
+            double u = random.NextUniform();
+            double r = sampler.QuantileApprox(u) * (double)Sigma + (double)Mu;
+
+            return r;
         }
 
         public override (ddouble min, ddouble max) Support => (Mu, PositiveInfinity);

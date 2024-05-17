@@ -26,14 +26,14 @@
 |            | normal            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | sas point5        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 | linearity  | cosine            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | davis             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | CDF and Quantile take longer to calculate.       |
+|            | davis             | &#x2714; | &#x26A0; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | CDF and Quantile take longer to calculate.       |
 |            | frechet           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | gumbel            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | johnson sb        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | johnson su        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | laplace           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | logistic          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | skew normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | Quantile take longer to calculate.               |
+|            | skew normal       | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | Quantile take longer to calculate.               |
 |            | uniform           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | u quadratic       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | weibull           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
@@ -42,20 +42,20 @@
 |            | folded normal     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | gamma             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | gompertz          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | half normal       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | Quantile take longer to calculate.               |
+|            | half normal       | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | Quantile take longer to calculate.               |
 |            | hyperbolic secant | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | inverse gauss     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | Quantile take longer to calculate.               |
+|            | inverse gauss     | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | Quantile take longer to calculate.               |
 |            | log logistic      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | lomax             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | maxwell           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | pareto            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | voigt             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | CDF and Quantile take longer to calculate.       |
+|            | voigt             | &#x2714; | &#x26A0; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | CDF and Quantile take longer to calculate.       |
 |            | wigner semicircle | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 | continuous | alpha             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | arcsine           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | -        | &#x2714;          |                                                  |
-|            | argus             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          |                                                  |
-|            | benktander        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | Quantile take longer to calculate.               |
+|            | argus             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x2714;          |                                                  |
+|            | benktander        | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | Quantile take longer to calculate.               |
 |            | beta              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | beta prime        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | bradford          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
@@ -72,12 +72,12 @@
 |            | kumaraswamy       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | log normal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | nakagami          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | noncentral chi sq | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
-|            | noncentral f      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
-|            | noncentral t      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
+|            | noncentral chi sq | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
+|            | noncentral f      | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
+|            | noncentral t      | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
 |            | power             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | reciprocal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | rice              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x26A0; | &#x26A0;          | CDF and Quantile take longer to calculate.       |
+|            | rice              | &#x2714; | &#x26A0; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | CDF and Quantile take longer to calculate.       |
 |            | snedecor f        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | student t         | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | triangular        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
