@@ -129,9 +129,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
             ddouble[] ys = samples.Quantile(qs).ToArray();
 
-            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+            (ddouble u, ddouble v) = BisectionMinimizeSearch2D.Search(
                 ((ddouble u, ddouble v) t) => {
-                    ddouble mu = Log2(t.u / (1d - t.u));
+                    ddouble mu = t.u / (1d - Abs(t.u));
                     ddouble sigma = t.v / (1d - t.v);
 
                     try {
@@ -142,11 +142,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         return NaN;
                     }
 
-                }, ((0.0001, 1e-10d), (0.9999, 1000d / 1001d)), iter: 64
+                }, ((-0.9999, 1e-10d), (0.9999, 1000d / 1001d)), iter: 64
             );
 
             try {
-                ddouble mu = Log2(u / (1d - u));
+                ddouble mu = u / (1d - Abs(u));
                 ddouble sigma = v / (1d - v);
                 LogNormalDistribution dist = new(mu, sigma);
                 ddouble error = EvalFitness.MeanSquaredError(dist, qs, ys);
