@@ -101,6 +101,8 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public override (ddouble x, ddouble y, ddouble z) Mode => Mu;
 
+        public override ddouble Variance => 1d - BesselI(1.5, Kappa) / BesselI(0.5, Kappa);
+
         public override ddouble Skewness => 0d;
 
         public override ddouble Entropy => Kappa > 1e-15d
