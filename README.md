@@ -105,7 +105,8 @@
 
 | category    | distribution     | PDF      | statistic | fitting  | random generation | note                             |
 | ----------- | ---------------- | -------- | --------- | -------- | ----------------- | -------------------------------- |
-| directional | von mises        | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Not implemented: kurtosis        |
+| directional | circular cauchy  | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Not implemented: kurtosis        |
+|             | von mises        | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Not implemented: kurtosis        |
 |             | von mises fisher | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Dim=3, Not implemented: kurtosis |
 
 ### MultiVariate
