@@ -164,7 +164,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
             ddouble[] ys = samples.Quantile(qs).ToArray();
 
-            ddouble c = GridMinimizeSearch1D.Search(
+            ddouble c = BisectionMinimizeSearch1D.Search(
                 c => {
                     try {
                         TriangularDistribution dist = new(0d, 1d, c);

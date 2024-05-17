@@ -72,7 +72,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
             ddouble mean = samples.Select(n => (ddouble)n).Mean();
 
-            ddouble p = GridMinimizeSearch1D.Search(
+            ddouble p = BisectionMinimizeSearch1D.Search(
                 p => {
                     try {
                         LogarithmicDistribution dist = new(p);

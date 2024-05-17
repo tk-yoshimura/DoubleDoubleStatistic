@@ -155,7 +155,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble beta_max = alpha * (alpha + 1d) * 0.5d;
 
-            ddouble beta = GridMinimizeSearch1D.Search(
+            ddouble beta = BisectionMinimizeSearch1D.Search(
                 beta => {
                     try {
                         BenktanderDistribution dist = new(alpha, beta);

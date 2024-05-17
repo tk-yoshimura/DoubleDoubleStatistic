@@ -115,7 +115,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
             ddouble re = Sqrt((n * r - 1d) / (ddouble)(n - 1));
 
-            ddouble t = GridMinimizeSearch1D.Search(
+            ddouble t = BisectionMinimizeSearch1D.Search(
                 t => {
                     ddouble kappa = t / (1d - t);
 

@@ -129,7 +129,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
             ddouble[] ys = samples.Quantile(qs).ToArray();
 
-            (ddouble u, ddouble v) = GridMinimizeSearch2D.Search(
+            (ddouble u, ddouble v) = BisectionMinimizeSearch2D.Search(
                 ((ddouble u, ddouble v) t) => {
                     ddouble k = t.u / (1d - t.u);
                     ddouble alpha = t.v / (1d - t.v);

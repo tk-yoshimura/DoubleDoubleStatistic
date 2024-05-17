@@ -99,7 +99,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
             ddouble mean = samples.Select(n => (ddouble)n).Mean();
 
-            ddouble t = GridMinimizeSearch1D.Search(
+            ddouble t = BisectionMinimizeSearch1D.Search(
                 t => {
                     try {
                         ddouble s = t / (1d - t);

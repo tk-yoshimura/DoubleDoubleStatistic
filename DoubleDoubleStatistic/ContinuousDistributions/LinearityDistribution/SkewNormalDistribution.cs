@@ -301,7 +301,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
             ddouble[] ys = samples.Quantile(qs).ToArray();
 
-            ddouble alpha = GridMinimizeSearch1D.Search(
+            ddouble alpha = BisectionMinimizeSearch1D.Search(
                 alpha => {
                     try {
                         SkewNormalDistribution dist = new(alpha);

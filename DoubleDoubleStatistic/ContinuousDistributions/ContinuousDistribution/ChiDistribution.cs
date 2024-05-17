@@ -131,7 +131,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble[] qs = EnumerableUtil.Linspace(fitting_quantile_range.min, fitting_quantile_range.max, quantile_partitions + 1, end_point: true).ToArray();
             ddouble[] ys = samples.Quantile(qs).ToArray();
 
-            ddouble t = GridMinimizeSearch1D.Search(
+            ddouble t = BisectionMinimizeSearch1D.Search(
                 t => {
                     ddouble nu = t / (1d - t);
 

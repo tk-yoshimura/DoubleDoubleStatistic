@@ -286,10 +286,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return mode.Value;
                 }
 
-                ddouble t = GridMinimizeSearch1D.Search(t => -PDF(t / (1d - t)), (0.125d, 1d), iter: 1024);
+                ddouble t = BisectionMinimizeSearch1D.Search(t => -PDF(t / (1d - t)), (0.125d, 1d), iter: 1024);
                 ddouble xp = t / (1d - t);
 
-                ddouble xn = GridMinimizeSearch1D.Search(t => -PDF(t), (0d, 0.15d), iter: 1024);
+                ddouble xn = BisectionMinimizeSearch1D.Search(t => -PDF(t), (0d, 0.15d), iter: 1024);
 
                 ddouble vp = PDF(xp), vn = PDF(xn);
 

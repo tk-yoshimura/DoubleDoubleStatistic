@@ -1,7 +1,7 @@
 ﻿using DoubleDouble;
 
 namespace DoubleDoubleStatistic.Optimizer {
-    internal class GridMinimizeSearch2D : IConvexSearch<(ddouble x, ddouble y)> {
+    internal class BisectionMinimizeSearch2D : IConvexSearch<(ddouble x, ddouble y)> {
 
         private readonly Func<(ddouble x, ddouble y), ddouble> cost_func;
 
@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic.Optimizer {
         private (Int128 position, ddouble param) next_xmin, next_xmax, next_ymin, next_ymax;
         private readonly Dictionary<(Int128 x, Int128 y), ((ddouble x, ddouble y) param, ddouble cost)> searched = [];
 
-        public GridMinimizeSearch2D(Func<(ddouble x, ddouble y), ddouble> cost_func, (ddouble min, ddouble max) range_x, (ddouble min, ddouble max) range_y, int depth, int max_iter) {
+        public BisectionMinimizeSearch2D(Func<(ddouble x, ddouble y), ddouble> cost_func, (ddouble min, ddouble max) range_x, (ddouble min, ddouble max) range_y, int depth, int max_iter) {
             ArgumentOutOfRangeException.ThrowIfLessThan(max_iter, 1, nameof(max_iter));
             ArgumentOutOfRangeException.ThrowIfLessThan(depth, 1, nameof(depth));
             ArgumentOutOfRangeException.ThrowIfGreaterThan(depth, 120, nameof(depth));
@@ -140,7 +140,7 @@ namespace DoubleDoubleStatistic.Optimizer {
         }
 
         public static (ddouble x, ddouble y) Search(Func<(ddouble x, ddouble y), ddouble> cost_func, ((ddouble x, ddouble y) min, (ddouble x, ddouble y) max) range, int iter) {
-            GridMinimizeSearch2D searcher = new(cost_func, (range.min.x, range.max.x), (range.min.y, range.max.y), depth: 100, max_iter: iter);
+            BisectionMinimizeSearch2D searcher = new(cost_func, (range.min.x, range.max.x), (range.min.y, range.max.y), depth: 100, max_iter: iter);
 
             while (!searcher.Finished) {
                 searcher.Iteration();

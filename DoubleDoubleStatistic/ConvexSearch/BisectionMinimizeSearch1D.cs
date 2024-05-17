@@ -1,7 +1,7 @@
 ﻿using DoubleDouble;
 
 namespace DoubleDoubleStatistic.Optimizer {
-    internal class GridMinimizeSearch1D : IConvexSearch<ddouble> {
+    internal class BisectionMinimizeSearch1D : IConvexSearch<ddouble> {
 
         private readonly Func<ddouble, ddouble> cost_func;
 
@@ -11,7 +11,7 @@ namespace DoubleDoubleStatistic.Optimizer {
         private (Int128 position, ddouble param) next_min, next_max;
         private readonly Dictionary<Int128, (ddouble param, ddouble cost)> searched = [];
 
-        public GridMinimizeSearch1D(Func<ddouble, ddouble> cost_func, (ddouble min, ddouble max) range, int depth, int max_iter) {
+        public BisectionMinimizeSearch1D(Func<ddouble, ddouble> cost_func, (ddouble min, ddouble max) range, int depth, int max_iter) {
             ArgumentOutOfRangeException.ThrowIfLessThan(max_iter, 1, nameof(max_iter));
             ArgumentOutOfRangeException.ThrowIfLessThan(depth, 1, nameof(depth));
             ArgumentOutOfRangeException.ThrowIfGreaterThan(depth, 120, nameof(depth));
@@ -93,7 +93,7 @@ namespace DoubleDoubleStatistic.Optimizer {
         }
 
         public static ddouble Search(Func<ddouble, ddouble> cost_func, (ddouble min, ddouble max) range, int iter) {
-            GridMinimizeSearch1D searcher = new(cost_func, range, depth: 100, max_iter: iter);
+            BisectionMinimizeSearch1D searcher = new(cost_func, range, depth: 100, max_iter: iter);
 
             while (!searcher.Finished) {
                 searcher.Iteration();
