@@ -230,13 +230,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return NegativeInfinity;
                 }
 
-                this.quantile_lower_builder ??= new QuantileBuilder(0d, 1d, t => CDF(Log(t / (1d - t)), Interval.Lower), samples: cache_samples);
+                this.quantile_lower_builder ??= new QuantileBuilder(-1d, 1d, t => CDF(t / (1d - Abs(t)), Interval.Lower), samples: cache_samples);
 
                 (ddouble t, ddouble t0, ddouble t1) = quantile_lower_builder.Estimate(p);
 
-                ddouble x = Log(t / (1d - t));
-                ddouble x0 = Log(t0 / (1d - t0));
-                ddouble x1 = Log(t1 / (1d - t1));
+                ddouble x = t / (1d - Abs(t));
+                ddouble x0 = t0 / (1d - Abs(t0));
+                ddouble x1 = t1 / (1d - Abs(t1));
 
                 for (int i = 0; i < 64; i++) {
                     ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
@@ -267,13 +267,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return PositiveInfinity;
                 }
 
-                this.quantile_upper_builder ??= new QuantileBuilder(1d, 0d, t => CDF(Log(t / (1d - t)), Interval.Upper), samples: cache_samples);
+                this.quantile_upper_builder ??= new QuantileBuilder(1d, -1d, t => CDF(t / (1d - Abs(t)), Interval.Upper), samples: cache_samples);
 
                 (ddouble t, ddouble t0, ddouble t1) = quantile_upper_builder.Estimate(p);
 
-                ddouble x = Log(t / (1d - t));
-                ddouble x0 = Log(t0 / (1d - t0));
-                ddouble x1 = Log(t1 / (1d - t1));
+                ddouble x = t / (1d - Abs(t));
+                ddouble x0 = t0 / (1d - Abs(t0));
+                ddouble x1 = t1 / (1d - Abs(t1));
 
                 for (int i = 0; i < 64; i++) {
                     ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
