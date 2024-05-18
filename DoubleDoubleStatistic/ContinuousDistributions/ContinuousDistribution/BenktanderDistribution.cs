@@ -20,7 +20,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private QuantileBuilder? quantile_upper_builder = null;
 
-        private QuantileSampler? sampler = null;
+        private QuantileCubicApprox? sampler = null;
 
         public BenktanderDistribution(ddouble alpha, ddouble beta) {
             ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
@@ -89,7 +89,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return PositiveInfinity;
             }
             if (p >= 1) {
-                return 0d;
+                return 1d;
             }
 
             this.quantile_upper_builder ??= new QuantileBuilder(0d, 1d,
@@ -123,7 +123,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override double Sample(Random random) {
-            sampler ??= new QuantileSampler(this, samples: 4096);
+            sampler ??= new QuantileCubicApprox(this, samples: 4096, logscale: true);
 
             double u = random.NextUniform();
             double r = sampler.QuantileApprox(u);

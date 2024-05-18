@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble pdf_norm, psi, psi_inv, alpha_sq;
 
-        private QuantileSampler? sampler = null;
+        private QuantileCubicApprox? sampler = null;
 
         public ArgusDistribution(ddouble alpha) {
             ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
@@ -101,7 +101,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override double Sample(Random random) {
-            sampler ??= new QuantileSampler(this, samples: 4096);
+            sampler ??= new QuantileCubicApprox(this, samples: 4096, logscale: false);
 
             double u = random.NextUniform();
             double r = sampler.QuantileApprox(u);

@@ -196,7 +196,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
                 Console.WriteLine(dist);
 
-                double[] xs = dist.Sample(random, 10000).ToArray();
+                double[] xs = dist.Sample(random, 20000).ToArray();
 
                 double max_error = 0d;
 

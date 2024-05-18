@@ -28,7 +28,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private const int cache_samples = 512;
         private CDFSegmentCache? cdf_cache = null;
         private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
-        private QuantileSampler? sampler = null;
+        private QuantileCubicApprox? sampler = null;
 
         public DavisDistribution(ddouble alpha) : this(alpha: alpha, mu: 0d, sigma: 1d) { }
 
@@ -223,7 +223,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override double Sample(Random random) {
-            sampler ??= new QuantileSampler(new DavisDistribution(Alpha), samples: 4096);
+            sampler ??= new QuantileCubicApprox(new DavisDistribution(Alpha), samples: 4096, logscale: true);
 
             double u = random.NextUniform();
             double r = sampler.QuantileApprox(u) * (double)Sigma + (double)Mu;
