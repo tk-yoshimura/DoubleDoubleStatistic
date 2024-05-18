@@ -39,6 +39,8 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 ddouble ym = value_table[i - 1], y0 = value_table[i], yp = value_table[i + 1];
                 ddouble g = Grad(ym, y0, yp);
 
+                Debug.Assert(ddouble.IsFinite(g));
+
                 grad_table.Add(g);
             }
 

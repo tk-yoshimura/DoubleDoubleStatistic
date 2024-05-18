@@ -27,7 +27,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private const int cache_samples = 512;
         private CDFSegmentCache? cdf_cache = null;
-        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null, quantile_upper_limit_builder = null;
         private QuantileCubicApprox? sampler = null;
 
         public DavisDistribution(ddouble alpha) : this(alpha: alpha, mu: 0d, sigma: 1d) { }
@@ -134,8 +134,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 (ddouble t, ddouble t0, ddouble t1) = quantile_lower_builder.Estimate(p);
 
-                if (IsNegativeInfinity(t1) || IsPositiveInfinity(t0)) {
-                    return 0d;
+                if (IsNegativeInfinity(t1)) {
+                    return Mu;
+                }
+                if (IsPositiveInfinity(t0)) {
+                    return PositiveInfinity;
                 }
 
                 ddouble x = (1d - t) / t;
@@ -177,13 +180,30 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 (ddouble t, ddouble t0, ddouble t1) = quantile_upper_builder.Estimate(p);
 
-                if (IsNegativeInfinity(t0) || IsPositiveInfinity(t1)) {
-                    return 0d;
+                if (IsNegativeInfinity(t0)) {
+                    return PositiveInfinity;
+                }
+                if (IsPositiveInfinity(t1)) {
+                    return Mu;
                 }
 
                 ddouble x = (1d - t) / t;
                 ddouble x0 = (1d - t0) / t0;
                 ddouble x1 = (1d - t1) / t1;
+
+                if (!IsFinite(x)) {
+                    ddouble r = 1d / (Alpha - 1d);
+
+                    quantile_upper_limit_builder ??= new QuantileBuilder(
+                        1024d, 0d, t => f(Pow2(t * r)), samples: 1024
+                    );
+
+                    (t, t0, t1) = quantile_upper_limit_builder.Estimate(p);
+
+                    x = Pow2(t * r);
+                    x0 = Pow2(t0 * r);
+                    x1 = Pow2(t1 * r);
+                }
 
                 for (int i = 0; i < 8; i++) {
                     ddouble y = f(x), dx = (y - p) / df(x);
