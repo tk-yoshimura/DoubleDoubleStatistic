@@ -18,7 +18,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble c;
 
-        private QuantileBuilder? quantile_upper_builder = null;
+        private QuantileBuilder? quantile_upper_builder = null, quantile_upper_limit_builder = null;
 
         private QuantileCubicApprox? sampler = null;
 
@@ -102,6 +102,18 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble x = (1d - t) / t;
             ddouble x0 = (1d - t0) / t0;
             ddouble x1 = (1d - t1) / t1;
+
+            if (x >= 100d) {
+                quantile_upper_limit_builder ??= new QuantileBuilder(
+                    1024d, 0d, t => CDF(Pow2(t), Interval.Upper), samples: 1024
+                );
+
+                (t, t0, t1) = quantile_upper_limit_builder.Estimate(p);
+
+                x = Pow2(t);
+                x0 = Pow2(t0);
+                x1 = Pow2(t1);
+            }
 
             for (int i = 0; i < 8; i++) {
                 ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
