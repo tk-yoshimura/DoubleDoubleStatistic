@@ -79,7 +79,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             double r = random.NextUniform();
             double theta = 2 * random.NextUniformOpenInterval1();
 
-            double w = (Kappa > 0d) ? (1 + Math.Log(r + (1 - r) * exp_m2kappa) * kappa_inv) : (2 * r - 1);
+            double w = (Kappa > 0d) ? (1 + double.Log(r + (1 - r) * exp_m2kappa) * kappa_inv) : (2 * r - 1);
             double t = double.Sqrt(1 - w * w);
 
             (double s, double c) = double.SinCosPi(theta);

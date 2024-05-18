@@ -152,7 +152,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     double v3 = v * v * v;
 
                     if ((u < 1d - 0.0331d * (z2 * z2)) ||
-                        (double.Log(u) < (0.5d * z2) + randam_gen_param.c1 * (1d - v3 + Math.Log(v3)))) {
+                        (double.Log(u) < (0.5d * z2) + randam_gen_param.c1 * (1d - v3 + double.Log(v3)))) {
 
                         r = randam_gen_param.c1 * v3;
                         break;

@@ -2,14 +2,14 @@
 
 namespace DoubleDoubleStatistic.InternalUtils {
     public static class ErrorFunction {
-        private static readonly double sqrt2 = Math.Sqrt(2), inv_sqrt2 = 1 / sqrt2;
+        private static readonly double sqrt2 = double.Sqrt(2), inv_sqrt2 = 1 / sqrt2;
 
         public static double Erf(double x) {
             if (double.IsNaN(x)) {
                 return double.NaN;
             }
             if (x < 0.0) {
-                return -Erf(Math.Abs(x));
+                return -Erf(double.Abs(x));
             }
 
             if (x < 0.5) {
@@ -63,7 +63,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
 
         public static double InverseErf(double x) {
             if (x < 0.0) {
-                return -InverseErf(Math.Abs(x));
+                return -InverseErf(double.Abs(x));
             }
 
             if (x < 0.5) {
@@ -92,7 +92,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 return InverseErfNearZero(1.0 - x);
             }
 
-            int exp = Math.ILogB(x);
+            int exp = double.ILogB(x);
 
             if (exp >= -4) {
                 return InverseErfcLtRcpBinpow1(x);
@@ -123,7 +123,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static double Fma(double z, double x, double y) {
-            return Math.FusedMultiplyAdd(x, y, z);
+            return double.FusedMultiplyAdd(x, y, z);
         }
 
         private static double ErfNearZero(double x) {
@@ -181,7 +181,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 1.62726723432911469379e-2, w,
                 8.86583249851894459219e-4)))))));
 
-            double y = Math.Exp(-x * x) * u;
+            double y = double.Exp(-x * x) * u;
 
             return y;
         }
@@ -215,7 +215,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 3.07987987255160486906e-3, w,
                 1.24124178972110154556e-4))))))));
 
-            double y = Math.Exp(-x * x) * u;
+            double y = double.Exp(-x * x) * u;
 
             return y;
         }
@@ -251,7 +251,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 2.98430051654960595459e-4, w,
                 8.41921851559063070821e-6)))))))));
 
-            double y = Math.Exp(-x * x) * u;
+            double y = double.Exp(-x * x) * u;
 
             return y;
         }
@@ -287,7 +287,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 5.19402524758985255038e-5, w,
                 1.05322215737521862732e-6)))))))));
 
-            double y = Math.Exp(-x * x) * u;
+            double y = double.Exp(-x * x) * u;
 
             return y;
         }
@@ -319,7 +319,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 1.94907730282247604012e-4, w,
                 3.17586140504182968574e-6)))))));
 
-            double y = Math.Exp(-x * x) * u;
+            double y = double.Exp(-x * x) * u;
 
             return y;
         }
@@ -349,7 +349,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 1.41449048276726826659e-4, w,
                 1.44076261723069040035e-6))))));
 
-            double y = Math.Exp(-x * x) * u;
+            double y = double.Exp(-x * x) * u;
 
             return y;
         }
@@ -395,7 +395,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
         }
 
         private static double InverseErfcLtRcpBinpow1(double x) {
-            double w = Math.Sqrt(-Math.Log2(x)) - 1.0;
+            double w = double.Sqrt(-double.Log2(x)) - 1.0;
 
 #if DEBUG
             if (!(w >= 0)) {
@@ -435,7 +435,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
         }
 
         private static double InverseErfcLtRcpBinpow4(double x) {
-            double w = Math.Sqrt(-Math.Log2(x)) - 2.0;
+            double w = double.Sqrt(-double.Log2(x)) - 2.0;
 
 #if DEBUG
             if (!(w >= 0)) {
@@ -475,7 +475,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
         }
 
         private static double InverseErfcLtRcpBinpow16(double x) {
-            double w = Math.Sqrt(-Math.Log2(x)) - 4.0;
+            double w = double.Sqrt(-double.Log2(x)) - 4.0;
 
 #if DEBUG
             if (!(w >= 0)) {
@@ -513,7 +513,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
         }
 
         private static double InverseErfcLtRcpBinpow64(double x) {
-            double w = Math.Sqrt(-Math.Log2(x)) - 8.0;
+            double w = double.Sqrt(-double.Log2(x)) - 8.0;
 
 #if DEBUG
             if (!(w >= 0)) {
@@ -549,7 +549,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
         }
 
         private static double InverseErfcLtRcpBinpow256(double x) {
-            double w = Math.Sqrt(-Math.Log2(x)) - 16.0;
+            double w = double.Sqrt(-double.Log2(x)) - 16.0;
 
 #if DEBUG
             if (!(w >= 0)) {

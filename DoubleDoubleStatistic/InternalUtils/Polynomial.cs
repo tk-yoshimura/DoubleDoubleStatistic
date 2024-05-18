@@ -52,7 +52,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
         }
 
         public static Polynomial operator +(Polynomial p1, Polynomial p2) {
-            BigInteger[] coef = new BigInteger[Math.Max(p1.Coef.Count, p2.Coef.Count)];
+            BigInteger[] coef = new BigInteger[int.Max(p1.Coef.Count, p2.Coef.Count)];
 
             for (int i = 0; i < coef.Length; i++) {
                 if (i < p1.Coef.Count && i < p2.Coef.Count) {

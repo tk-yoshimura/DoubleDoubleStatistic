@@ -80,7 +80,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
                 rs += r[i];
             }
 
-            rs = Math.Max(rs, double.Epsilon);
+            rs = double.Max(rs, double.Epsilon);
 
             double[] v = new double[Dim];
             double vs = 1d;
