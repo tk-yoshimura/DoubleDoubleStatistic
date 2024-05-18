@@ -49,7 +49,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
                 return NaN;
             }
 
-            if (!IsFinite(cosh_gamma)) {
+            if (IsFinite(cosh_gamma)) {
                 ddouble pdf = pdf_norm / (cosh_gamma - Cos(x - Mu));
 
                 return pdf;
