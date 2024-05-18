@@ -1,6 +1,5 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.Misc;
-using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
