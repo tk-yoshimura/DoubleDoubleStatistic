@@ -130,7 +130,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble s = a + mux * Sqrt(2d / x2nu) * pdf_b_scale * b;
 
-            if (s < a * 4e-28) {
+            if (s < a * 5e-28) {
                 return 0d;
             }
 
