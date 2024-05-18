@@ -123,6 +123,10 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
 
                 double[] samples = dist.Sample(random, count: 100000).ToArray();
 
+                if (samples.Any(v => v <= -3.15 || v >= 3.15)) {
+                    Assert.Fail();
+                }
+
                 CircularCauchyDistribution? dist_fit = CircularCauchyDistribution.Fit(samples);
 
                 Assert.IsNotNull(dist_fit);

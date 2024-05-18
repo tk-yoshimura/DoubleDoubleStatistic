@@ -118,6 +118,10 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
             foreach (VonMisesDistribution dist in Dists) {
                 double[] samples = dist.Sample(random, count: 100000).ToArray();
 
+                if (samples.Any(v => v <= -3.15 || v >= 3.15)) {
+                    Assert.Fail();
+                }
+
                 VonMisesDistribution? dist_fit = VonMisesDistribution.Fit(samples);
 
                 Assert.IsNotNull(dist_fit);
