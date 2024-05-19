@@ -24,6 +24,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public BirnbaumSaundersDistribution(ddouble alpha) : this(alpha, theta: 1d) { }
 
         public BirnbaumSaundersDistribution(ddouble alpha, ddouble theta) {
+            ParamAssert.ValidateShape(nameof(alpha), ParamAssert.IsFinitePositive(alpha));
             ParamAssert.ValidateScale(nameof(theta), ParamAssert.IsFinitePositive(theta));
 
             Alpha = alpha;
