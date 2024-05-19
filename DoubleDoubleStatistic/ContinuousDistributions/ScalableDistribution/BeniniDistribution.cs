@@ -217,6 +217,6 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             return $"{typeof(BeniniDistribution).Name}[alpha={Alpha},beta={Beta},sigma={Sigma}]";
         }
 
-        public override string Formula => "p(x, alpha, beta, sigma) := Exp(-(log(u) * alpha + log(u)^2 * beta)) * ((alpha + 2 * beta * log(u)) / u) / sigma, u = x / sigma";
+        public override string Formula => "p(x, alpha, beta, sigma) := exp(-(log(u) * alpha + log(u)^2 * beta)) * ((alpha + 2 * beta * log(u)) / u) / sigma, u = x / sigma";
     }
 }
