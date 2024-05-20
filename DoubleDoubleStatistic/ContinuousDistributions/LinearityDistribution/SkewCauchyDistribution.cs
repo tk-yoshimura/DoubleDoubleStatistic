@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ddouble Gamma { get; }
         public ddouble Alpha { get; }
 
-        private readonly ddouble gamma_inv, alphap1, alpham1, u0p, alphah, alphav;
+        private readonly ddouble gamma_inv, alphap1, alpham1, u0p, alphav;
 
         public SkewCauchyDistribution(ddouble alpha) : this(alpha, mu: 0d, gamma: 1d) { }
         public SkewCauchyDistribution(ddouble alpha, ddouble sigma) : this(alpha, mu: 0d, gamma: sigma) { }
@@ -62,6 +62,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             if (IsNaN(u)) {
                 return NaN;
+            }
+
+            if (IsInfinity(u)) {
+                return (IsNegative(u) ^ interval == Interval.Lower) ? 1d : 0d;
             }
 
             if (interval == Interval.Lower) {
@@ -112,7 +116,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     u = TanPI((p - alpham1 * 0.5d) / alphap1) * alphap1;
                 }
             }
-            else { 
+            else {
                 if (p <= 0d) {
                     return PositiveInfinity;
                 }
@@ -121,10 +125,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 if (1d - p < u0p) {
-                    u = -TanPI((p + alphap1 * 0.5d) / alpham1) * alpham1;
+                    u = -TanPI((p - alphap1 * 0.5d) / alpham1) * alpham1;
                 }
                 else {
-                    u = -TanPI((p + alphap1 * 0.5d) / alphap1) * alphap1;
+                    u = -TanPI((p - alphap1 * 0.5d) / alphap1) * alphap1;
                 }
             }
 
@@ -134,10 +138,17 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override double Sample(Random random) {
-            (double u0, double u1) = random.NextGaussianX2();
-            double v = (double)alphav * ((double)Alpha * u0 + u1);
+            double p = random.NextUniformOpenInterval01();
 
-            double w = Sign(u0) * v;
+            double u;
+            if (p < (double)u0p) {
+                u = double.TanPi((p - (double)alpham1 * 0.5d) / (double)alpham1) * (double)alpham1;
+            }
+            else {
+                u = double.TanPi((p - (double)alpham1 * 0.5d) / (double)alphap1) * (double)alphap1;
+            }
+
+            double w = u * (double)Gamma + (double)Mu;
 
             return w;
         }
@@ -156,7 +167,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
-            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 8192);
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 32768);
 
         public static SkewCauchyDistribution operator +(SkewCauchyDistribution dist, ddouble s) {
             return new(dist.Alpha, dist.Mu + s, dist.Gamma);
