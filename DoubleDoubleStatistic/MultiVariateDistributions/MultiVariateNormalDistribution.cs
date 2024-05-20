@@ -96,18 +96,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
                 throw new ArgumentException("Invalid argument: mismatch dim", nameof(samples));
             }
 
-            Vector mu = Vector.Zero(dim);
-            Matrix cov = Matrix.Zero(dim);
-
-            for (int i = 0; i < dim; i++) {
-                mu[i] = samples.Select(v => v[i]).Mean();
-            }
-
-            for (int i = 0; i < dim; i++) {
-                for (int j = 0; j <= i; j++) {
-                    cov[i, j] = cov[j, i] = samples.Select(v => v[i] * v[j]).Mean() - mu[i] * mu[j];
-                }
-            }
+            (Vector mu, Matrix cov) = samples.Covariance();
 
             try {
                 return new MultiVariateNormalDistribution(mu, cov);
