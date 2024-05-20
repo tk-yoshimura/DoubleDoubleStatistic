@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private const int cache_samples = 512;
         private CDFSegmentCache? cdf_cache;
-        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null;
 
         public VoigtDistribution(ddouble gamma, ddouble sigma) {
             ParamAssert.ValidateScale(nameof(gamma), ParamAssert.IsFinitePositive(gamma));
@@ -109,92 +109,58 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return (interval == Interval.Lower) ? Quantile(1d - p, Interval.Upper) : Quantile(1d - p, Interval.Lower);
             }
 
+            if (interval == Interval.Upper) {
+                return -Quantile(p, Interval.Lower);
+            }
+
+            if (Abs(p - 0.5d) < 1e-30) {
+                return 0d;
+            }
+
             this.cdf_cache ??= new CDFSegmentCache(
                 0d, 1d,
                 Integrand,
                 samples: cache_samples
             );
 
-            if (interval == Interval.Lower) {
-                if (p <= 0d) {
-                    return NegativeInfinity;
-                }
-
-                this.quantile_lower_builder ??= new QuantileBuilder(
-                    1d, 0d,
-                    new ReadOnlyCollection<ddouble>(cdf_cache.UpperSegmentTable.Reverse().Select(x => Min(0.5d, x)).ToArray()),
-                    cdf_cache.Samples
-                );
-
-                (ddouble t, ddouble t0, ddouble t1) = quantile_lower_builder.Estimate(0.5d - p);
-
-                if (IsNegativeInfinity(t1)) {
-                    return NegativeInfinity;
-                }
-                if (IsPositiveInfinity(t0)) {
-                    return 0d;
-                }
-
-                ddouble x = (1d - t) / -t * Sigma;
-                ddouble x0 = (1d - t0) / -t0 * Sigma;
-                ddouble x1 = (1d - t1) / -t1 * Sigma;
-
-                for (int i = 0; i < 8; i++) {
-                    ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
-
-                    if (!IsFinite(dx)) {
-                        break;
-                    }
-
-                    x = Clamp(x - dx, x1, x0);
-
-                    if (Abs(dx) <= Abs(x) * 1e-29) {
-                        break;
-                    }
-                }
-
-                return x;
+            if (p <= 0d) {
+                return NegativeInfinity;
             }
-            else {
-                if (p <= 0d) {
-                    return PositiveInfinity;
-                }
 
-                this.quantile_upper_builder ??= new QuantileBuilder(
-                    0d, 1d,
-                    new ReadOnlyCollection<ddouble>(cdf_cache.LowerSegmentTable.Select(x => Min(0.5d, x)).ToArray()),
-                    cdf_cache.Samples
-                );
+            this.quantile_lower_builder ??= new QuantileBuilder(
+                1d, 0d,
+                new ReadOnlyCollection<ddouble>(cdf_cache.UpperSegmentTable.Reverse().Select(x => Min(0.5d, x)).ToArray()),
+                cdf_cache.Samples
+            );
 
-                (ddouble t, ddouble t0, ddouble t1) = quantile_upper_builder.Estimate(p);
+            (ddouble t, ddouble t0, ddouble t1) = quantile_lower_builder.Estimate(0.5d - p);
 
-                if (IsNegativeInfinity(t0)) {
-                    return PositiveInfinity;
-                }
-                if (IsPositiveInfinity(t1)) {
-                    return 0d;
-                }
-
-                ddouble x = (1d - t) / t * Sigma;
-                ddouble x0 = (1d - t0) / t0 * Sigma;
-                ddouble x1 = (1d - t1) / t1 * Sigma;
-
-                for (int i = 0; i < 8; i++) {
-                    ddouble y = CDF(x, Interval.Upper), dx = (y - p) / PDF(x);
-
-                    if (!IsFinite(dx)) {
-                        break;
-                    }
-
-                    x = Clamp(x + dx, x1, x0);
-
-                    if (Abs(dx) <= Abs(x) * 1e-29) {
-                        break;
-                    }
-                }
-
-                return x;
+            if (IsNegativeInfinity(t1)) {
+                return NegativeInfinity;
             }
+            if (IsPositiveInfinity(t0)) {
+                return 0d;
+            }
+
+            ddouble x = (1d - t) / -t * Sigma;
+            ddouble x0 = (1d - t0) / -t0 * Sigma;
+            ddouble x1 = (1d - t1) / -t1 * Sigma;
+
+            for (int i = 0; i < 8; i++) {
+                ddouble y = CDF(x, Interval.Lower), dx = (y - p) / PDF(x);
+
+                if (!IsFinite(dx)) {
+                    break;
+                }
+
+                x = Clamp(x - dx, x1, x0);
+
+                if (Abs(dx) <= Abs(x) * 1e-29) {
+                    break;
+                }
+            }
+
+            return x;
         }
 
         public override double Sample(Random random) {
