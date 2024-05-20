@@ -22,7 +22,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble cq, power, sigma_inv;
         private CDFSegmentCache? cdf_cache;
-        private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
+        private QuantileBuilder? quantile_lower_builder = null;
 
         public QGaussianDistribution(ddouble q) : this(q, sigma: 1d) { }
 
