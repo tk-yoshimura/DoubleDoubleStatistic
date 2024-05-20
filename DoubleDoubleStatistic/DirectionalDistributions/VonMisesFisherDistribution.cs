@@ -101,7 +101,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public override (ddouble x, ddouble y, ddouble z) Mode => Mu;
 
-        public override ddouble Variance => 1d - BesselI(1.5, Kappa) / BesselI(0.5, Kappa);
+        public override ddouble Variance => Kappa > 1e-15d
+            ? 1d - BesselI(1.5, Kappa) / BesselI(0.5, Kappa)
+            : 1d - Kappa / 3d + Cube(Kappa) / 45d;
 
         public override ddouble Skewness => 0d;
 
@@ -119,6 +121,10 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
             ddouble x = samples.Select(v => v.x).Mean(), y = samples.Select(v => v.y).Mean(), z = samples.Select(v => v.z).Mean();
             ddouble r = x * x + y * y + z * z;
+
+            if (r < 1e-15d) {
+                return new VonMisesFisherDistribution(kappa: 0d, (1d, 0d, 0d));
+            }
 
             if (!(r > 0d)) {
                 return null;

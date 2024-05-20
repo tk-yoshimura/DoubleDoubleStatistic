@@ -29,7 +29,7 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
                 Console.WriteLine($"Mu={dist.Mu}");
                 Console.WriteLine($"Mean={dist.Mean}");
                 Console.WriteLine($"Mode={dist.Mode}");
-                //Console.WriteLine($"Variance={dist.Variance}");
+                Console.WriteLine($"Variance={dist.Variance}");
                 Console.WriteLine($"Skewness={dist.Skewness}");
                 //Console.WriteLine($"Kurtosis={dist.Kurtosis}");
                 Console.WriteLine($"Entropy={dist.Entropy}");
@@ -39,14 +39,12 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
 
         [TestMethod()]
         public void VarianceTest() {
-            Assert.Inconclusive();
-
             Assert.AreEqual(1, (double)dist_kappa0mup100.Variance, 1e-10);
-            Assert.AreEqual(0, (double)dist_kappa1mu123.Variance, 1e-10);
-            Assert.AreEqual(0, (double)dist_kappa2mu231.Variance, 1e-10);
-            Assert.AreEqual(0, (double)dist_kappa4mu312.Variance, 1e-10);
-            Assert.AreEqual(0, (double)dist_kappa4mu321.Variance, 1e-10);
-            Assert.AreEqual(0, (double)dist_kappa1mum123.Variance, 1e-10);
+            Assert.AreEqual(0.6869647145006686, (double)dist_kappa1mu123.Variance, 1e-10);
+            Assert.AreEqual(0.4626852792724519, (double)dist_kappa2mu231.Variance, 1e-10);
+            Assert.AreEqual(0.2493288495983175, (double)dist_kappa4mu312.Variance, 1e-10);
+            Assert.AreEqual(0.2493288495983175, (double)dist_kappa4mu321.Variance, 1e-10);
+            Assert.AreEqual(0.6869647145006686, (double)dist_kappa1mum123.Variance, 1e-10);
         }
 
         [TestMethod()]
