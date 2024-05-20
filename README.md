@@ -49,8 +49,8 @@
 |            | log logistic      | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | lomax             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | maxwell           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-|            | q-exponential     | &#x274c; | &#x274c; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          | Accuracy decreases when q is nearly 2.           |
-|            | q-gaussian        | &#x274c; | &#x274c; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          | Accuracy decreases when q is nearly 3.           |
+|            | q-exponential     | &#x26A0; | &#x26A0; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          | Accuracy decreases when q is nearly 2.           |
+|            | q-gaussian        | &#x26A0; | &#x26A0; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          | Accuracy decreases when q is nearly 3.           |
 |            | pareto            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | rayleigh          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | voigt             | &#x2714; | &#x26A0; | &#x26A0; | &#x2714;  | &#x26A0; | &#x2714;          | CDF and Quantile take longer to calculate.       |
