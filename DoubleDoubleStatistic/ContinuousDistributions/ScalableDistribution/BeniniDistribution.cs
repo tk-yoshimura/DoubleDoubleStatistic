@@ -1,5 +1,4 @@
 ﻿using DoubleDouble;
-using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
@@ -152,7 +151,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble Variance =>
             Sigma * Sigma *
             (
-                - PI / (4 * Beta) * Exp(Square(Alpha - 1d) / (2d * Beta)) * Square(Erfc((Alpha - 1d) / (2d * Sqrt(Beta))))
+                -PI / (4 * Beta) * Exp(Square(Alpha - 1d) / (2d * Beta)) * Square(Erfc((Alpha - 1d) / (2d * Sqrt(Beta))))
                 - Sqrt(PI) / Sqrt(Beta) * (
                     Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta)))
                     - Exp(Square(Alpha - 2d) / (4d * Beta)) * Erfc((Alpha - 2d) / (2d * Sqrt(Beta)))

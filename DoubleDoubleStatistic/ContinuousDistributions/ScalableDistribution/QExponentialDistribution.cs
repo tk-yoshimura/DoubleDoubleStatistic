@@ -1,11 +1,9 @@
 ﻿using DoubleDouble;
-using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.Optimizer;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
 using static DoubleDouble.ddouble;
@@ -141,7 +139,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 if (p <= 0d) {
                     return Support.max;
                 }
-                
+
                 if (Q != 1d) {
                     u = (Pow(p, quantile_power) - 1d) / (Q - 1d);
                 }

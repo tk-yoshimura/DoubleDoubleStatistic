@@ -473,8 +473,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
                 9.125669078436865e-4,
             ];
             ddouble[] expected_dist_alpha2beta1sigma2 = [
-                0, 0, 0, 0, 
-                0, 0, 0, 0, 
+                0, 0, 0, 0,
+                0, 0, 0, 0,
                 1.0,
                 0.7742390063962991,
                 0.5958302474278426,
@@ -502,10 +502,10 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
                 0.00545646872108861,
             ];
             ddouble[] expected_dist_alpha3beta2sigma4 = [
-                0, 0, 0, 0, 
-                0, 0, 0, 0, 
-                0, 0, 0, 0, 
-                0, 0, 0, 0, 
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
                 0.75,
                 0.6314103143864337,
                 0.5269279884471111,
