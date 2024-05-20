@@ -51,7 +51,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble pdf = 1d / (PI * (u * u / Square(Alpha * Sign(u) + 1d) + 1d));
+            ddouble pdf = 1d / (PI * (u * u / Square(Alpha * Sign(u) + 1d) + 1d)) * gamma_inv;
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -155,7 +155,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Mean => NaN;
 
-        public override ddouble Mode => throw new NotFiniteNumberException();
+        public override ddouble Mode => Mu;
 
         public override ddouble Median => Quantile(0.5d);
 
