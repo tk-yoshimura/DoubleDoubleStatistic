@@ -37,7 +37,8 @@
 |            | uniform           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | u quadratic       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | weibull           | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
-| scalable   | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
+| scalable   | benini            | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
+|            | birnbaum saunders | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | exponential       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | folded normal     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | gamma             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
@@ -65,6 +66,7 @@
 |            | dagum             | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | fisher z          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | fisk              | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
+|            | hotelling t sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | inverse gamma     | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | inverse chi       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | inverse chi sq    | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
@@ -107,13 +109,16 @@
 | ----------- | ---------------- | -------- | --------- | -------- | ----------------- | -------------------------------- |
 | directional | circular cauchy  | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Not implemented: kurtosis        |
 |             | von mises        | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Not implemented: kurtosis        |
+|             | sphere uniform   | &#x2714; | &#x26A0;  | -        | &#x2714;          | Not implemented: kurtosis        |
 |             | von mises fisher | &#x2714; | &#x26A0;  | &#x2714; | &#x2714;          | Dim=3, Not implemented: kurtosis |
 
 ### MultiVariate
 
 | category     | distribution | PDF      | statistic | fitting  | random generation | note |
 | ------------ | ------------ | -------- | --------- | -------- | ----------------- | ---- |
-| multivariate | dirichlet    | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
+| multivariate | ball uniform | &#x2714; | &#x2714;  | -        | &#x2714;          |      |
+|              | dirichlet    | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
+|              | disk uniform | &#x2714; | &#x2714;  | -        | &#x2714;          |      |
 |              | multi normal | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |      |
 
 ## Usage
