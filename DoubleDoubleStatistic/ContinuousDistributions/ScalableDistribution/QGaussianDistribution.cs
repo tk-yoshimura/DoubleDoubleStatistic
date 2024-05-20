@@ -133,7 +133,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return new CDFSegmentCache(
                     0d, range,
                     u => Pow(Max(0d, 1d + (Q - 1d) * u * u), power) / cq,
-                    samples: 1024
+                    samples: 4096
                 );
             }
             else {
@@ -151,7 +151,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                         return y;
                     },
-                    samples: 1024
+                    samples: 16384
                 );
             }
         }
