@@ -1,6 +1,7 @@
 ﻿using Algebra;
 using DoubleDouble;
 using DoubleDoubleStatistic.MultiVariateDistributions;
+using DoubleDoubleStatistic.SampleStatistic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DoubleDoubleStatisticTest.MultiVariateDistributions {
@@ -32,7 +33,7 @@ namespace DoubleDoubleStatisticTest.MultiVariateDistributions {
         [TestMethod()]
         public void CovarianceTest() {
             Assert.IsTrue((new Matrix(new double[,]
-                {{ 1,0}, {0,1}})
+                {{ 1,0}, {0,1}}) / 4d
                 - dist.Covariance).Norm < 1e-5);
         }
 
@@ -47,6 +48,8 @@ namespace DoubleDoubleStatisticTest.MultiVariateDistributions {
 
             foreach (DiskUniformDistribution dist in Dists) {
                 double[][] samples = dist.Sample(random, count: 100000).ToArray();
+
+                (Vector mu, Matrix matrix) = samples.Covariance();
 
                 if (samples.Any(v => v[0] * v[0] + v[1] * v[1] - 1 > 1e-14)) {
                     Assert.Fail();

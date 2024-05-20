@@ -46,7 +46,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
 
         public override Vector Mode => Vector.Invalid(3);
 
-        public override Matrix Covariance => Matrix.Identity(3);
+        public override Matrix Covariance => Matrix.Identity(3) / 5d;
 
         public override ddouble Entropy => Log(pdf);
 
