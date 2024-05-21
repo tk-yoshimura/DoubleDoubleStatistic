@@ -115,8 +115,6 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             return v;
         }
 
-        public override bool Symmetric => true;
-
         public override ddouble Mean => Log(4d) * Sigma;
 
         public override ddouble Median => Quantile(0.5d);
