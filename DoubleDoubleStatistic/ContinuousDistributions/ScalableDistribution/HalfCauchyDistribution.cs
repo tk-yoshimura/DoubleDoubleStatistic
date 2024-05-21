@@ -45,27 +45,42 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
-            if (interval == Interval.Upper) {
-                return 1d - CDF(x, Interval.Lower);
-            }
-
             ddouble u = x * gamma_inv;
 
-            if (IsNaN(u)) {
-                return NaN;
+            if (interval == Interval.Lower) {
+                if (IsNaN(u)) {
+                    return NaN;
+                }
+
+                if (IsNegative(u)) {
+                    return 0d;
+                }
+                if (IsPositiveInfinity(u)) {
+                    return 1d;
+                }
+
+                ddouble cdf = 2d * RcpPI * Atan(u);
+
+                return cdf;
             }
+            else { 
+                if (IsNaN(u)) {
+                    return NaN;
+                }
 
-            if (IsNegative(u)) {
-                return 0d;
+                if (IsNegative(u)) {
+                    return 1d;
+                }
+                if (IsPositiveInfinity(u)) {
+                    return 0d;
+                }
+
+                ddouble cdf = (u < 2d)
+                    ? 1d - 2d * RcpPI * Atan(u)
+                    : 2d * Atan(1d / u) * RcpPI;
+
+                return cdf;
             }
-            if (IsPositiveInfinity(u)) {
-                return 1d;
-            }
-
-
-            ddouble cdf = 2d * RcpPI * Atan(u);
-
-            return cdf;
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
@@ -73,22 +88,30 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            if (interval == Interval.Upper) {
-                return Quantile(1 - p, Interval.Lower);
+            if (interval == Interval.Lower) {
+                if (p <= 0d) {
+                    return 0d;
+                }
+                if (p >= 1d) {
+                    return PositiveInfinity;
+                }
+
+                ddouble x = Gamma * TanPI(p * 0.5d);
+
+                return x;
             }
+            else { 
+                if (p <= 0d) {
+                    return PositiveInfinity;
+                }
+                if (p >= 1d) {
+                    return 0d;
+                }
 
-            if (p <= 0d) {
-                return 0d;
+                ddouble x = Gamma / TanPI(p * 0.5d);
+
+                return x;
             }
-            if (p >= 1d) {
-                return PositiveInfinity;
-            }
-
-            ddouble u = TanPI(p * 0.5d);
-
-            ddouble x = u * Gamma;
-
-            return x;
         }
 
         public override double Sample(Random random) {
