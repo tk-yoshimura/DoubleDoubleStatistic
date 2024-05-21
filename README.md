@@ -80,6 +80,7 @@
 |            | kumaraswamy       | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | log normal        | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
 |            | nakagami          | &#x2714; | &#x2714; | &#x2714; | &#x2714;  | &#x2714; | &#x2714;          |                                                  |
+|            | noncentral beta   | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
 |            | noncentral chi sq | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
 |            | noncentral f      | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
 |            | noncentral t      | &#x2714; | &#x2714; | &#x26A0; | &#x2714;  | &#x274c; | &#x2714;          | Accuracy decreases when non-centricity is large. |
