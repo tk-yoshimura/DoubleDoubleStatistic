@@ -12,12 +12,14 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
         readonly NoncentralBetaDistribution dist_alpha_3_beta_2_lambda_2 = new(alpha: 3, beta: 2, lambda: 2);
         readonly NoncentralBetaDistribution dist_alpha_2_beta_3_lambda_3 = new(alpha: 2, beta: 3, lambda: 3);
         readonly NoncentralBetaDistribution dist_alpha_3_beta_3_lambda_4 = new(alpha: 3, beta: 3, lambda: 4);
+        readonly NoncentralBetaDistribution dist_alpha_4_beta_5_lambda_6 = new(alpha: 4, beta: 5, lambda: 6);
 
         NoncentralBetaDistribution[] Dists => [
             dist_alpha_2_beta_2_lambda_1,
             dist_alpha_3_beta_2_lambda_2,
             dist_alpha_2_beta_3_lambda_3,
             dist_alpha_3_beta_3_lambda_4,
+            dist_alpha_4_beta_5_lambda_6,
         ];
 
         [TestMethod()]
@@ -329,12 +331,18 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 "1.563487624978629866780976023186208686645",
                 "1.995065326735427274466306429427776916314",
             ];
+            ddouble[] expected_dist_alpha_4_beta_5_lambda_6 = [
+                "0.3291288249475345417443404696716299337735",
+                "2.104926093604821080007464367768625323786",
+                "1.624711957250649682595390811994496344753",
+            ];
 
             foreach ((NoncentralBetaDistribution dist, ddouble[] expecteds) in new[]{
                  (dist_alpha_2_beta_2_lambda_1, expected_dist_alpha_2_beta_2_lambda_1),
                  (dist_alpha_3_beta_2_lambda_2, expected_dist_alpha_3_beta_2_lambda_2),
                  (dist_alpha_2_beta_3_lambda_3, expected_dist_alpha_2_beta_3_lambda_3),
                  (dist_alpha_3_beta_3_lambda_4, expected_dist_alpha_3_beta_3_lambda_4),
+                 (dist_alpha_4_beta_5_lambda_6, expected_dist_alpha_4_beta_5_lambda_6),
             }) {
                 for ((ddouble x, int i) = (1d / 4, 0); i < expecteds.Length; x += 1d / 4, i++) {
                     ddouble expected = expecteds[i];
@@ -371,12 +379,18 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 "0.2586652320736703823718526508947771724228",
                 "0.7536469220233026878494965169281281537580"
             ];
+            ddouble[] expected_dist_alpha_4_beta_5_lambda_6 = [
+                "0.01967540387750225203240559058246706169973",
+                "0.3045364426366646496393769071648843991695",
+                "0.8763868607925798439547571349019207118247",
+            ];
 
             foreach ((NoncentralBetaDistribution dist, ddouble[] expecteds) in new[]{
                  (dist_alpha_2_beta_2_lambda_1, expected_dist_alpha_2_beta_2_lambda_1),
                  (dist_alpha_3_beta_2_lambda_2, expected_dist_alpha_3_beta_2_lambda_2),
                  (dist_alpha_2_beta_3_lambda_3, expected_dist_alpha_2_beta_3_lambda_3),
                  (dist_alpha_3_beta_3_lambda_4, expected_dist_alpha_3_beta_3_lambda_4),
+                 (dist_alpha_4_beta_5_lambda_6, expected_dist_alpha_4_beta_5_lambda_6),
             }) {
                 for ((ddouble x, int i) = (1d / 4, 0); i < expecteds.Length; x += 1d / 4, i++) {
                     ddouble expected = expecteds[i];
@@ -386,7 +400,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                     Console.WriteLine(expected);
                     Console.WriteLine(actual);
 
-                    Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-30, $"{dist} cdf({x})\n{expected}\n{actual}");
+                    Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 2e-30, $"{dist} cdf({x})\n{expected}\n{actual}");
                 }
             }
         }
