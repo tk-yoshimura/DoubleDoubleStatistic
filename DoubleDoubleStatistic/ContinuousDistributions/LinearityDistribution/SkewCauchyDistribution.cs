@@ -40,8 +40,6 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             alpham1 = 1d - Alpha;
 
             u0p = CDF(Mu);
-
-            alphav = Sqrt(1d / (1d + alpha * alpha));
         }
 
         public override ddouble PDF(ddouble x) {
