@@ -84,7 +84,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
             }
         }
 
-        public override string Formula => "f(k; n, p) := binom(k + n - 1, k) * p^N * q^k";
+        public override string Formula => "f(k; n, p) := binom(k + n - 1, k) * p^n * q^k";
 
         public override string ToString() {
             return $"{typeof(NegativeBinomialDistribution).Name}[n={N},p={P}]";
