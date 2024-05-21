@@ -153,7 +153,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
                 7.392883300781274286e-03,
             ];
             ddouble[] expected_dist_n10p875 = [
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0.000000000000000000e+00,
                 2.630755761638282619e-01,
                 3.288444702047854662e-01,

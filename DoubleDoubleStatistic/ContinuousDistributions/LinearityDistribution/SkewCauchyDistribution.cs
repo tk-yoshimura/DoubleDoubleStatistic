@@ -21,7 +21,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ddouble Gamma { get; }
         public ddouble Alpha { get; }
 
-        private readonly ddouble gamma_inv, alphap1, alpham1, u0p, alphav;
+        private readonly ddouble gamma_inv, alphap1, alpham1, u0p;
 
         public SkewCauchyDistribution(ddouble alpha) : this(alpha, mu: 0d, gamma: 1d) { }
         public SkewCauchyDistribution(ddouble alpha, ddouble sigma) : this(alpha, mu: 0d, gamma: sigma) { }

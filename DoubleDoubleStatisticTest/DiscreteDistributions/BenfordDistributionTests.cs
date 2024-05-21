@@ -92,7 +92,7 @@ namespace DoubleDoubleStatisticTest.DiscreteDistributions {
         [TestMethod()]
         public void PMFExpectedTest() {
             ddouble[] expected_dist_n5 = [
-                0, 
+                0,
                 0,
                 4.306765580733931e-1,
                 2.519296364125923e-1,

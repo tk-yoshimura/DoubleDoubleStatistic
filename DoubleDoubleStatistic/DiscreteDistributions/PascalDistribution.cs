@@ -3,7 +3,6 @@ using DoubleDoubleStatistic.Misc;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using System.Diagnostics;
-using System.Globalization;
 using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.DiscreteDistributions {

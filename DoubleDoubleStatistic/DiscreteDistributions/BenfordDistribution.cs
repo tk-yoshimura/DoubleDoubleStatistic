@@ -43,7 +43,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
 
         public override ddouble Mean => N - LogGamma(N + 1) * logn_inv;
 
-        public override ddouble Variance => N * N + (2d * LogBarnesG(N + 1) - (2*N - 1) * LogGamma(N + 1)) * logn_inv - Square(Mean);
+        public override ddouble Variance => N * N + (2d * LogBarnesG(N + 1) - (2 * N - 1) * LogGamma(N + 1)) * logn_inv - Square(Mean);
 
         public override ddouble Skewness {
             get {
@@ -58,7 +58,7 @@ namespace DoubleDoubleStatistic.DiscreteDistributions {
                 return skewness;
             }
         }
-    
+
         public override ddouble Kurtosis {
             get {
                 if (N < 4) {
