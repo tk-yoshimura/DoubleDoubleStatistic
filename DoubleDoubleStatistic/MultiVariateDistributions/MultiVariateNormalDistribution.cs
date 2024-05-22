@@ -98,6 +98,10 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
 
             (Vector mu, Matrix cov) = samples.Covariance();
 
+            int n = samples.Count();
+
+            cov *= (ddouble)n / (n - 1);
+
             try {
                 return new MultiVariateNormalDistribution(mu, cov);
             }
