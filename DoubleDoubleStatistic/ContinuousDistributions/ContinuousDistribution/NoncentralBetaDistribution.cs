@@ -72,75 +72,59 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble cdf_kernel(ddouble x, ddouble alpha, ddouble beta, ddouble lambda) {
-                ddouble beta0 = IncompleteBetaRegularized(x, alpha, beta);
-                ddouble beta1 = IncompleteBetaRegularized(x, alpha + 1d, beta);
-
-                ddouble lambda_half = lambda * 0.5d;
-                ddouble c = 1d;
-                ddouble s = beta0;
-
-                ddouble ai = alpha, ci = ai + beta - 1d;
-
-                for (int j = 1; j <= series_maxiter; j++) {
-                    c *= lambda_half / j;
-
-                    ddouble ds = c * beta1;
-
-                    s += ds;
-
-                    if (ds <= s * 1e-30 || !IsFinite(ds)) {
-                        break;
-                    }
-                    if (j >= series_maxiter) {
-                        throw new ArithmeticException($"{this}: cdf calculation not convergence.");
-                    }
-
-                    ai += 1d;
-                    ci += 1d;
-
-                    if (beta1 > 1e-12) {
-                        (beta1, beta0) = (((ai + ci * x) * beta1 - ci * x * beta0) / ai, beta1);
-                    }
-                    else {
-                        Debug.WriteLine(
-                            "reset recurr incomp.beta: \n" +
-                            $"{((ai + ci * x) * beta1 - ci * x * beta0) / ai} -> {IncompleteBetaRegularized(x, alpha + (j + 1), beta)}"
-                        );
-
-                        (beta1, beta0) = (IncompleteBetaRegularized(x, alpha + (j + 1), beta), beta1);
-                    }
-                }
-
-                ddouble cdf = Min(1d, Exp(-lambda_half) * s);
-
-                return cdf;
+            if (interval == Interval.Upper) {
+                return 1d - CDF(x, Interval.Lower);
             }
 
-            if (interval == Interval.Lower) {
-                if (x <= 0d) {
-                    return 0d;
-                }
-                if (x >= 1d) {
-                    return 1d;
-                }
-
-                ddouble cdf = cdf_kernel(x, Alpha, Beta, Lambda);
-
-                return cdf;
+            if (x <= 0d) {
+                return 0d;
             }
-            else {
-                if (x <= 0d) {
-                    return 1d;
-                }
-                if (x >= 1d) {
-                    return 0d;
-                }
-
-                ddouble cdf = 1d - cdf_kernel(x, Alpha, Beta, Lambda);
-
-                return cdf;
+            if (x >= 1d) {
+                return 1d;
             }
+
+            ddouble beta0 = IncompleteBetaRegularized(x, Alpha, Beta);
+            ddouble beta1 = IncompleteBetaRegularized(x, Alpha + 1d, Beta);
+
+            ddouble lambda_half = Lambda * 0.5d;
+            ddouble c = 1d;
+            ddouble s = beta0;
+
+            ddouble ai = Alpha, ci = ai + Beta - 1d;
+
+            for (int j = 1; j <= series_maxiter; j++) {
+                c *= lambda_half / j;
+
+                ddouble ds = c * beta1;
+
+                s += ds;
+
+                if (ds <= s * 1e-30 || !IsFinite(ds)) {
+                    break;
+                }
+                if (j >= series_maxiter) {
+                    throw new ArithmeticException($"{this}: cdf calculation not convergence.");
+                }
+
+                ai += 1d;
+                ci += 1d;
+
+                if (beta1 > 1e-12) {
+                    (beta1, beta0) = (((ai + ci * x) * beta1 - ci * x * beta0) / ai, beta1);
+                }
+                else {
+                    Debug.WriteLine(
+                        "reset recurr incomp.beta: \n" +
+                        $"{((ai + ci * x) * beta1 - ci * x * beta0) / ai} -> {IncompleteBetaRegularized(x, Alpha + (j + 1), Beta)}"
+                    );
+
+                    (beta1, beta0) = (IncompleteBetaRegularized(x, Alpha + (j + 1), Beta), beta1);
+                }
+            }
+
+            ddouble cdf = Min(1d, Exp(-lambda_half) * s);
+
+            return cdf;
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
