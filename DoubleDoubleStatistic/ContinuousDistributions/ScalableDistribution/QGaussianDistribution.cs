@@ -37,17 +37,19 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble sqrt_pi = Sqrt(PI);
 
-            if (q < 1d) {
+            if (Abs(q - 1d) < double.ScaleB(1, -5)) {
+                cq = ApproxUtil.Poly(q - 1d, cq_near_one_table);
+            }
+            else if (q < 1d) {
                 cq = 2d * sqrt_pi * Gamma(1d / (1d - q)) /
                     ((3d - q) * Sqrt(1d - q) * Gamma((3d - q) / (2d * (1d - q))));
-            }
-            else if (q == 1d) {
-                cq = sqrt_pi;
             }
             else {
                 cq = sqrt_pi * Gamma((3d - q) / (2d * (q - 1d))) /
                     (Sqrt(q - 1d) * Gamma(1d / (q - 1d)));
             }
+
+            Debug.WriteLine(cq);
 
             power = 1d / (1d - q);
         }
@@ -350,5 +352,29 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override string Formula => "p(x; q, sigma) := e_q(-u^2) / (sigma * c_q), u = x / sigma";
+
+        private static readonly ReadOnlyCollection<ddouble> cq_near_one_table = new([
+            (+1, 0, 0xE2DFC48DA77B553CuL, 0xE1D82906AEDC9C1FuL),
+            (+1, -1, 0xAA27D36A3D9C7FEDuL, 0xA9621EC503257517uL),
+            (+1, -2, 0xB13ED18EAAD85A97uL, 0x9070E00D389C59F8uL),
+            (+1, -3, 0xBA1B8F3C33632BEBuL, 0xF14351A77B70F812uL),
+            (+1, -4, 0xB7C803D83F8B882CuL, 0x31727A3BC9E5F4F8uL),
+            (+1, -5, 0xACBB2DBD794B3E5DuL, 0x62527AFC3E91A63DuL),
+            (+1, -6, 0xAFBD4F53AE24C405uL, 0xB9FD1DBF8241391BuL),
+            (+1, -7, 0xD1C60740BB22DF2AuL, 0xE4514A450C27FEC2uL),
+            (+1, -8, 0xC8BA3A34C74DFE4BuL, 0x573BE7FA56C67F3AuL),
+            (+1, -14, 0xD1DDCA508138F9C5uL, 0xC1C1B1B8D82B2F3DuL),
+            (+1, -12, 0xE40D0206C0C8753BuL, 0x9E8B917C222C046CuL),
+            (+1, -8, 0xE4FE7936133A3A6CuL, 0x74427F9DB4AA8D62uL),
+            (+1, -9, 0xAC2923A1DF5BA6D5uL, 0xEDB38B181A1BB31FuL),
+            (-1, -6, 0xAEED6E3F26E53C72uL, 0x6E65914087BB6ACCuL),
+            (-1, -8, 0xFF821A83014D9629uL, 0xC7B39735793C6371uL),
+            (+1, -4, 0xCE2CC55413859887uL, 0x1D08DD0473343059uL),
+            (+1, -5, 0x9807C8BAAEFF07D8uL, 0xE4F4349653A7FE3EuL),
+            (-1, -1, 0x9E0FB34476FF525EuL, 0x3B5A385E8C554500uL),
+            (-1, -3, 0xEA0A2FD6EE93A7E3uL, 0xAF4363DFBB08566EuL),
+            (+1, 2, 0x9A22840749894376uL, 0x066313979AB604FCuL),
+            (+1, 0, 0xE4DEA7E94A0A784FuL, 0x6B4443D2F1DFDA64uL),
+        ]);
     }
 }
