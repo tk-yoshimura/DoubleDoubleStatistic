@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="TYoshimura.Algebra" Version="2.1.2" />
-    <PackageReference Include="TYoshimura.DoubleDouble" Version="3.2.2" />
+    <PackageReference Include="TYoshimura.DoubleDouble" Version="3.2.3" />
     <PackageReference Include="TYoshimura.DoubleDouble.Complex" Version="1.4.0" />
   </ItemGroup>
 
