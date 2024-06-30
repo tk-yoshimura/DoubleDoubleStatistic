@@ -98,7 +98,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Mean => Mu;
 
-        public override ddouble Variance => NaN;
+        public override ddouble Variance => PositiveInfinity;
 
         public override ddouble Skewness => NaN;
 
