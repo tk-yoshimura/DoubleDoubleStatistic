@@ -142,12 +142,12 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 db *= u * ((Nu + 2d) * 0.5d + i) / ((i + 1) * (i + 1.5d));
 
                 // Overflow avoidance by rescaling
-                if (exp < -16d && double.ILogB((double)a) >= 16 && double.ILogB((double)a) >= 16) {
+                if (double.ILogB((double)a) >= 16 && double.ILogB((double)b) >= 16) {
                     a = Ldexp(a, -16);
                     b = Ldexp(b, -16);
                     da = Ldexp(da, -16);
                     db = Ldexp(db, -16);
-                    exp += 16;
+                    exp += 16d;
                 }
             }
 
