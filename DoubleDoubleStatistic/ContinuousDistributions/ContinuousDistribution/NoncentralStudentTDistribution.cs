@@ -150,12 +150,12 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         private ddouble PDFIntegration(ddouble x) {
-            ddouble s = x * x + Nu, v = Mu * x / Sqrt(s);
+            ddouble s = x * x + Nu, v = Mu * x / Sqrt(s), half_lbe = 0.5d * LbE;
 
             ddouble r = Exp(-(Mu * Mu * Nu + s * (Nu * Log(2d * s / Nu) + Log(s * 0.5d))) / (2d * s) - LogGamma(Nu * 0.5d)) / Sqrt(PI);
 
             ddouble f(ddouble t) {
-                return t > 0d ? Exp(Nu * Log(t) - Square(t - v) * 0.5d) : 0d;
+                return t > 0d ? Pow2(Nu * Log2(t) - Square(t - v) * half_lbe) : 0d;
             }
 
             ddouble i = GaussKronrodIntegral.AdaptiveIntegrate(f, 0, PositiveInfinity, 1e-28 * r, 8192).value;
