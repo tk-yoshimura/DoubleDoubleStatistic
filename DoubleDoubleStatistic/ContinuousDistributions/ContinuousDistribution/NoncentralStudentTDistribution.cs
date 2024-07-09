@@ -169,7 +169,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble i = GaussKronrodIntegral.AdaptiveIntegrate(f, 0, PositiveInfinity, eps, 1024).value;
+            ddouble i = (
+                GaussKronrodIntegral.AdaptiveIntegrate(f, 0, p, eps, 1024).value
+                + GaussKronrodIntegral.AdaptiveIntegrate(f, p, PositiveInfinity, eps, 1024).value
+            );
 
             ddouble y = i * r;
 
