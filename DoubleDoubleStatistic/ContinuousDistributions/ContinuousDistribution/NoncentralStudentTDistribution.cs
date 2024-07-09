@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private const int series_maxiter = 1024;
         private readonly ddouble gc, pdf_norm, pdf_b_scale, nu_inv, nu_half, power;
-        private readonly double zero_thr;
+        private readonly double zero_thr, pdf_integration_thr;
 
         private const int cache_samples = 512;
         private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
@@ -54,6 +54,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 ? double.ScaleB(1, 1000)
                 : double.Exp((double)(((nu + 1d) * Log(nu) + 2d * zero_thr_log) / (2d * nu + 2d)));
 
+            double lnnu = double.Log2((double)nu);
+
+            pdf_integration_thr = double.Min(2, double.Exp2(double.Min(lnnu * 0.50 + 1.0, lnnu * 0.25 + 0.5))) / (double)mu;
+
             randam_gen_chisq_dist = new(nu);
         }
 
@@ -62,13 +66,17 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            if (Abs(x) >= zero_thr) {
-                return 0d;
-            }
+            ddouble pdf;
+            if (Sign(Mu) == Sign(x) || Abs(x) < pdf_integration_thr) {
+                if (Abs(x) >= zero_thr) {
+                    return 0d;
+                }
 
-            ddouble u = 1d + x * x * nu_inv;
-            ddouble v = Pow(u, power);
-            ddouble pdf = pdf_norm * v * PDFScale(x);
+                pdf = PDFHypergeometric(x);
+            }
+            else {
+                pdf = PDFIntegration(x);
+            }
 
             pdf = IsFinite(pdf) ? pdf : 0d;
 
@@ -102,7 +110,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
         }
 
-        private ddouble PDFScale(ddouble x) {
+        private ddouble PDFHypergeometric(ddouble x) {
             ddouble mux = Mu * x, x2nu = x * x + Nu;
             ddouble u = Square(mux) / (2d * x2nu);
 
@@ -130,13 +138,29 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble s = a + mux * Sqrt(2d / x2nu) * pdf_b_scale * b;
 
-            if (s < a * 5e-28) {
-                return 0d;
+            if (s < a * 1e-2) {
+                return PDFIntegration(x);
             }
 
             ddouble y = Exp(Mu * Mu * -0.5d) * s;
 
-            y = Max(0d, y);
+            y = pdf_norm * Pow(1d + x * x * nu_inv, power) * Max(0d, y);
+
+            return y;
+        }
+
+        private ddouble PDFIntegration(ddouble x) {
+            ddouble s = x * x + Nu, v = Mu * x / Sqrt(s);
+
+            ddouble r = Exp(-(Mu * Mu * Nu + s * (Nu * Log(2d * s / Nu) + Log(s * 0.5d))) / (2d * s) - LogGamma(Nu * 0.5d)) / Sqrt(PI);
+
+            ddouble f(ddouble t) {
+                return t > 0d ? Exp(Nu * Log(t) - Square(t - v) * 0.5d) : 0d;
+            }
+
+            ddouble i = GaussKronrodIntegral.AdaptiveIntegrate(f, 0, PositiveInfinity, 1e-28 * r, 8192).value;
+
+            ddouble y = i * r;
 
             return y;
         }
