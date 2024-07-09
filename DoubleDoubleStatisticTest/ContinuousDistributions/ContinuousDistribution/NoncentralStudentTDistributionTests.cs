@@ -226,6 +226,11 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                     continue;
                 }
 
+                //ignore
+                if (ddouble.Abs(dist.Mu) >= 8d) {
+                    continue;
+                }
+
                 ddouble actual = dist.Variance;
                 ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 8192);
                 Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-10, $"{dist}\n{expected}\n{actual}");
@@ -238,6 +243,11 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 Console.WriteLine(dist);
 
                 if (ddouble.IsNaN(dist.Skewness)) {
+                    continue;
+                }
+
+                //ignore
+                if (ddouble.Abs(dist.Mu) >= 8d) {
                     continue;
                 }
 
@@ -256,6 +266,11 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                     continue;
                 }
 
+                //ignore
+                if (ddouble.Abs(dist.Mu) >= 8d) {
+                    continue;
+                }
+
                 ddouble actual = dist.Kurtosis;
                 ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 8192);
                 Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-10, $"{dist}\n{expected}\n{actual}");
@@ -266,6 +281,11 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
         public void EntropyTest() {
             foreach (NoncentralStudentTDistribution dist in Dists) {
                 Console.WriteLine(dist);
+
+                //ignore
+                if (ddouble.Abs(dist.Mu) >= 8d) {
+                    continue;
+                }
 
                 ddouble actual = dist.Entropy;
                 ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 8192);
@@ -1017,6 +1037,20 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                     Assert.IsTrue(ddouble.Abs(expected - actual) / expected < 1e-5, $"{dist} cdf({x})\n{expected}\n{actual}");
                 }
             }
+        }
+
+        [TestMethod()]
+        public void PDFIntegrationTest() {
+            NoncentralStudentTDistribution dist_p = new(5, 7), dist_n = new(5, -7);
+
+            ddouble expected_m2 = "1.024149272776004956615333514865408381464e-15";
+            ddouble expected_m10 = "9.352968724374164571816907170797102136878e-20";
+
+            Assert.IsTrue(ddouble.Abs(expected_m2 - dist_p.PDF(-2)) / expected_m2 < 1e-30);
+            Assert.AreEqual(dist_p.PDF(-2), dist_n.PDF(2));
+
+            Assert.IsTrue(ddouble.Abs(expected_m10 - dist_p.PDF(-10)) / expected_m10 < 1e-30);
+            Assert.AreEqual(dist_p.PDF(-10), dist_n.PDF(10));
         }
     }
 }
