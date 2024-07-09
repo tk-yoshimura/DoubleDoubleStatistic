@@ -13,7 +13,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public ddouble Beta { get; }
         public ddouble Lambda { get; }
 
-        private const int series_maxiter = 1024;
+        private const int series_maxiter = 8192;
         private const int cache_samples = 1024;
 
         private readonly ddouble logbeta;
@@ -49,20 +49,28 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble ds = Pow2(Log2(x) * (Alpha - 1d) + Log2(1d - x) * (Beta - 1d) - logbeta);
             ddouble s = ds;
 
-            for (int j = 1; j <= series_maxiter; j++) {
-                ds *= Lambda * x * (Alpha + Beta + j - 1) / ((Alpha + j - 1) * (2 * j));
+            ddouble exp = Lambda * LbE * -0.5d;
+
+            for (int i = 1; i <= series_maxiter; i++) {
+                ds *= Lambda * x * (Alpha + Beta + i - 1) / ((Alpha + i - 1) * (2 * i));
 
                 s += ds;
 
                 if (ds <= s * 1e-30 || !IsFinite(ds)) {
                     break;
                 }
-                if (j >= series_maxiter) {
+                if (i >= series_maxiter) {
                     throw new ArithmeticException($"{this}: pdf calculation not convergence.");
+                }
+
+                // Overflow avoidance by rescaling
+                if (double.ILogB((double)s) >= 16) {
+                    (s, ds) = (Ldexp(s, -16), Ldexp(ds, -16));
+                    exp += 16d;
                 }
             }
 
-            ddouble pdf = s * Exp(-Lambda * 0.5d);
+            ddouble pdf = Pow2(exp) * s;
 
             return pdf;
         }

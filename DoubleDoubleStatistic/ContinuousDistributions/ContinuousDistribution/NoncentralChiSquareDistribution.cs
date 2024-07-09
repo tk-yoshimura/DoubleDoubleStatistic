@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private readonly ddouble c;
 
-        private const int series_maxiter = 1024;
+        private const int series_maxiter = 8192;
         private const int cache_samples = 512;
         private QuantileBuilder? quantile_lower_builder = null, quantile_upper_builder = null;
 

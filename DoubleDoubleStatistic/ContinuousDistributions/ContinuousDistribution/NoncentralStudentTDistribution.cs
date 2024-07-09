@@ -123,7 +123,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble a = 1d, b = 1d;
 
-            ddouble exp = Mu * Mu * -0.5d * LbE;
+            ddouble exp = Mu * Mu * LbE * -0.5d;
 
             for (int i = 1; i <= series_maxiter; i++) {
                 a += da;
@@ -143,10 +143,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 // Overflow avoidance by rescaling
                 if (double.ILogB((double)a) >= 16 && double.ILogB((double)b) >= 16) {
-                    a = Ldexp(a, -16);
-                    b = Ldexp(b, -16);
-                    da = Ldexp(da, -16);
-                    db = Ldexp(db, -16);
+                    (a, da) = (Ldexp(a, -16), Ldexp(da, -16));
+                    (b, db) = (Ldexp(b, -16), Ldexp(db, -16));
                     exp += 16d;
                 }
             }
