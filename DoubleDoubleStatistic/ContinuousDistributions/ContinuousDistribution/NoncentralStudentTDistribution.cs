@@ -75,6 +75,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 pdf = PDFHypergeometric(x);
             }
             else {
+                if (IsInfinity(x)) {
+                    return 0d;
+                }
+
                 pdf = PDFIntegration(x);
             }
 
@@ -158,7 +162,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return t > 0d ? Pow2(Nu * Log2(t) - Square(t - v) * half_lbe) : 0d;
             }
 
-            ddouble i = GaussKronrodIntegral.AdaptiveIntegrate(f, 0, PositiveInfinity, 1e-28 * r, 8192).value;
+            ddouble p = (Sqrt(v * v + 4d * Nu) + v) * 0.5d; 
+            ddouble eps = 1e-28 * f(p);
+
+            if (!(eps >= 1e-280)) {
+                return 0d;
+            }
+
+            ddouble i = GaussKronrodIntegral.AdaptiveIntegrate(f, 0, PositiveInfinity, eps, 1024).value;
 
             ddouble y = i * r;
 
