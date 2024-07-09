@@ -15,7 +15,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private static readonly ddouble sqrt2_inv = 1d / Sqrt2;
 
-        private const int series_maxiter = 1024;
+        private const int series_maxiter = 8192;
         private readonly ddouble gc, pdf_norm, pdf_b_scale, nu_inv, nu_half, power;
         private readonly double zero_thr, pdf_integration_thr;
 
@@ -123,6 +123,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble a = 1d, b = 1d;
 
+            ddouble exp = Mu * Mu * -0.5d * LbE;
+
             for (int i = 1; i <= series_maxiter; i++) {
                 a += da;
                 b += db;
@@ -138,6 +140,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 da *= u * ((Nu + 1d) * 0.5d + i) / ((i + 1) * (i + 0.5d));
                 db *= u * ((Nu + 2d) * 0.5d + i) / ((i + 1) * (i + 1.5d));
+
+                // Overflow avoidance by rescaling
+                if (exp < -16d && double.ILogB((double)a) >= 16 && double.ILogB((double)a) >= 16) {
+                    a = Ldexp(a, -16);
+                    b = Ldexp(b, -16);
+                    da = Ldexp(da, -16);
+                    db = Ldexp(db, -16);
+                    exp += 16;
+                }
             }
 
             ddouble s = a + mux * Sqrt(2d / x2nu) * pdf_b_scale * b;
@@ -146,7 +157,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return PDFIntegration(x);
             }
 
-            ddouble y = Exp(Mu * Mu * -0.5d) * s;
+            ddouble y = Pow2(exp) * s;
 
             y = pdf_norm * Pow(1d + x * x * nu_inv, power) * Max(0d, y);
 
