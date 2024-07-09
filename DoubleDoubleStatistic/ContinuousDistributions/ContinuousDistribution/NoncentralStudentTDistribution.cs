@@ -152,7 +152,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble PDFIntegration(ddouble x) {
             ddouble s = x * x + Nu, v = Mu * x / Sqrt(s), half_lbe = 0.5d * LbE;
 
-            ddouble r = Exp(-(Mu * Mu * Nu + s * (Nu * Log(2d * s / Nu) + Log(s * 0.5d))) / (2d * s) - LogGamma(Nu * 0.5d)) / Sqrt(PI);
+            ddouble r = Pow2(-(Mu * Mu * Nu * LbE + s * (Nu * Log2(2d * s / Nu) + Log2(s * 0.5d))) / (2d * s) - LogGamma(Nu * 0.5d) * LbE) / Sqrt(PI);
 
             ddouble f(ddouble t) {
                 return t > 0d ? Pow2(Nu * Log2(t) - Square(t - v) * half_lbe) : 0d;
