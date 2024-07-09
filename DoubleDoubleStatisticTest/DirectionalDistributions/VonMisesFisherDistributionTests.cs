@@ -2226,7 +2226,7 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
                 }
             }
         }
-                
+
         [TestMethod()]
         public void InverseKappaBp5Test() {
             for (double x = 0; x <= 1; x += 1d / 4096) {

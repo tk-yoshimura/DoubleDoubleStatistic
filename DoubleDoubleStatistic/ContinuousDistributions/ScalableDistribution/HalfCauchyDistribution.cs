@@ -63,7 +63,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return cdf;
             }
-            else { 
+            else {
                 if (IsNaN(u)) {
                     return NaN;
                 }
@@ -100,7 +100,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return x;
             }
-            else { 
+            else {
                 if (p <= 0d) {
                     return PositiveInfinity;
                 }
