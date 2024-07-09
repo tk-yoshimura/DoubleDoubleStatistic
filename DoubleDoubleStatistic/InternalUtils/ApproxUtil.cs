@@ -27,5 +27,23 @@ namespace DoubleDoubleStatistic.InternalUtils {
 
             return s;
         }
+
+        public static double Pade(double x, (ReadOnlyCollection<double> c, ReadOnlyCollection<double> d) table) {
+            (double sc, double sd) = (Poly(x, table.c), Poly(x, table.d));
+
+            Debug.Assert(sd >= 0.5, $"pade denom digits loss! {x}");
+
+            return sc / sd;
+        }
+
+        public static double Poly(double x, ReadOnlyCollection<double> table) {
+            double s = table[^1];
+
+            for (int i = table.Count - 2; i >= 0; i--) {
+                s = s * x + table[i];
+            }
+
+            return s;
+        }
     }
 }

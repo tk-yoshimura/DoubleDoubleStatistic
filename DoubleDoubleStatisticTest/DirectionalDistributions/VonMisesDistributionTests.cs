@@ -1,6 +1,7 @@
 ﻿using DoubleDouble;
 using DoubleDoubleStatistic.DirectionalDistributions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static DoubleDoubleStatistic.DirectionalDistributions.VonMisesDistribution;
 
 namespace DoubleDoubleStatisticTest.DirectionalDistributions {
     [TestClass()]
@@ -659,6 +660,22 @@ namespace DoubleDoubleStatisticTest.DirectionalDistributions {
                     else {
                         Assert.AreEqual(0, actual);
                     }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void InverseKappaB0Test() {
+            for (double x = 0; x <= 1; x += 1d / 4096) {
+                double y = InverseKappaB0.Value(x);
+                ddouble z = ddouble.BesselI(1, y) / ddouble.BesselI(0, y);
+
+                ddouble err = ddouble.Abs(x - z);
+
+                Console.WriteLine($"{x},{y},{z},{err:e2}");
+
+                if (x < 0.999) {
+                    Assert.AreEqual(x, (double)z, 4e-16);
                 }
             }
         }
