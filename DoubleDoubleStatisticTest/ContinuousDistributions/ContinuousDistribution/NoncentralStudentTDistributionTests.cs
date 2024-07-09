@@ -1045,12 +1045,20 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
             ddouble expected_m2 = "1.024149272776004956615333514865408381464e-15";
             ddouble expected_m10 = "9.352968724374164571816907170797102136878e-20";
+            ddouble expected_p2 = "0.00008255480759792435894808309620397674763859";
+            ddouble expected_p10 = "0.07265965604895470390419337567812317002502";
 
             Assert.IsTrue(ddouble.Abs(expected_m2 - dist_p.PDF(-2)) / expected_m2 < 1e-30);
             Assert.AreEqual(dist_p.PDF(-2), dist_n.PDF(2));
 
             Assert.IsTrue(ddouble.Abs(expected_m10 - dist_p.PDF(-10)) / expected_m10 < 1e-30);
             Assert.AreEqual(dist_p.PDF(-10), dist_n.PDF(10));
+
+            Assert.IsTrue(ddouble.Abs(expected_p2 - dist_p.PDF(2)) / expected_p2 < 1e-30);
+            Assert.AreEqual(dist_p.PDF(2), dist_n.PDF(-2));
+
+            Assert.IsTrue(ddouble.Abs(expected_p10 - dist_p.PDF(10)) / expected_p10 < 1e-30);
+            Assert.AreEqual(dist_p.PDF(10), dist_n.PDF(-10));
         }
     }
 }
