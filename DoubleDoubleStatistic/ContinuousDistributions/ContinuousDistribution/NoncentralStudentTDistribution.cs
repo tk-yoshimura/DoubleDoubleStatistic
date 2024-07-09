@@ -56,7 +56,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             double lnnu = double.Log2((double)nu);
 
-            pdf_integration_thr = double.Min(2, double.Exp2(double.Min(lnnu * 0.50 + 1.0, lnnu * 0.25 + 0.5))) / (double)mu;
+            pdf_integration_thr = double.Min(2, double.Exp2(double.Min(lnnu * 0.50 + 1.0, lnnu * 0.25 + 0.5))) / double.Abs((double)mu);
 
             randam_gen_chisq_dist = new(nu);
         }
