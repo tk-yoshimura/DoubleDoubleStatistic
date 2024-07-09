@@ -163,7 +163,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             ddouble p = (Sqrt(v * v + 4d * Nu) + v) * 0.5d; 
-            ddouble eps = 1e-28 * f(p);
+            ddouble eps = 1e-28 * f(p) * p;
 
             if (!(eps >= 1e-280)) {
                 return 0d;
