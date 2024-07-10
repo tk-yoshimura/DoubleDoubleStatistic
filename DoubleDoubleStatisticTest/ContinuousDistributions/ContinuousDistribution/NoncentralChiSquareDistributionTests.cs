@@ -886,5 +886,62 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 }
             }
         }
+
+        [TestMethod()]
+        public void PDFLargeLambdaTest() {
+            NoncentralChiSquareDistribution dist_1_1024 = new(1, 1024);
+            NoncentralChiSquareDistribution dist_2_1024 = new(2, 1024);
+            NoncentralChiSquareDistribution dist_3_1024 = new(3, 1024);
+
+            ddouble expected_1_1024_2 = "1.023812764447790171486510967185899358742e-204";
+            ddouble expected_1_1024_4 = "3.684115337196368797623733165112686217650e-197";
+            ddouble expected_2_1024_2 = "2.158321811687712312952743215724521003785e-205";
+            ddouble expected_2_1024_4 = "9.228437929411015037408489649745127241678e-198";
+            ddouble expected_3_1024_2 = "4.524655927539861796131155082313990392723e-206";
+            ddouble expected_3_1024_4 = "2.302572085747730498514833228195428886031e-198";
+
+            Assert.IsTrue(ddouble.Abs(expected_1_1024_2 - dist_1_1024.PDF(2)) / expected_1_1024_2 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_1_1024_4 - dist_1_1024.PDF(4)) / expected_1_1024_4 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_1024_2 - dist_2_1024.PDF(2)) / expected_2_1024_2 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_1024_4 - dist_2_1024.PDF(4)) / expected_2_1024_4 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_3_1024_2 - dist_3_1024.PDF(2)) / expected_3_1024_2 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_3_1024_4 - dist_3_1024.PDF(4)) / expected_3_1024_4 < 2e-29);
+        }
+
+        [TestMethod()]
+        public void CDFLowerLargeLambdaTest() {
+            NoncentralChiSquareDistribution dist_1_1024 = new(1, 1024);
+            NoncentralChiSquareDistribution dist_2_1024 = new(2, 1024);
+            NoncentralChiSquareDistribution dist_3_1024 = new(3, 1024);
+
+            ddouble expected_1_1024_2 = "9.457642053019066178341952173449067600843e-206";
+            ddouble expected_1_1024_4 = "4.906713927148187059533809256580190471997e-198";
+            ddouble expected_2_1024_2 = "1.970646482140057955710515857360234412614e-206";
+            ddouble expected_2_1024_4 = "1.218830102847621899575599115562454330411e-198";
+            ddouble expected_3_1024_2 = "4.083301979393425860796420088210868153971e-207";
+            ddouble expected_3_1024_4 = "3.015697556527260625041428001893326999343e-199";
+
+            Assert.IsTrue(ddouble.Abs(expected_1_1024_2 - dist_1_1024.CDF(2)) / expected_1_1024_2 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_1_1024_4 - dist_1_1024.CDF(4)) / expected_1_1024_4 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_1024_2 - dist_2_1024.CDF(2)) / expected_2_1024_2 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_1024_4 - dist_2_1024.CDF(4)) / expected_2_1024_4 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_3_1024_2 - dist_3_1024.CDF(2)) / expected_3_1024_2 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_3_1024_4 - dist_3_1024.CDF(4)) / expected_3_1024_4 < 2e-29);
+        }
+
+        [TestMethod()]
+        public void CDFUpperLargeLambdaTest() {
+            NoncentralChiSquareDistribution dist_1_1024 = new(1, 1024);
+            NoncentralChiSquareDistribution dist_2_1024 = new(2, 1024);
+            NoncentralChiSquareDistribution dist_3_1024 = new(3, 1024);
+
+            ddouble expected_1_1024_2048 = "2.11525997253813409185260377263774799534255468711963e-40";
+            ddouble expected_2_1024_2048 = "2.5177711063707804048471088126811027255849919064441e-40";
+            ddouble expected_3_1024_2048 = "2.99636112318165893962446966541714403612416446132973e-40";
+
+            Assert.IsTrue(ddouble.Abs(expected_1_1024_2048 - dist_1_1024.CDF(2048, interval:Interval.Upper)) / expected_1_1024_2048 < 2e-27);
+            Assert.IsTrue(ddouble.Abs(expected_2_1024_2048 - dist_2_1024.CDF(2048, interval:Interval.Upper)) / expected_2_1024_2048 < 2e-27);
+            Assert.IsTrue(ddouble.Abs(expected_3_1024_2048 - dist_3_1024.CDF(2048, interval:Interval.Upper)) / expected_3_1024_2048 < 2e-27);
+        }
     }
 }

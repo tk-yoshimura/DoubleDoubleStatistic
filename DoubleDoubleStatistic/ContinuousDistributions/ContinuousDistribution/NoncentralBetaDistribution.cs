@@ -64,7 +64,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 // Overflow avoidance by rescaling
-                if (double.ILogB((double)s) >= 16) {
+                if (double.ILogB((double)s) >= 16 || double.ILogB((double)ds) >= 16) {
                     (s, ds) = (Ldexp(s, -16), Ldexp(ds, -16));
                     exp += 16d;
                 }
@@ -99,6 +99,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble s = beta0;
 
             ddouble ai = Alpha, ci = ai + Beta - 1d;
+            ddouble exp = -lambda_half * LbE;
 
             for (int j = 1; j <= series_maxiter; j++) {
                 c *= lambda_half / j;
@@ -128,9 +129,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                     (beta1, beta0) = (IncompleteBetaRegularized(x, Alpha + (j + 1), Beta), beta1);
                 }
+
+                // Overflow avoidance by rescaling
+                if (double.ILogB((double)s) >= 16 || double.ILogB((double)c) >= 16) {
+                    (s, c) = (Ldexp(s, -16), Ldexp(c, -16));
+                    exp += 16d;
+                }
             }
 
-            ddouble cdf = Min(1d, Exp(-lambda_half) * s);
+            ddouble cdf = Min(1d, Pow2(exp) * s);
 
             return cdf;
         }

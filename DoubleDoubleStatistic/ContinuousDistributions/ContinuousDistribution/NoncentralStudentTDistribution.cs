@@ -204,6 +204,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble s = r1 * beta1_0 + r2 * beta2_0;
             ddouble a1 = 0.5d, a2 = 1d, c1 = nu_half - 0.5d, c2 = nu_half;
 
+            ddouble exp = -u * LbE;
+
             for (int i = 0; i <= series_maxiter; i++) {
                 r1 *= u / (i + 1d);
                 r2 *= u / (i + 1.5d);
@@ -252,9 +254,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                     (beta2_1, beta2_0) = (IncompleteBetaRegularized(v, i + 3d, nu_half), beta2_1);
                 }
+
+                // Overflow avoidance by rescaling
+                if (double.ILogB((double)s) >= 16 || double.ILogB((double)r1) >= 16 || double.ILogB((double)r2) >= 16) {
+                    (s, r1, r2) = (Ldexp(s, -16), Ldexp(r1, -16), Ldexp(r2, -16));
+                    exp += 16d;
+                }
             }
 
-            ddouble y = (Erfc(mu * sqrt2_inv) + Exp(-u) * s) * 0.5d;
+            ddouble y = (Erfc(mu * sqrt2_inv) + Pow2(exp) * s) * 0.5d;
 
             if (1d - y < 1e-29) {
                 y = 1d;

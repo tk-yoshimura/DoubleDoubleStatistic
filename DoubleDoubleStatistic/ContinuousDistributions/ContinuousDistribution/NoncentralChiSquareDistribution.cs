@@ -75,7 +75,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 for (int i = 1; i <= series_maxiter; i++) {
                     v += Log(u);
                     f *= lambda_half / i;
-                    g -= Exp(lnx_half * u - x_half - v);
+                    ddouble dg = Exp(lnx_half * u - x_half - v);
+
+                    if (g > dg * 1.25d) {
+                        g -= dg;
+                    }
+                    else{
+                        g = LowerIncompleteGammaRegularized(nu_half + i, x_half);
+                    }
 
                     ddouble ds = f * g;
 
@@ -92,7 +99,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     u += 1d;
 
                     // Overflow avoidance by rescaling
-                    if (double.ILogB((double)s) >= 16) {
+                    if (double.ILogB((double)s) >= 16 || double.ILogB((double)f) >= 16) {
                         (s, f) = (Ldexp(s, -16), Ldexp(f, -16));
                         exp += 16d;
                     }
@@ -109,6 +116,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             else {
                 ddouble g = UpperIncompleteGammaRegularized(u, x_half);
                 ddouble s = g;
+                bool non_zero = s != 0d;
 
                 for (int i = 1; i <= series_maxiter; i++) {
                     v += Log(u);
@@ -119,18 +127,26 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                     s += ds;
 
-                    if (ds <= s * 1e-30 || !IsFinite(ds)) {
+                    if (!non_zero) { 
+                        non_zero = s != 0d;
+                    }
+
+                    if ((non_zero && ds <= s * 1e-30) || !IsFinite(ds)) {
                         break;
                     }
 
                     if (i >= series_maxiter) {
+                        if (!non_zero) {
+                            return 0d;
+                        }
+
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
 
                     u += 1d;
 
                     // Overflow avoidance by rescaling
-                    if (double.ILogB((double)s) >= 16) {
+                    if (double.ILogB((double)s) >= 16 || double.ILogB((double)f) >= 16) {
                         (s, f) = (Ldexp(s, -16), Ldexp(f, -16));
                         exp += 16d;
                     }

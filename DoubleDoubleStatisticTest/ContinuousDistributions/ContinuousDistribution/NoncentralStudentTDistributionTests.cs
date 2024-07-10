@@ -1098,5 +1098,16 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.Abs(expected_2_64_64 - dist_2_64.PDF(64)) / expected_2_64_64 < 2e-29);
             Assert.IsTrue(ddouble.Abs(expected_2_64_96 - dist_2_64.PDF(96)) / expected_2_64_96 < 2e-29);
         }
+
+        [TestMethod()]
+        public void CDFLargeMuTest() {
+            NoncentralStudentTDistribution dist_1_32 = new(1, 32), dist_2_32 = new(2, 32);
+
+            ddouble expected_1_32_4 = "8.416933929597894762386824205013044551429e-15";    
+            ddouble expected_2_32_4 = "1.8530759205047966738852532488567287089941e-25";
+            
+            Assert.IsTrue(ddouble.Abs(expected_1_32_4 - dist_1_32.CDF(4)) / expected_1_32_4 < 2e-22);
+            Assert.IsTrue(ddouble.Abs(expected_2_32_4 - dist_2_32.CDF(4)) / expected_2_32_4 < 2e-22);
+        }
     }
 }

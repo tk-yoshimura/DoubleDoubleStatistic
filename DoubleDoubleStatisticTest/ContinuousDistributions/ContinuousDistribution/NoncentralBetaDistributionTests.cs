@@ -435,5 +435,36 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.Abs(expected_2_3_1024_0p25 - dist_2_3_1024.PDF(0.25)) / expected_2_3_1024_0p25 < 2e-29);
             Assert.IsTrue(ddouble.Abs(expected_2_3_1024_0p75 - dist_2_3_1024.PDF(0.75)) / expected_2_3_1024_0p75 < 2e-29);
         }
+
+        [TestMethod()]
+        public void CDFLargeLambdaTest() {
+            NoncentralBetaDistribution dist_1_1_1024 = new(1, 1, 1024);
+            NoncentralBetaDistribution dist_1_2_1024 = new(1, 2, 1024);
+            NoncentralBetaDistribution dist_2_1_1024 = new(2, 1, 1024);
+            NoncentralBetaDistribution dist_2_2_1024 = new(2, 2, 1024);
+            NoncentralBetaDistribution dist_2_3_1024 = new(2, 3, 1024);
+
+            ddouble expected_1_1_1024_0p25 = "4.254602175479286417696807186544622569917e-168";
+            ddouble expected_1_1_1024_0p75 = "1.9291570294818111201296535627065768104961e-56";
+            ddouble expected_1_2_1024_0p25 = "4.158873626531002473298629024847368562094e-166";
+            ddouble expected_1_2_1024_0p75 = "1.876105211171061314326088089732145948207481e-54";
+            ddouble expected_2_1_1024_0p25 = "1.063650543869821604424201796636155642479e-168";
+            ddouble expected_2_1_1024_0p75 = "1.4468677721113583400972401720299326078721e-56";
+            ddouble expected_2_2_1024_0p25 = "1.047695785711774280357838769686613307842e-166";
+            ddouble expected_2_2_1024_0p75 = "1.410696077808574381594809167729184292675291e-54";
+            ddouble expected_2_3_1024_0p25 = "5.237614712491977171735599184473299662750e-165";
+            ddouble expected_2_3_1024_0p75 = "6.9126820689692853495033331544052586464729012e-53";
+
+            Assert.IsTrue(ddouble.Abs(expected_1_1_1024_0p25 - dist_1_1_1024.CDF(0.25)) / expected_1_1_1024_0p25 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_1_1_1024_0p75 - dist_1_1_1024.CDF(0.75)) / expected_1_1_1024_0p75 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_1_2_1024_0p25 - dist_1_2_1024.CDF(0.25)) / expected_1_2_1024_0p25 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_1_2_1024_0p75 - dist_1_2_1024.CDF(0.75)) / expected_1_2_1024_0p75 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_1_1024_0p25 - dist_2_1_1024.CDF(0.25)) / expected_2_1_1024_0p25 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_1_1024_0p75 - dist_2_1_1024.CDF(0.75)) / expected_2_1_1024_0p75 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_2_1024_0p25 - dist_2_2_1024.CDF(0.25)) / expected_2_2_1024_0p25 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_2_1024_0p75 - dist_2_2_1024.CDF(0.75)) / expected_2_2_1024_0p75 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_3_1024_0p25 - dist_2_3_1024.CDF(0.25)) / expected_2_3_1024_0p25 < 2e-29);
+            Assert.IsTrue(ddouble.Abs(expected_2_3_1024_0p75 - dist_2_3_1024.CDF(0.75)) / expected_2_3_1024_0p75 < 2e-29);
+        }
     }
 }
