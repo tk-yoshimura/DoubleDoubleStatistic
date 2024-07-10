@@ -63,16 +63,19 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             ddouble nu_half = Nu * 0.5d, lambda_half = Lambda * 0.5d, x_half = x * 0.5d;
-            ddouble f = 1d, u = nu_half, v = Gamma(u);
+            ddouble f = 1d, u = nu_half, v = LogGamma(u);
             ddouble lnx_half = Log(x_half);
+
+            ddouble exp = -lambda_half * LbE;
 
             if (x < Mean) {
                 ddouble g = LowerIncompleteGammaRegularized(u, x_half);
                 ddouble s = g;
 
                 for (int i = 1; i <= series_maxiter; i++) {
+                    v += Log(u);
                     f *= lambda_half / i;
-                    g -= Exp(lnx_half * u - x_half) / (u * v);
+                    g -= Exp(lnx_half * u - x_half - v);
 
                     ddouble ds = f * g;
 
@@ -86,11 +89,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
 
-                    v *= u;
                     u += 1d;
+
+                    // Overflow avoidance by rescaling
+                    if (double.ILogB((double)s) >= 16) {
+                        (s, f) = (Ldexp(s, -16), Ldexp(f, -16));
+                        exp += 16d;
+                    }
                 }
 
-                ddouble cdf = Min(1d, Exp(-lambda_half) * s);
+                ddouble cdf = Min(1d, Pow2(exp) * s);
 
                 if (interval == Interval.Upper) {
                     cdf = 1d - cdf;
@@ -103,8 +111,9 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 ddouble s = g;
 
                 for (int i = 1; i <= series_maxiter; i++) {
+                    v += Log(u);
                     f *= lambda_half / i;
-                    g += Exp(lnx_half * u - x_half) / (u * v);
+                    g += Exp(lnx_half * u - x_half - v);
 
                     ddouble ds = f * g;
 
@@ -118,11 +127,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         throw new ArithmeticException($"{this}: cdf calculation not convergence.");
                     }
 
-                    v *= u;
                     u += 1d;
+
+                    // Overflow avoidance by rescaling
+                    if (double.ILogB((double)s) >= 16) {
+                        (s, f) = (Ldexp(s, -16), Ldexp(f, -16));
+                        exp += 16d;
+                    }
                 }
 
-                ddouble cdf = Min(1d, Exp(-lambda_half) * s);
+                ddouble cdf = Min(1d, Pow2(exp) * s);
 
                 if (interval == Interval.Lower) {
                     cdf = 1d - cdf;
