@@ -171,7 +171,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return t > 0d ? Pow2(Nu * Log2(t) - Square(t - v) * half_lbe) : 0d;
             }
 
-            ddouble p = (Sqrt(v * v + 4d * Nu) + v) * 0.5d; 
+            ddouble p = (Sqrt(v * v + 4d * Nu) + v) * 0.5d;
             ddouble eps = 1e-28 * f(p) * p;
 
             if (!(eps >= 1e-280)) {

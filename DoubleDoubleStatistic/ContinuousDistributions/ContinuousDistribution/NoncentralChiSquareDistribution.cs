@@ -80,7 +80,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     if (g > dg * 1.25d) {
                         g -= dg;
                     }
-                    else{
+                    else {
                         g = LowerIncompleteGammaRegularized(nu_half + i, x_half);
                     }
 
@@ -127,7 +127,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                     s += ds;
 
-                    if (!non_zero) { 
+                    if (!non_zero) {
                         non_zero = s != 0d;
                     }
 

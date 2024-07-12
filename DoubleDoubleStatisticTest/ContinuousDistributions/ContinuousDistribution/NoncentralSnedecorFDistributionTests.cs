@@ -1227,9 +1227,9 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             ddouble expected_2_1_1024_2048 = "0.383053896724690331865575012609646138020128545738188";
             ddouble expected_2_3_1024_2048 = "0.139005936164360117507881356657960896846638555440632";
 
-            Assert.IsTrue(ddouble.Abs(expected_1_2_1024_2048 - dist_1_2_1024.CDF(2048, interval:Interval.Upper)) / expected_1_2_1024_2048 < 2e-27);
-            Assert.IsTrue(ddouble.Abs(expected_2_1_1024_2048 - dist_2_1_1024.CDF(2048, interval:Interval.Upper)) / expected_2_1_1024_2048 < 2e-27);
-            Assert.IsTrue(ddouble.Abs(expected_2_3_1024_2048 - dist_2_3_1024.CDF(2048, interval:Interval.Upper)) / expected_2_3_1024_2048 < 2e-27);
+            Assert.IsTrue(ddouble.Abs(expected_1_2_1024_2048 - dist_1_2_1024.CDF(2048, interval: Interval.Upper)) / expected_1_2_1024_2048 < 2e-27);
+            Assert.IsTrue(ddouble.Abs(expected_2_1_1024_2048 - dist_2_1_1024.CDF(2048, interval: Interval.Upper)) / expected_2_1_1024_2048 < 2e-27);
+            Assert.IsTrue(ddouble.Abs(expected_2_3_1024_2048 - dist_2_3_1024.CDF(2048, interval: Interval.Upper)) / expected_2_3_1024_2048 < 2e-27);
         }
     }
 }
