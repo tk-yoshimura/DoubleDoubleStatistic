@@ -20,6 +20,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ChiSquareDistribution randam_gen_chisq_dist;
         private readonly NoncentralChiSquareDistribution randam_gen_noncchisq_dist;
 
+        private ddouble cdf_threshold = 0d;
+
         public NoncentralSnedecorFDistribution(ddouble n, ddouble m, ddouble lambda) {
             ParamAssert.ValidateShape(nameof(n), ParamAssert.IsFinitePositive(n));
             ParamAssert.ValidateShape(nameof(m), ParamAssert.IsFinitePositive(m));
@@ -92,56 +94,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return interval == Interval.Lower ? 1d : 0d;
             }
 
-            ddouble lambda_half = Lambda * 0.5d, n_half = N * 0.5d, m_half = M * 0.5d;
-            ddouble exp = -lambda_half * LbE;
-
-            if (x < Mean || (IsNaN(Mean) && x < Lambda)) {
-                ddouble r = 1d;
-                ddouble u = N * x / (N * x + M);
-
-                ddouble beta0 = IncompleteBetaRegularized(u, n_half, m_half);
-                ddouble beta1 = IncompleteBetaRegularized(u, n_half + 1d, m_half);
-
-                ddouble s = beta0;
-                ddouble a = n_half, c = a + m_half - 1d;
-
-                for (int i = 1; i <= series_maxiter; i++) {
-                    r *= lambda_half / i;
-                    ddouble ds = r * beta1;
-
-                    s += ds;
-
-                    if (Abs(ds) <= Abs(s) * 1e-30 || !IsFinite(ds)) {
+            if (cdf_threshold == 0d) {
+                for (cdf_threshold = Ldexp(1, -64); double.ILogB((double)cdf_threshold) < 64; cdf_threshold *= 2d) {
+                    if (CDFLower(cdf_threshold) > 0.25) {
                         break;
                     }
-
-                    if (i >= series_maxiter) {
-                        throw new ArithmeticException($"{this}: cdf calculation not convergence.");
-                    }
-
-                    a += 1d;
-                    c += 1d;
-
-                    if (beta1 > 1e-12) {
-                        (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
-                    }
-                    else {
-                        Debug.WriteLine(
-                            "reset recurr incomp.beta: \n" +
-                            $"{((a + c * u) * beta1 - c * u * beta0) / a} -> {IncompleteBetaRegularized(u, n_half + (i + 1), m_half)}"
-                        );
-
-                        (beta1, beta0) = (IncompleteBetaRegularized(u, n_half + (i + 1), m_half), beta1);
-                    }
-
-                    // Overflow avoidance by rescaling
-                    if (double.ILogB((double)s) >= 16 || double.ILogB((double)r) >= 16) {
-                        (s, r) = (Ldexp(s, -16), Ldexp(r, -16));
-                        exp += 16d;
-                    }
                 }
+            }
 
-                ddouble cdf = Min(1d, Pow2(exp) * s);
+            if (x < cdf_threshold) {
+                ddouble cdf = CDFLower(x);
 
                 if (interval == Interval.Upper) {
                     cdf = 1d - cdf;
@@ -150,52 +112,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return cdf;
             }
             else {
-                ddouble r = 1d;
-                ddouble u = M / (N * x + M), v = N * x / (N * x + M);
-
-                ddouble beta0 = IncompleteBetaRegularized(u, m_half, n_half);
-                ddouble beta1 = IncompleteBetaRegularized(u, m_half, n_half + 1d);
-
-                ddouble s = beta0;
-                ddouble b = n_half, c = m_half + b - 1d;
-
-                for (int i = 1; i <= series_maxiter; i++) {
-                    r *= lambda_half / i;
-                    ddouble ds = r * beta1;
-
-                    s += ds;
-
-                    if (Abs(ds) <= Abs(s) * 1e-30 || !IsFinite(ds)) {
-                        break;
-                    }
-
-                    if (i >= series_maxiter) {
-                        throw new ArithmeticException($"{this}: cdf calculation not convergence.");
-                    }
-
-                    b += 1d;
-                    c += 1d;
-
-                    if (beta1 > 1e-12) {
-                        (beta1, beta0) = (((b + c * v) * beta1 - c * v * beta0) / b, beta1);
-                    }
-                    else {
-                        Debug.WriteLine(
-                            "reset recurr incomp.beta: \n" +
-                            $"{((b + c * v) * beta1 - c * v * beta0) / b} -> {IncompleteBetaRegularized(u, m_half, n_half + (i + 1))}"
-                        );
-
-                        (beta1, beta0) = (IncompleteBetaRegularized(u, m_half, n_half + (i + 1)), beta1);
-                    }
-
-                    // Overflow avoidance by rescaling
-                    if (double.ILogB((double)s) >= 16 || double.ILogB((double)r) >= 16) {
-                        (s, r) = (Ldexp(s, -16), Ldexp(r, -16));
-                        exp += 16d;
-                    }
-                }
-
-                ddouble cdf = Min(1d, Pow2(exp) * s);
+                ddouble cdf = CDFUpper(x);
 
                 if (interval == Interval.Lower) {
                     cdf = 1d - cdf;
@@ -203,6 +120,110 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
                 return cdf;
             }
+        }
+
+
+        private ddouble CDFLower(ddouble x) {
+            ddouble lambda_half = Lambda * 0.5d, n_half = N * 0.5d, m_half = M * 0.5d;
+            ddouble exp = -lambda_half * LbE;
+            ddouble r = 1d;
+            ddouble u = N * x / (N * x + M);
+
+            ddouble beta0 = IncompleteBetaRegularized(u, n_half, m_half);
+            ddouble beta1 = IncompleteBetaRegularized(u, n_half + 1d, m_half);
+
+            ddouble s = beta0;
+            ddouble a = n_half, c = a + m_half - 1d;
+
+            for (int i = 1; i <= series_maxiter; i++) {
+                r *= lambda_half / i;
+                ddouble ds = r * beta1;
+
+                s += ds;
+
+                if (Abs(ds) <= Abs(s) * 1e-30 || !IsFinite(ds)) {
+                    break;
+                }
+
+                if (i >= series_maxiter) {
+                    throw new ArithmeticException($"{this}: cdf calculation not convergence.");
+                }
+
+                a += 1d;
+                c += 1d;
+
+                if (beta1 > 1e-12) {
+                    (beta1, beta0) = (((a + c * u) * beta1 - c * u * beta0) / a, beta1);
+                }
+                else {
+                    Debug.WriteLine(
+                        "reset recurr incomp.beta: \n" +
+                        $"{((a + c * u) * beta1 - c * u * beta0) / a} -> {IncompleteBetaRegularized(u, n_half + (i + 1), m_half)}"
+                    );
+
+                    (beta1, beta0) = (IncompleteBetaRegularized(u, n_half + (i + 1), m_half), beta1);
+                }
+
+                // Overflow avoidance by rescaling
+                if (double.ILogB((double)s) >= 16 || double.ILogB((double)r) >= 16) {
+                    (s, r) = (Ldexp(s, -16), Ldexp(r, -16));
+                    exp += 16d;
+                }
+            }
+
+            ddouble cdf = Min(1d, Pow2(exp) * s);
+            return cdf;
+        }
+        private ddouble CDFUpper(ddouble x) {
+            ddouble lambda_half = Lambda * 0.5d, n_half = N * 0.5d, m_half = M * 0.5d;
+            ddouble exp = -lambda_half * LbE;
+            ddouble r = 1d;
+            ddouble u = M / (N * x + M), v = N * x / (N * x + M);
+
+            ddouble beta0 = IncompleteBetaRegularized(u, m_half, n_half);
+            ddouble beta1 = IncompleteBetaRegularized(u, m_half, n_half + 1d);
+
+            ddouble s = beta0;
+            ddouble b = n_half, c = m_half + b - 1d;
+
+            for (int i = 1; i <= series_maxiter; i++) {
+                r *= lambda_half / i;
+                ddouble ds = r * beta1;
+
+                s += ds;
+
+                if (Abs(ds) <= Abs(s) * 1e-30 || !IsFinite(ds)) {
+                    break;
+                }
+
+                if (i >= series_maxiter) {
+                    throw new ArithmeticException($"{this}: cdf calculation not convergence.");
+                }
+
+                b += 1d;
+                c += 1d;
+
+                if (beta1 > 1e-12) {
+                    (beta1, beta0) = (((b + c * v) * beta1 - c * v * beta0) / b, beta1);
+                }
+                else {
+                    Debug.WriteLine(
+                        "reset recurr incomp.beta: \n" +
+                        $"{((b + c * v) * beta1 - c * v * beta0) / b} -> {IncompleteBetaRegularized(u, m_half, n_half + (i + 1))}"
+                    );
+
+                    (beta1, beta0) = (IncompleteBetaRegularized(u, m_half, n_half + (i + 1)), beta1);
+                }
+
+                // Overflow avoidance by rescaling
+                if (double.ILogB((double)s) >= 16 || double.ILogB((double)r) >= 16) {
+                    (s, r) = (Ldexp(s, -16), Ldexp(r, -16));
+                    exp += 16d;
+                }
+            }
+
+            ddouble cdf = Min(1d, Pow2(exp) * s);
+            return cdf;
         }
 
         public override ddouble Quantile(ddouble p, Interval interval = Interval.Lower) {
