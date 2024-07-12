@@ -135,14 +135,6 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         break;
                     }
 
-                    if (i >= series_maxiter) {
-                        if (!non_zero) {
-                            return 0d;
-                        }
-
-                        throw new ArithmeticException($"{this}: cdf calculation not convergence.");
-                    }
-
                     u += 1d;
 
                     // Overflow avoidance by rescaling
