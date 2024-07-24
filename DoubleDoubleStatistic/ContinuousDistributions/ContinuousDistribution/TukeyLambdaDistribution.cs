@@ -156,8 +156,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble Mean => (Lambda > -1d) ? 0d : NaN;
 
         public override ddouble Variance => (Lambda > -0.5d)
-            ? 2d * (1d / (1d + 2d * Lambda) - Square(Gamma(Lambda + 1d)) / Gamma(2d * Lambda + 2d)) / Square(Lambda)
-            : Square(PI) / 3d;
+            ? 2d * (1d / (2d * Lambda + 1d) - Square(Gamma(Lambda + 1d)) / Gamma(2d * Lambda + 2d)) / Square(Lambda)
+            : (Lambda == 0.0d) 
+            ? Square(PI) / 3d 
+            : NaN;
 
         public override ddouble Skewness => (Lambda * 3d > -1d) ? 0d : NaN;
 
