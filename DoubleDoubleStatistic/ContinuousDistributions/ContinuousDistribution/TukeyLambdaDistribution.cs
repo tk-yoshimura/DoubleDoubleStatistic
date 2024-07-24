@@ -11,8 +11,8 @@ using static DoubleDouble.ddouble;
 
 namespace DoubleDoubleStatistic.ContinuousDistributions {
     [DebuggerDisplay("{ToString(),nq}")]
-    public class TukeyLambdaDistribution : ContinuousDistribution { //,
-        //IFittableContinuousDistribution<TukeyLambdaDistribution> {
+    public class TukeyLambdaDistribution : ContinuousDistribution,
+        IFittableContinuousDistribution<TukeyLambdaDistribution> {
 
         public ddouble Lambda { get; }
 
@@ -47,6 +47,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble cdf = CDF(x, Interval.Upper);
 
+            if (cdf == 0d) {
+                return 0d;
+            }
+
             ddouble pdf = 1d / (Pow(cdf, Lambda - 1d) + Pow(1d - cdf, Lambda - 1d));
 
             return pdf;
@@ -79,7 +83,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble p = (x - x0) / (x1 - x0) * (p1 - p0) + p0;
 
             for (int i = 0; i < 8; i++) {
-                ddouble q = (Lambda != 0d) 
+                ddouble q = (Lambda != 0d)
                     ? (Pow(p, Lambda) - Pow(1d - p, Lambda)) / Lambda
                     : Log(p / (1d - p));
 
@@ -108,6 +112,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             if (interval == Interval.Upper) {
                 return -Quantile(p, Interval.Lower);
+            }
+
+            if (p == 0d) {
+                return interval == Interval.Lower ? Support.min : Support.max;
+            }
+            if (p == 1d) {
+                return interval == Interval.Lower ? Support.max : Support.min;
             }
 
             if (Lambda != 0d) {
@@ -163,7 +174,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return (ddouble)6 / 5;
                 }
 
-                ddouble kurtosis = Square(g2 * (2d * Lambda + 1d) / (g1 * g1 - g2)) * (3d * g2 * g2 - 4d * g1 * g3 + g4) 
+                ddouble kurtosis = Square(g2 * (2d * Lambda + 1d) / (g1 * g1 - g2)) * (3d * g2 * g2 - 4d * g1 * g3 + g4)
                     / ((8d * Lambda + 2d) * g4) - 3d;
 
                 return kurtosis;
@@ -172,7 +183,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
-            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384);
+            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 65536);
 
         public static (TukeyLambdaDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
             => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);
@@ -206,7 +217,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override string ToString() {
-            return $"{typeof(RiceDistribution).Name}[lambda={Lambda}]";
+            return $"{typeof(TukeyLambdaDistribution).Name}[lambda={Lambda}]";
         }
 
         public override string Formula => "p(x; lambda)";
