@@ -179,8 +179,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Mean => (Lambda > -1d) ? 0d : NaN;
 
-        public override ddouble Variance => (Lambda == 0.0d) 
-            ? Square(PI) / 3d
+        public override ddouble Variance => (Abs(Lambda) < 0.03125)
+            ? VariancePade.Value(Lambda)
             : (Lambda > -0.5d)
             ? 2d * (1d / (2d * Lambda + 1d) - Square(Gamma(Lambda + 1d)) / Gamma(2d * Lambda + 2d)) / Square(Lambda)
             : NaN;
@@ -189,16 +189,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis {
             get {
-                if (Lambda * 4d < -1d) {
+                if (Lambda < -0.25d) {
                     return NaN;
+                }
+
+                if (Abs(Lambda) < 0.03125) {
+                    return KurtosisPade.Value(Lambda);
                 }
 
                 ddouble g1 = Gamma(Lambda + 1d), g2 = Gamma(2d * Lambda + 1d);
                 ddouble g3 = Gamma(3d * Lambda + 1d), g4 = Gamma(4d * Lambda + 1d);
-
-                if (Lambda == 0d) {
-                    return (ddouble)6 / 5;
-                }
 
                 ddouble kurtosis = Square(g2 * (2d * Lambda + 1d) / (g1 * g1 - g2)) * (3d * g2 * g2 - 4d * g1 * g3 + g4)
                     / ((8d * Lambda + 2d) * g4) - 3d;
@@ -251,5 +251,48 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override string Formula => "p(x; lambda)";
+
+        private static class VariancePade {
+            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_nz = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
+                ((+1, 1, 0xD28D3312983E9918uL, 0x73D8912200BACE5EuL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
+                ((+1, 1, 0x95D78526AA5840C3uL, 0x523489321A24926BuL), (+1, 2, 0x858AC4BA1908C63FuL, 0xE906D79FB7BBAB95uL)),
+                ((-1, -4, 0xCA986AD435C4D0C4uL, 0x517E477646181C43uL), (+1, 2, 0xC062A603749C15AFuL, 0x1A2AFF4CBC0C80F8uL)),
+                ((-1, -6, 0xFD8C901C9B884880uL, 0x37FCF60AA6AB342BuL), (+1, 1, 0xFAB35215969575BAuL, 0x09AE33ABEE8298A3uL)),
+                ((+1, -5, 0xA9756B73FF62C91AuL, 0xB9E84C8A288DE931uL), (+1, 0, 0xA2EA23F21FB2DD94uL, 0x2E0435CC2FBE6598uL)),
+                ((-1, -7, 0xAD87E205230E67BBuL, 0x048230F07DE99B6DuL), (+1, -3, 0xD6BC75F83CC25966uL, 0x363B8C3D9BCB6661uL)),
+                ((+1, -10, 0xBB4B3778C3272E3EuL, 0xF6A230BD0C2D7599uL), (+1, -7, 0xFA459F7F3886E6A9uL, 0x94F4C8C5D8CE97DBuL)),
+                ((-1, -14, 0xBDBE9D2DA5BC2CFDuL, 0x7753938459A33CBDuL), Zero),
+            }));
+
+            public static ddouble Value(ddouble x) {
+                Debug.Assert(Abs(x) < 0.03125);
+
+                Debug.WriteLine("pade approx called");
+
+                return ApproxUtil.Pade(x, pade_nz);
+            }
+        }
+
+        private static class KurtosisPade {
+            private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_nz = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
+                ((+1, 0, 0x9999999999999999uL, 0x9999999999999999uL), (+1, 0, 0x8000000000000000uL, 0x0000000000000000uL)),
+                ((-1, 2, 0xA4244B45CE08B2C4uL, 0x11A391DB46D473CEuL), (+1, 2, 0xF8C8CC3F5A5EC73CuL, 0x9A60F0884EA78773uL)),
+                ((-1, 4, 0xE05F0E590CD2D6F9uL, 0xFEC395164FC8CAF6uL), (+1, 3, 0xFBE0FA3B76C4A06FuL, 0x7A9BDC504FADBD72uL)),
+                ((-1, 2, 0x9ED4602981B62740uL, 0x28D6286C139B0652uL), (-1, 1, 0xD67E5FECD1F76E86uL, 0x887C126F4CD034F7uL)),
+                ((+1, 5, 0xA91FE1B532C84216uL, 0x7E678493B421683AuL), (-1, 4, 0xD38F8451E02B7AE6uL, 0xCAEB4E3E5A8A6207uL)),
+                ((+1, 3, 0xF465FB7BB66F2382uL, 0x981CFFC765DDC4C8uL), (-1, 3, 0xB21D009F05928E6FuL, 0x1F6B30750D7B8DB2uL)),
+                ((+1, -1, 0xD172C3713407D56AuL, 0x97F5E4EBB7C4A42FuL), (-1, 0, 0x823F470CFC12C708uL, 0xDE9872EB5EF7C115uL)),
+                ((+1, -1, 0x8AACADC8D2B9FF67uL, 0x045A43F1F43BDB73uL), (-1, -1, 0x9F2D45D2919205A7uL, 0x5AC286260FE19228uL)),
+                ((-1, -2, 0xA1836B0B8ED9FD02uL, 0x10FE6E3A935FB99EuL), Zero),
+            }));
+
+            public static ddouble Value(ddouble x) {
+                Debug.Assert(Abs(x) < 0.03125);
+
+                Debug.WriteLine("pade approx called");
+
+                return ApproxUtil.Pade(x, pade_nz);
+            }
+        }
     }
 }

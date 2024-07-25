@@ -100,6 +100,19 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Variance - "0.1567723752724348630875838184038992454681145264019") < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p20.Variance - ddouble.One / 12) < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p25.Variance - "0.0484245948120992813982354530469591100767752561468") < 1e-30);
+
+            TukeyLambdaDistribution dist_z00_meps_inc = new(ddouble.BitIncrement(-0.03125));
+            TukeyLambdaDistribution dist_z00_meps_dec = new(ddouble.BitDecrement(-0.03125));
+            TukeyLambdaDistribution dist_z00_peps_inc = new(ddouble.BitIncrement(+0.03125));
+            TukeyLambdaDistribution dist_z00_peps_dec = new(ddouble.BitDecrement(+0.03125));
+
+            Console.WriteLine(dist_z00_meps_inc.Variance);
+            Console.WriteLine(dist_z00_meps_dec.Variance);
+            Console.WriteLine(dist_z00_peps_inc.Variance);
+            Console.WriteLine(dist_z00_peps_dec.Variance);
+
+            Assert.IsTrue(ddouble.Abs(dist_z00_meps_inc.Variance - dist_z00_meps_dec.Variance) < 1e-28);
+            Assert.IsTrue(ddouble.Abs(dist_z00_peps_inc.Variance - dist_z00_peps_dec.Variance) < 1e-28);
         }
 
         [TestMethod()]
@@ -128,6 +141,19 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Kurtosis - (ddouble)("-1.24692314260983033024627372517968272710")) < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p20.Kurtosis - (ddouble)(-6) / 5) < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p25.Kurtosis - (ddouble)("-1.09348935542751987712395481688704467492")) < 1e-30);
+
+            TukeyLambdaDistribution dist_z00_meps_inc = new(ddouble.BitIncrement(-0.03125));
+            TukeyLambdaDistribution dist_z00_meps_dec = new(ddouble.BitDecrement(-0.03125));
+            TukeyLambdaDistribution dist_z00_peps_inc = new(ddouble.BitIncrement(+0.03125));
+            TukeyLambdaDistribution dist_z00_peps_dec = new(ddouble.BitDecrement(+0.03125));
+
+            Console.WriteLine(dist_z00_meps_inc.Kurtosis);
+            Console.WriteLine(dist_z00_meps_dec.Kurtosis);
+            Console.WriteLine(dist_z00_peps_inc.Kurtosis);
+            Console.WriteLine(dist_z00_peps_dec.Kurtosis);
+
+            Assert.IsTrue(ddouble.Abs(dist_z00_meps_inc.Kurtosis - dist_z00_meps_dec.Kurtosis) < 1e-25);
+            Assert.IsTrue(ddouble.Abs(dist_z00_peps_inc.Kurtosis - dist_z00_peps_dec.Kurtosis) < 1e-25);
         }
 
         [TestMethod()]
