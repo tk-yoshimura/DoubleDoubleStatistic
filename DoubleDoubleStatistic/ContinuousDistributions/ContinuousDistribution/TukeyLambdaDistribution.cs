@@ -19,10 +19,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private readonly ReadOnlyCollection<ddouble> quantile_table;
         private const int quantile_samples = 256;
 
+        private readonly ddouble lambda_m1, lambda_m2;
+
         public TukeyLambdaDistribution(ddouble lambda) {
             ParamAssert.ValidateShape(nameof(lambda), IsFinite(lambda));
 
             Lambda = lambda;
+
+            this.lambda_m1 = lambda - 1d;
+            this.lambda_m2 = lambda - 2d;
 
             ddouble[] quantile_table = new ddouble[quantile_samples + 1];
             quantile_table[0] = lambda > 0d ? 1d / lambda : PositiveInfinity;
@@ -45,11 +50,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            if (Abs(Lambda - 1d) < 1e-30d) {
+            if (Abs(lambda_m1) < 1e-30d) {
                 return 0.5d;
             }
 
-            if (Abs(Lambda - 2d) < 1e-30d) {
+            if (Abs(lambda_m2) < 1e-30d) {
                 return 1d;
             }
 
@@ -59,7 +64,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = 1d / (Pow(cdf, Lambda - 1d) + Pow(1d - cdf, Lambda - 1d));
+            ddouble pdf = 1d / (Pow(cdf, lambda_m1) + Pow(1d - cdf, lambda_m1));
 
             return pdf;
         }
@@ -82,11 +87,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            if (Abs(Lambda - 1d) < 1e-30d) {
+            if (Abs(lambda_m1) < 1e-30d) {
                 return 0.5d - 0.5d * x;
             }
 
-            if (Abs(Lambda - 2d) < 1e-30d) {
+            if (Abs(lambda_m2) < 1e-30d) {
                 return 0.5d - x;
             }
 
@@ -103,7 +108,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     ? (Pow(p, Lambda) - Pow(1d - p, Lambda)) / Lambda
                     : Log(p / (1d - p));
 
-                ddouble dq = Pow(p, Lambda - 1d) + Pow(1d - p, Lambda - 1d);
+                ddouble dq = Pow(p, lambda_m1) + Pow(1d - p, lambda_m1);
 
                 ddouble dp = (x + q) / dq;
 
@@ -138,11 +143,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (Abs(Lambda) >= 1e-64d) {
-                if (Abs(Lambda - 1d) < 1e-30d) {
+                if (Abs(lambda_m1) < 1e-30d) {
                     return 2d * p - 1d;
                 }
 
-                if (Abs(Lambda - 2d) < 1e-30d) {
+                if (Abs(lambda_m2) < 1e-30d) {
                     return p - 0.5d;
                 }
 
@@ -209,10 +214,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
-            Abs(Lambda - 2d) < 1e-30 ? 0d :
+            Abs(lambda_m2) < 1e-30 ? 0d :
             Abs(Lambda) < 1e-64 ? 2d :
             GaussKronrodIntegral.AdaptiveIntegrate(
-                p => Log(Pow(p, Lambda - 1d) + Pow(1d - p, Lambda - 1d)),
+                p => Log(Pow(p, lambda_m1) + Pow(1d - p, lambda_m1)),
                 0d, 1d, 1e-28, 65536).value;
 
         public static (TukeyLambdaDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
@@ -250,7 +255,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             return $"{typeof(TukeyLambdaDistribution).Name}[lambda={Lambda}]";
         }
 
-        public override string Formula => "p(x; lambda)";
+        public override string Formula => "F^-1(p; lambda) := (p^lambda - (1 - p)^lambda) / lambda";
 
         private static class VariancePade {
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_nz = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
