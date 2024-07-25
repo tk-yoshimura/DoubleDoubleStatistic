@@ -174,6 +174,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
         }
 
+        public override bool Symmetric => true;
+
         public override (ddouble min, ddouble max) Support => Lambda > 0d
             ? (-1d / Lambda, 1d / Lambda)
             : (NegativeInfinity, PositiveInfinity);
