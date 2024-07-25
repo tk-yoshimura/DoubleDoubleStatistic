@@ -45,6 +45,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
+            if (Abs(Lambda - 1d) < 1e-30d) {
+                return 0.5d;
+            }
+
+            if (Abs(Lambda - 2d) < 1e-30d) {
+                return 1d;
+            }
+
             ddouble cdf = CDF(x, Interval.Upper);
 
             if (cdf == 0d) {
@@ -74,6 +82,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
+            if (Abs(Lambda - 1d) < 1e-30d) {
+                return 0.5d - 0.5d * x;
+            }
+
+            if (Abs(Lambda - 2d) < 1e-30d) {
+                return 0.5d - x;
+            }
+
             int index = Indexer.BisectionSearch(x, quantile_table);
 
             ddouble x0 = quantile_table[index], x1 = quantile_table[index + 1];
@@ -83,7 +99,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             ddouble p = (x - x0) / (x1 - x0) * (p1 - p0) + p0;
 
             for (int i = 0; i < 8; i++) {
-                ddouble q = (Lambda != 0d)
+                ddouble q = (Abs(Lambda) >= 1e-64d)
                     ? (Pow(p, Lambda) - Pow(1d - p, Lambda)) / Lambda
                     : Log(p / (1d - p));
 
@@ -121,7 +137,15 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return interval == Interval.Lower ? Support.max : Support.min;
             }
 
-            if (Lambda != 0d) {
+            if (Abs(Lambda) >= 1e-64d) {
+                if (Abs(Lambda - 1d) < 1e-30d) {
+                    return 2d * p - 1d;
+                }
+
+                if (Abs(Lambda - 2d) < 1e-30d) {
+                    return p - 0.5d;
+                }
+
                 ddouble x = (Pow(p, Lambda) - Pow(1d - p, Lambda)) / Lambda;
 
                 return x;
@@ -135,7 +159,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             double p = random.NextUniformOpenInterval01();
             double lambda = (double)Lambda;
 
-            if (lambda != 0d) {
+            if (double.Abs(lambda) >= 1e-64d) {
                 double x = (double.Pow(p, lambda) - double.Pow(1d - p, lambda)) / lambda;
 
                 return x;
@@ -151,14 +175,14 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Median => 0d;
 
-        public override ddouble Mode => 0d;
+        public override ddouble Mode => (Lambda < 1d || Lambda > 2d) ? 0d : NaN;
 
         public override ddouble Mean => (Lambda > -1d) ? 0d : NaN;
 
-        public override ddouble Variance => (Lambda > -0.5d)
+        public override ddouble Variance => (Lambda == 0.0d) 
+            ? Square(PI) / 3d
+            : (Lambda > -0.5d)
             ? 2d * (1d / (2d * Lambda + 1d) - Square(Gamma(Lambda + 1d)) / Gamma(2d * Lambda + 2d)) / Square(Lambda)
-            : (Lambda == 0.0d) 
-            ? Square(PI) / 3d 
             : NaN;
 
         public override ddouble Skewness => (Lambda * 3d > -1d) ? 0d : NaN;
@@ -185,7 +209,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         private ddouble? entropy = null;
         public override ddouble Entropy => entropy ??=
-            IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 65536);
+            Abs(Lambda - 2d) < 1e-30 ? 0d :
+            Abs(Lambda) < 1e-64 ? 2d :
+            GaussKronrodIntegral.AdaptiveIntegrate(
+                p => Log(Pow(p, Lambda - 1d) + Pow(1d - p, Lambda - 1d)),
+                0d, 1d, 1e-28, 65536).value;
 
         public static (TukeyLambdaDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
             => Fit(samples.Select(v => (ddouble)v), fitting_quantile_range, quantile_partitions);

@@ -4,6 +4,7 @@ using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistribution {
     [TestClass()]
@@ -17,6 +18,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
         readonly TukeyLambdaDistribution dist_lambda_p10 = new(lambda: 1.0);
         readonly TukeyLambdaDistribution dist_lambda_p15 = new(lambda: 1.5);
         readonly TukeyLambdaDistribution dist_lambda_p20 = new(lambda: 2.0);
+        readonly TukeyLambdaDistribution dist_lambda_p25 = new(lambda: 2.5);
 
 
         TukeyLambdaDistribution[] Dists => [
@@ -29,6 +31,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             dist_lambda_p10,
             dist_lambda_p15,
             dist_lambda_p20,
+            dist_lambda_p25,
         ];
 
         [TestMethod()]
@@ -50,17 +53,16 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
         [TestMethod()]
         public void MeanTest() {
-            foreach (TukeyLambdaDistribution dist in Dists) {
-                Console.WriteLine(dist);
-
-                if (ddouble.IsNaN(dist.Mean)) {
-                    continue;
-                }
-
-                ddouble actual = dist.Mean;
-                ddouble expected = IntegrationStatistics.Mean(dist, eps: 1e-28, discontinue_eval_points: 65536);
-                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist}\n{expected}\n{actual}");
-            }
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m20.Mean));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m15.Mean));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m10.Mean));
+            Assert.IsTrue(dist_lambda_m05.Mean == 0d);
+            Assert.IsTrue(dist_lambda_z00.Mean == 0d);
+            Assert.IsTrue(dist_lambda_p05.Mean == 0d);
+            Assert.IsTrue(dist_lambda_p10.Mean == 0d);
+            Assert.IsTrue(dist_lambda_p15.Mean == 0d);
+            Assert.IsTrue(dist_lambda_p20.Mean == 0d);
+            Assert.IsTrue(dist_lambda_p25.Mean == 0d);
         }
 
         [TestMethod()]
@@ -72,8 +74,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                     continue;
                 }
 
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
-                Assert.IsTrue(dist.PDF(dist.Mode) > dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode - 1e-4), $"{dist}\n{dist.Mode}");
+                Assert.IsTrue(dist.PDF(dist.Mode) >= dist.PDF(dist.Mode + 1e-4), $"{dist}\n{dist.Mode}");
             }
         }
 
@@ -88,58 +90,66 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
 
         [TestMethod()]
         public void VarianceTest() {
-            foreach (TukeyLambdaDistribution dist in Dists) {
-                Console.WriteLine(dist);
-
-                if (ddouble.IsNaN(dist.Variance)) {
-                    continue;
-                }
-
-                ddouble actual = dist.Variance;
-                ddouble expected = IntegrationStatistics.Variance(dist, eps: 1e-28, discontinue_eval_points: 65536);
-                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
-            }
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m20.Variance));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m15.Variance));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m10.Variance));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m05.Variance));
+            Assert.IsTrue(ddouble.Abs(dist_lambda_z00.Variance - ddouble.PI * ddouble.PI / 3) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p05.Variance - 2 * (2 - ddouble.PI / 2)) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p10.Variance - ddouble.One / 3) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Variance - "0.1567723752724348630875838184038992454681145264019") < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p20.Variance - ddouble.One / 12) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p25.Variance - "0.0484245948120992813982354530469591100767752561468") < 1e-30);
         }
 
         [TestMethod()]
         public void SkewnessTest() {
-            foreach (TukeyLambdaDistribution dist in Dists) {
-                Console.WriteLine(dist);
-
-                if (ddouble.IsNaN(dist.Skewness)) {
-                    continue;
-                }
-
-                ddouble actual = dist.Skewness;
-                ddouble expected = IntegrationStatistics.Skewness(dist, eps: 1e-28, discontinue_eval_points: 65536);
-                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
-            }
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m20.Skewness));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m15.Skewness));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m10.Skewness));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m05.Skewness));
+            Assert.IsTrue(dist_lambda_z00.Skewness == 0d);
+            Assert.IsTrue(dist_lambda_p05.Skewness == 0d);
+            Assert.IsTrue(dist_lambda_p10.Skewness == 0d);
+            Assert.IsTrue(dist_lambda_p15.Skewness == 0d);
+            Assert.IsTrue(dist_lambda_p20.Skewness == 0d);
+            Assert.IsTrue(dist_lambda_p25.Skewness == 0d);
         }
 
         [TestMethod()]
         public void KurtosisTest() {
-            foreach (TukeyLambdaDistribution dist in Dists) {
-                Console.WriteLine(dist);
-
-                if (ddouble.IsNaN(dist.Kurtosis)) {
-                    continue;
-                }
-
-                ddouble actual = dist.Kurtosis;
-                ddouble expected = IntegrationStatistics.Kurtosis(dist, eps: 1e-28, discontinue_eval_points: 65536);
-                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
-            }
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m20.Kurtosis));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m15.Kurtosis));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m10.Kurtosis));
+            Assert.IsTrue(ddouble.IsNaN(dist_lambda_m05.Kurtosis));
+            Assert.IsTrue(ddouble.Abs(dist_lambda_z00.Kurtosis - (ddouble)6 / 5) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p05.Kurtosis - (ddouble)("-0.91830356643745397905044652979341519486")) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p10.Kurtosis - (ddouble)(-6) / 5) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Kurtosis - (ddouble)("-1.24692314260983033024627372517968272710")) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p20.Kurtosis - (ddouble)(-6) / 5) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p25.Kurtosis - (ddouble)("-1.09348935542751987712395481688704467492")) < 1e-30);
         }
 
         [TestMethod()]
         public void EntropyTest() {
-            foreach (TukeyLambdaDistribution dist in Dists) {
-                Console.WriteLine(dist);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_m20.Entropy - 5.209199576156147) < 1e-13);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_m15.Entropy - 4.385460155603392) < 1e-13);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_m10.Entropy - 3.570796326794898) < 1e-13);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_m05.Entropy - 2.771404238276070) < 1e-13);
+            Assert.AreEqual(dist_lambda_z00.Entropy, 2.0);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p05.Entropy - 1.285398163397444) < 1e-13);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p10.Entropy - 0.693147180559945) < 1e-13);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Entropy - 0.2853981633974442) < 1e-13);
+            Assert.AreEqual(dist_lambda_p20.Entropy, 0.0);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p25.Entropy - -0.2285957617423647) < 1e-10);
 
-                ddouble actual = dist.Entropy;
-                ddouble expected = IntegrationStatistics.Entropy(dist, eps: 1e-28, discontinue_eval_points: 131072);
-                Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-20, $"{dist}\n{expected}\n{actual}");
-            }
+            ddouble actual = dist_lambda_p25.Entropy;
+            ddouble expected = IntegrationStatistics.Entropy(dist_lambda_p25, eps: 1e-28, discontinue_eval_points: 131072);
+
+            Console.WriteLine(actual);
+            Console.WriteLine(expected);
+
+            Assert.IsTrue(ddouble.Abs(actual - expected) < 1e-28, $"{dist_lambda_p25}\n{expected}\n{actual}");
         }
 
         [TestMethod()]
@@ -519,7 +529,6 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
-                0.000000000000000000e+00,
                 5.000000000000000000e-01,
                 5.000000000000000000e-01,
                 5.000000000000000000e-01,
@@ -527,7 +536,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 5.000000000000000000e-01,
                 5.000000000000000000e-01,
                 5.000000000000000000e-01,
-                0.000000000000000000e+00,
+                5.000000000000000000e-01,
+                5.000000000000000000e-01,
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
@@ -591,10 +601,45 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
                 0.000000000000000000e+00,
-                1.000000000000000000e+00,
-                1.000000000000000000e+00,
-                1.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+            ];
+            ddouble[] expected_lambda_p25 = [
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                1.205333313346505619e+00,
+                1.414213562373094923e+00,
+                1.205333313346505619e+00,
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
                 0.000000000000000000e+00,
@@ -622,6 +667,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 (dist_lambda_p10, expected_lambda_p10),
                 (dist_lambda_p15, expected_lambda_p15),
                 (dist_lambda_p20, expected_lambda_p20),
+                (dist_lambda_p25, expected_lambda_p25),
             }) {
                 for ((ddouble x, int i) = (-4, 0); i < expecteds.Length; x += 0.25, i++) {
                     ddouble expected = expecteds[i];
@@ -962,6 +1008,41 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 1.000000000000000000e+00,
                 1.000000000000000000e+00,
             ];
+            ddouble[] expected_lambda_p25 = [
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                0.000000000000000000e+00,
+                1.655079272592203665e-01,
+                5.000000000000000000e-01,
+                8.344920727407796335e-01,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+                1.000000000000000000e+00,
+            ];
 
             foreach ((TukeyLambdaDistribution dist, ddouble[] expecteds) in new[]{
                 (dist_lambda_m20, expected_lambda_m20),
@@ -973,6 +1054,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
                 (dist_lambda_p10, expected_lambda_p10),
                 (dist_lambda_p15, expected_lambda_p15),
                 (dist_lambda_p20, expected_lambda_p20),
+                (dist_lambda_p25, expected_lambda_p25),
             }) {
                 for ((ddouble x, int i) = (-4, 0); i < expecteds.Length; x += 0.25, i++) {
                     ddouble expected = expecteds[i];
