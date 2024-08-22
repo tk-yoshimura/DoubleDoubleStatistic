@@ -35,7 +35,7 @@ namespace DoubleDoubleStatistic.InternalUtils {
 
                 ddouble eps = (y0 + y1) * xh * 5e-29;
 
-                ddouble y = GaussKronrodIntegral.AdaptiveIntegrate(f, x0, x1, eps, 2048).value;
+                ddouble y = GaussKronrodIntegral.AdaptiveIntegrate(f, x0, x1, eps, discontinue_eval_points: 8192).value;
 
                 table.Add(y);
 
