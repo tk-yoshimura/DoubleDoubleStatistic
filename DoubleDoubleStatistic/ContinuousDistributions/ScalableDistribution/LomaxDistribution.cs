@@ -44,7 +44,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = pdf_norm / Pow(1d + u, Alpha + 1d);
+            ddouble pdf = pdf_norm / Pow1p(u, Alpha + 1d);
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -65,7 +65,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 1d;
                 }
 
-                ddouble cdf = 1d - 1d / Pow(1d + u, Alpha);
+                ddouble cdf = 1d - 1d / Pow1p(u, Alpha);
 
                 return cdf;
             }
@@ -77,7 +77,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble cdf = 1d / Pow(1d + u, Alpha);
+                ddouble cdf = 1d / Pow1p(u, Alpha);
 
                 return cdf;
             }

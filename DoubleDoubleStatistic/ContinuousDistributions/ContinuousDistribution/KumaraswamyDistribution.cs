@@ -39,9 +39,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return Alpha * Pow(x, Alpha - 1d);
             }
             if (Alpha == 1d) {
-                ddouble xm1 = 1d - x;
-
-                return Beta * Pow(xm1, Beta - 1d);
+                return Beta * Pow1p(-x, Beta - 1d);
             }
 
             if (x == 0d) {
@@ -54,7 +52,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble xa = Pow(x, Alpha);
 
-            ddouble pdf = ab * xa * Pow(1d - xa, Beta - 1d) / x;
+            ddouble pdf = ab * xa * Pow1p(-xa, Beta - 1d) / x;
 
             return pdf;
         }
@@ -72,7 +70,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 1d;
                 }
 
-                ddouble cdf = 1d - Pow(1d - Pow(x, Alpha), Beta);
+                ddouble cdf = 1d - Pow1p(-Pow(x, Alpha), Beta);
 
                 return cdf;
             }
@@ -84,7 +82,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble cdf = Pow(1d - Pow(x, Alpha), Beta);
+                ddouble cdf = Pow1p(-Pow(x, Alpha), Beta);
 
                 return cdf;
             }
@@ -126,7 +124,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Mean => Beta * Beta(1d + alpha_inv, Beta);
 
-        public override ddouble Median => Pow(1d - Pow2(-beta_inv), alpha_inv);
+        public override ddouble Median => Pow1p(-Pow2(-beta_inv), alpha_inv);
 
         public override ddouble Mode =>
             Alpha >= 1d && Beta >= 1d && !(Alpha == 1d && Beta == 1d)

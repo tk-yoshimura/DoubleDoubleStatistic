@@ -43,7 +43,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (Alpha != 1d && Beta != 1d) {
-                ddouble pdf = pdf_norm * Pow(x, Alpha - 1d) * Pow(1d - x, Beta - 1d);
+                ddouble pdf = pdf_norm * Pow(x, Alpha - 1d) * Pow1p(-x, Beta - 1d);
 
                 return pdf;
             }
@@ -53,7 +53,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return pdf;
             }
             else if (Beta != 1d) {
-                ddouble pdf = pdf_norm * Pow(1d - x, Beta - 1d);
+                ddouble pdf = pdf_norm * Pow1p(-x, Beta - 1d);
 
                 return pdf;
             }

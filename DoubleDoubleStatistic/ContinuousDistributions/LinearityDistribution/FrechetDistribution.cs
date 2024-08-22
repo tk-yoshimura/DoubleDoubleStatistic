@@ -164,7 +164,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Mu + Theta / Pow(Ln2, alpha_inv);
 
         public override ddouble Mode =>
-            Mu + Pow(Alpha / (1d + Alpha), alpha_inv) * Theta;
+            Mu + Pow1p(-1d / (1d + Alpha), alpha_inv) * Theta;
 
         public override ddouble Variance => (Alpha > 2d)
             ? Square(Theta) * (Gamma(1d - 2d * alpha_inv) - Square(Gamma(1d - alpha_inv)))

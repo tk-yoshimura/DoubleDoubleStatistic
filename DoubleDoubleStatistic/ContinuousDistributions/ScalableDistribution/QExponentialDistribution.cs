@@ -129,7 +129,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 if (Q != 1d) {
-                    u = (Pow(1d - p, quantile_power) - 1d) / (Q - 1d);
+                    u = (Pow1p(-p, quantile_power) - 1d) / (Q - 1d);
                 }
                 else {
                     u = -Log1p(-p);

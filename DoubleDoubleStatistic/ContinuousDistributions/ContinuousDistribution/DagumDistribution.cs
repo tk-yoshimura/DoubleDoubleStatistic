@@ -40,7 +40,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             if (A == 1d) {
-                ddouble pdf = P * Pow(x, P - 1d) / Pow(x + 1d, P + 1d);
+                ddouble pdf = P * Pow(x, P - 1d) / Pow1p(x, P + 1d);
                 pdf = IsFinite(pdf) ? pdf : 0d;
 
                 return pdf;
@@ -56,7 +56,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble pdf = ap * Pow(xa, P) / (x * Pow(xa + 1d, P + 1d));
+                ddouble pdf = ap * Pow(xa, P) / (x * Pow1p(xa, P + 1d));
                 pdf = IsFinite(pdf) ? pdf : 0d;
 
                 return pdf;
@@ -68,17 +68,18 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble xa = Pow(x, -A), xcp1 = 1d + xa;
+            if (IsPositiveInfinity(x)) {
+                return interval == Interval.Lower ? 1d : 0d;
+            }
+
+            ddouble xa = Pow(x, -A);
 
             if (interval == Interval.Lower) {
                 if (IsNegative(x) || xa <= 0d) {
                     return 0d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xcp1)) {
-                    return 1d;
-                }
 
-                ddouble cdf = Min(1d, Pow(xcp1, -P));
+                ddouble cdf = Min(1d, Pow1p(xa, -P));
 
                 return cdf;
             }
@@ -86,11 +87,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 if (IsNegative(x) || xa <= 0d) {
                     return 1d;
                 }
-                if (IsPositiveInfinity(x) || IsPositiveInfinity(xcp1)) {
-                    return 0d;
-                }
 
-                ddouble cdf = Max(0d, 1d - Pow(xcp1, -P));
+                ddouble cdf = Max(0d, 1d - Pow1p(xa, -P));
 
                 return cdf;
             }

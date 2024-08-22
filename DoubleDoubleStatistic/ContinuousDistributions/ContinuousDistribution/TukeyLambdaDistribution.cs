@@ -64,7 +64,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = 1d / (Pow(cdf, lambda_m1) + Pow(1d - cdf, lambda_m1));
+            ddouble pdf = 1d / (Pow(cdf, lambda_m1) + Pow1p(-cdf, lambda_m1));
 
             return pdf;
         }
@@ -105,10 +105,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             for (int i = 0; i < 8; i++) {
                 ddouble q = (Abs(Lambda) >= 1e-64d)
-                    ? (Pow(p, Lambda) - Pow(1d - p, Lambda)) / Lambda
+                    ? (Pow(p, Lambda) - Pow1p(-p, Lambda)) / Lambda
                     : Log(p / (1d - p));
 
-                ddouble dq = Pow(p, lambda_m1) + Pow(1d - p, lambda_m1);
+                ddouble dq = Pow(p, lambda_m1) + Pow1p(-p, lambda_m1);
 
                 ddouble dp = (x + q) / dq;
 
@@ -151,7 +151,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return p - 0.5d;
                 }
 
-                ddouble x = (Pow(p, Lambda) - Pow(1d - p, Lambda)) / Lambda;
+                ddouble x = (Pow(p, Lambda) - Pow1p(-p, Lambda)) / Lambda;
 
                 return x;
             }
@@ -219,7 +219,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Abs(lambda_m2) < 1e-30 ? 0d :
             Abs(Lambda) < 1e-64 ? 2d :
             GaussKronrodIntegral.AdaptiveIntegrate(
-                p => Log(Pow(p, lambda_m1) + Pow(1d - p, lambda_m1)),
+                p => Log(Pow(p, lambda_m1) + Pow1p(-p, lambda_m1)),
                 0d, 1d, 1e-28, 65536).value;
 
         public static (TukeyLambdaDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)

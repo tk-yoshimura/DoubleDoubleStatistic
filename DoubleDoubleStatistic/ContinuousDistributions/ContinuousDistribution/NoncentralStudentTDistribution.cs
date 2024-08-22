@@ -157,7 +157,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble y = Pow2(exp) * s;
 
-            y = pdf_norm * Pow(1d + x * x * nu_inv, power) * Max(0d, y);
+            y = pdf_norm * Pow1p(x * x * nu_inv, power) * Max(0d, y);
 
             return y;
         }
