@@ -1199,7 +1199,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         v = ApproxUtil.Pade(-Log2(Ldexp(x, 32)), pade_upper_expm32_64);
                     }
                     else {
-                        v = 1d / Cbrt(Ldexp(PI, 1));
+                        v = 1d / Cbrt(Ldexp(Pi, 1));
                     }
 
                     ddouble y = v / ExMath.Pow2d3(x);

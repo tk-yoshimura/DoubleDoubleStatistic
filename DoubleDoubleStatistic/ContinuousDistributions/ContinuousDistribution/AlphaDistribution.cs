@@ -26,7 +26,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             Alpha = alpha;
             cdf_norm = 1d / Erfc(-alpha * sqrt2_inv);
-            pdf_norm = cdf_norm * Sqrt(2d * RcpPI);
+            pdf_norm = cdf_norm * Sqrt(2d * RcpPi);
         }
 
         public override ddouble PDF(ddouble x) {

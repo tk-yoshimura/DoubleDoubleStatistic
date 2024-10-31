@@ -42,7 +42,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Mu = mu;
             Sigma = sigma;
 
-            pdf_norm = delta / (sigma * Sqrt(2d * PI));
+            pdf_norm = delta / (sigma * Sqrt(2d * Pi));
             sigma_inv = 1d / sigma;
         }
 

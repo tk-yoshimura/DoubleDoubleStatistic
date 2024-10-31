@@ -17,7 +17,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = 1d / (PI * Sqrt(x * (1d - x)));
+            ddouble pdf = 1d / (Pi * Sqrt(x * (1d - x)));
 
             return pdf;
         }
@@ -36,7 +36,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 1d;
                 }
 
-                ddouble cdf = 2d * RcpPI * Asin(Sqrt(x));
+                ddouble cdf = 2d * RcpPi * Asin(Sqrt(x));
 
                 return cdf;
             }
@@ -49,7 +49,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble cdf = 2d * RcpPI * Asin(Sqrt(1d - x));
+                ddouble cdf = 2d * RcpPi * Asin(Sqrt(1d - x));
 
                 return cdf;
             }
@@ -64,7 +64,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return Quantile(1d - p);
             }
 
-            ddouble x = Square(SinPI(p * 0.5d));
+            ddouble x = Square(SinPi(p * 0.5d));
 
             return x;
         }
@@ -94,7 +94,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => -1.5d;
 
-        public override ddouble Entropy => Log(PI * 0.25d);
+        public override ddouble Entropy => Log(Pi * 0.25d);
 
         public override string ToString() {
             return $"{typeof(ArcsineDistribution).Name}[]";

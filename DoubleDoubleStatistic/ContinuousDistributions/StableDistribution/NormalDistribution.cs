@@ -36,7 +36,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Sigma = sigma;
 
             sigma_inv = 1d / sigma;
-            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
+            pdf_norm = 1d / (sigma * Sqrt(2d * Pi));
         }
 
         public override ddouble PDF(ddouble x) {
@@ -100,7 +100,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => 0d;
 
-        public override ddouble Entropy => Log(Sigma * Sqrt(2d * PI)) + 0.5d;
+        public override ddouble Entropy => Log(Sigma * Sqrt(2d * Pi)) + 0.5d;
 
         public override ddouble Alpha => 2d;
 

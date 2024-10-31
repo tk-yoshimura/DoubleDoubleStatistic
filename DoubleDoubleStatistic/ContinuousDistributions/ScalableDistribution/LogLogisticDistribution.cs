@@ -128,7 +128,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => Gamma > 1d
-            ? Sigma * PI / (Gamma * SinPI(gamma_inv))
+            ? Sigma * Pi / (Gamma * SinPi(gamma_inv))
             : NaN;
 
         public override ddouble Median => Sigma;
@@ -138,7 +138,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             : 0d;
 
         public override ddouble Variance => Gamma > 2d
-            ? Square(Sigma) * PI * (2d / (Gamma * SinPI(2d * gamma_inv)) - PI / Square(Gamma * SinPI(gamma_inv)))
+            ? Square(Sigma) * Pi * (2d / (Gamma * SinPi(2d * gamma_inv)) - Pi / Square(Gamma * SinPi(gamma_inv)))
             : NaN;
 
         public override ddouble Skewness {
@@ -147,10 +147,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return NaN;
                 }
 
-                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2d * gamma_inv), csc3 = 1d / SinPI(3d * gamma_inv);
+                ddouble csc1 = 1d / SinPi(gamma_inv), csc2 = 1d / SinPi(2d * gamma_inv), csc3 = 1d / SinPi(3d * gamma_inv);
 
-                return (3d * Square(Gamma) * csc3 + 2d * Square(PI) * Cube(csc1) - 6d * PI * Gamma * csc1 * csc2) /
-                    (Sqrt(PI) * ExMath.Pow3d2(2d * Gamma * csc2 - PI * Square(csc1)));
+                return (3d * Square(Gamma) * csc3 + 2d * Square(Pi) * Cube(csc1) - 6d * Pi * Gamma * csc1 * csc2) /
+                    (Sqrt(Pi) * ExMath.Pow3d2(2d * Gamma * csc2 - Pi * Square(csc1)));
             }
         }
 
@@ -160,11 +160,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return NaN;
                 }
 
-                ddouble csc1 = 1d / SinPI(gamma_inv), csc2 = 1d / SinPI(2d * gamma_inv);
-                ddouble csc3 = 1d / SinPI(3d * gamma_inv), csc4 = 1d / SinPI(4d * gamma_inv);
+                ddouble csc1 = 1d / SinPi(gamma_inv), csc2 = 1d / SinPi(2d * gamma_inv);
+                ddouble csc3 = 1d / SinPi(3d * gamma_inv), csc4 = 1d / SinPi(4d * gamma_inv);
 
-                return (4d * Cube(Gamma) * csc4 - 3d * PI * csc1 * (4d * Square(Gamma) * csc3 + Square(PI) * Cube(csc1) - 4d * PI * Gamma * csc1 * csc2)) /
-                    (PI * Square(2d * Gamma * csc2 - PI * Square(csc1))) - 3d;
+                return (4d * Cube(Gamma) * csc4 - 3d * Pi * csc1 * (4d * Square(Gamma) * csc3 + Square(Pi) * Cube(csc1) - 4d * Pi * Gamma * csc1 * csc2)) /
+                    (Pi * Square(2d * Gamma * csc2 - Pi * Square(csc1))) - 3d;
             }
         }
 

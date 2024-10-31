@@ -26,16 +26,16 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
 
             static ddouble round_mu(ddouble mu) {
-                mu += PI;
+                mu += Pi;
 
                 if (mu >= 0d) {
-                    mu %= 2d * PI;
+                    mu %= 2d * Pi;
                 }
                 else {
-                    mu = 2d * PI - ((-mu) % (2d * PI));
+                    mu = 2d * Pi - ((-mu) % (2d * Pi));
                 }
 
-                mu -= PI;
+                mu -= Pi;
 
                 return mu;
             }
@@ -43,9 +43,9 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             Kappa = kappa;
             Mu = kappa > 0d ? round_mu(mu) : 0d;
 
-            pdf_norm = 1d / (2d * PI * BesselI(0, kappa));
+            pdf_norm = 1d / (2d * Pi * BesselI(0, kappa));
 
-            s = (double)((kappa > 1.3d) ? (1d / Sqrt(kappa)) : (PI * Exp(-kappa)));
+            s = (double)((kappa > 1.3d) ? (1d / Sqrt(kappa)) : (Pi * Exp(-kappa)));
         }
 
         public override ddouble PDF(ddouble x) {

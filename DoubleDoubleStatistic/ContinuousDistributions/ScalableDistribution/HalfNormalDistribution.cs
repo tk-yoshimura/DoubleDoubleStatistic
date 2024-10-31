@@ -28,7 +28,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Sigma = sigma;
 
             sigma_inv = 1d / sigma;
-            pdf_norm = Sqrt2 / (sigma * Sqrt(PI));
+            pdf_norm = Sqrt2 / (sigma * Sqrt(Pi));
         }
 
         public override ddouble PDF(ddouble x) {
@@ -100,19 +100,19 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
-        public override ddouble Mean => Sigma * Sqrt2 / Sqrt(PI);
+        public override ddouble Mean => Sigma * Sqrt2 / Sqrt(Pi);
 
         public override ddouble Median => Sigma * Sqrt2 * InverseErf(0.5d);
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => Sigma * Sigma * (1d - 2 * RcpPI);
+        public override ddouble Variance => Sigma * Sigma * (1d - 2 * RcpPi);
 
-        public override ddouble Skewness => Sqrt2 * (4d - PI) / ExMath.Pow3d2(PI - 2d);
+        public override ddouble Skewness => Sqrt2 * (4d - Pi) / ExMath.Pow3d2(Pi - 2d);
 
-        public override ddouble Kurtosis => 8d * (PI - 3d) / Square(PI - 2d);
+        public override ddouble Kurtosis => 8d * (Pi - 3d) / Square(Pi - 2d);
 
-        public override ddouble Entropy => (Log(PI / 2) + 1d) * 0.5d + Log(Sigma);
+        public override ddouble Entropy => (Log(Pi / 2) + 1d) * 0.5d + Log(Sigma);
 
         public static HalfNormalDistribution operator *(HalfNormalDistribution dist, ddouble k) {
             return new(dist.Sigma * k);

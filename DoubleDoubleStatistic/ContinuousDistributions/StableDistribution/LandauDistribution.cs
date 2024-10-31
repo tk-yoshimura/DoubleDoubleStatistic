@@ -41,7 +41,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             C = c;
 
             c_inv = 1d / c;
-            bias = -2d * RcpPI * Log(c);
+            bias = -2d * RcpPi * Log(c);
         }
 
         public override ddouble PDF(ddouble x) {
@@ -126,11 +126,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public static LandauDistribution operator *(LandauDistribution dist, ddouble k) {
-            return new((dist.Mu - 2d * RcpPI * dist.C * Log(k)) * k, dist.C * k);
+            return new((dist.Mu - 2d * RcpPi * dist.C * Log(k)) * k, dist.C * k);
         }
 
         public static LandauDistribution operator /(LandauDistribution dist, ddouble k) {
-            return new((dist.Mu + 2d * RcpPI * dist.C * Log(k)) / k, dist.C / k);
+            return new((dist.Mu + 2d * RcpPi * dist.C * Log(k)) / k, dist.C / k);
         }
 
         public static (LandauDistribution? dist, ddouble error) Fit(IEnumerable<double> samples, (double min, double max) fitting_quantile_range, int quantile_partitions = 100)
@@ -147,7 +147,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override string Formula => "p(x; mu, c) := stable_distribution(x; alpha = 1, beta = 1, mu, c)";
 
         private static class PDFPade {
-            private static readonly ddouble pi_half = Ldexp(PI, -1);
+            private static readonly ddouble pi_half = Ldexp(Pi, -1);
             private static readonly ddouble lambda_bias = (+1, 0, 0xB9CD764B54262B88uL, 0xCAD8DC6940262974uL);
 
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_plus_0_1 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
@@ -511,7 +511,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         v = ApproxUtil.Pade(Log2(Ldexp(x, -64)), pade_plus_expp64_128);
                     }
                     else {
-                        v = 2 * RcpPI;
+                        v = 2 * RcpPi;
                     }
 
                     ddouble y = v * Square(1d / x);
@@ -568,7 +568,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         private static class CDFPade {
-            private static readonly ddouble pi_half = Ldexp(PI, -1);
+            private static readonly ddouble pi_half = Ldexp(Pi, -1);
             private static readonly ddouble lambda_bias = (+1, 0, 0xB9CD764B54262B88uL, 0xCAD8DC6940262974uL);
 
             private static readonly ReadOnlyCollection<(ddouble c, ddouble d)> pade_plus_0_1 = new(Array.AsReadOnly(new (ddouble c, ddouble)[]{
@@ -931,7 +931,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         v = ApproxUtil.Pade(Log2(Ldexp(x, -64)), pade_plus_expp64_128);
                     }
                     else {
-                        v = 2 * RcpPI;
+                        v = 2 * RcpPi;
                     }
 
                     ddouble y = v / x;
@@ -1416,7 +1416,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                         v = ApproxUtil.Pade(-Log2(Ldexp(x, 64)), pade_upper_expm64_128);
                     }
                     else {
-                        v = Ldexp(RcpPI, 1);
+                        v = Ldexp(RcpPi, 1);
                     }
 
                     ddouble y = v / x;

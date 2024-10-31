@@ -41,7 +41,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = (1d + CosPI(u)) * sigma_inv * 0.5d;
+            ddouble pdf = (1d + CosPi(u)) * sigma_inv * 0.5d;
 
             return pdf;
         }
@@ -57,7 +57,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 1d;
                 }
 
-                ddouble cdf = (1d + u + SinPI(u) * RcpPI) * 0.5d;
+                ddouble cdf = (1d + u + SinPi(u) * RcpPi) * 0.5d;
 
                 return cdf;
             }
@@ -69,7 +69,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble cdf = (1d - u - SinPI(u) * RcpPI) * 0.5d;
+                ddouble cdf = (1d - u - SinPi(u) * RcpPi) * 0.5d;
 
                 return cdf;
             }
@@ -90,7 +90,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return Mu;
             }
 
-            ddouble u = KeplerE(PI * p * 2d, 1d) * RcpPI - 1d;
+            ddouble u = KeplerE(Pi * p * 2d, 1d) * RcpPi - 1d;
 
             ddouble x = (interval == Interval.Lower) ? (Mu + Sigma * u) : (Mu - Sigma * u);
 
@@ -121,11 +121,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble Mode => Mu;
 
         public override ddouble Variance =>
-            Square(Sigma) * (1d - 6d / (PI * PI)) / 3d;
+            Square(Sigma) * (1d - 6d / (Pi * Pi)) / 3d;
         public override ddouble Skewness => 0d;
 
         public override ddouble Kurtosis =>
-            6d * (90d - Square(Square(PI))) / (5d * Square(PI * PI - 6d));
+            6d * (90d - Square(Square(Pi))) / (5d * Square(Pi * Pi - 6d));
 
         public override ddouble Entropy => 2d * Ln2 + Log(Sigma) - 1d;
 

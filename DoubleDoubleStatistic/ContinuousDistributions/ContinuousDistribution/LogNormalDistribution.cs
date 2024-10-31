@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Sigma = sigma;
 
             sigma_sq = sigma * sigma;
-            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
+            pdf_norm = 1d / (sigma * Sqrt(2d * Pi));
             exp_scale = -LbE / (2d * sigma_sq);
             erf_scale = -1d / (Sqrt2 * sigma);
         }
@@ -116,7 +116,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Exp(4d * sigma_sq) + 2d * Exp(3d * sigma_sq) + 3d * Exp(2d * sigma_sq) - 6d;
 
         public override ddouble Entropy =>
-            (1d + Log(2d * PI * sigma_sq)) / 2d + Mu;
+            (1d + Log(2d * Pi * sigma_sq)) / 2d + Mu;
 
         public static LogNormalDistribution operator *(LogNormalDistribution dist1, LogNormalDistribution dist2) {
             return new(dist1.Mu + dist2.Mu, Hypot(dist1.Sigma, dist2.Sigma));

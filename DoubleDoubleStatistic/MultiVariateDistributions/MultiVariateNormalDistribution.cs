@@ -35,7 +35,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
             this.mu = mu;
             this.cov_matrix = cov;
             this.cov_matrix_inv = cov.Inverse;
-            this.pdf_norm = 1d / Sqrt(Pow(2d * PI, dim) * det);
+            this.pdf_norm = 1d / Sqrt(Pow(2d * Pi, dim) * det);
 
             (Matrix u, Vector s, _) = Matrix.SVD(cov);
             random_gen_weight = u * Matrix.FromDiagonals(Vector.Func(x => IsPositive(x) ? Sqrt(x) : -Sqrt(-x), s));

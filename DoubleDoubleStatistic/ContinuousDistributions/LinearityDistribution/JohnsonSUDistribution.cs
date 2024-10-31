@@ -42,7 +42,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Mu = mu;
             Sigma = sigma;
 
-            pdf_norm = delta / (sigma * Sqrt(2d * PI));
+            pdf_norm = delta / (sigma * Sqrt(2d * Pi));
             sigma_inv = 1d / sigma;
         }
 
@@ -53,7 +53,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble pdf = pdf_norm / Hypot(1d, u) * Exp(-0.5d * Square(Gamma + Delta * Arsinh(u)));
+            ddouble pdf = pdf_norm / Hypot(1d, u) * Exp(-0.5d * Square(Gamma + Delta * Asinh(u)));
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -66,7 +66,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble v = Gamma + Delta * Arsinh(u);
+            ddouble v = Gamma + Delta * Asinh(u);
 
             if (interval == Interval.Lower) {
                 ddouble cdf = Erfc(-v * sqrt2_inv) * 0.5d;
@@ -116,7 +116,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 ddouble u = 0d;
 
                 for (int i = 0; i < 256; i++) {
-                    ddouble v = u * u + 1d, w = Delta * v * (Gamma + Delta * Arsinh(u)), v_sqrt = Sqrt(v);
+                    ddouble v = u * u + 1d, w = Delta * v * (Gamma + Delta * Asinh(u)), v_sqrt = Sqrt(v);
 
                     ddouble du = (w + u * v_sqrt) * v
                         / (2d * u * w + ((Delta * Delta * v) + (v + u * u)) * v_sqrt);

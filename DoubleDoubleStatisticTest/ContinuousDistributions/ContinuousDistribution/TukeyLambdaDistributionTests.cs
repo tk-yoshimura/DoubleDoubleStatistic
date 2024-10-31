@@ -94,8 +94,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.IsNaN(dist_lambda_m15.Variance));
             Assert.IsTrue(ddouble.IsNaN(dist_lambda_m10.Variance));
             Assert.IsTrue(ddouble.IsNaN(dist_lambda_m05.Variance));
-            Assert.IsTrue(ddouble.Abs(dist_lambda_z00.Variance - ddouble.PI * ddouble.PI / 3) < 1e-30);
-            Assert.IsTrue(ddouble.Abs(dist_lambda_p05.Variance - 2 * (2 - ddouble.PI / 2)) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_z00.Variance - ddouble.Pi * ddouble.Pi / 3) < 1e-30);
+            Assert.IsTrue(ddouble.Abs(dist_lambda_p05.Variance - 2 * (2 - ddouble.Pi / 2)) < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p10.Variance - ddouble.One / 3) < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Variance - "0.1567723752724348630875838184038992454681145264019") < 1e-30);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p20.Variance - ddouble.One / 12) < 1e-30);

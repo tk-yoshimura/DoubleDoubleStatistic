@@ -124,7 +124,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
-            Sigma * Sqrt(PI * 0.5d);
+            Sigma * Sqrt(Pi * 0.5d);
 
         public override ddouble Median =>
             Sigma * Sqrt(2d * Ln2);
@@ -132,13 +132,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble Mode => Sigma;
 
         public override ddouble Variance =>
-            (4d - PI) / 2d * sigma_sq;
+            (4d - Pi) / 2d * sigma_sq;
 
         public override ddouble Skewness =>
-            2d * Sqrt(PI) * (PI - 3d) / ExMath.Pow3d2(4d - PI);
+            2d * Sqrt(Pi) * (Pi - 3d) / ExMath.Pow3d2(4d - Pi);
 
         public override ddouble Kurtosis =>
-            (-16d + PI * (24d + PI * -6d)) / Square(4d - PI);
+            (-16d + Pi * (24d + Pi * -6d)) / Square(4d - Pi);
 
         public override ddouble Entropy =>
             1d + Log(Sigma / Sqrt2) + EulerGamma * 0.5d;

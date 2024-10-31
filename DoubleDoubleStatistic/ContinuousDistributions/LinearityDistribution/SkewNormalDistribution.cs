@@ -41,8 +41,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Sigma = sigma;
             Alpha = alpha;
 
-            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            cdf_norm = 1d / Sqrt(2d * PI);
+            pdf_norm = 1d / (sigma * Sqrt(2d * Pi));
+            cdf_norm = 1d / Sqrt(2d * Pi);
             erfc_scale = alpha * sqrt2_inv;
             sigma_inv = 1d / sigma;
 
@@ -235,23 +235,23 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         }
 
         public override ddouble Mean =>
-            Mu + Sigma * s * Sqrt(2d * RcpPI);
+            Mu + Sigma * s * Sqrt(2d * RcpPi);
         public override ddouble Mode => ModePade.Value(Alpha) * Sigma + Mu;
 
         public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Variance =>
-            Sigma * Sigma * (1d - 2d * s * s * RcpPI);
+            Sigma * Sigma * (1d - 2d * s * s * RcpPi);
 
         public override ddouble Skewness =>
-            (4d - PI) * 0.5d * Cube(s * Sqrt(2d * RcpPI)) / ExMath.Pow3d2(1d - 2d * s * s * RcpPI);
+            (4d - Pi) * 0.5d * Cube(s * Sqrt(2d * RcpPi)) / ExMath.Pow3d2(1d - 2d * s * s * RcpPi);
 
         public override ddouble Kurtosis =>
-            2d * (PI - 3d) * Square(Square(s * Sqrt(2d * RcpPI))) / Square(1d - 2d * s * s * RcpPI);
+            2d * (Pi - 3d) * Square(Square(s * Sqrt(2d * RcpPi))) / Square(1d - 2d * s * s * RcpPi);
 
         public override ddouble Entropy {
             get {
-                ddouble c = 1d / Sqrt(2d * PI);
+                ddouble c = 1d / Sqrt(2d * Pi);
 
                 ddouble f(ddouble x) {
                     ddouble pdf = c * Exp(x * x * -0.5d) * Erfc(-x * erfc_scale);

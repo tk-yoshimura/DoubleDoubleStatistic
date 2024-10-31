@@ -36,7 +36,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = 2d * RcpPI * Sqrt(1d - u * u) * radius_inv;
+            ddouble pdf = 2d * RcpPi * Sqrt(1d - u * u) * radius_inv;
 
             return pdf;
         }
@@ -51,7 +51,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return interval == Interval.Lower ? 1d : 0d;
             }
 
-            ddouble v = (u * Sqrt(1d - u * u) + Asin(u)) * RcpPI;
+            ddouble v = (u * Sqrt(1d - u * u) + Asin(u)) * RcpPi;
 
             ddouble cdf = interval == Interval.Lower ? 0.5d + v : 0.5d - v;
 
@@ -108,7 +108,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => -1d;
 
-        public override ddouble Entropy => Log(PI * R) - 0.5d;
+        public override ddouble Entropy => Log(Pi * R) - 0.5d;
 
         public static WignerSemicircleDistribution operator *(WignerSemicircleDistribution dist, ddouble k) {
             return new(dist.R * k);

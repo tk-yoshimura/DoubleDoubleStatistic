@@ -31,7 +31,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Nu = nu;
             Mu = mu;
 
-            ddouble c = Sqrt(nu * PI);
+            ddouble c = Sqrt(nu * Pi);
 
             gc = nu < 70d
                 ? Gamma((nu - 1d) / 2d) / Gamma(nu / 2d)
@@ -165,7 +165,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble PDFIntegration(ddouble x) {
             ddouble s = x * x + Nu, v = Mu * x / Sqrt(s), half_lbe = 0.5d * LbE;
 
-            ddouble r = Pow2(-(Mu * Mu * Nu * LbE + s * (Nu * Log2(2d * s / Nu) + Log2(s * 0.5d))) / (2d * s) - LogGamma(Nu * 0.5d) * LbE) / Sqrt(PI);
+            ddouble r = Pow2(-(Mu * Mu * Nu * LbE + s * (Nu * Log2(2d * s / Nu) + Log2(s * 0.5d))) / (2d * s) - LogGamma(Nu * 0.5d) * LbE) / Sqrt(Pi);
 
             ddouble f(ddouble t) {
                 return t > 0d ? Pow2(Nu * Log2(t) - Square(t - v) * half_lbe) : 0d;
@@ -193,7 +193,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             ddouble u = mu * mu * 0.5;
 
-            ddouble r1 = 1d, r2 = mu * Sqrt2 / Sqrt(PI);
+            ddouble r1 = 1d, r2 = mu * Sqrt2 / Sqrt(Pi);
 
             ddouble beta1_0 = IncompleteBetaRegularized(v, 0.5d, nu_half);
             ddouble beta1_1 = IncompleteBetaRegularized(v, 1.5d, nu_half);

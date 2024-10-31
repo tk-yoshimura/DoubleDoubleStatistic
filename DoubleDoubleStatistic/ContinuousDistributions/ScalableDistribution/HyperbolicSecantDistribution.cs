@@ -30,7 +30,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble PDF(ddouble x) {
             ddouble u = x * sigma_inv;
 
-            ddouble pdf = pdf_norm / Cosh(u * PI * 0.5d);
+            ddouble pdf = pdf_norm / Cosh(u * Pi * 0.5d);
 
             return pdf;
         }
@@ -38,7 +38,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble CDF(ddouble x, Interval interval = Interval.Lower) {
             ddouble u = x * sigma_inv;
 
-            ddouble cdf = 2d * RcpPI * Atan(Exp(-Abs(u) * PI * 0.5d));
+            ddouble cdf = 2d * RcpPi * Atan(Exp(-Abs(u) * Pi * 0.5d));
             cdf = Max(cdf, 0d);
 
             cdf = interval != Interval.Lower ^ IsNegative(x) ? cdf : 1d - cdf;
@@ -51,7 +51,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble u = Log(TanPI(p * 0.5d)) * RcpPI * 2d;
+            ddouble u = Log(TanPi(p * 0.5d)) * RcpPi * 2d;
 
             if (IsNaN(u)) {
                 u = p < 0.5d ? NegativeInfinity : PositiveInfinity;

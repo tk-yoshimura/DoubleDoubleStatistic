@@ -141,7 +141,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Mean =>
             Sigma *
-            (Sqrt(PI) * Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta))) / (2d * Sqrt(Beta)) + 1d);
+            (Sqrt(Pi) * Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta))) / (2d * Sqrt(Beta)) + 1d);
 
         public override ddouble Mode =>
             Max(1d, Exp((Sqrt(8d * Beta + 1d) - 2d * Alpha - 1d) / (4d * Beta))) * Sigma;
@@ -151,8 +151,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override ddouble Variance =>
             Sigma * Sigma *
             (
-                -PI / (4 * Beta) * Exp(Square(Alpha - 1d) / (2d * Beta)) * Square(Erfc((Alpha - 1d) / (2d * Sqrt(Beta))))
-                - Sqrt(PI) / Sqrt(Beta) * (
+                -Pi / (4 * Beta) * Exp(Square(Alpha - 1d) / (2d * Beta)) * Square(Erfc((Alpha - 1d) / (2d * Sqrt(Beta))))
+                - Sqrt(Pi) / Sqrt(Beta) * (
                     Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta)))
                     - Exp(Square(Alpha - 2d) / (4d * Beta)) * Erfc((Alpha - 2d) / (2d * Sqrt(Beta)))
                 )

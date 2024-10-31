@@ -37,7 +37,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
             if (IsZero(x)) {
-                return Nu <= 1d ? Sqrt(2d * RcpPI) : 0d;
+                return Nu <= 1d ? Sqrt(2d * RcpPi) : 0d;
             }
 
             ddouble pdf = Pow2((Nu - 1) * Log2(x) - x * x * LbE * 0.5d - pdf_lognorm);

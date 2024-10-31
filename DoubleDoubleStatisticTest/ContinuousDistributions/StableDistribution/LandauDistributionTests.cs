@@ -10,7 +10,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
     public class LandauDistributionTests {
         readonly LandauDistribution dist1 = new();
         readonly LandauDistribution dist2 = new(mu: 1, c: 3);
-        readonly LandauDistribution dist3 = new(c: ddouble.PI / 2);
+        readonly LandauDistribution dist3 = new(c: ddouble.Pi / 2);
 
         LandauDistribution[] Dists => [
             dist1,
@@ -175,7 +175,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
 
         [TestMethod()]
         public void LinearityTest() {
-            LandauDistribution dist = new(c: ddouble.PI / 2);
+            LandauDistribution dist = new(c: ddouble.Pi / 2);
             LandauDistribution dist1 = dist / 2;
             LandauDistribution dist2 = dist * 2;
             LandauDistribution dist3 = dist + 4;

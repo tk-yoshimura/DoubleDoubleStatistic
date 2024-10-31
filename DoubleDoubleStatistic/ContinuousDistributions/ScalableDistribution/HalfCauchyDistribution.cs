@@ -24,7 +24,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             Gamma = gamma;
 
-            pdf_norm = 2d * RcpPI / gamma;
+            pdf_norm = 2d * RcpPi / gamma;
             gamma_inv = 1d / gamma;
         }
 
@@ -59,7 +59,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 1d;
                 }
 
-                ddouble cdf = 2d * RcpPI * Atan(u);
+                ddouble cdf = 2d * RcpPi * Atan(u);
 
                 return cdf;
             }
@@ -76,8 +76,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 ddouble cdf = (u < 2d)
-                    ? 1d - 2d * RcpPI * Atan(u)
-                    : 2d * Atan(1d / u) * RcpPI;
+                    ? 1d - 2d * RcpPi * Atan(u)
+                    : 2d * Atan(1d / u) * RcpPi;
 
                 return cdf;
             }
@@ -96,7 +96,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Gamma * TanPI(p * 0.5d);
+                ddouble x = Gamma * TanPi(p * 0.5d);
 
                 return x;
             }
@@ -108,7 +108,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return 0d;
                 }
 
-                ddouble x = Gamma / TanPI(p * 0.5d);
+                ddouble x = Gamma / TanPi(p * 0.5d);
 
                 return x;
             }
@@ -136,7 +136,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => NaN;
 
-        public override ddouble Entropy => Log(2d * PI * Gamma);
+        public override ddouble Entropy => Log(2d * Pi * Gamma);
 
         public static HalfCauchyDistribution operator *(HalfCauchyDistribution dist, ddouble k) {
             return new(dist.Gamma * k);

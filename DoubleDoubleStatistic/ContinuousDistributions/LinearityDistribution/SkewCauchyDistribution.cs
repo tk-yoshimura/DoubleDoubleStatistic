@@ -49,7 +49,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return NaN;
             }
 
-            ddouble pdf = 1d / (PI * (u * u / Square(Alpha * Sign(u) + 1d) + 1d)) * gamma_inv;
+            ddouble pdf = 1d / (Pi * (u * u / Square(Alpha * Sign(u) + 1d) + 1d)) * gamma_inv;
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -68,24 +68,24 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             if (interval == Interval.Lower) {
                 if (u < 0d) {
-                    ddouble cdf = alpham1 * 0.5d + alpham1 * Atan(u / alpham1) * RcpPI;
+                    ddouble cdf = alpham1 * 0.5d + alpham1 * Atan(u / alpham1) * RcpPi;
 
                     return cdf;
                 }
                 else {
-                    ddouble cdf = alpham1 * 0.5d + alphap1 * Atan(u / alphap1) * RcpPI;
+                    ddouble cdf = alpham1 * 0.5d + alphap1 * Atan(u / alphap1) * RcpPi;
 
                     return cdf;
                 }
             }
             else {
                 if (u < 0d) {
-                    ddouble cdf = alphap1 * 0.5d - alpham1 * Atan(u / alpham1) * RcpPI;
+                    ddouble cdf = alphap1 * 0.5d - alpham1 * Atan(u / alpham1) * RcpPi;
 
                     return cdf;
                 }
                 else {
-                    ddouble cdf = alphap1 * 0.5d - alphap1 * Atan(u / alphap1) * RcpPI;
+                    ddouble cdf = alphap1 * 0.5d - alphap1 * Atan(u / alphap1) * RcpPi;
 
                     return cdf;
                 }
@@ -108,10 +108,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 if (p < u0p) {
-                    u = TanPI((p - alpham1 * 0.5d) / alpham1) * alpham1;
+                    u = TanPi((p - alpham1 * 0.5d) / alpham1) * alpham1;
                 }
                 else {
-                    u = TanPI((p - alpham1 * 0.5d) / alphap1) * alphap1;
+                    u = TanPi((p - alpham1 * 0.5d) / alphap1) * alphap1;
                 }
             }
             else {
@@ -123,10 +123,10 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 if (1d - p < u0p) {
-                    u = -TanPI((p - alphap1 * 0.5d) / alpham1) * alpham1;
+                    u = -TanPi((p - alphap1 * 0.5d) / alpham1) * alpham1;
                 }
                 else {
-                    u = -TanPI((p - alphap1 * 0.5d) / alphap1) * alphap1;
+                    u = -TanPi((p - alphap1 * 0.5d) / alphap1) * alphap1;
                 }
             }
 

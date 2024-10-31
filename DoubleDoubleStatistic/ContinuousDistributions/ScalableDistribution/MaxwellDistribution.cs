@@ -27,7 +27,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Sigma = sigma;
             sigma_inv = 1d / sigma;
             sigma_sq = sigma * sigma;
-            pdf_norm = Sqrt(2d * RcpPI) * sigma_inv;
+            pdf_norm = Sqrt(2d * RcpPi) * sigma_inv;
 
             randam_gen_gamma_dist = new(kappa: 1.5d, 2d * sigma_sq);
         }
@@ -116,23 +116,23 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean =>
-            2d * Sigma * Sqrt(2d * RcpPI);
+            2d * Sigma * Sqrt(2d * RcpPi);
 
         public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => Sqrt2 * Sigma;
 
         public override ddouble Variance =>
-            sigma_sq * (3d - 8d * RcpPI);
+            sigma_sq * (3d - 8d * RcpPi);
 
         public override ddouble Skewness =>
-            2 * Sqrt2 * (16d - PI * 5d) / ExMath.Pow3d2(3d * PI - 8d);
+            2 * Sqrt2 * (16d - Pi * 5d) / ExMath.Pow3d2(3d * Pi - 8d);
 
         public override ddouble Kurtosis =>
-            (-384d + PI * (160d + PI * -12d)) / Square(3d * PI - 8d);
+            (-384d + Pi * (160d + Pi * -12d)) / Square(3d * Pi - 8d);
 
         public override ddouble Entropy =>
-            -0.5d + Log(Sigma * Sqrt2 * Sqrt(PI)) + EulerGamma;
+            -0.5d + Log(Sigma * Sqrt2 * Sqrt(Pi)) + EulerGamma;
 
         public static MaxwellDistribution operator *(MaxwellDistribution dist, ddouble k) {
             return new(dist.Sigma * k);

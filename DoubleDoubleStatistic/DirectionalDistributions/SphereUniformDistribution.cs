@@ -8,7 +8,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
     public class SphereUniformDistribution :
         DirectionalDistribution<(ddouble x, ddouble y, ddouble z), (double x, double y, double z)> {
 
-        private static readonly ddouble pdf = 1d / (4d * PI);
+        private static readonly ddouble pdf = 1d / (4d * Pi);
 
         public SphereUniformDistribution() { }
 
@@ -46,7 +46,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public override ddouble Skewness => 0d;
 
-        public override ddouble Entropy => Log(4d * PI);
+        public override ddouble Entropy => Log(4d * Pi);
 
         public override string ToString() {
             return $"{typeof(SphereUniformDistribution).Name}[]";

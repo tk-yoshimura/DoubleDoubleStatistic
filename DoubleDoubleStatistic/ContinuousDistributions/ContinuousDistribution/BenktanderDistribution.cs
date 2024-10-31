@@ -153,7 +153,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Max(1d, Exp((-Alpha - 1d + Sqrt(6d * Beta + 1d)) / (2d * Beta)));
 
         public override ddouble Variance =>
-            Sqrt(PI) * Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta))) / (Alpha * Sqrt(Beta)) - 1d / Square(Alpha);
+            Sqrt(Pi) * Exp(Square(Alpha - 1d) / (4d * Beta)) * Erfc((Alpha - 1d) / (2d * Sqrt(Beta))) / (Alpha * Sqrt(Beta)) - 1d / Square(Alpha);
 
         private ddouble? skewness = null;
         public override ddouble Skewness => skewness ??=

@@ -9,7 +9,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
     public class BallUniformDistribution :
         MultiVariateDistribution {
 
-        private static readonly ddouble pdf = 4d * PI / 3d;
+        private static readonly ddouble pdf = 4d * Pi / 3d;
 
         public BallUniformDistribution() { }
 

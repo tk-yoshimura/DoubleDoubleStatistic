@@ -27,7 +27,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             Nu = nu;
 
-            ddouble c = Sqrt(nu * PI);
+            ddouble c = Sqrt(nu * Pi);
 
             pdf_norm = nu < 70d
                 ? Gamma((nu + 1d) / 2d) / (Gamma(nu / 2d) * c)
@@ -107,7 +107,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 x = PositiveInfinity;
             }
             else if (Nu == 1d) {
-                x = Tan(PI * (p - 0.5d));
+                x = Tan(Pi * (p - 0.5d));
             }
             else if (Nu == 2d) {
                 x = 2d * (p - 0.5d) * Sqrt(1d / (2d * p * (1d - p)));

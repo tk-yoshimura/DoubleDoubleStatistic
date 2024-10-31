@@ -9,7 +9,7 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ScalableDistribution
     [TestClass()]
     public class HyperbolicSecantDistributionTests {
         readonly HyperbolicSecantDistribution dist = new();
-        readonly HyperbolicSecantDistribution dist_pi2 = new(sigma: ddouble.PI / 2);
+        readonly HyperbolicSecantDistribution dist_pi2 = new(sigma: ddouble.Pi / 2);
 
         HyperbolicSecantDistribution[] Dists => [
             dist,

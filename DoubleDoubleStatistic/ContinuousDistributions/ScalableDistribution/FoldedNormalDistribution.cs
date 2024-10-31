@@ -42,7 +42,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Sigma = sigma;
 
             sigma_inv = 1d / sigma;
-            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
+            pdf_norm = 1d / (sigma * Sqrt(2d * Pi));
 
             needs_fold = Exp(Square(mu / sigma) * -0.5d) > 0d;
 
@@ -141,7 +141,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
             }
             else {
-                ddouble bias = Mu * sigma_inv, c = 1d / Sqrt(2d * PI);
+                ddouble bias = Mu * sigma_inv, c = 1d / Sqrt(2d * Pi);
 
                 ddouble df(ddouble u) {
                     return c * (Exp(-Square(u - bias) * 0.5d) + Exp(-Square(u + bias) * 0.5d));
@@ -228,7 +228,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override (ddouble min, ddouble max) Support => (0d, PositiveInfinity);
 
         public override ddouble Mean => needs_fold
-            ? Sigma * Sqrt(2d * RcpPI) * Exp(-Square(Mu * sigma_inv) * 0.5d) + Mu * (1d - Erfc(Mu / (Sigma * Sqrt2)))
+            ? Sigma * Sqrt(2d * RcpPi) * Exp(-Square(Mu * sigma_inv) * 0.5d) + Mu * (1d - Erfc(Mu / (Sigma * Sqrt2)))
             : Mu;
 
         public override ddouble Median => needs_fold
@@ -264,7 +264,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         private ddouble? entropy = null;
         public override ddouble Entropy => needs_fold
             ? entropy ??= IntegrationStatistics.Entropy(this, eps: 1e-28, discontinue_eval_points: 16384)
-            : Log(Sigma * Sqrt(2d * PI)) + 0.5d;
+            : Log(Sigma * Sqrt(2d * Pi)) + 0.5d;
 
         public static FoldedNormalDistribution operator *(FoldedNormalDistribution dist, ddouble k) {
             return new(dist.Mu * k, dist.Sigma * k);

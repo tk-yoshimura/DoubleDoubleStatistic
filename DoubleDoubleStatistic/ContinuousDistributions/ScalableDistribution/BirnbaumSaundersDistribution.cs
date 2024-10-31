@@ -32,7 +32,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             theta_inv = 1d / theta;
             alpha_sq = alpha * alpha;
-            pdf_norm = theta_inv / (2d * Sqrt2 * Sqrt(PI) * alpha);
+            pdf_norm = theta_inv / (2d * Sqrt2 * Sqrt(Pi) * alpha);
         }
 
         public override ddouble PDF(ddouble x) {

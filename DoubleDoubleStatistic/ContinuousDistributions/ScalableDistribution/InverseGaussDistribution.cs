@@ -47,7 +47,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 return 0d;
             }
 
-            ddouble pdf = Sqrt(c / (2d * PI * u)) * Exp(c * Square(u - 1d) / (-2d * u)) / u * inv_mu;
+            ddouble pdf = Sqrt(c / (2d * Pi * u)) * Exp(c * Square(u - 1d) / (-2d * u)) / u * inv_mu;
             pdf = IsFinite(pdf) ? pdf : 0d;
 
             return pdf;
@@ -101,7 +101,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             }
 
             ddouble df(ddouble x) {
-                ddouble y = Sqrt(c / (2d * PI * x)) * Exp(c * Square(x - 1d) / (-2d * x)) / x;
+                ddouble y = Sqrt(c / (2d * Pi * x)) * Exp(c * Square(x - 1d) / (-2d * x)) / x;
                 return y;
             }
 

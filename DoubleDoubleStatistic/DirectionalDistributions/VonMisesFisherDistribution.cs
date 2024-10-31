@@ -32,8 +32,8 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             Kappa = kappa;
 
             pdf_norm = kappa > 1e-15d
-                ? kappa / (4d * PI * Sinh(kappa))
-                : (6d - kappa * kappa) / (24d * PI);
+                ? kappa / (4d * Pi * Sinh(kappa))
+                : (6d - kappa * kappa) / (24d * Pi);
 
             /* setup random gen. */
             {
@@ -110,7 +110,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
 
         public override ddouble Entropy => Kappa > 1e-15d
             ? -Log(pdf_norm) - Kappa * BesselI(1.5d, Kappa) / BesselI(0.5d, Kappa)
-            : Log(4d * PI);
+            : Log(4d * Pi);
 
         public static VonMisesFisherDistribution? Fit(IEnumerable<(double x, double y, double z)> samples)
             => Fit(samples.Select(v => ((ddouble)v.x, (ddouble)v.y, (ddouble)v.z)));

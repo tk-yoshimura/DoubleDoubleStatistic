@@ -35,7 +35,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
             sigma_inv = 1d / sigma;
 
-            ddouble sqrt_pi = Sqrt(PI);
+            ddouble sqrt_pi = Sqrt(Pi);
 
             if (Abs(q - 1d) < double.ScaleB(1, -5)) {
                 cq = ApproxUtil.Poly(q - 1d, cq_near_one_table);

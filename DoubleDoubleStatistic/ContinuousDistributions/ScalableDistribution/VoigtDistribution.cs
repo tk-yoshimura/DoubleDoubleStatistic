@@ -39,11 +39,11 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Gamma = gamma;
             Sigma = sigma;
 
-            pdf_norm = 1d / (sigma * Sqrt(2d * PI));
-            c = 1d / Sqrt(2d * PI);
+            pdf_norm = 1d / (sigma * Sqrt(2d * Pi));
+            c = 1d / Sqrt(2d * Pi);
             sigma_inv = 1d / sigma;
             zr = gamma / (Sqrt2 * sigma);
-            cdf_limit = gamma / sigma * RcpPI;
+            cdf_limit = gamma / sigma * RcpPi;
         }
 
         public override ddouble PDF(ddouble x) {

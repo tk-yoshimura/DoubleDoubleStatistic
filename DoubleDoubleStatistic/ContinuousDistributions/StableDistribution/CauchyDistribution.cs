@@ -33,7 +33,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             Mu = mu;
             Gamma = gamma;
 
-            pdf_norm = RcpPI / gamma;
+            pdf_norm = RcpPi / gamma;
             gamma_inv = 1d / gamma;
         }
 
@@ -58,8 +58,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 ddouble cdf = (u > -2d)
-                    ? Atan(u) * RcpPI + 0.5d
-                    : -Atan(1d / u) * RcpPI;
+                    ? Atan(u) * RcpPi + 0.5d
+                    : -Atan(1d / u) * RcpPi;
 
                 return cdf;
             }
@@ -69,8 +69,8 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                 }
 
                 ddouble cdf = (u < 2d)
-                    ? Atan(-u) * RcpPI + 0.5d
-                    : Atan(1d / u) * RcpPI;
+                    ? Atan(-u) * RcpPi + 0.5d
+                    : Atan(1d / u) * RcpPi;
 
                 return cdf;
             }
@@ -89,7 +89,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Mu - Gamma / TanPI(p);
+                ddouble x = Mu - Gamma / TanPi(p);
 
                 return x;
             }
@@ -101,7 +101,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return PositiveInfinity;
                 }
 
-                ddouble x = Mu + Gamma / TanPI(p);
+                ddouble x = Mu + Gamma / TanPi(p);
 
                 return x;
             }
@@ -130,7 +130,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Kurtosis => NaN;
 
-        public override ddouble Entropy => Log(4d * PI * Gamma);
+        public override ddouble Entropy => Log(4d * Pi * Gamma);
 
         public override ddouble Alpha => 1d;
 

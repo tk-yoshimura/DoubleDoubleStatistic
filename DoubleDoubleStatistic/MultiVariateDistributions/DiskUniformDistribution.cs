@@ -9,7 +9,7 @@ namespace DoubleDoubleStatistic.MultiVariateDistributions {
     public class DiskUniformDistribution :
         MultiVariateDistribution {
 
-        private static readonly ddouble pdf = PI;
+        private static readonly ddouble pdf = Pi;
 
         public DiskUniformDistribution() { }
 

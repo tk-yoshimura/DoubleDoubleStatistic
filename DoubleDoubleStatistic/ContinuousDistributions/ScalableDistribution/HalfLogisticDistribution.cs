@@ -121,7 +121,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
 
         public override ddouble Mode => 0d;
 
-        public override ddouble Variance => (PI * PI / 3d - Square(Log(4d))) * Sigma * Sigma;
+        public override ddouble Variance => (Pi * Pi / 3d - Square(Log(4d))) * Sigma * Sigma;
 
         public override ddouble Skewness => "1.540328803404880246003799149979";
 

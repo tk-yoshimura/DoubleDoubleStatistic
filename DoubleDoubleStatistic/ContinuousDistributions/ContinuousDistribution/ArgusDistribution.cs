@@ -27,7 +27,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
             psi = Psi(alpha);
             psi_inv = 1d / psi;
             alpha_sq = alpha * alpha;
-            pdf_norm = Cube(alpha) / (Sqrt(2d * PI) * psi);
+            pdf_norm = Cube(alpha) / (Sqrt(2d * Pi) * psi);
         }
 
         private static ddouble Psi(ddouble x) {
@@ -112,13 +112,13 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override (ddouble min, ddouble max) Support => (0d, 1d);
 
         public override ddouble Mean =>
-            Sqrt(PI / 8d) * Alpha * Exp(-alpha_sq * 0.25d) * BesselI(1, alpha_sq * 0.25d) * psi_inv;
+            Sqrt(Pi / 8d) * Alpha * Exp(-alpha_sq * 0.25d) * BesselI(1, alpha_sq * 0.25d) * psi_inv;
 
         public override ddouble Median => Quantile(0.5d);
 
         public override ddouble Mode => Sqrt(alpha_sq - 2d + Sqrt(alpha_sq * alpha_sq + 4d)) / (Sqrt2 * Alpha);
 
-        public override ddouble Variance => 1d - 3d / alpha_sq + Alpha * Exp(alpha_sq * -0.5d) / Sqrt(2d * PI) * psi_inv - Square(Mean);
+        public override ddouble Variance => 1d - 3d / alpha_sq + Alpha * Exp(alpha_sq * -0.5d) / Sqrt(2d * Pi) * psi_inv - Square(Mean);
 
         private ddouble? skewness = null;
         public override ddouble Skewness => skewness ??=

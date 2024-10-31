@@ -22,16 +22,16 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             ParamAssert.ValidateLocation(nameof(mu), IsFinite(mu));
 
             static ddouble round_mu(ddouble mu) {
-                mu += PI;
+                mu += Pi;
 
                 if (mu >= 0d) {
-                    mu %= 2d * PI;
+                    mu %= 2d * Pi;
                 }
                 else {
-                    mu = 2d * PI - ((-mu) % (2d * PI));
+                    mu = 2d * Pi - ((-mu) % (2d * Pi));
                 }
 
-                mu -= PI;
+                mu -= Pi;
 
                 return mu;
             }
@@ -39,7 +39,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
             Gamma = gamma;
             Mu = gamma > 0d ? round_mu(mu) : 0d;
 
-            pdf_norm = Sinh(gamma) / (2d * PI);
+            pdf_norm = Sinh(gamma) / (2d * Pi);
             cosh_gamma = Cosh(gamma);
         }
 
@@ -54,7 +54,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
                 return pdf;
             }
             else {
-                return RcpPI * 0.5d;
+                return RcpPi * 0.5d;
             }
         }
 
@@ -87,7 +87,7 @@ namespace DoubleDoubleStatistic.DirectionalDistributions {
         public override ddouble Skewness => 0d;
 
         public override ddouble Entropy =>
-            Log(2d * PI * (1d - Exp(-2d * Gamma)));
+            Log(2d * Pi * (1d - Exp(-2d * Gamma)));
 
         public static CircularCauchyDistribution? Fit(IEnumerable<double> samples)
             => Fit(samples.Select(v => (ddouble)v));
