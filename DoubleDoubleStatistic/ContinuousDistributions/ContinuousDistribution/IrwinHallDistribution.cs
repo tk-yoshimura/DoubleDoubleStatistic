@@ -2,6 +2,7 @@
 using DoubleDoubleStatistic.InternalUtils;
 using DoubleDoubleStatistic.RandomGeneration;
 using DoubleDoubleStatistic.Utils;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
@@ -229,7 +230,7 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
         public override string Formula => "p(x; n) := sum((-1)^k * binom(n, k) * (x - k)^(n - 1), k, 0, floor(x)) / (n - 1)!";
 
         private static class PolynomialCoef {
-            static readonly Dictionary<(int n, int k, int j), BigInteger> table = [];
+            static readonly ConcurrentDictionary<(int n, int k, int j), BigInteger> table = [];
 
             private static BigInteger ACoef(int n, int k, int j) {
                 if (n <= 0 || k < 0 || j < 0 || j >= n || k >= n) {
@@ -240,19 +241,16 @@ namespace DoubleDoubleStatistic.ContinuousDistributions {
                     return j < n - 1 ? BigInteger.Zero : BigInteger.One;
                 }
 
-                if (table.TryGetValue((n, k, j), out BigInteger value)) {
-                    return value;
+                if (!table.TryGetValue((n, k, j), out BigInteger value)) {
+                    BigInteger c = Binom.Value(n, k) * Binom.Value(n - 1, j) * BigInteger.Pow(k, n - j - 1);
+
+                    int s = n + k - j - 1;
+
+                    value = ACoef(n, k - 1, j) + ((s & 1) == 0 ? c : -c);
+                    table[(n, k, j)] = value;
                 }
 
-                BigInteger c = Binom.Value(n, k) * Binom.Value(n - 1, j) * BigInteger.Pow(k, n - j - 1);
-
-                int s = n + k - j - 1;
-
-                BigInteger new_value = ACoef(n, k - 1, j) + ((s & 1) == 0 ? c : -c);
-
-                table.Add((n, k, j), new_value);
-
-                return new_value;
+                return value;
             }
 
             public static Polynomial PDF(int n, int k) {

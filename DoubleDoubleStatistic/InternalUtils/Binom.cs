@@ -1,8 +1,9 @@
-﻿using System.Numerics;
+﻿using System.Collections.Concurrent;
+using System.Numerics;
 
 namespace DoubleDoubleStatistic.InternalUtils {
     internal static class Binom {
-        static readonly Dictionary<(int n, int k), BigInteger> table = [];
+        static readonly ConcurrentDictionary<(int n, int k), BigInteger> table = [];
 
         public static BigInteger Value(int n, int k) {
             if (n < 0 || k > n) {
@@ -13,15 +14,12 @@ namespace DoubleDoubleStatistic.InternalUtils {
                 return BigInteger.One;
             }
 
-            if (table.TryGetValue((n, k), out BigInteger value)) {
-                return value;
+            if (!table.TryGetValue((n, k), out BigInteger value)) {
+                value = Value(n - 1, k - 1) + Value(n - 1, k);
+                table[(n, k)] = value;
             }
 
-            BigInteger new_value = Value(n - 1, k - 1) + Value(n - 1, k);
-
-            table.Add((n, k), new_value);
-
-            return new_value;
+            return value;
         }
     }
 }
