@@ -193,6 +193,30 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
         }
 
         [TestMethod()]
+        public void AdditiveTest() {
+            Random random = new(1234);
+            LandauDistribution dist1 = new(mu:2, c: 5);
+            LandauDistribution dist2 = new(mu:4, c: 3);
+
+            double[] xs1 = dist1.Sample(random, 100000).ToArray();
+            double[] xs2 = dist2.Sample(random, 100000).ToArray();
+
+            double[] xs = xs1.Zip(xs2).Select(item => item.First + item.Second).ToArray();
+
+            (LandauDistribution? dist_fit, ddouble error) = LandauDistribution.Fit(xs, (0.1, 0.9));
+
+            Assert.IsNotNull(dist_fit);
+
+            Console.WriteLine(dist_fit);
+            Console.WriteLine(error);
+
+            Assert.IsTrue(error < 1e-2);
+
+            Assert.AreEqual((double)(dist1.Mu + dist2.Mu), (double)dist_fit.Mu, 0.05);
+            Assert.AreEqual((double)(dist1.C + dist2.C), (double)dist_fit.C, 0.05);
+        }
+
+        [TestMethod()]
         public void FitTest() {
             Random random = new(1234);
 
