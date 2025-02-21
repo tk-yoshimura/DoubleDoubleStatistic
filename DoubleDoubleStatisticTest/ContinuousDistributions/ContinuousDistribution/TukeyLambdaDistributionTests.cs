@@ -4,7 +4,6 @@ using DoubleDoubleStatistic.ContinuousDistributions;
 using DoubleDoubleStatistic.SampleStatistic;
 using DoubleDoubleStatistic.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistribution {
     [TestClass()]

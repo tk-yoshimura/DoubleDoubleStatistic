@@ -195,8 +195,8 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.StableDistribution {
         [TestMethod()]
         public void AdditiveTest() {
             Random random = new(1234);
-            LandauDistribution dist1 = new(mu:2, c: 5);
-            LandauDistribution dist2 = new(mu:4, c: 3);
+            LandauDistribution dist1 = new(mu: 2, c: 5);
+            LandauDistribution dist2 = new(mu: 4, c: 3);
 
             double[] xs1 = dist1.Sample(random, 100000).ToArray();
             double[] xs2 = dist2.Sample(random, 100000).ToArray();
