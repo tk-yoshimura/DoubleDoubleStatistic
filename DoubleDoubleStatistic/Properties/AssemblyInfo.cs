@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DoubleDoubleStatistic")]
-[assembly: AssemblyCopyright("Copyright © T.Yoshimura 2023-2024")]
+[assembly: AssemblyCopyright("Copyright © T.Yoshimura 2023-2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -15,6 +15,6 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("8135883D-8ED2-4099-86C2-BE77FED9079A")]
 
-[assembly: AssemblyVersion("1.8.0.*")]
+[assembly: AssemblyVersion("2.0.0.*")]
 
 [assembly: InternalsVisibleTo("DoubleDoubleStatisticTest")]

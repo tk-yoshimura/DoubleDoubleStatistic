@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TYoshimura.Algebra" Version="2.3.2" />
-    <PackageReference Include="TYoshimura.DoubleDouble" Version="4.2.3" />
-    <PackageReference Include="TYoshimura.DoubleDouble.Complex" Version="1.8.0" />
+    <PackageReference Include="TYoshimura.Algebra" Version="3.0.0" />
+    <PackageReference Include="TYoshimura.DoubleDouble" Version="5.0.1" />
+    <PackageReference Include="TYoshimura.DoubleDouble.Complex" Version="2.0.1" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

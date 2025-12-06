@@ -161,11 +161,11 @@ namespace DoubleDoubleStatisticTest.ContinuousDistributions.ContinuousDistributi
             Assert.IsTrue(ddouble.Abs(dist_lambda_m15.Entropy - 4.385460155603392) < 1e-13);
             Assert.IsTrue(ddouble.Abs(dist_lambda_m10.Entropy - 3.570796326794898) < 1e-13);
             Assert.IsTrue(ddouble.Abs(dist_lambda_m05.Entropy - 2.771404238276070) < 1e-13);
-            Assert.AreEqual(dist_lambda_z00.Entropy, 2.0);
+            Assert.AreEqual(2.0, dist_lambda_z00.Entropy);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p05.Entropy - 1.285398163397444) < 1e-13);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p10.Entropy - 0.693147180559945) < 1e-13);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p15.Entropy - 0.2853981633974442) < 1e-13);
-            Assert.AreEqual(dist_lambda_p20.Entropy, 0.0);
+            Assert.AreEqual(0.0, dist_lambda_p20.Entropy);
             Assert.IsTrue(ddouble.Abs(dist_lambda_p25.Entropy - -0.2285957617423647) < 1e-10);
 
             ddouble actual = dist_lambda_p25.Entropy;
